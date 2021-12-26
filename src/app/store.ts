@@ -1,14 +1,19 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-
-import counterReducer from '../features/counter/counterSlice'
+import { fetchCourseInfos, reducer as coursesReducer } from './courses';
+import debounce from "lodash/debounce";
 
 export function makeStore() {
   return configureStore({
-    reducer: { counter: counterReducer },
+    reducer: { courses: coursesReducer },
   })
 }
 
-const store = makeStore()
+const store = makeStore();
+
+const updateFilter = () => {
+  setTimeout(() => store.dispatch(fetchCourseInfos(1)), 0);
+};
+export const throttledFilter = debounce(updateFilter, 500);
 
 export type AppState = ReturnType<typeof store.getState>
 
