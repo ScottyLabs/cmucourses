@@ -1,27 +1,14 @@
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  FormGroup,
-  Checkbox,
-  Stack,
-  Typography,
-  Select,
-  MenuItem,
-} from "@mui/material";
+import Select from "react-select";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { throttledFilter } from "../app/store";
 
 const Filter = () => {
-  const [departments, setDepartments] = useState([]);
   const dispatch = useDispatch();
 
   const changeDepartment = (e) => {
-    const value = e.target.value;
-    const departmentArr = typeof value === "string" ? value.split(",") : value;
-    setDepartments(departmentArr);
-    dispatch({ type: "courses/updateDepartments", payload: departmentArr });
+    const departments = e.map(({ value }) => value);
+    dispatch({ type: "courses/updateDepartments", payload: departments });
     throttledFilter();
   };
 
@@ -84,71 +71,52 @@ const Filter = () => {
     "Science and Arts",
     "Social & Decision Sciences",
     "Statistics and Data Science",
-    "StuCo (Student Led Courses)"
+    "StuCo (Student Led Courses)",
   ];
 
+  const DEPARTMENT_OPTIONS = DEPARTMENTS.map((name) => ({
+    value: name,
+    label: name,
+  }));
+
   return (
-    <Stack spacing={2} pt={5} pr={5} pl={3}>
-      <Typography variant="h6">Filter by</Typography>
-      <FormControl>
-        <Stack spacing={2}>
-          <FormGroup>
-            <FormLabel component="label">Available in</FormLabel>
-            <FormControlLabel
-              control={<Checkbox checked={false} size="small" />}
-              label="Fall 2021"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={false} size="small" />}
-              label="Spring 2022"
-            />
-          </FormGroup>
+    <div className="absolute inset-0 p-6 bg-zinc-100 text-zinc-700 drop-shadow-lg">
+      <div className="text-lg mb-3">Filter by</div>
+      <div className="divide-y text-sm">
+        <div className="py-3">
+          <div className="font-semibold mb-1">Semester</div>
+          <div className="flex flex-col text-sm space-y-1">
+            <label>
+              <input type="checkbox" className="mr-2" /> Fall 2021
+            </label>
+            <label>
+              <input type="checkbox" className="mr-2" /> Spring 2022
+            </label>
+          </div>
+        </div>
 
-          <FormGroup row>
-            <FormControlLabel
-              control={<Checkbox checked={true} size="small" />}
-              label="Minis"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={true} size="small" />}
-              label="Non-Minis"
-            />
-          </FormGroup>
+        <div className="py-3">
+          <div className="font-semibold mb-1">Course Type</div>
+          <div className="flex flex-col text-sm space-y-1">
+            <label>
+              <input type="checkbox" className="mr-2" /> Mini
+            </label>
+            <label>
+              <input type="checkbox" className="mr-2" /> Non-Mini
+            </label>
+          </div>
+        </div>
 
-          <FormGroup>
-            <FormLabel component="label">Level</FormLabel>
-            <FormControlLabel
-              control={<Checkbox checked={false} size="small" />}
-              label="Undergrad 100-200"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={false} size="small" />}
-              label="Undergrad 300-400"
-            />
-            <FormControlLabel
-              control={<Checkbox checked={false} size="small" />}
-              label="Graduate"
-            />
-          </FormGroup>
-
-          <FormGroup>
-            <FormLabel component="label">Department</FormLabel>
-            <Select
-              multiple
-              value={departments}
-              size="small"
-              onChange={changeDepartment}
-            >
-              {DEPARTMENTS.map((department) => (
-                <MenuItem key={department} value={department}>
-                  {department}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormGroup>
-        </Stack>
-      </FormControl>
-    </Stack>
+        <div className="py-3">
+          <div className="font-semibold mb-2">Department</div>
+          <Select
+            isMulti
+            options={DEPARTMENT_OPTIONS}
+            onChange={changeDepartment}
+          ></Select>
+        </div>
+      </div>
+    </div>
   );
 };
 

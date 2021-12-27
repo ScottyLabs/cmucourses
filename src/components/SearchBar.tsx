@@ -1,9 +1,8 @@
 import React, { Component, useMemo } from "react";
 import { useDispatch } from "react-redux";
-import { TextField, Paper, Typography, InputAdornment, Stack, Box } from "@mui/material";
 import { fetchCourseInfos } from "../app/courses";
 import { throttledFilter } from "../app/store";
-import SearchIcon from "@mui/icons-material/Search";
+import { SearchIcon } from '@heroicons/react/solid';
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -14,32 +13,18 @@ const SearchBar = () => {
   };
 
   return (
-    <Paper elevation={2} sx={{ padding: '2em', margin: '0em 0em 2em 0', position: 'sticky', top: '0em' }}>
-      <Typography variant="h6">Course Search</Typography>
-      <TextField
-        variant="outlined"
-        margin="dense"
-        fullWidth
-        placeholder="Search by Course ID, description..."
-        inputProps={{ style: { fontSize: "1em" } }}
-        onChange={onChange}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
-          ),
-        }}
-      />
-      <Stack>
-        <Box>
-          <Typography variant="body2">Applied Filters</Typography>
-        </Box>
-        <Box>
-          <Typography variant="body2">My Courses</Typography>
-        </Box>
-      </Stack>
-    </Paper>
+    <div className="p-8 bg-white text-zinc-700 drop-shadow-lg sticky top-0 z-10">
+      <div className="text-lg">Course Search</div>
+      <div className="relative rounded-md flex border-b">
+        <span className="absolute inset-y-0 left-0 flex items-center">
+          <SearchIcon className="h-5 w-5" />
+        </span>
+        <input className="py-2 pl-7 text-xl focus:outline-none bg-none flex-1" type="search" onChange={onChange} placeholder="Search by Course ID, description, name or keyword..." />
+      </div>
+      <div className="mt-3 text-zinc-500">
+        <div className="text-sm">Applied Filters</div>
+      </div>
+    </div>
   );
 };
 

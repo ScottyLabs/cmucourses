@@ -1,9 +1,10 @@
 import reactStringReplace from "react-string-replace";
 import Link from "next/link";
+import { Time, Session } from "./types";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
 
-export const standardizeId = (id) => {
+export const standardizeId = (id: string) => {
   if (!id.includes("-") && id.length >= 5) {
     let newString = id.slice(0, 2) + "-" + id.slice(2);
     return newString;
@@ -12,12 +13,11 @@ export const standardizeId = (id) => {
   return id;
 };
 
-export const standardizeIdsInString = (str) => {
+export const standardizeIdsInString = (str: string) => {
   return str.replaceAll(courseIdRegex, standardizeId);
 };
 
-export const sessionToShortString = (sessionInfo) => {
-  const year = sessionInfo.year;
+export const sessionToShortString = (sessionInfo: Session) => {
   const semester = sessionInfo.semester;
 
   const sessionStrings = {
@@ -40,8 +40,9 @@ export const sessionToShortString = (sessionInfo) => {
   }
 };
 
-export const compareSessions = (session1, session2) => {
-  if (session1.year != session2.year) return session1.year < session2.year;
+export const compareSessions = (session1: Session, session2: Session) => {
+  if (session1.year != session2.year)
+    return session1.year < session2.year ? 1 : 0;
 
   const semesterNumbers = ["spring", "summer", "fall"];
   const sessionNumbers = [
@@ -52,21 +53,21 @@ export const compareSessions = (session1, session2) => {
   ];
 
   if (session1.semester !== session2.semester) {
-    return (
-      semesterNumbers.indexOf(session1.semester) <
+    return semesterNumbers.indexOf(session1.semester) <
       semesterNumbers.indexOf(session2.semester)
-    );
+      ? 1
+      : 0;
   }
 
   if (session1.session !== session2.session) {
-    return (
-      sessionNumbers.indexOf(session1.session) <
+    return sessionNumbers.indexOf(session1.session) <
       sessionNumbers.indexOf(session2.session)
-    );
+      ? 1
+      : 0;
   }
 };
 
-export const filterSessions = (sessions) => {
+export const filterSessions = (sessions: Session[]) => {
   return sessions.filter((session) => {
     return (
       session.semester !== "summer" ||
@@ -83,28 +84,23 @@ export const displayUnits = (units: string): string => {
   }
 };
 
-export const courseListToString = (courses: object[]): string => {
+export const courseListToString = (courses: string[]): string => {
   return courses.length === 0 ? "None" : courses.join(", ");
 };
 
-export const injectLinks = (text) => {
-  return reactStringReplace(text, courseIdRegex, (match, i) => (
-    <Link
-      href={`/course/${standardizeId(match)}`}
-      sx={{ textDecoration: "underline" }}
-    >
-      {match}
-    </Link>
-  ));
+export const injectLinks = (text: string) => {
+  return reactStringReplace(
+    standardizeIdsInString(text),
+    courseIdRegex,
+    (match, i) => (
+      <Link href={`/course/${standardizeId(match)}`}>
+        <span className="hover:underline hover:cursor-pointer">{match}</span>
+      </Link>
+    )
+  );
 };
 
-export interface time {
-  begin: string;
-  end: string;
-  days: string[];
-}
-
-export const timeArrToString = (times: time[]): string => {
+export const timeArrToString = (times: Time[]) => {
   const daysOfTheWeek = ["M", "T", "W", "R", "F", "S", "U"];
 
   return times
