@@ -14,7 +14,6 @@ interface Props {
 }
 
 const CourseCard = ({ info }: Props) => {
-  console.log(info);
   const sortedSchedules = filterSessions([...info.schedules]).sort(
     compareSessions
   );

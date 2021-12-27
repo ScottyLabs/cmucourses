@@ -21,7 +21,6 @@ import {
 } from "../app/utils";
 
 const Lecture = ({ lectureInfo, sections }) => {
-  console.log(lectureInfo);
   return (
     <>
       <Grid container>
@@ -71,8 +70,6 @@ const Lecture = ({ lectureInfo, sections }) => {
 };
 
 const Schedule = ({ scheduleInfo }) => {
-  console.log(scheduleInfo);
-
   let scheduleDivs = <></>;
 
   if (scheduleInfo.lectures.length !== 0) {

@@ -10,6 +10,7 @@ const initialState = {
     departments: [],
   },
   results: [],
+  loggedIn: false,
 };
 
 export const fetchCourseInfos = createAsyncThunk(
@@ -50,6 +51,12 @@ export const coursesSlice = createSlice({
     },
     updateDepartments: (state, action) => {
       state.filter.departments = action.payload;
+    },
+    logIn: (state) => {
+      state.loggedIn = true;
+    },
+    logOut: (state) => {
+      state.loggedIn = false;
     },
   },
   extraReducers: (builder) => {
