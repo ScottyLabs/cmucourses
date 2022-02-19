@@ -1,4 +1,3 @@
-import { BookmarkIcon } from "@heroicons/react/outline";
 import { Course } from "../app/types";
 import {
   compareSessions,
@@ -7,7 +6,11 @@ import {
   courseListToString,
   filterSessions,
   injectLinks,
+  approximateHours,
 } from "../app/utils";
+import { useSelector, RootStateOrAny } from "react-redux";
+import BookmarkButton from "./BookmarkButton";
+import Link from "next/link";
 
 interface Props {
   info: Course;
@@ -22,18 +25,28 @@ const CourseCard = ({ info }: Props) => {
     .map(sessionToShortString)
     .join(", ");
 
+  const loggedIn = useSelector(
+    (state: RootStateOrAny) => state.courses.loggedIn
+  );
+
+  const hours: number | undefined = info.fces
+    ? approximateHours(info.fces, 2)
+    : undefined;
+
   return (
-    <div className="p-6 rounded-md bg-white drop-shadow-sm">
-      <div className="flex-1 flex flex-row">
-        <div className="flex-1 flex flex-col">
+    <div className="p-6 bg-white rounded-md drop-shadow-sm">
+      <div className="flex flex-row flex-1">
+        <div className="flex flex-col flex-1">
           <div className="text-zinc-600">
-            <div className="text-lg">
-              <span className="font-semibold mr-2">{info.courseID}</span>
-              <span className="">{info.name}</span>
-            </div>
+            <Link href={`/course/${info.courseID}`}>
+              <div className="text-lg hover:cursor-pointer">
+                <span className="mr-2 font-semibold">{info.courseID}</span>
+                <span className="">{info.name}</span>
+              </div>
+            </Link>
             <div className="text-sm text-zinc-500">{info.department}</div>
           </div>
-          <div className="flex-1 mt-4 text-sm text-zinc-600 leading-relaxed">
+          <div className="flex-1 mt-4 text-sm leading-relaxed text-zinc-600">
             {injectLinks(info.desc)}
           </div>
         </div>
@@ -42,10 +55,12 @@ const CourseCard = ({ info }: Props) => {
             <div className="flex flex-row justify-between">
               <div>
                 <div className="text-lg">{displayUnits(info.units)} units</div>
-                <div className="text-md text-zinc-500">10.0 hrs/wk</div>
+                {loggedIn && hours && (
+                  <div className="text-md text-zinc-500">{hours} hrs/week</div>
+                )}
               </div>
               <div>
-                <BookmarkIcon className="h-6 w-6" />
+                <BookmarkButton courseID={info.courseID} />
               </div>
             </div>
 

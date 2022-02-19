@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import CourseCard from "./CourseCard";
 import { Pagination } from "react-headless-pagination";
@@ -10,7 +10,7 @@ const CoursePage = () => {
 
   return (
     <div className="space-y-4">
-      {results.map((course) => (
+      {results && results.map((course) => (
         <CourseCard info={course} key={course.courseID} />
       ))}
     </div>
@@ -29,6 +29,12 @@ const CourseList = () => {
     dispatch(fetchCourseInfos(page + 1));
   };
 
+  useEffect(() => {
+    if (window.localStorage.getItem("course_token")) {
+      dispatch({ type: "courses/logIn" });
+    }
+  }, []);
+
   return (
     <div className="p-6">
       <CoursePage />
@@ -40,19 +46,19 @@ const CourseList = () => {
           className="flex justify-center w-full"
         >
           <Pagination.PrevButton className="">
-            <ChevronLeftIcon className="h-5 w-5" />
+            <ChevronLeftIcon className="w-5 h-5" />
           </Pagination.PrevButton>
 
           <div className="flex items-center align-baseline">
             <Pagination.PageButton
               activeClassName="bg-zinc-200"
               inactiveClassName=""
-              className="inline-flex h-8 w-8 mx-3 rounded-full justify-center items-center hover:bg-white hover:cursor-pointer"
+              className="inline-flex items-center justify-center w-8 h-8 mx-3 rounded-full hover:bg-white hover:cursor-pointer"
             />
           </div>
 
           <Pagination.NextButton>
-            <ChevronRightIcon className="h-5 w-5" />
+            <ChevronRightIcon className="w-5 h-5" />
           </Pagination.NextButton>
         </Pagination>
       </div>

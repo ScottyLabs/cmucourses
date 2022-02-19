@@ -10,6 +10,7 @@ const initialState = {
     departments: [],
   },
   results: [],
+  fces: [],
   loggedIn: false,
 };
 
@@ -31,7 +32,20 @@ export const fetchCourseInfos = createAsyncThunk(
         .join("");
     }
 
-    return fetch(url).then((response) => response.json());
+    if (state.courses.loggedIn) {
+      url += `&fces=true`;
+      return fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem("course_token"),
+        }),
+      }).then((response) => response.json());
+    } else {
+      return fetch(url).then((response) => response.json());
+    }
   }
 );
 
@@ -41,6 +55,28 @@ export const fetchCourseInfo = async ({ courseID, schedules }: any) => {
 
   return fetch(url).then((response) => response.json());
 };
+
+export const fetchFCEInfos = createAsyncThunk(
+  "fetchFCEInfos",
+  async ({ courseIDs }: any, thunkAPI) => {
+    const state: any = thunkAPI.getState();
+
+    let url = `${process.env.backendUrl}/fces/`;
+    url += courseIDs.map((courseID) => `&courseID=${courseID}`).join("");
+
+    if (state.courses.loggedIn) {
+      return fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem("course_token"),
+        }),
+      }).then((response) => response.json());
+    }
+  }
+);
 
 export const coursesSlice = createSlice({
   name: "courses",
@@ -70,6 +106,13 @@ export const coursesSlice = createSlice({
         state.results = action.payload.docs;
       }
     );
+
+    builder.addCase(
+      fetchFCEInfos.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        console.log(action);
+      }
+    )
   },
 });
 

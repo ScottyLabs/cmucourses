@@ -1,69 +1,54 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import {
-  Box,
-  Typography,
-  Grid,
-  Stack,
-  Tabs,
-  Tab,
-  Divider,
-  List,
-} from "@mui/material";
+import { useSelector, RootStateOrAny } from "react-redux";
+import BookmarkButton from "./BookmarkButton";
+import { Tab } from "@headlessui/react";
 import {
   compareSessions,
   displayUnits,
+  sessionToString,
   sessionToShortString,
   courseListToString,
   filterSessions,
   injectLinks,
   timeArrToString,
+  approximateHours,
 } from "../app/utils";
 
 const Lecture = ({ lectureInfo, sections }) => {
   return (
     <>
-      <Grid container>
-        <Grid item xs={1}>
-          <b>{lectureInfo.name}</b>
-        </Grid>
-        <Grid item xs={6}>
+      <div className="flex items-baseline px-2 py-2 mt-2 rounded-md hover:bg-gray-100">
+        <div className="w-1/12 font-bold text-md">{lectureInfo.name}</div>
+        <div className="w-5/12 text-sm">
           {lectureInfo.instructors.join("; ")}
-        </Grid>
-        <Grid item xs={5}>
-          {lectureInfo.times.map((time, id) => (
-            <Grid container>
-              <Grid item xs={8}>
-                {timeArrToString([time])}
-              </Grid>
-              <Grid item xs={4}>
+        </div>
+        <div className="flex flex-col w-6/12 text-sm">
+          {lectureInfo.times.map((time) => (
+            <div className="flex">
+              <div className="w-2/3">{timeArrToString([time])}</div>
+              <div className="w-1/3">
                 {time.building} {time.room}
-              </Grid>
-            </Grid>
+              </div>
+            </div>
           ))}
-        </Grid>
-      </Grid>
+        </div>
+      </div>
+
       {sections.map((section) => (
-        <Grid container>
-          <Grid item xs={1}>
-            <b>{section.name}</b>
-          </Grid>
-          <Grid item xs={6}>
-            {section.instructors.join("; ")}
-          </Grid>
-          <Grid item xs={5}>
-            {section.times.map((time, id) => (
-              <Grid container>
-                <Grid item xs={8}>
-                  {timeArrToString([time])}
-                </Grid>
-                <Grid item xs={4}>
+        <div className="flex items-baseline px-2 py-1 text-gray-600 hover:bg-gray-100">
+          <div className="w-1/12 text-md">{section.name}</div>
+          <div className="w-5/12 text-sm">{section.instructors.join("; ")}</div>
+          <div className="flex flex-col w-6/12 text-sm">
+            {section.times.map((time) => (
+              <div className="flex">
+                <div className="w-2/3">{timeArrToString([time])}</div>
+                <div className="w-1/3">
                   {time.building} {time.room}
-                </Grid>
-              </Grid>
+                </div>
+              </div>
             ))}
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       ))}
     </>
   );
@@ -87,97 +72,122 @@ const Schedule = ({ scheduleInfo }) => {
       <Lecture lectureInfo={section} sections={[]} />
     ));
   }
-  return (
-    <Stack>
-      <Typography variant="h6" pb={2}>
-        <b>{sessionToShortString(scheduleInfo)}</b>
-      </Typography>
-      <Stack spacing={1}>{scheduleDivs}</Stack>
-    </Stack>
-  );
+  return <div className="p-2 lg:w-10/12">{scheduleDivs}</div>;
 };
 
 const Schedules = ({ scheduleInfos }) => {
-  const [scheduleIdx, setScheduleIdx] = useState(0);
   console.log(scheduleInfos);
 
-  const handleChange = (event, newValue) => {
-    setScheduleIdx(newValue);
-  };
-
   return (
-    <Box sx={{ flexGrow: 1, bgcolor: "background.paper", display: "flex" }}>
-      <Tabs orientation="vertical" value={scheduleIdx} onChange={handleChange}>
-        {scheduleInfos.map((scheduleInfo) => {
-          const label = sessionToShortString(scheduleInfo);
-          return (
-            <Tab
-              sx={{ alignItems: "right", minHeight: 0 }}
-              label={label}
-              key={label}
-            />
-          );
-        })}
-      </Tabs>
-      <Box pl={3} sx={{ flexGrow: 1 }}>
-        <Schedule scheduleInfo={scheduleInfos[scheduleIdx]} />
-      </Box>
-    </Box>
+    <div className="w-full">
+      <h1 className="text-lg">Schedules</h1>
+      <Tab.Group>
+        <Tab.List className="flex p-2 mt-2 space-x-1 bg-gray-100 rounded-md">
+          {scheduleInfos.map((scheduleInfo) => {
+            const label = sessionToString(scheduleInfo);
+            return (
+              <Tab
+                className={({ selected }) =>
+                  "px-2 py-1 text-sm rounded-md hover:bg-white " +
+                  (selected ? "bg-white" : "")
+                }
+              >
+                {label}
+              </Tab>
+            );
+          })}
+        </Tab.List>
+        <Tab.Panels>
+          {scheduleInfos.map((scheduleInfo) => (
+            <Tab.Panel>
+              <Schedule scheduleInfo={scheduleInfo} />
+            </Tab.Panel>
+          ))}
+        </Tab.Panels>
+      </Tab.Group>
+    </div>
   );
 };
 
-const CourseDetail = ({ courseInfo }) => {
-  const sortedSchedules = filterSessions(courseInfo.schedules).sort(
+const CourseDetail = ({ info }) => {
+  const sortedSchedules = filterSessions([...info.schedules]).sort(
     compareSessions
   );
+  const mostRecentSchedules = sortedSchedules.slice(0, 3);
+  const schedulesAvailableString = mostRecentSchedules
+    .map(sessionToShortString)
+    .join(", ");
+  const loggedIn = useSelector(
+    (state: RootStateOrAny) => state.courses.loggedIn
+  );
 
-  console.log(courseInfo);
+  const hours: number | undefined = info.fces
+    ? approximateHours(info.fces, 2)
+    : undefined;
+
+  console.log(info);
 
   return (
-    <Box p={3} pt={6}>
-      <Stack>
-        <Grid container spacing={4} mb={3}>
-          <Grid item xs={8}>
-            <Typography variant="h5" color="primary">
-              <b>{courseInfo.courseID}</b>&nbsp;&nbsp; {courseInfo.name}
-            </Typography>
-            <Typography variant="h6" sx={{ mb: 1.5 }} color="text.secondary">
-              {courseInfo.department}
-            </Typography>
-            <Typography variant="body1">
-              {injectLinks(courseInfo.desc)}
-            </Typography>
-          </Grid>
-          <Grid item xs={3} color="text.secondary">
-            <Typography variant="h6">
-              {displayUnits(courseInfo.units)} units
-            </Typography>
-            <Stack spacing={1}>
+    <div className="w-full p-6 space-y-4">
+      <div className="p-6 bg-white rounded-md">
+        <div className="flex flex-row flex-1">
+          <div className="flex flex-col flex-1">
+            <div className="text-zinc-600">
+              <div className="text-lg">
+                <span className="mr-2 font-semibold">{info.courseID}</span>
+                <span className="">{info.name}</span>
+              </div>
+              <div className="text-sm text-zinc-500">{info.department}</div>
+            </div>
+            <div className="flex-1 mt-4 text-sm leading-relaxed text-zinc-600">
+              {injectLinks(info.desc)}
+            </div>
+          </div>
+          <div className="w-64 text-zinc-600">
+            <div className="ml-8 space-y-2">
+              <div className="flex flex-row justify-between">
+                <div>
+                  <div className="text-lg">
+                    {displayUnits(info.units)} units
+                  </div>
+                  {loggedIn && hours && (
+                    <div className="text-md text-zinc-500">
+                      {hours} hrs/week
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <BookmarkButton courseID={info.courseID} />
+                </div>
+              </div>
+
+              <div>{schedulesAvailableString}</div>
               <div>
-                <Typography variant="subtitle1">
-                  <b>Prerequisites</b>
-                </Typography>
-                <Typography variant="subtitle1">
-                  {courseListToString(courseInfo.prereqs)}
-                </Typography>
+                <div className="font-semibold">Prerequisites</div>
+                <div className="text-md text-zinc-500">
+                  {injectLinks(info.prereqString || "None")}
+                </div>
               </div>
               <div>
-                <Typography variant="subtitle1">
-                  <b>Corequisites</b>
-                </Typography>
-                <Typography variant="subtitle1">
-                  {courseListToString(courseInfo.coreqs)}
-                </Typography>
+                <div className="font-semibold">Corequisites</div>
+                <div className="text-md text-zinc-500">
+                  {injectLinks(courseListToString(info.coreqs))}
+                </div>
               </div>
-            </Stack>
-          </Grid>
-        </Grid>
-        <Divider />
-        <Grid spacing={4} mt={2}>
-          <Schedules scheduleInfos={sortedSchedules} />
-        </Grid>
-      </Stack>
-    </Box>
+              <div>
+                <div className="font-semibold">Crosslisted</div>
+                <div className="text-md text-zinc-500">
+                  {injectLinks(courseListToString(info.crosslisted))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="p-6 bg-white rounded-md">
+        <Schedules scheduleInfos={sortedSchedules} />
+      </div>
+    </div>
   );
 };
 

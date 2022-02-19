@@ -1,6 +1,6 @@
 import reactStringReplace from "react-string-replace";
 import Link from "next/link";
-import { Time, Session } from "./types";
+import { Time, Session, FCE } from "./types";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
 
@@ -16,6 +16,29 @@ export const standardizeId = (id: string) => {
 export const standardizeIdsInString = (str: string) => {
   return str.replaceAll(courseIdRegex, standardizeId);
 };
+
+export const sessionToString = (sessionInfo: Session) => {
+  const semester = sessionInfo.semester;
+
+  const sessionStrings = {
+    "summer one": "Summer One",
+    "summer two": "Summer Two",
+    "summer all": "Summer All",
+    "qatar summer": "Qatar Summer",
+  };
+
+  const semesterStrings = {
+    fall: "Fall",
+    summer: "Summer",
+    spring: "Spring",
+  };
+
+  if (semester === "summer") {
+    return `${sessionStrings[sessionInfo.session]} ${sessionInfo.year}`;
+  } else {
+    return `${semesterStrings[sessionInfo.semester]} ${sessionInfo.year}`;
+  }
+}
 
 export const sessionToShortString = (sessionInfo: Session) => {
   const semester = sessionInfo.semester;
@@ -112,3 +135,33 @@ export const timeArrToString = (times: Time[]) => {
     })
     .join(" ");
 };
+
+export const approximateHours = (fces: FCE[], numYears: number = 2): number | undefined => {
+  if (fces.length === 0) {
+    return undefined;
+  }
+
+  const sortedByYear = [...fces].sort((a, b) => Number(b.year) - Number(a.year));
+
+  let uniqueYears = 1;
+  let encountered = sortedByYear[0].year;
+  let sum = 0, number = 0;
+
+  for (const fce of sortedByYear) {
+    console.log(fce, encountered);
+    if (fce.year != encountered) {
+      uniqueYears += 1;
+      encountered = fce.year;
+      if (uniqueYears >= numYears) {
+        break;
+      }
+    }
+
+    sum += fce.hrsPerWeek;
+    number += 1;
+  }
+
+  console.log(sum, number);
+
+  return number === 0 ? undefined : Math.round(sum / number * 10) / 10;
+}

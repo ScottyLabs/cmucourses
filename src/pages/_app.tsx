@@ -1,17 +1,21 @@
 import "../styles/globals.css";
 
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import type { AppProps } from "next/app";
 
-import store from "../app/store";
+import store, { persistor } from "../app/store";
 import Header from "../components/Header";
+import { logIn } from "../app/auth";
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <Header>
-        <Component {...pageProps} />
-      </Header>
+      <PersistGate loading={null} persistor={persistor}>
+        <Header>
+          <Component {...pageProps} />
+        </Header>
+      </PersistGate>
     </Provider>
   );
 }

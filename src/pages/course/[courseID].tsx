@@ -24,7 +24,11 @@ const CourseDetailPage: NextPage = () => {
     return <CircularProgress />;
   }
 
-  return <CourseDetail courseInfo={info} />;
+  return (
+    <div className="mt-16">
+      <CourseDetail info={info} />
+    </div>
+  );
 };
 
 export default CourseDetailPage;
