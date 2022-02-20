@@ -47,7 +47,7 @@ export const logIn = (dispatch) => {
         window.clearInterval(pollTimer);
       }
     }, 200);
-    
+
     return newWindow;
   };
 
@@ -89,4 +89,5 @@ export const logIn = (dispatch) => {
 export const logOut = (dispatch) => {
   window.localStorage.removeItem("course_token");
   dispatch({ type: "courses/logOut" });
+  dispatch({ type: "courses/clearData" });
 };

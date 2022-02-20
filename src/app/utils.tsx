@@ -17,7 +17,7 @@ export const standardizeIdsInString = (str: string) => {
   return str.replaceAll(courseIdRegex, standardizeId);
 };
 
-export const sessionToString = (sessionInfo: Session) => {
+export const sessionToString = (sessionInfo: Session | FCE) => {
   const semester = sessionInfo.semester;
 
   const sessionStrings = {
@@ -33,14 +33,14 @@ export const sessionToString = (sessionInfo: Session) => {
     spring: "Spring",
   };
 
-  if (semester === "summer") {
+  if (semester === "summer" && sessionInfo.session) {
     return `${sessionStrings[sessionInfo.session]} ${sessionInfo.year}`;
   } else {
     return `${semesterStrings[sessionInfo.semester]} ${sessionInfo.year}`;
   }
-}
+};
 
-export const sessionToShortString = (sessionInfo: Session) => {
+export const sessionToShortString = (sessionInfo: Session | FCE) => {
   const semester = sessionInfo.semester;
 
   const sessionStrings = {
@@ -56,14 +56,17 @@ export const sessionToShortString = (sessionInfo: Session) => {
     spring: "S",
   };
 
-  if (semester === "summer") {
+  if (semester === "summer" && sessionInfo.session) {
     return `${sessionStrings[sessionInfo.session]} ${sessionInfo.year}`;
   } else {
     return `${semesterStrings[sessionInfo.semester]} ${sessionInfo.year}`;
   }
 };
 
-export const compareSessions = (session1: Session, session2: Session) => {
+export const compareSessions = (
+  session1: Session | FCE,
+  session2: Session | FCE
+) => {
   if (session1.year != session2.year)
     return session1.year < session2.year ? 1 : 0;
 
@@ -97,6 +100,20 @@ export const filterSessions = (sessions: Session[]) => {
       (session.session && session.session !== "qatar summer")
     );
   });
+};
+
+export const getLatestFCEs = (fces: FCE[], numSemesters: number) => {
+  const sortedFCEs = [...fces].sort(compareSessions);
+  const result = [];
+  const encounteredSemesters = new Set();
+
+  for (const fce of sortedFCEs) {
+    encounteredSemesters.add(sessionToShortString(fce));
+    if (encounteredSemesters.size > numSemesters) break;
+    result.push(fce);
+  }
+
+  return result;
 };
 
 export const displayUnits = (units: string): string => {
@@ -136,35 +153,25 @@ export const timeArrToString = (times: Time[]) => {
     .join(" ");
 };
 
-export const approximateHours = (fces: FCE[], numYears: number = 2): number | undefined => {
+export const approximateHours = (
+  fces: FCE[],
+  numSemesters: number = 2
+): number | undefined => {
   if (fces.length === 0) {
     return undefined;
   }
 
-  const sortedByYear = [...fces].sort((a, b) => Number(b.year) - Number(a.year));
+  const filteredFCEs = getLatestFCEs(fces, numSemesters);
 
-  let uniqueYears = 1;
-  let encountered = sortedByYear[0].year;
-  let sum = 0, number = 0;
-
-  for (const fce of sortedByYear) {
-    console.log(fce, encountered);
-    if (fce.year != encountered) {
-      uniqueYears += 1;
-      encountered = fce.year;
-      if (uniqueYears >= numYears) {
-        break;
-      }
-    }
-
+  let sum = 0;
+  for (const fce of filteredFCEs) {
     sum += fce.hrsPerWeek;
-    number += 1;
   }
 
-  console.log(sum, number);
-
-  return number === 0 ? undefined : Math.round(sum / number * 10) / 10;
-}
+  return filteredFCEs.length === 0
+    ? undefined
+    : roundTo(sum / filteredFCEs.length, 1);
+};
 
 export function roundTo(num: number, precision: number = 2) {
   let x = Math.pow(10, precision);

@@ -1,5 +1,5 @@
 import { FCE } from "./types";
-import { roundTo } from "./utils";
+import { getLatestFCEs, roundTo, sessionToShortString } from "./utils";
 
 export const FCE_RATINGS = [
   "Interest in student learning",
@@ -13,8 +13,9 @@ export const FCE_RATINGS = [
   "Overall course rate",
 ];
 
-export const aggregateFCEs = (fces: FCE[], numSemesters: number = 2) => {
-  let semestersCounted = 0;
+export const aggregateFCEs = (fces: FCE[]) => {
+  let fcesCounted = fces.length;
+  let semesters = new Set();
   let workload = 0;
   let teachingRate = 0;
   let courseRate = 0;
@@ -25,20 +26,18 @@ export const aggregateFCEs = (fces: FCE[], numSemesters: number = 2) => {
     workload += fce.hrsPerWeek;
     teachingRate += fce.rating[7];
     courseRate += fce.rating[8];
-
-    semestersCounted += 1;
-    if (semestersCounted >= numSemesters) {
-      break;
-    }
+    semesters.add(sessionToShortString(fce));
   }
 
-  if (semestersCounted === 0) {
+  if (fcesCounted === 0) {
     return null;
   }
 
   return {
-    workload: roundTo(workload / semestersCounted, 2),
-    teachingRate: roundTo(teachingRate / semestersCounted, 2),
-    courseRate: roundTo(courseRate / semestersCounted, 2),
+    workload: roundTo(workload / fcesCounted, 2),
+    teachingRate: roundTo(teachingRate / fcesCounted, 2),
+    courseRate: roundTo(courseRate / fcesCounted, 2),
+    fcesCounted,
+    semestersCounted: semesters.size
   };
 };

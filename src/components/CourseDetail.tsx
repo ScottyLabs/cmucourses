@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import BookmarkButton from "./BookmarkButton";
-import StarRatings from 'react-star-ratings';
 import { fetchFCEInfos } from "../app/courses";
 import { Tab } from "@headlessui/react";
 import {
@@ -16,6 +15,7 @@ import {
   approximateHours,
 } from "../app/utils";
 import { aggregateFCEs } from "../app/fce";
+import { FCEDetail } from "./FCEDetail";
 
 const Lecture = ({ lectureInfo, sections }) => {
   return (
@@ -201,47 +201,7 @@ const CourseDetail = ({ info }) => {
       <div className="p-6 bg-white rounded-md">
         <Schedules scheduleInfos={sortedSchedules} />
       </div>
-      {fces && (
-        <div className="p-6 bg-white rounded-md">
-          <h1 className="text-lg">FCE Browser</h1>
-          <div className="p-4 mt-3 text-gray-700 bg-gray-100 rounded-md text-md">
-            <div className="flex items-baseline">
-              <h2 className="mb-2 text-md">Aggregate Data</h2>
-              <div className="flex-1 ml-2 text-sm">(data from 2 semesters)</div>
-              <div className="">
-                <input
-                  placeholder="No. of Semesters"
-                  className="px-2 py-1 text-sm rounded-md"
-                ></input>
-              </div>
-            </div>
-
-            <div className="flex mt-2 space-x-2">
-              <div className="flex-1 p-2 bg-white rounded-md">
-                <div>
-                  <span className="text-xl">{aggregateData.workload}</span>
-                  <span className="ml-1 text-md">hrs/wk</span>
-                </div>
-                <div className="text-sm text-gray-500">Workload</div>
-              </div>
-              <div className="flex-1 p-2 bg-white rounded-md">
-                <div className="flex content-end">
-                  <StarRatings rating={aggregateData.teachingRate} starDimension="22px" starSpacing="2px"/>
-                  <span className="ml-2 text-xl">{aggregateData.teachingRate}</span>
-                </div>
-                <div className="text-sm text-gray-500">Teaching Rate</div>
-              </div>
-              <div className="flex-1 p-2 bg-white rounded-md">
-              <div className="flex content-end">
-                  <StarRatings rating={aggregateData.courseRate} starDimension="22px" starSpacing="2px"/>
-                  <span className="ml-2 text-xl">{aggregateData.courseRate}</span>
-                </div>
-                <div className="text-sm text-gray-500">Course Rate</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {fces && <FCEDetail fces={fces} />}
     </div>
   );
 };

@@ -50,8 +50,9 @@ export const fetchCourseInfos = createAsyncThunk(
 );
 
 export const fetchCourseInfo = async ({ courseID, schedules }: any) => {
+  if (!courseID) return;
   let url = `${process.env.backendUrl}/courseTool/courseID/${courseID}?`;
-  if (schedules) url += `&schedules=${schedules}`;
+  if (schedules) url += `schedules=${schedules}`;
 
   return fetch(url).then((response) => response.json());
 };
@@ -94,6 +95,10 @@ export const coursesSlice = createSlice({
     logOut: (state) => {
       state.loggedIn = false;
     },
+    clearData: (state) => {
+      state.fces = {};
+      state.results = [];
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -110,14 +115,8 @@ export const coursesSlice = createSlice({
     builder.addCase(
       fetchFCEInfos.fulfilled,
       (state, action: PayloadAction<any>) => {
-        if (!action.payload) return;
-        for (const fce of action.payload) {
-          if (!(fce.courseID in state.fces)) {
-            state.fces[fce.courseID] = [];
-          }
-
-          state.fces[fce.courseID].push(fce);
-        }
+        if (!action.payload[0]) return;
+        state.fces[action.payload[0].courseID] = action.payload;
       }
     );
   },
