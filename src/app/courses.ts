@@ -10,7 +10,7 @@ const initialState = {
     departments: [],
   },
   results: [],
-  fces: [],
+  fces: {},
   loggedIn: false,
 };
 
@@ -61,8 +61,8 @@ export const fetchFCEInfos = createAsyncThunk(
   async ({ courseIDs }: any, thunkAPI) => {
     const state: any = thunkAPI.getState();
 
-    let url = `${process.env.backendUrl}/fces/`;
-    url += courseIDs.map((courseID) => `&courseID=${courseID}`).join("");
+    let url = `${process.env.backendUrl}/fces/?`;
+    url += courseIDs.map((courseID) => `courseID=${courseID}`).join("&");
 
     if (state.courses.loggedIn) {
       return fetch(url, {
@@ -110,9 +110,16 @@ export const coursesSlice = createSlice({
     builder.addCase(
       fetchFCEInfos.fulfilled,
       (state, action: PayloadAction<any>) => {
-        console.log(action);
+        if (!action.payload) return;
+        for (const fce of action.payload) {
+          if (!(fce.courseID in state.fces)) {
+            state.fces[fce.courseID] = [];
+          }
+
+          state.fces[fce.courseID].push(fce);
+        }
       }
-    )
+    );
   },
 });
 

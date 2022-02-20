@@ -124,7 +124,7 @@ export const injectLinks = (text: string) => {
 };
 
 export const timeArrToString = (times: Time[]) => {
-  const daysOfTheWeek = ["M", "T", "W", "R", "F", "S", "U"];
+  const daysOfTheWeek = ["U", "M", "T", "W", "R", "F", "S"];
 
   return times
     .map((curTime) => {
@@ -164,4 +164,9 @@ export const approximateHours = (fces: FCE[], numYears: number = 2): number | un
   console.log(sum, number);
 
   return number === 0 ? undefined : Math.round(sum / number * 10) / 10;
+}
+
+export function roundTo(num: number, precision: number = 2) {
+  let x = Math.pow(10, precision);
+  return Math.round(num * x) / x;
 }
