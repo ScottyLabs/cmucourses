@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   bookmarked: [],
+  showFCEs: false
 };
 
 export const userSlice = createSlice({
@@ -19,6 +20,9 @@ export const userSlice = createSlice({
           state.bookmarked.splice(index, 1);
       }
     },
+    showFCEs: (state, action) => {
+      state.showFCEs = action.payload;
+    }
   },
   extraReducers: (builder) => {},
 });

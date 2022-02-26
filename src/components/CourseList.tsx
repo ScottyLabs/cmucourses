@@ -2,17 +2,31 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import CourseCard from "./CourseCard";
 import { Pagination } from "react-headless-pagination";
-import { fetchCourseInfos } from "../app/courses";
+import { fetchCourseInfos, fetchFCEInfos } from "../app/courses";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 
 const CoursePage = () => {
+  const dispatch = useDispatch();
   const results = useSelector((state: RootStateOrAny) => state.courses.results);
+
+  const loggedIn = useSelector(
+    (state: RootStateOrAny) => state.courses.loggedIn
+  );
+
+  useEffect(() => {
+    if (loggedIn) {
+      dispatch(
+        fetchFCEInfos({ courseIDs: results.map((course) => course.courseID) })
+      );
+    }
+  }, [results, loggedIn]);
 
   return (
     <div className="space-y-4">
-      {results && results.map((course) => (
-        <CourseCard info={course} key={course.courseID} />
-      ))}
+      {results &&
+        results.map((course) => (
+          <CourseCard info={course} key={course.courseID} />
+        ))}
     </div>
   );
 };

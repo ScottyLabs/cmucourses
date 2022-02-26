@@ -15,7 +15,7 @@ import {
   approximateHours,
 } from "../app/utils";
 import { aggregateFCEs } from "../app/fce";
-import { FCEDetail } from "./FCEDetail";
+import { FCECard } from "./FCEDetail";
 
 const Lecture = ({ lectureInfo, sections }) => {
   return (
@@ -75,7 +75,7 @@ const Schedule = ({ scheduleInfo }) => {
       <Lecture lectureInfo={section} sections={[]} />
     ));
   }
-  return <div className="p-2 lg:w-10/12">{scheduleDivs}</div>;
+  return <div className="p-2">{scheduleDivs}</div>;
 };
 
 const Schedules = ({ scheduleInfos }) => {
@@ -142,7 +142,7 @@ const CourseDetail = ({ info }) => {
   if (fces) aggregateData = aggregateFCEs(fces);
 
   return (
-    <div className="w-full p-6 space-y-4">
+    <div className="max-w-6xl p-6 m-auto space-y-4">
       <div className="p-6 bg-white rounded-md">
         <div className="flex flex-row flex-1">
           <div className="flex flex-col flex-1">
@@ -198,10 +198,10 @@ const CourseDetail = ({ info }) => {
           </div>
         </div>
       </div>
+      {fces && <FCECard fces={fces} />}
       <div className="p-6 bg-white rounded-md">
         <Schedules scheduleInfos={sortedSchedules} />
       </div>
-      {fces && <FCEDetail fces={fces} />}
     </div>
   );
 };

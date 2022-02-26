@@ -1,8 +1,8 @@
 import React, { Component, useMemo } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
 import { fetchCourseInfos } from "../app/courses";
 import { throttledFilter } from "../app/store";
-import { SearchIcon } from '@heroicons/react/solid';
+import { SearchIcon } from "@heroicons/react/solid";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
@@ -12,14 +12,43 @@ const SearchBar = () => {
     throttledFilter();
   };
 
+  const loggedIn = useSelector(
+    (state: RootStateOrAny) => state.courses.loggedIn
+  );
+
+  const setShowFCEs = (e) => {
+    dispatch({ type: "user/showFCEs", payload: e.target.checked });
+  };
+
   return (
-    <div className="p-8 bg-white text-zinc-700 drop-shadow-lg sticky top-0 z-10">
-      <div className="text-lg">Course Search</div>
-      <div className="relative rounded-md flex border-b">
+    <div className="sticky top-0 z-10 p-8 bg-white text-zinc-700 drop-shadow-lg">
+      <div className="flex">
+        <div className="flex-1 text-lg">Course Search</div>
+        <div className="mr-6">
+          <input
+            type="checkbox"
+            className="mr-2"
+            disabled={!loggedIn}
+            onChange={setShowFCEs}
+          ></input>
+          <span>FCEs</span>
+        </div>
+        <div>
+          <input type="checkbox" className="mr-2"></input>
+          <span>Course Info</span>
+        </div>
+      </div>
+
+      <div className="relative flex border-b rounded-md">
         <span className="absolute inset-y-0 left-0 flex items-center">
-          <SearchIcon className="h-5 w-5" />
+          <SearchIcon className="w-5 h-5" />
         </span>
-        <input className="py-2 pl-7 text-xl focus:outline-none bg-none flex-1" type="search" onChange={onChange} placeholder="Search by Course ID, description, name or keyword..." />
+        <input
+          className="flex-1 py-2 text-xl pl-7 focus:outline-none bg-none"
+          type="search"
+          onChange={onChange}
+          placeholder="Search by Course ID, description, name or keyword..."
+        />
       </div>
       <div className="mt-3 text-zinc-500">
         <div className="text-sm">Applied Filters</div>

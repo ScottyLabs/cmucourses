@@ -8,9 +8,11 @@ import {
   injectLinks,
   approximateHours,
 } from "../app/utils";
+import { aggregateFCEs } from "../app/fce";
 import { useSelector, RootStateOrAny } from "react-redux";
 import BookmarkButton from "./BookmarkButton";
 import Link from "next/link";
+import { FCEDetail } from "./FCEDetail";
 
 interface Props {
   info: Course;
@@ -32,6 +34,16 @@ const CourseCard = ({ info }: Props) => {
   const hours: number | undefined = info.fces
     ? approximateHours(info.fces, 2)
     : undefined;
+
+  const showFCEs = useSelector(
+    (state: RootStateOrAny) => state.user.showFCEs
+  );
+
+  const fces = useSelector(
+    (state: RootStateOrAny) => state.courses.fces[info.courseID]
+  );
+  let aggregateData;
+  if (fces) aggregateData = aggregateFCEs(fces);
 
   return (
     <div className="p-6 bg-white rounded-md drop-shadow-sm">
@@ -86,6 +98,7 @@ const CourseCard = ({ info }: Props) => {
           </div>
         </div>
       </div>
+      {showFCEs && fces && <FCEDetail fces={fces} />}
     </div>
   );
 };

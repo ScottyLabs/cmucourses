@@ -105,8 +105,7 @@ export const FCEDetail = ({ fces }) => {
   }
 
   return (
-    <div className="p-6 bg-white rounded-md">
-      <h1 className="text-lg">FCE Browser</h1>
+    <>
       <div className="p-4 mt-3 text-gray-700 bg-gray-100 rounded-md text-md">
         <div className="flex items-baseline">
           <h2 className="mb-2 text-md">Aggregate Data</h2>
@@ -161,6 +160,15 @@ export const FCEDetail = ({ fces }) => {
       <div className="p-4 mt-3 bg-gray-100 rounded-md">
         <FCETable columns={columns} data={convertFCEData(filteredFCEs)} />
       </div>
+    </>
+  );
+};
+
+export const FCECard = ({ fces }) => {
+  return (
+    <div className="p-6 bg-white rounded-md">
+      <h1 className="text-lg">FCE Browser</h1>
+      <FCEDetail fces={fces} />
     </div>
   );
 };

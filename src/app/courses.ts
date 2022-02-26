@@ -98,7 +98,7 @@ export const coursesSlice = createSlice({
     clearData: (state) => {
       state.fces = {};
       state.results = [];
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -116,7 +116,19 @@ export const coursesSlice = createSlice({
       fetchFCEInfos.fulfilled,
       (state, action: PayloadAction<any>) => {
         if (!action.payload[0]) return;
-        state.fces[action.payload[0].courseID] = action.payload;
+
+        const courseIds = new Set<String>();
+        for (const fce of action.payload) {
+          courseIds.add(fce.courseID);
+        }
+
+        courseIds.forEach((courseId: any) => {
+          state.fces[courseId] = [];
+        });
+
+        for (const fce of action.payload) {
+          state.fces[fce.courseID].push(fce);
+        }
       }
     );
   },
