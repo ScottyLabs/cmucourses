@@ -2,19 +2,20 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
 import CourseCard from "./CourseCard";
 import { Pagination } from "react-headless-pagination";
-import { fetchCourseInfos, fetchFCEInfos } from "../app/courses";
+import { fetchCourseInfosByPage, fetchFCEInfos } from "../app/courses";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 
 const CoursePage = () => {
   const dispatch = useDispatch();
   const results = useSelector((state: RootStateOrAny) => state.courses.results);
+  const showFCEs = useSelector((state: RootStateOrAny) => state.user.showFCEs);
 
   const loggedIn = useSelector(
     (state: RootStateOrAny) => state.courses.loggedIn
   );
 
   useEffect(() => {
-    if (loggedIn) {
+    if (loggedIn && results) {
       dispatch(
         fetchFCEInfos({ courseIDs: results.map((course) => course.courseID) })
       );
@@ -25,7 +26,7 @@ const CoursePage = () => {
     <div className="space-y-4">
       {results &&
         results.map((course) => (
-          <CourseCard info={course} key={course.courseID} />
+          <CourseCard info={course} key={course.courseID} showFCEs={showFCEs}/>
         ))}
     </div>
   );
@@ -36,11 +37,10 @@ const CourseList = () => {
     (state: RootStateOrAny) => state.courses.totalPages
   );
   const curPage = useSelector((state: RootStateOrAny) => state.courses.page);
-
   const dispatch = useDispatch();
 
   const handlePageClick = (page) => {
-    dispatch(fetchCourseInfos(page + 1));
+    dispatch(fetchCourseInfosByPage(page + 1));
   };
 
   useEffect(() => {

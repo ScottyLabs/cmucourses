@@ -38,6 +38,28 @@ export const aggregateFCEs = (fces: FCE[]) => {
     teachingRate: roundTo(teachingRate / fcesCounted, 2),
     courseRate: roundTo(courseRate / fcesCounted, 2),
     fcesCounted,
-    semestersCounted: semesters.size
+    semestersCounted: semesters.size,
+  };
+};
+
+export const aggregateCourses = (
+  data: { courseID: string; fces: FCE[] }[],
+  numSemesters: number
+) => {
+  let aggregatedFCEs = data.map(({ courseID, fces }) => ({
+    courseID,
+    aggregateData: aggregateFCEs(getLatestFCEs(fces, numSemesters)),
+  }));
+
+  let workload = 0;
+  for (const aggregateFCE of aggregatedFCEs) {
+    if (aggregateFCE.aggregateData.workload)
+      workload += aggregateFCE.aggregateData.workload;
+  }
+
+  return {
+    aggregatedFCEs,
+    semesters: numSemesters,
+    workload,
   };
 };

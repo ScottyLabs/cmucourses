@@ -1,6 +1,5 @@
 import React, { Component, useMemo } from "react";
 import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
-import { fetchCourseInfos } from "../app/courses";
 import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
 

@@ -10,12 +10,46 @@ const initialState = {
     departments: [],
   },
   results: [],
+  bookmarkedResults: [],
   fces: {},
   loggedIn: false,
 };
 
 export const fetchCourseInfos = createAsyncThunk(
   "fetchCourseInfos",
+  async (ids: String[], thunkAPI) => {
+    console.log("fetching");
+    const state: any = thunkAPI.getState();
+
+    if (ids.length === 0) return [];
+
+    let url = `${process.env.backendUrl}/courseTool/courses/?`;
+
+    url += ids
+        .map((d) => `courseID=${d}`)
+        .join("&");
+
+    url += "&schedulesAvailable=true";
+
+    if (state.courses.loggedIn) {
+      url += `&fces=true`;
+      return fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem("course_token"),
+        }),
+      }).then((response) => response.json());
+    } else {
+      return fetch(url).then((response) => response.json());
+    }
+  }
+)
+
+export const fetchCourseInfosByPage = createAsyncThunk(
+  "fetchCourseInfosByPage",
   async (page: number, thunkAPI) => {
     console.log("fetching");
     const state: any = thunkAPI.getState();
@@ -98,17 +132,25 @@ export const coursesSlice = createSlice({
     clearData: (state) => {
       state.fces = {};
       state.results = [];
+      state.bookmarkedResults = [];
     },
   },
   extraReducers: (builder) => {
     builder.addCase(
-      fetchCourseInfos.fulfilled,
+      fetchCourseInfosByPage.fulfilled,
       (state, action: PayloadAction<any>) => {
         console.log(action.payload);
         state.totalDocs = action.payload.totalDocs;
         state.totalPages = action.payload.totalPages;
         state.page = action.payload.page;
         state.results = action.payload.docs;
+      }
+    );
+
+    builder.addCase(
+      fetchCourseInfos.fulfilled,
+      (state, action: PayloadAction<any>) => {
+        state.bookmarkedResults = action.payload;
       }
     );
 

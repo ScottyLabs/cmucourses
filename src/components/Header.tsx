@@ -26,7 +26,9 @@ export default function Header({ children }): ReactElement {
             <Link href="/">ScottyLabs Course Tool</Link>
           </div>
           <div className="flex flex-row space-x-10">
-            <div>Bookmarked</div>
+            <div>
+              <Link href="/bookmarked">Bookmarked</Link>
+            </div>
             {loggedIn ? (
               <div onClick={() => logOut(dispatch)}>Log Out</div>
             ) : (

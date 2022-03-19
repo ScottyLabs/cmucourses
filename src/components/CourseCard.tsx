@@ -16,9 +16,10 @@ import { FCEDetail } from "./FCEDetail";
 
 interface Props {
   info: Course;
+  showFCEs: boolean;
 }
 
-const CourseCard = ({ info }: Props) => {
+const CourseCard = ({ info, showFCEs }: Props) => {
   const sortedSchedules = filterSessions([...info.schedules]).sort(
     compareSessions
   );
@@ -35,15 +36,14 @@ const CourseCard = ({ info }: Props) => {
     ? approximateHours(info.fces, 2)
     : undefined;
 
-  const showFCEs = useSelector(
-    (state: RootStateOrAny) => state.user.showFCEs
-  );
-
-  const fces = useSelector(
+  let fces = useSelector(
     (state: RootStateOrAny) => state.courses.fces[info.courseID]
   );
-  let aggregateData;
-  if (fces) aggregateData = aggregateFCEs(fces);
+
+  if (showFCEs) {
+    let aggregateData;
+    if (fces) aggregateData = aggregateFCEs(fces);
+  }
 
   return (
     <div className="p-6 bg-white rounded-md drop-shadow-sm">
