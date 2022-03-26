@@ -5,7 +5,7 @@ import { fetchCourseInfos, fetchFCEInfos } from "../app/courses";
 
 const BookmarkedList = () => {
   const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.courses.loggedIn
+    (state: RootStateOrAny) => state.user.loggedIn
   );
   const bookmarked = useSelector(
     (state: RootStateOrAny) => state.user.bookmarked

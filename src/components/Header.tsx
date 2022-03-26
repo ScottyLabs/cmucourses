@@ -10,12 +10,12 @@ export default function Header({ children }): ReactElement {
   // @refresh reset
   useEffect(() => {
     if (window.localStorage.getItem("course_token")) {
-      dispatch({ type: "courses/logIn" });
+      dispatch({ type: "user/logIn" });
     }
   }, []);
 
   const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.courses.loggedIn
+    (state: RootStateOrAny) => state.user.loggedIn
   );
 
   return (

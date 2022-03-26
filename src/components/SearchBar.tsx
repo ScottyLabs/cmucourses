@@ -7,12 +7,12 @@ const SearchBar = () => {
   const dispatch = useDispatch();
 
   const onChange = (e) => {
-    dispatch({ type: "courses/updateSearch", payload: e.target.value });
+    dispatch({ type: "user/updateSearch", payload: e.target.value });
     throttledFilter();
   };
 
   const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.courses.loggedIn
+    (state: RootStateOrAny) => state.user.loggedIn
   );
 
   const setShowFCEs = (e) => {

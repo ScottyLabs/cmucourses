@@ -1,8 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { standardizeIdsInString } from "./utils";
 
 const initialState = {
   bookmarked: [],
-  showFCEs: false
+  showFCEs: false,
+  loggedIn: false,
+  filter: {
+    search: "",
+    departments: [],
+  },
 };
 
 export const userSlice = createSlice({
@@ -22,7 +28,19 @@ export const userSlice = createSlice({
     },
     showFCEs: (state, action) => {
       state.showFCEs = action.payload;
-    }
+    },
+    logIn: (state) => {
+      state.loggedIn = true;
+    },
+    logOut: (state) => {
+      state.loggedIn = false;
+    },
+    updateSearch: (state, action) => {
+      state.filter.search = standardizeIdsInString(action.payload);
+    },
+    updateDepartments: (state, action) => {
+      state.filter.departments = action.payload;
+    },
   },
   extraReducers: (builder) => {},
 });

@@ -5,7 +5,7 @@ console.log(BASE_URL);
 
 export const logIn = (dispatch) => {
   if (window.localStorage.getItem("course_token")) {
-    dispatch({ type: "courses/logIn" });
+    dispatch({ type: "user/logIn" });
   }
 
   const popupCenter = (title, w, h) => {
@@ -74,10 +74,10 @@ export const logIn = (dispatch) => {
             token: event.data,
           })
           .then(() => {
-            dispatch({ type: "courses/logIn" });
+            dispatch({ type: "user/logIn" });
           })
           .catch(() => {
-            dispatch({ type: "courses/logOut" });
+            dispatch({ type: "user/logOut" });
             alert("Failed to log in");
           });
       }
@@ -88,6 +88,6 @@ export const logIn = (dispatch) => {
 
 export const logOut = (dispatch) => {
   window.localStorage.removeItem("course_token");
-  dispatch({ type: "courses/logOut" });
+  dispatch({ type: "user/logOut" });
   dispatch({ type: "courses/clearData" });
 };

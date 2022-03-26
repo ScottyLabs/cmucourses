@@ -8,7 +8,7 @@ const Filter = () => {
 
   const changeDepartment = (e) => {
     const departments = e.map(({ value }) => value);
-    dispatch({ type: "courses/updateDepartments", payload: departments });
+    dispatch({ type: "user/updateDepartments", payload: departments });
     throttledFilter();
   };
 
@@ -81,11 +81,11 @@ const Filter = () => {
 
   return (
     <div className="absolute inset-0 p-6 bg-zinc-100 text-zinc-700 drop-shadow-lg">
-      <div className="text-lg mb-3">Filter by</div>
-      <div className="divide-y text-sm">
+      <div className="mb-3 text-lg">Filter by</div>
+      <div className="text-sm divide-y">
         <div className="py-3">
-          <div className="font-semibold mb-1">Semester</div>
-          <div className="flex flex-col text-sm space-y-1">
+          <div className="mb-1 font-semibold">Semester</div>
+          <div className="flex flex-col space-y-1 text-sm">
             <label>
               <input type="checkbox" className="mr-2" /> Fall 2021
             </label>
@@ -96,8 +96,8 @@ const Filter = () => {
         </div>
 
         <div className="py-3">
-          <div className="font-semibold mb-1">Course Type</div>
-          <div className="flex flex-col text-sm space-y-1">
+          <div className="mb-1 font-semibold">Course Type</div>
+          <div className="flex flex-col space-y-1 text-sm">
             <label>
               <input type="checkbox" className="mr-2" /> Mini
             </label>
@@ -108,7 +108,7 @@ const Filter = () => {
         </div>
 
         <div className="py-3">
-          <div className="font-semibold mb-2">Department</div>
+          <div className="mb-2 font-semibold">Department</div>
           <Select
             isMulti
             options={DEPARTMENT_OPTIONS}

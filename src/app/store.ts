@@ -23,9 +23,9 @@ const persistConfig = {
 
 const reducers = combineReducers({
   courses: coursesReducer,
-  user: userReducer,
+  user: persistReducer(persistConfig, userReducer),
 });
-//const persistedReducer = persistReducer(persistConfig, reducers);
+// const persistedReducer = persistReducer(persistConfig, reducers);
 const persistedReducer = reducers;
 
 export const store = configureStore({
@@ -38,7 +38,7 @@ export const store = configureStore({
     }),
 });
 
-// export let persistor = persistStore(store);
+export let persistor = persistStore(store);
 
 const updateFilter = () => {
   setTimeout(() => store.dispatch(fetchCourseInfosByPage(1)), 0);

@@ -11,7 +11,7 @@ const CoursePage = () => {
   const showFCEs = useSelector((state: RootStateOrAny) => state.user.showFCEs);
 
   const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.courses.loggedIn
+    (state: RootStateOrAny) => state.user.loggedIn
   );
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const CourseList = () => {
 
   useEffect(() => {
     if (window.localStorage.getItem("course_token")) {
-      dispatch({ type: "courses/logIn" });
+      dispatch({ type: "user/logIn" });
     }
   }, []);
 

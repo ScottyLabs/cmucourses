@@ -29,7 +29,7 @@ const CourseCard = ({ info, showFCEs }: Props) => {
     .join(", ");
 
   const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.courses.loggedIn
+    (state: RootStateOrAny) => state.user.loggedIn
   );
 
   const hours: number | undefined = info.fces

@@ -1,18 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { standardizeIdsInString } from "./utils";
 
 const initialState = {
   totalDocs: 0,
   totalPages: 0,
   page: 1,
-  filter: {
-    search: "",
-    departments: [],
-  },
   results: [],
   bookmarkedResults: [],
   fces: {},
-  loggedIn: false,
 };
 
 export const fetchCourseInfos = createAsyncThunk(
@@ -31,7 +25,7 @@ export const fetchCourseInfos = createAsyncThunk(
 
     url += "&schedulesAvailable=true";
 
-    if (state.courses.loggedIn) {
+    if (state.user.loggedIn) {
       url += `&fces=true`;
       return fetch(url, {
         method: "POST",
@@ -56,17 +50,17 @@ export const fetchCourseInfosByPage = createAsyncThunk(
 
     let url = `${process.env.backendUrl}/courseTool/?page=${page}&schedulesAvailable=true`;
 
-    if (state.courses.filter.search !== "") {
-      url += `&keywords=${state.courses.filter.search}`;
+    if (state.user.filter.search !== "") {
+      url += `&keywords=${state.user.filter.search}`;
     }
 
-    if (state.courses.filter.departments.length > 0) {
-      url += state.courses.filter.departments
+    if (state.user.filter.departments.length > 0) {
+      url += state.user.filter.departments
         .map((d) => `&department=${d}`)
         .join("");
     }
 
-    if (state.courses.loggedIn) {
+    if (state.user.loggedIn) {
       url += `&fces=true`;
       return fetch(url, {
         method: "POST",
@@ -99,7 +93,7 @@ export const fetchFCEInfos = createAsyncThunk(
     let url = `${process.env.backendUrl}/fces/?`;
     url += courseIDs.map((courseID) => `courseID=${courseID}`).join("&");
 
-    if (state.courses.loggedIn) {
+    if (state.user.loggedIn) {
       return fetch(url, {
         method: "POST",
         headers: {
@@ -117,18 +111,6 @@ export const coursesSlice = createSlice({
   name: "courses",
   initialState,
   reducers: {
-    updateSearch: (state, action) => {
-      state.filter.search = standardizeIdsInString(action.payload);
-    },
-    updateDepartments: (state, action) => {
-      state.filter.departments = action.payload;
-    },
-    logIn: (state) => {
-      state.loggedIn = true;
-    },
-    logOut: (state) => {
-      state.loggedIn = false;
-    },
     clearData: (state) => {
       state.fces = {};
       state.results = [];
