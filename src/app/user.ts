@@ -9,6 +9,7 @@ const initialState = {
     search: "",
     departments: [],
   },
+  token: null,
 };
 
 export const userSlice = createSlice({
@@ -41,6 +42,9 @@ export const userSlice = createSlice({
     updateDepartments: (state, action) => {
       state.filter.departments = action.payload;
     },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    }
   },
   extraReducers: (builder) => {},
 });

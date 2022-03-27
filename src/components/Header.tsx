@@ -1,22 +1,76 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootStateOrAny } from "react-redux";
 import Link from "next/link";
 import { logIn, logOut } from "../app/auth";
+import Passlink from "passlink";
+import * as jose from 'jose';
+
+const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
 
 export default function Header({ children }): ReactElement {
   const dispatch = useDispatch();
 
-  // @refresh reset
-  useEffect(() => {
-    if (window.localStorage.getItem("course_token")) {
-      dispatch({ type: "user/logIn" });
-    }
-  }, []);
+  const token = useSelector((state: RootStateOrAny) => state.user.token);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
 
-  const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.user.loggedIn
-  );
+  let passlink;
+  let loginHandler;
+
+  if (window !== undefined) {
+    passlink = new Passlink(window);
+    loginHandler = passlink.generateloginHandler(
+      `${BASE_URL}/signingrequest`,
+      () => {
+        setLoading(true);
+      },
+      () => {
+        setLoading(false);
+      },
+      () => {
+        setLoading(false);
+      },
+      () => {
+        setLoading(false);
+      },
+      (data) => {
+        setLoading(false);
+        dispatch({ type: "user/setToken", payload: data });
+      }
+    );
+  }
+
+  useEffect(() => {
+    try {
+      const userDecode = jose.decodeJwt(token);
+      setUser(userDecode);
+      dispatch({ type: "user/logIn" });
+    } catch {
+      dispatch({ type: "user/setToken", payload: null });
+      setUser(null);
+      dispatch({ type: "user/logOut" });
+    }
+  }, [token]);
+
+  let logInButton;
+
+  if (user) {
+    logInButton = (<>
+      <div onClick={() => setUser(null)}>Log Out</div>
+    </>);
+  } else {
+    logInButton = (
+      <>
+        {loading && <p>Loading...</p>}
+        {!loading && passlink && loginHandler && (
+          <div onClick={loginHandler}>Log In</div>
+        )}
+      </>
+    )
+  }
+
+  const loggedIn = useSelector((state: RootStateOrAny) => state.user.loggedIn);
 
   return (
     <div className="relative">
@@ -29,11 +83,9 @@ export default function Header({ children }): ReactElement {
             <div>
               <Link href="/bookmarked">Bookmarked</Link>
             </div>
-            {loggedIn ? (
-              <div onClick={() => logOut(dispatch)}>Log Out</div>
-            ) : (
-              <div onClick={() => logIn(dispatch)}>Log In</div>
-            )}
+            <div className="hover:cursor-pointer">
+              {logInButton}
+            </div>
           </div>
         </div>
       </header>

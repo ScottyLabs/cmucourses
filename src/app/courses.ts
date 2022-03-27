@@ -1,3 +1,4 @@
+import { StarRateTwoTone } from "@mui/icons-material";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -7,6 +8,7 @@ const initialState = {
   results: [],
   bookmarkedResults: [],
   fces: {},
+  loading: false
 };
 
 export const fetchCourseInfos = createAsyncThunk(
@@ -33,7 +35,7 @@ export const fetchCourseInfos = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          token: localStorage.getItem("course_token"),
+          token: state.user.token
         }),
       }).then((response) => response.json());
     } else {
@@ -68,7 +70,7 @@ export const fetchCourseInfosByPage = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          token: localStorage.getItem("course_token"),
+          token: state.user.token
         }),
       }).then((response) => response.json());
     } else {
@@ -100,7 +102,7 @@ export const fetchFCEInfos = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          token: localStorage.getItem("course_token"),
+          token: state.user.token
         }),
       }).then((response) => response.json());
     }
@@ -116,6 +118,9 @@ export const coursesSlice = createSlice({
       state.results = [];
       state.bookmarkedResults = [];
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -139,6 +144,7 @@ export const coursesSlice = createSlice({
     builder.addCase(
       fetchFCEInfos.fulfilled,
       (state, action: PayloadAction<any>) => {
+        if (!action.payload) return;
         if (!action.payload[0]) return;
 
         const courseIds = new Set<String>();

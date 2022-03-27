@@ -133,7 +133,7 @@ export const injectLinks = (text: string) => {
     standardizeIdsInString(text),
     courseIdRegex,
     (match, i) => (
-      <Link href={`/course/${standardizeId(match)}`}>
+      <Link href={`/course/${standardizeId(match)}`} key={match}>
         <span className="hover:underline hover:cursor-pointer">{match}</span>
       </Link>
     )
