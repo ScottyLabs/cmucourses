@@ -82,6 +82,9 @@ export default function Header({ children }): ReactElement {
             <div>
               <Link href="/bookmarked">Bookmarked</Link>
             </div>
+            <div>
+              <a href="https://forms.gle/6vPTN6Eyqd1w7pqJA" target="_blank">Feedback</a>
+            </div>
             <div className="hover:cursor-pointer">
               {logInButton}
             </div>
