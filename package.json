@@ -5,7 +5,9 @@
     "build": "next build",
     "start": "doppler run -- next start",
     "type-check": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "doppler-install": "(curl -Ls https://cli.doppler.com/install.sh || wget -qO- https://cli.doppler.com/install.sh) | sh -s -- --no-install --no-package-manager"
+
   },
   "dependencies": {
     "@emotion/react": "^11.4.1",
