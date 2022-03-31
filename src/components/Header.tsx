@@ -2,7 +2,6 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootStateOrAny } from "react-redux";
 import Link from "next/link";
-import { logIn, logOut } from "../app/auth";
 import Passlink from "passlink";
 import * as jose from 'jose';
 
