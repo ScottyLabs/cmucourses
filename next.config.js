@@ -1,5 +1,5 @@
 module.exports = {
   env: {
-    backendUrl: 'http://localhost:3000'
+    backendUrl: 'https://beta.course.apis.scottylabs.org'
   },
 }
