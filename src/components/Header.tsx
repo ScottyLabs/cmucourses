@@ -2,7 +2,6 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootStateOrAny } from "react-redux";
 import Link from "next/link";
-import { logIn, logOut } from "../app/auth";
 import Passlink from "passlink";
 import * as jose from 'jose';
 
@@ -82,6 +81,9 @@ export default function Header({ children }): ReactElement {
           <div className="flex flex-row space-x-10">
             <div>
               <Link href="/bookmarked">Bookmarked</Link>
+            </div>
+            <div>
+              <a href="https://forms.gle/6vPTN6Eyqd1w7pqJA" target="_blank">Feedback</a>
             </div>
             <div className="hover:cursor-pointer">
               {logInButton}
