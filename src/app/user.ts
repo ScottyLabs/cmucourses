@@ -4,6 +4,7 @@ import { standardizeIdsInString } from "./utils";
 const initialState = {
   bookmarked: [],
   showFCEs: false,
+  showCourseInfos: true,
   loggedIn: false,
   filter: {
     search: "",
@@ -29,6 +30,9 @@ export const userSlice = createSlice({
     },
     showFCEs: (state, action) => {
       state.showFCEs = action.payload;
+    },
+    showCourseInfos: (state, action) => {
+      state.showCourseInfos = action.payload;
     },
     logIn: (state) => {
       state.loggedIn = true;

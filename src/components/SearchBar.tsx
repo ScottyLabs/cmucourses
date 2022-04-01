@@ -11,12 +11,18 @@ const SearchBar = () => {
     throttledFilter();
   };
 
-  const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.user.loggedIn
-  );
+  const loggedIn = useSelector((state: RootStateOrAny) => state.user.loggedIn);
 
+  const showFCEs = useSelector((state: RootStateOrAny) => state.user.showFCEs);
+  const showCourseInfos = useSelector(
+    (state: RootStateOrAny) => state.user.showCourseInfos
+  );
   const setShowFCEs = (e) => {
     dispatch({ type: "user/showFCEs", payload: e.target.checked });
+  };
+
+  const setShowCourseInfos = (e) => {
+    dispatch({ type: "user/showCourseInfos", payload: e.target.checked });
   };
 
   return (
@@ -29,11 +35,17 @@ const SearchBar = () => {
             className="mr-2"
             disabled={!loggedIn}
             onChange={setShowFCEs}
+            checked={showFCEs}
           ></input>
           <span>FCEs</span>
         </div>
         <div>
-          <input type="checkbox" className="mr-2"></input>
+          <input
+            type="checkbox"
+            className="mr-2"
+            onChange={setShowCourseInfos}
+            checked={showCourseInfos}
+          ></input>
           <span>Course Info</span>
         </div>
       </div>

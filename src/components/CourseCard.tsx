@@ -17,9 +17,10 @@ import { FCEDetail } from "./FCEDetail";
 interface Props {
   info: Course;
   showFCEs: boolean;
+  showCourseInfo: boolean;
 }
 
-const CourseCard = ({ info, showFCEs }: Props) => {
+const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
   const sortedSchedules = filterSessions([...info.schedules]).sort(
     compareSessions
   );
@@ -28,9 +29,7 @@ const CourseCard = ({ info, showFCEs }: Props) => {
     .map(sessionToShortString)
     .join(", ");
 
-  const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.user.loggedIn
-  );
+  const loggedIn = useSelector((state: RootStateOrAny) => state.user.loggedIn);
 
   const hours: number | undefined = info.fces
     ? approximateHours(info.fces, 2)
@@ -58,9 +57,11 @@ const CourseCard = ({ info, showFCEs }: Props) => {
             </Link>
             <div className="text-sm text-zinc-500">{info.department}</div>
           </div>
-          <div className="flex-1 mt-4 text-sm leading-relaxed text-zinc-600">
-            {injectLinks(info.desc)}
-          </div>
+          {showCourseInfo && (
+            <div className="flex-1 mt-4 text-sm leading-relaxed text-zinc-600">
+              {injectLinks(info.desc)}
+            </div>
+          )}
         </div>
         <div className="w-64 text-zinc-600">
           <div className="ml-8 space-y-2">
@@ -77,24 +78,28 @@ const CourseCard = ({ info, showFCEs }: Props) => {
             </div>
 
             <div>{schedulesAvailableString}</div>
-            <div>
-              <div className="font-semibold">Prerequisites</div>
-              <div className="text-md text-zinc-500">
-                {injectLinks(info.prereqString || "None")}
-              </div>
-            </div>
-            <div>
-              <div className="font-semibold">Corequisites</div>
-              <div className="text-md text-zinc-500">
-                {injectLinks(courseListToString(info.coreqs))}
-              </div>
-            </div>
-            <div>
-              <div className="font-semibold">Crosslisted</div>
-              <div className="text-md text-zinc-500">
-                {injectLinks(courseListToString(info.crosslisted))}
-              </div>
-            </div>
+            {showCourseInfo && (
+              <>
+                <div>
+                  <div className="font-semibold">Prerequisites</div>
+                  <div className="text-md text-zinc-500">
+                    {injectLinks(info.prereqString || "None")}
+                  </div>
+                </div>
+                <div>
+                  <div className="font-semibold">Corequisites</div>
+                  <div className="text-md text-zinc-500">
+                    {injectLinks(courseListToString(info.coreqs))}
+                  </div>
+                </div>
+                <div>
+                  <div className="font-semibold">Crosslisted</div>
+                  <div className="text-md text-zinc-500">
+                    {injectLinks(courseListToString(info.crosslisted))}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

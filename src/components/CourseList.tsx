@@ -9,6 +9,9 @@ const CoursePage = () => {
   const dispatch = useDispatch();
   const results = useSelector((state: RootStateOrAny) => state.courses.results);
   const showFCEs = useSelector((state: RootStateOrAny) => state.user.showFCEs);
+  const showCourseInfos = useSelector(
+    (state: RootStateOrAny) => state.user.showCourseInfos
+  );
 
   const loggedIn = useSelector(
     (state: RootStateOrAny) => state.user.loggedIn
@@ -26,7 +29,7 @@ const CoursePage = () => {
     <div className="space-y-4">
       {results &&
         results.map((course) => (
-          <CourseCard info={course} key={course.courseID} showFCEs={showFCEs}/>
+          <CourseCard info={course} key={course.courseID} showFCEs={showFCEs} showCourseInfo={showCourseInfos}/>
         ))}
     </div>
   );
