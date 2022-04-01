@@ -45,8 +45,8 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
   }
 
   return (
-    <div className="p-6 bg-white rounded-md drop-shadow-sm">
-      <div className="grid grid-cols-8 gap-3 auto-rows-min">
+    <div className="p-6 bg-white rounded-lg drop-shadow-md">
+      <div className="grid grid-cols-8 gap-x-6 gap-y-2 auto-rows-min">
         <div className="col-span-5 col-start-1 row-span-1 row-start-1 md:col-span-6 text-zinc-600">
           <Link href={`/course/${info.courseID}`}>
             <div className="text-lg hover:cursor-pointer">
@@ -69,10 +69,10 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
           {loggedIn && hours && (
             <div className="text-md text-zinc-500">{hours} hrs/week</div>
           )}
-          <div className="text-md">{schedulesAvailableString}</div>
         </div>
 
         <div className="col-span-full md:col-span-2 md:col-start-7">
+          <div className="hidden mb-1 md:block text-md">{schedulesAvailableString}</div>
           {showCourseInfo && (
             <div className="flex flex-row justify-between space-x-4 md:space-x-0 md:space-y-2 md:flex-col">
               <div>
