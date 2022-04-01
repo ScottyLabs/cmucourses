@@ -80,7 +80,7 @@ const Filter = () => {
   }));
 
   return (
-    <div className="absolute inset-0 p-6 bg-zinc-100 text-zinc-700 drop-shadow-lg">
+    <div className="inset-0 p-6 bg-zinc-100 text-zinc-700 drop-shadow-lg md:absolute">
       <div className="mb-3 text-lg">Filter by</div>
       <div className="text-sm divide-y">
         <div className="py-3">
