@@ -68,7 +68,7 @@ export const compareSessions = (
   session2: Session | FCE
 ) => {
   if (session1.year != session2.year)
-    return session1.year < session2.year ? 1 : 0;
+    return session1.year < session2.year ? 1 : -1;
 
   const semesterNumbers = ["spring", "summer", "fall"];
   const sessionNumbers = [
@@ -82,14 +82,14 @@ export const compareSessions = (
     return semesterNumbers.indexOf(session1.semester) <
       semesterNumbers.indexOf(session2.semester)
       ? 1
-      : 0;
+      : -1;
   }
 
   if (session1.session !== session2.session) {
     return sessionNumbers.indexOf(session1.session) <
       sessionNumbers.indexOf(session2.session)
       ? 1
-      : 0;
+      : -1;
   }
 };
 
