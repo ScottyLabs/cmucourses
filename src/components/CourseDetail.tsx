@@ -130,8 +130,9 @@ const CourseDetail = ({ info }) => {
     (state) => state.user.loggedIn,
   );
 
+  const options = useAppSelector(state => state.user.fceAggregation);
   const hours: number | undefined = info.fces
-    ? approximateHours(info.fces, 2)
+    ? approximateHours(info.fces, options)
     : undefined;
 
   const fces = useAppSelector(

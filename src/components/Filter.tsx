@@ -88,7 +88,7 @@ const Filter = () => {
   };
   const setNumSemesters = (numSemesters) => {
     dispatch(userSlice.actions.updateNumSemesters(numSemesters));
-  }
+  };
 
   return (
     <div className="inset-0 p-6 bg-zinc-100 text-zinc-700 drop-shadow-lg md:absolute divide-y">
