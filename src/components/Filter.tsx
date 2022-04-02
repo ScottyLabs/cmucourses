@@ -1,11 +1,11 @@
 import Select from "react-select";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { userSlice } from "../app/user";
 
 const Filter = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const changeDepartment = (e) => {
     const departments = e.map(({ value }) => value);
@@ -113,8 +113,7 @@ const Filter = () => {
           <Select
             isMulti
             options={DEPARTMENT_OPTIONS}
-            onChange={changeDepartment}
-          ></Select>
+            onChange={changeDepartment} />
         </div>
       </div>
     </div>

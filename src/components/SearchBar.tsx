@@ -1,23 +1,20 @@
 import React from "react";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
 
 const SearchBar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onChange = (e) => {
     dispatch(userSlice.actions.updateSearch(e.target.value));
     throttledFilter();
   };
 
-  const loggedIn = useSelector((state: RootStateOrAny) => state.user.loggedIn);
-
-  const showFCEs = useSelector((state: RootStateOrAny) => state.user.showFCEs);
-  const showCourseInfos = useSelector(
-    (state: RootStateOrAny) => state.user.showCourseInfos,
-  );
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
+  const showFCEs = useAppSelector((state) => state.user.showFCEs);
+  const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const setShowFCEs = (e) => {
     dispatch(userSlice.actions.showFCEs(e.target.checked));
   };
@@ -37,7 +34,7 @@ const SearchBar = () => {
             disabled={!loggedIn}
             onChange={setShowFCEs}
             checked={showFCEs}
-          ></input>
+          />
           <span>FCEs</span>
         </div>
         <div>
@@ -46,7 +43,7 @@ const SearchBar = () => {
             className="mr-2"
             onChange={setShowCourseInfos}
             checked={showCourseInfos}
-          ></input>
+          />
           <span>Course Info</span>
         </div>
       </div>

@@ -1,18 +1,12 @@
 import React from "react";
-import { RootStateOrAny, useSelector } from "react-redux";
+import { useAppSelector } from "../app/hooks";
 import { aggregateCourses } from "../app/fce";
 import { roundTo } from "../app/utils";
 
 const BookmarkedData = () => {
-  const bookmarked = useSelector(
-    (state: RootStateOrAny) => state.user.bookmarked,
-  );
-
-  const bookmarkedResults = useSelector(
-    (state: RootStateOrAny) => state.courses.bookmarkedResults,
-  );
-
-  const FCEs = useSelector((state: RootStateOrAny) => state.courses.fces);
+  const bookmarked = useAppSelector((state) => state.user.bookmarked);
+  const bookmarkedResults = useAppSelector((state) => state.courses.bookmarkedResults);
+  const FCEs = useAppSelector((state) => state.courses.fces);
   const bookmarkedFCEs = [];
 
   for (const courseID of bookmarked) {

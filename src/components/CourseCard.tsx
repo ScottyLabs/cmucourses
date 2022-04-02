@@ -8,7 +8,7 @@ import {
   injectLinks,
   sessionToShortString,
 } from "../app/utils";
-import { RootStateOrAny, useSelector } from "react-redux";
+import { useAppSelector } from "../app/hooks";
 import BookmarkButton from "./BookmarkButton";
 import Link from "next/link";
 import { FCEDetail } from "./FCEDetail";
@@ -28,15 +28,12 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
     .map(sessionToShortString)
     .join(", ");
 
-  const loggedIn = useSelector((state: RootStateOrAny) => state.user.loggedIn);
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
+  const fces = useAppSelector((state) => state.courses.fces[info.courseID]);
 
   const hours: number | undefined = info.fces
     ? approximateHours(info.fces, 2)
     : undefined;
-
-  let fces = useSelector(
-    (state: RootStateOrAny) => state.courses.fces[info.courseID],
-  );
 
   return (
     <div className="p-6 bg-white rounded-lg drop-shadow-md">

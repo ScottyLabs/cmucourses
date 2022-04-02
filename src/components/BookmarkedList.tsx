@@ -1,18 +1,14 @@
 import React, { useEffect } from "react";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
 import { fetchBookmarkedCourseInfos, fetchFCEInfos } from "../app/courses";
 import Loading from "./Loading";
 
 const BookmarkedList = () => {
-  const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.user.loggedIn,
-  );
-  const bookmarked = useSelector(
-    (state: RootStateOrAny) => state.user.bookmarked,
-  );
-  const loading = useSelector((state: RootStateOrAny) => state.courses.coursesLoading);
-  const dispatch = useDispatch();
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
+  const bookmarked = useAppSelector((state) => state.user.bookmarked);
+  const loading = useAppSelector((state) => state.courses.coursesLoading);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (bookmarked) {
@@ -21,9 +17,7 @@ const BookmarkedList = () => {
     }
   }, [bookmarked]);
 
-  const bookmarkedResults = useSelector(
-    (state: RootStateOrAny) => state.courses.bookmarkedResults,
-  );
+  const bookmarkedResults = useAppSelector((state) => state.courses.bookmarkedResults);
 
   return (
     <div className="p-6">

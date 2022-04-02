@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
 import { Pagination } from "react-headless-pagination";
 import { fetchCourseInfosByPage, fetchFCEInfos } from "../app/courses";
@@ -7,17 +7,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Loading from "./Loading";
 
 const CoursePage = () => {
-  const dispatch = useDispatch();
-  const results = useSelector((state: RootStateOrAny) => state.courses.results);
-  const loading = useSelector((state: RootStateOrAny) => state.courses.coursesLoading);
-  const showFCEs = useSelector((state: RootStateOrAny) => state.user.showFCEs);
-  const showCourseInfos = useSelector(
-    (state: RootStateOrAny) => state.user.showCourseInfos,
-  );
-
-  const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.user.loggedIn,
-  );
+  const dispatch = useAppDispatch();
+  const results = useAppSelector((state) => state.courses.results);
+  const showFCEs = useAppSelector((state) => state.user.showFCEs);
+  const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   useEffect(() => {
     if (loggedIn && results) {
@@ -39,12 +33,12 @@ const CoursePage = () => {
 };
 
 const CourseList = () => {
-  const pages = useSelector(
-    (state: RootStateOrAny) => state.courses.totalPages,
+  const pages = useAppSelector(
+    (state) => state.courses.totalPages,
   );
-  const curPage = useSelector((state: RootStateOrAny) => state.courses.page);
-  const loading = useSelector((state: RootStateOrAny) => state.courses.coursesLoading);
-  const dispatch = useDispatch();
+  const curPage = useAppSelector((state) => state.courses.page);
+  const loading = useAppSelector((state) => state.courses.coursesLoading);
+  const dispatch = useAppDispatch();
 
   const handlePageClick = (page) => {
     dispatch(fetchCourseInfosByPage(page + 1));

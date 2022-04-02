@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { BookmarkIcon as OutlineBookmark } from "@heroicons/react/outline";
 import { BookmarkIcon as SolidBookmark } from "@heroicons/react/solid";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { userSlice } from "../app/user";
 
 interface Props {
@@ -9,10 +9,8 @@ interface Props {
 }
 
 const BookmarkButton: FunctionComponent<Props> = ({ courseID }) => {
-  const dispatch = useDispatch();
-  const bookmarks = useSelector(
-    (state: RootStateOrAny) => state.user.bookmarked,
-  );
+  const dispatch = useAppDispatch();
+  const bookmarks = useAppSelector((state) => state.user.bookmarked);
   const bookmarked = bookmarks.indexOf(courseID) !== -1;
 
   const bookmarkCourse = () => {

@@ -1,5 +1,5 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import Link from "next/link";
 import Passlink from "passlink";
 import * as jose from "jose";
@@ -8,9 +8,9 @@ import { userSlice } from "../app/user";
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
 
 export default function Header({ children }): ReactElement {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const token = useSelector((state: RootStateOrAny) => state.user.token);
+  const token = useAppSelector((state) => state.user.token);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -71,7 +71,7 @@ export default function Header({ children }): ReactElement {
     );
   }
 
-  const loggedIn = useSelector((state: RootStateOrAny) => state.user.loggedIn);
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   return (
     <div className="relative">

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import BookmarkButton from "./BookmarkButton";
 import { fetchFCEInfos } from "../app/courses";
 import { Tab } from "@headlessui/react";
@@ -112,7 +112,7 @@ const Schedules = ({ scheduleInfos }) => {
 };
 
 const CourseDetail = ({ info }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchFCEInfos({ courseIDs: [info.courseID] }));
@@ -126,16 +126,16 @@ const CourseDetail = ({ info }) => {
   const schedulesAvailableString = mostRecentSchedules
     .map(sessionToShortString)
     .join(", ");
-  const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.user.loggedIn,
+  const loggedIn = useAppSelector(
+    (state) => state.user.loggedIn,
   );
 
   const hours: number | undefined = info.fces
     ? approximateHours(info.fces, 2)
     : undefined;
 
-  const fces = useSelector(
-    (state: RootStateOrAny) => state.courses.fces[info.courseID],
+  const fces = useAppSelector(
+    (state) => state.courses.fces[info.courseID],
   );
 
   return (
