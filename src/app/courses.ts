@@ -63,7 +63,7 @@ export const fetchCourseInfosByPage = createAsyncThunk(
     }
 
     if (state.user.loggedIn) {
-      url += `&fces=true`;
+      // url += `&fces=true`;
       return fetch(url, {
         method: "POST",
         headers: {
@@ -90,12 +90,13 @@ export const fetchCourseInfo = async ({ courseID, schedules }: any) => {
 export const fetchFCEInfos = createAsyncThunk(
   "fetchFCEInfos",
   async ({ courseIDs }: any, thunkAPI) => {
-    const state: any = thunkAPI.getState();
+    if (!courseIDs || courseIDs.length === 0) return;
 
+    const state: any = thunkAPI.getState();
     let url = `${process.env.backendUrl}/fces/?`;
     url += courseIDs.map((courseID) => `courseID=${courseID}`).join("&");
 
-    if (state.user.loggedIn) {
+    if (state.user.loggedIn && state.user.token) {
       return fetch(url, {
         method: "POST",
         headers: {

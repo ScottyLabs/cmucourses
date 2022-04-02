@@ -31,8 +31,8 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const fces = useAppSelector((state) => state.courses.fces[info.courseID]);
 
-  const hours: number | undefined = info.fces
-    ? approximateHours(info.fces, 2)
+  const hours: number | undefined = fces
+    ? approximateHours(fces, 2)
     : undefined;
 
   return (
