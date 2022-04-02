@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 
-import { Provider, useDispatch } from "react-redux";
+import { Provider } from "react-redux";
 import type { AppProps } from "next/app";
 
 import store, { persistor } from "../app/store";

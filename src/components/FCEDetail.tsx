@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useSelector, RootStateOrAny } from "react-redux";
 import { aggregateFCEs } from "../app/fce";
 import StarRatings from "react-star-ratings";
 import { useTable } from "react-table";
 import { FCE } from "../app/types";
-import { sessionToString, getLatestFCEs } from "../app/utils";
+import { getLatestFCEs, sessionToString } from "../app/utils";
 
 const FCETable = ({ columns, data }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -13,37 +12,37 @@ const FCETable = ({ columns, data }) => {
   return (
     <table {...getTableProps()} className="w-full table-auto min-w-fit">
       <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th
-                className="px-2 text-sm font-semibold text-left text-gray-800 whitespace-nowrap"
-                {...column.getHeaderProps()}
-              >
-                {column.render("Header")}
-              </th>
-            ))}
-          </tr>
-        ))}
+      {headerGroups.map((headerGroup) => (
+        <tr {...headerGroup.getHeaderGroupProps()}>
+          {headerGroup.headers.map((column) => (
+            <th
+              className="px-2 text-sm font-semibold text-left text-gray-800 whitespace-nowrap"
+              {...column.getHeaderProps()}
+            >
+              {column.render("Header")}
+            </th>
+          ))}
+        </tr>
+      ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()} className="hover:bg-white">
-              {row.cells.map((cell) => {
-                return (
-                  <td
-                    className="px-2 text-sm text-gray-600 whitespace-nowrap"
-                    {...cell.getCellProps()}
-                  >
-                    {cell.render("Cell")}
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
+      {rows.map((row, i) => {
+        prepareRow(row);
+        return (
+          <tr {...row.getRowProps()} className="hover:bg-white">
+            {row.cells.map((cell) => {
+              return (
+                <td
+                  className="px-2 text-sm text-gray-600 whitespace-nowrap"
+                  {...cell.getCellProps()}
+                >
+                  {cell.render("Cell")}
+                </td>
+              );
+            })}
+          </tr>
+        );
+      })}
       </tbody>
     </table>
   );

@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
+import React, { useEffect } from "react";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import BookmarkButton from "./BookmarkButton";
 import { fetchFCEInfos } from "../app/courses";
 import { Tab } from "@headlessui/react";
 import {
+  approximateHours,
   compareSessions,
-  displayUnits,
-  sessionToString,
-  sessionToShortString,
   courseListToString,
+  displayUnits,
   filterSessions,
   injectLinks,
+  sessionToShortString,
+  sessionToString,
   timeArrToString,
-  approximateHours,
 } from "../app/utils";
-import { aggregateFCEs } from "../app/fce";
 import { FCECard } from "./FCEDetail";
 
 const Lecture = ({ lectureInfo, sections }) => {
@@ -65,7 +64,7 @@ const Schedule = ({ scheduleInfo }) => {
       <Lecture
         lectureInfo={lecture}
         sections={scheduleInfo.sections.filter(
-          (section) => section.lecture === lecture.name
+          (section) => section.lecture === lecture.name,
         )}
       />
     ));
@@ -120,7 +119,7 @@ const CourseDetail = ({ info }) => {
   }, [info.courseID]);
 
   const sortedSchedules = filterSessions([...info.schedules]).sort(
-    compareSessions
+    compareSessions,
   );
 
   const mostRecentSchedules = sortedSchedules.slice(0, 3);
@@ -128,7 +127,7 @@ const CourseDetail = ({ info }) => {
     .map(sessionToShortString)
     .join(", ");
   const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.user.loggedIn
+    (state: RootStateOrAny) => state.user.loggedIn,
   );
 
   const hours: number | undefined = info.fces
@@ -136,10 +135,8 @@ const CourseDetail = ({ info }) => {
     : undefined;
 
   const fces = useSelector(
-    (state: RootStateOrAny) => state.courses.fces[info.courseID]
+    (state: RootStateOrAny) => state.courses.fces[info.courseID],
   );
-  let aggregateData;
-  if (fces) aggregateData = aggregateFCEs(fces);
 
   return (
     <div className="max-w-6xl p-6 m-auto space-y-4">

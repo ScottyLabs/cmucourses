@@ -1,14 +1,15 @@
 import Select from "react-select";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { throttledFilter } from "../app/store";
+import { userSlice } from "../app/user";
 
 const Filter = () => {
   const dispatch = useDispatch();
 
   const changeDepartment = (e) => {
     const departments = e.map(({ value }) => value);
-    dispatch({ type: "user/updateDepartments", payload: departments });
+    dispatch(userSlice.actions.updateDepartments(departments));
     throttledFilter();
   };
 

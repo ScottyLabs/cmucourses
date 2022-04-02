@@ -1,10 +1,8 @@
 import type { NextPage } from "next";
-import React, { Component } from "react";
+import React from "react";
 import BookmarkedData from "../components/BookmarkedData";
 import BookmarkedList from "../components/BookmarkedList";
-import CourseList from "../components/CourseList";
 import Filter from "../components/Filter";
-import SearchBar from "../components/SearchBar";
 
 const BookmarkedPage: NextPage = () => {
   return (

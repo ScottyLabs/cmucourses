@@ -3,7 +3,8 @@ import CourseList from "./CourseList";
 import SearchBar from "./SearchBar";
 import Filter from "./Filter";
 
-interface Props {}
+interface Props {
+}
 
 export default function CourseSearch({}: Props): ReactElement {
   return (

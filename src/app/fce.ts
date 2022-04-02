@@ -44,7 +44,7 @@ export const aggregateFCEs = (fces: FCE[]) => {
 
 export const aggregateCourses = (
   data: { courseID: string; fces: FCE[] }[],
-  numSemesters: number
+  numSemesters: number,
 ) => {
   let aggregatedFCEs = data.map(({ courseID, fces }) => ({
     courseID,

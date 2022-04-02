@@ -1,9 +1,9 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootStateOrAny } from "react-redux";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import Passlink from "passlink";
 import * as jose from "jose";
+import { userSlice } from "../app/user";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
 
@@ -35,8 +35,8 @@ export default function Header({ children }): ReactElement {
       },
       (data) => {
         setLoading(false);
-        dispatch({ type: "user/setToken", payload: data });
-      }
+        dispatch(userSlice.actions.setToken(data));
+      },
     );
   }
 
@@ -44,11 +44,11 @@ export default function Header({ children }): ReactElement {
     try {
       const userDecode = jose.decodeJwt(token);
       setUser(userDecode);
-      dispatch({ type: "user/logIn" });
+      dispatch(userSlice.actions.logIn());
     } catch {
-      dispatch({ type: "user/setToken", payload: null });
+      dispatch(userSlice.actions.setToken(null));
       setUser(null);
-      dispatch({ type: "user/logOut" });
+      dispatch(userSlice.actions.logOut());
     }
   }, [token]);
 

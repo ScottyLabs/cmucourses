@@ -1,19 +1,10 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
 import { fetchCourseInfosByPage, reducer as coursesReducer } from "./courses";
 import { reducer as userReducer } from "./user";
 import debounce from "lodash/debounce";
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 
 const persistConfig = {
   key: "root",
@@ -49,11 +40,9 @@ export type AppState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
 
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType,
   AppState,
   unknown,
-  Action<string>
->;
+  Action<string>>;
 
 export default store;

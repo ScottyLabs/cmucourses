@@ -1,15 +1,14 @@
 import { Course } from "../app/types";
 import {
+  approximateHours,
   compareSessions,
-  sessionToShortString,
-  displayUnits,
   courseListToString,
+  displayUnits,
   filterSessions,
   injectLinks,
-  approximateHours,
+  sessionToShortString,
 } from "../app/utils";
-import { aggregateFCEs } from "../app/fce";
-import { useSelector, RootStateOrAny } from "react-redux";
+import { RootStateOrAny, useSelector } from "react-redux";
 import BookmarkButton from "./BookmarkButton";
 import Link from "next/link";
 import { FCEDetail } from "./FCEDetail";
@@ -17,12 +16,12 @@ import { FCEDetail } from "./FCEDetail";
 interface Props {
   info: Course;
   showFCEs: boolean;
-  showCourseInfo: boolean;
+  showCourseInfo?: boolean;
 }
 
 const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
   const sortedSchedules = filterSessions([...info.schedules]).sort(
-    compareSessions
+    compareSessions,
   );
   const mostRecentSchedules = sortedSchedules.slice(0, 2);
   const schedulesAvailableString = mostRecentSchedules
@@ -36,13 +35,8 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
     : undefined;
 
   let fces = useSelector(
-    (state: RootStateOrAny) => state.courses.fces[info.courseID]
+    (state: RootStateOrAny) => state.courses.fces[info.courseID],
   );
-
-  if (showFCEs) {
-    let aggregateData;
-    if (fces) aggregateData = aggregateFCEs(fces);
-  }
 
   return (
     <div className="p-6 bg-white rounded-lg drop-shadow-md">
@@ -97,7 +91,8 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
           )}
         </div>
         {showCourseInfo && (
-          <div className="row-span-1 row-start-3 text-sm leading-relaxed md:row-start-2 col-span-full md:col-span-6 text-zinc-600">
+          <div
+            className="row-span-1 row-start-3 text-sm leading-relaxed md:row-start-2 col-span-full md:col-span-6 text-zinc-600">
             {injectLinks(info.desc)}
           </div>
         )}

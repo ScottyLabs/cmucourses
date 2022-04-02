@@ -25,7 +25,7 @@ export const userSlice = createSlice({
     removeBookmark: (state, action) => {
       const index = state.bookmarked.indexOf(action.payload);
       if (index > -1) {
-          state.bookmarked.splice(index, 1);
+        state.bookmarked.splice(index, 1);
       }
     },
     showFCEs: (state, action) => {
@@ -48,9 +48,10 @@ export const userSlice = createSlice({
     },
     setToken: (state, action) => {
       state.token = action.payload;
-    }
+    },
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+  },
 });
 
 export const reducer = userSlice.reducer;

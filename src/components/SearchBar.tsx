@@ -1,13 +1,14 @@
-import React, { Component, useMemo } from "react";
-import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
+import React from "react";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
+import { userSlice } from "../app/user";
 
 const SearchBar = () => {
   const dispatch = useDispatch();
 
   const onChange = (e) => {
-    dispatch({ type: "user/updateSearch", payload: e.target.value });
+    dispatch(userSlice.actions.updateSearch(e.target.value));
     throttledFilter();
   };
 
@@ -15,14 +16,14 @@ const SearchBar = () => {
 
   const showFCEs = useSelector((state: RootStateOrAny) => state.user.showFCEs);
   const showCourseInfos = useSelector(
-    (state: RootStateOrAny) => state.user.showCourseInfos
+    (state: RootStateOrAny) => state.user.showCourseInfos,
   );
   const setShowFCEs = (e) => {
-    dispatch({ type: "user/showFCEs", payload: e.target.checked });
+    dispatch(userSlice.actions.showFCEs(e.target.checked));
   };
 
   const setShowCourseInfos = (e) => {
-    dispatch({ type: "user/showCourseInfos", payload: e.target.checked });
+    dispatch(userSlice.actions.showCourseInfos(e.target.checked));
   };
 
   return (
