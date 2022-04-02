@@ -36,7 +36,7 @@ export default function Header({ children }): ReactElement {
       (data) => {
         setLoading(false);
         dispatch(userSlice.actions.setToken(data));
-      },
+      }
     );
   }
 
@@ -78,7 +78,7 @@ export default function Header({ children }): ReactElement {
       <header className="fixed inset-x-0 top-0 z-50 text-white bg-indigo-700 h-28 md:h-16 drop-shadow">
         <div className="flex flex-col justify-between h-full p-6 md:items-center md:flex-row">
           <div className="flex-initial font-semibold">
-            <Link href="/">ScottyLabs Course Tool</Link>
+            <Link href="/">ScottyLabs Course Tool Beta</Link>
           </div>
           <div className="flex flex-row space-x-10">
             <div>
