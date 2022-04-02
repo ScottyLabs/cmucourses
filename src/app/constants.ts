@@ -1,0 +1,1 @@
+export const SEMESTERS_COUNTED = ["spring", "summer", "fall"];

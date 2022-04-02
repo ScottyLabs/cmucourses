@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch, RootStateOrAny } from "react-redux";
+import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import BookmarkButton from "./BookmarkButton";
 import { fetchFCEInfos } from "../app/courses";
 import { Tab } from "@headlessui/react";
 import {
+  approximateHours,
   compareSessions,
-  displayUnits,
-  sessionToString,
-  sessionToShortString,
   courseListToString,
+  displayUnits,
   filterSessions,
   injectLinks,
+  sessionToShortString,
+  sessionToString,
   timeArrToString,
-  approximateHours,
 } from "../app/utils";
-import { aggregateFCEs } from "../app/fce";
 import { FCECard } from "./FCEDetail";
 
 const Lecture = ({ lectureInfo, sections }) => {
@@ -65,7 +64,7 @@ const Schedule = ({ scheduleInfo }) => {
       <Lecture
         lectureInfo={lecture}
         sections={scheduleInfo.sections.filter(
-          (section) => section.lecture === lecture.name
+          (section) => section.lecture === lecture.name,
         )}
       />
     ));
@@ -113,33 +112,32 @@ const Schedules = ({ scheduleInfos }) => {
 };
 
 const CourseDetail = ({ info }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchFCEInfos({ courseIDs: [info.courseID] }));
   }, [info.courseID]);
 
   const sortedSchedules = filterSessions([...info.schedules]).sort(
-    compareSessions
+    compareSessions,
   );
 
   const mostRecentSchedules = sortedSchedules.slice(0, 3);
   const schedulesAvailableString = mostRecentSchedules
     .map(sessionToShortString)
     .join(", ");
-  const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.user.loggedIn
+  const loggedIn = useAppSelector(
+    (state) => state.user.loggedIn,
   );
 
+  const options = useAppSelector(state => state.user.fceAggregation);
   const hours: number | undefined = info.fces
-    ? approximateHours(info.fces, 2)
+    ? approximateHours(info.fces, options)
     : undefined;
 
-  const fces = useSelector(
-    (state: RootStateOrAny) => state.courses.fces[info.courseID]
+  const fces = useAppSelector(
+    (state) => state.courses.fces[info.courseID],
   );
-  let aggregateData;
-  if (fces) aggregateData = aggregateFCEs(fces);
 
   return (
     <div className="max-w-6xl p-6 m-auto space-y-4">

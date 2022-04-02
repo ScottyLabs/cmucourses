@@ -1,18 +1,14 @@
-import React, { useState } from "react";
-import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useAppSelector } from "../app/hooks";
 import { aggregateCourses } from "../app/fce";
 import { roundTo } from "../app/utils";
 
 const BookmarkedData = () => {
-  const bookmarked = useSelector(
-    (state: RootStateOrAny) => state.user.bookmarked
-  );
+  const bookmarked = useAppSelector((state) => state.user.bookmarked);
+  const bookmarkedResults = useAppSelector((state) => state.courses.bookmarkedResults);
+  const FCEs = useAppSelector((state) => state.courses.fces);
+  const options = useAppSelector(state => state.user.fceAggregation);
 
-  const bookmarkedResults = useSelector(
-    (state: RootStateOrAny) => state.courses.bookmarkedResults
-  );
-
-  const FCEs = useSelector((state: RootStateOrAny) => state.courses.fces);
   const bookmarkedFCEs = [];
 
   for (const courseID of bookmarked) {
@@ -21,11 +17,11 @@ const BookmarkedData = () => {
     }
   }
 
-  const aggregatedData = aggregateCourses(bookmarkedFCEs, 2);
-  console.log(aggregatedData);
+  const aggregatedData = aggregateCourses(bookmarkedFCEs, options);
   const aggregatedDataByCourseID = {};
   for (const row of aggregatedData.aggregatedFCEs) {
-    aggregatedDataByCourseID[row.courseID] = row.aggregateData;
+    if (row.aggregateData !== null)
+      aggregatedDataByCourseID[row.courseID] = row.aggregateData;
   }
 
   return (
@@ -39,27 +35,27 @@ const BookmarkedData = () => {
       </div>
       <table className="w-full mt-3 table-auto">
         <thead>
-          <tr className="text-left">
-            <th className="font-semibold">Course ID</th>
-            <th className="font-semibold">Course Name</th>
-            <th className="font-semibold">Workload (hrs/week)</th>
-          </tr>
+        <tr className="text-left">
+          <th className="font-semibold">Course ID</th>
+          <th className="font-semibold">Course Name</th>
+          <th className="font-semibold">Workload (hrs/week)</th>
+        </tr>
         </thead>
         <tbody className="text-zinc-500">
-          {bookmarkedResults &&
-            bookmarkedResults.map((result) => {
-              return (
-                <tr>
-                  <td>{result.courseID}</td>
-                  <td>{result.name}</td>
-                  <td>
-                    {result.courseID in aggregatedDataByCourseID
-                      ? aggregatedDataByCourseID[result.courseID].workload
-                      : "NA"}
-                  </td>
-                </tr>
-              );
-            })}
+        {bookmarkedResults &&
+          bookmarkedResults.map((result) => {
+            return (
+              <tr>
+                <td>{result.courseID}</td>
+                <td>{result.name}</td>
+                <td>
+                  {result.courseID in aggregatedDataByCourseID
+                    ? aggregatedDataByCourseID[result.courseID].workload
+                    : "NA"}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

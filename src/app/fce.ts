@@ -1,5 +1,5 @@
-import { FCE } from "./types";
-import { getLatestFCEs, roundTo, sessionToShortString } from "./utils";
+import { AggregateFCEsOptions, FCE } from "./types";
+import { filterFCEs, roundTo, sessionToShortString } from "./utils";
 
 export const FCE_RATINGS = [
   "Interest in student learning",
@@ -20,8 +20,6 @@ export const aggregateFCEs = (fces: FCE[]) => {
   let teachingRate = 0;
   let courseRate = 0;
 
-  // TODO: incorrectly counts unique semesters
-
   for (const fce of fces) {
     workload += fce.hrsPerWeek;
     teachingRate += fce.rating[7];
@@ -30,7 +28,10 @@ export const aggregateFCEs = (fces: FCE[]) => {
   }
 
   if (fcesCounted === 0) {
-    return null;
+    return {
+      fcesCounted: 0,
+      semestersCounted: 0
+    };
   }
 
   return {
@@ -44,22 +45,22 @@ export const aggregateFCEs = (fces: FCE[]) => {
 
 export const aggregateCourses = (
   data: { courseID: string; fces: FCE[] }[],
-  numSemesters: number
+  options: AggregateFCEsOptions,
 ) => {
   let aggregatedFCEs = data.map(({ courseID, fces }) => ({
     courseID,
-    aggregateData: aggregateFCEs(getLatestFCEs(fces, numSemesters)),
+    aggregateData: aggregateFCEs(filterFCEs(fces, options)),
   }));
 
   let workload = 0;
   for (const aggregateFCE of aggregatedFCEs) {
+    if (!aggregateFCE.aggregateData) continue;
     if (aggregateFCE.aggregateData.workload)
       workload += aggregateFCE.aggregateData.workload;
   }
 
   return {
     aggregatedFCEs,
-    semesters: numSemesters,
     workload,
   };
 };

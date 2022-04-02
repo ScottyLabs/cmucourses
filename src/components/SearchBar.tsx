@@ -1,22 +1,26 @@
-import React, { Component, useMemo } from "react";
-import { useDispatch, useSelector, RootStateOrAny } from "react-redux";
+import React from "react";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
+import { userSlice } from "../app/user";
 
 const SearchBar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onChange = (e) => {
-    dispatch({ type: "user/updateSearch", payload: e.target.value });
+    dispatch(userSlice.actions.updateSearch(e.target.value));
     throttledFilter();
   };
 
-  const loggedIn = useSelector(
-    (state: RootStateOrAny) => state.user.loggedIn
-  );
-
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
+  const showFCEs = useAppSelector((state) => state.user.showFCEs);
+  const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const setShowFCEs = (e) => {
-    dispatch({ type: "user/showFCEs", payload: e.target.checked });
+    dispatch(userSlice.actions.showFCEs(e.target.checked));
+  };
+
+  const setShowCourseInfos = (e) => {
+    dispatch(userSlice.actions.showCourseInfos(e.target.checked));
   };
 
   return (
@@ -29,11 +33,17 @@ const SearchBar = () => {
             className="mr-2"
             disabled={!loggedIn}
             onChange={setShowFCEs}
-          ></input>
+            checked={showFCEs}
+          />
           <span>FCEs</span>
         </div>
         <div>
-          <input type="checkbox" className="mr-2"></input>
+          <input
+            type="checkbox"
+            className="mr-2"
+            onChange={setShowCourseInfos}
+            checked={showCourseInfos}
+          />
           <span>Course Info</span>
         </div>
       </div>

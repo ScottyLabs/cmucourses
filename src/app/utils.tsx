@@ -1,6 +1,6 @@
 import reactStringReplace from "react-string-replace";
 import Link from "next/link";
-import { Time, Session, FCE } from "./types";
+import { AggregateFCEsOptions, FCE, Session, Time } from "./types";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
 
@@ -65,10 +65,10 @@ export const sessionToShortString = (sessionInfo: Session | FCE) => {
 
 export const compareSessions = (
   session1: Session | FCE,
-  session2: Session | FCE
+  session2: Session | FCE,
 ) => {
   if (session1.year != session2.year)
-    return session1.year < session2.year ? 1 : 0;
+    return session1.year < session2.year ? 1 : -1;
 
   const semesterNumbers = ["spring", "summer", "fall"];
   const sessionNumbers = [
@@ -80,16 +80,16 @@ export const compareSessions = (
 
   if (session1.semester !== session2.semester) {
     return semesterNumbers.indexOf(session1.semester) <
-      semesterNumbers.indexOf(session2.semester)
+    semesterNumbers.indexOf(session2.semester)
       ? 1
-      : 0;
+      : -1;
   }
 
   if (session1.session !== session2.session) {
     return sessionNumbers.indexOf(session1.session) <
-      sessionNumbers.indexOf(session2.session)
+    sessionNumbers.indexOf(session2.session)
       ? 1
-      : 0;
+      : -1;
   }
 };
 
@@ -102,14 +102,14 @@ export const filterSessions = (sessions: Session[]) => {
   });
 };
 
-export const getLatestFCEs = (fces: FCE[], numSemesters: number) => {
-  const sortedFCEs = [...fces].sort(compareSessions);
+export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
+  const sortedFCEs = fces.filter(fce => options.counted[fce.semester]).sort(compareSessions);
   const result = [];
   const encounteredSemesters = new Set();
 
   for (const fce of sortedFCEs) {
     encounteredSemesters.add(sessionToShortString(fce));
-    if (encounteredSemesters.size > numSemesters) break;
+    if (encounteredSemesters.size > options.numSemesters) break;
     result.push(fce);
   }
 
@@ -136,7 +136,7 @@ export const injectLinks = (text: string) => {
       <Link href={`/course/${standardizeId(match)}`} key={match}>
         <span className="hover:underline hover:cursor-pointer">{match}</span>
       </Link>
-    )
+    ),
   );
 };
 
@@ -155,13 +155,13 @@ export const timeArrToString = (times: Time[]) => {
 
 export const approximateHours = (
   fces: FCE[],
-  numSemesters: number = 2
+  options: AggregateFCEsOptions
 ): number | undefined => {
   if (fces.length === 0) {
     return undefined;
   }
 
-  const filteredFCEs = getLatestFCEs(fces, numSemesters);
+  const filteredFCEs = filterFCEs(fces, options);
 
   let sum = 0;
   for (const fce of filteredFCEs) {

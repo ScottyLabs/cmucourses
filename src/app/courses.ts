@@ -1,4 +1,3 @@
-import { StarRateTwoTone } from "@mui/icons-material";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -8,10 +7,11 @@ const initialState = {
   results: [],
   bookmarkedResults: [],
   fces: {},
-  loading: false
+  fcesLoading: false,
+  coursesLoading: false,
 };
 
-export const fetchCourseInfos = createAsyncThunk(
+export const fetchBookmarkedCourseInfos = createAsyncThunk(
   "fetchCourseInfos",
   async (ids: String[], thunkAPI) => {
     console.log("fetching");
@@ -22,8 +22,8 @@ export const fetchCourseInfos = createAsyncThunk(
     let url = `${process.env.backendUrl}/courseTool/courses/?`;
 
     url += ids
-        .map((d) => `courseID=${d}`)
-        .join("&");
+      .map((d) => `courseID=${d}`)
+      .join("&");
 
     url += "&schedulesAvailable=true";
 
@@ -35,14 +35,14 @@ export const fetchCourseInfos = createAsyncThunk(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          token: state.user.token
+          token: state.user.token,
         }),
       }).then((response) => response.json());
     } else {
       return fetch(url).then((response) => response.json());
     }
-  }
-)
+  },
+);
 
 export const fetchCourseInfosByPage = createAsyncThunk(
   "fetchCourseInfosByPage",
@@ -63,20 +63,20 @@ export const fetchCourseInfosByPage = createAsyncThunk(
     }
 
     if (state.user.loggedIn) {
-      url += `&fces=true`;
+      // url += `&fces=true`;
       return fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          token: state.user.token
+          token: state.user.token,
         }),
       }).then((response) => response.json());
     } else {
       return fetch(url).then((response) => response.json());
     }
-  }
+  },
 );
 
 export const fetchCourseInfo = async ({ courseID, schedules }: any) => {
@@ -90,23 +90,24 @@ export const fetchCourseInfo = async ({ courseID, schedules }: any) => {
 export const fetchFCEInfos = createAsyncThunk(
   "fetchFCEInfos",
   async ({ courseIDs }: any, thunkAPI) => {
-    const state: any = thunkAPI.getState();
+    if (!courseIDs || courseIDs.length === 0) return;
 
+    const state: any = thunkAPI.getState();
     let url = `${process.env.backendUrl}/fces/?`;
     url += courseIDs.map((courseID) => `courseID=${courseID}`).join("&");
 
-    if (state.user.loggedIn) {
+    if (state.user.loggedIn && state.user.token) {
       return fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          token: state.user.token
+          token: state.user.token,
         }),
       }).then((response) => response.json());
     }
-  }
+  },
 );
 
 export const coursesSlice = createSlice({
@@ -118,49 +119,61 @@ export const coursesSlice = createSlice({
       state.results = [];
       state.bookmarkedResults = [];
     },
-    setLoading: (state, action) => {
-      state.loading = action.payload;
-    }
   },
   extraReducers: (builder) => {
-    builder.addCase(
-      fetchCourseInfosByPage.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        console.log(action.payload);
-        state.totalDocs = action.payload.totalDocs;
-        state.totalPages = action.payload.totalPages;
-        state.page = action.payload.page;
-        state.results = action.payload.docs;
-      }
-    );
+    builder
+      .addCase(fetchCourseInfosByPage.pending, (state) => {
+        state.coursesLoading = true;
+      })
+      .addCase(
+        fetchCourseInfosByPage.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          console.log(action.payload);
+          state.totalDocs = action.payload.totalDocs;
+          state.totalPages = action.payload.totalPages;
+          state.page = action.payload.page;
+          state.results = action.payload.docs;
+          state.coursesLoading = false;
+        },
+      );
 
-    builder.addCase(
-      fetchCourseInfos.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        state.bookmarkedResults = action.payload;
-      }
-    );
+    builder
+      .addCase(fetchBookmarkedCourseInfos.pending, (state) => {
+        state.coursesLoading = true;
+      })
+      .addCase(
+        fetchBookmarkedCourseInfos.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.bookmarkedResults = action.payload;
+          state.coursesLoading = false;
+        },
+      );
 
-    builder.addCase(
-      fetchFCEInfos.fulfilled,
-      (state, action: PayloadAction<any>) => {
-        if (!action.payload) return;
-        if (!action.payload[0]) return;
+    builder
+      .addCase(fetchFCEInfos.pending, (state) => {
+        state.fcesLoading = true;
+      })
+      .addCase(
+        fetchFCEInfos.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.fcesLoading = false;
+          if (!action.payload) return;
+          if (!action.payload[0]) return;
 
-        const courseIds = new Set<String>();
-        for (const fce of action.payload) {
-          courseIds.add(fce.courseID);
-        }
+          const courseIds = new Set<String>();
+          for (const fce of action.payload) {
+            courseIds.add(fce.courseID);
+          }
 
-        courseIds.forEach((courseId: any) => {
-          state.fces[courseId] = [];
-        });
+          courseIds.forEach((courseId: any) => {
+            state.fces[courseId] = [];
+          });
 
-        for (const fce of action.payload) {
-          state.fces[fce.courseID].push(fce);
-        }
-      }
-    );
+          for (const fce of action.payload) {
+            state.fces[fce.courseID].push(fce);
+          }
+        },
+      );
   },
 });
 
