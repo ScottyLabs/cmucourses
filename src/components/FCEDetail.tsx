@@ -100,7 +100,7 @@ export const FCEDetail = ({ fces }) => {
     aggregateData = aggregateFCEs(filteredFCEs);
   }
 
-  if (!fces) {
+  if (!fces || aggregateData.fcesCounted == 0) {
     return <></>;
   }
 

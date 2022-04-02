@@ -28,7 +28,10 @@ export const aggregateFCEs = (fces: FCE[]) => {
   }
 
   if (fcesCounted === 0) {
-    return null;
+    return {
+      fcesCounted: 0,
+      semestersCounted: 0
+    };
   }
 
   return {
@@ -51,6 +54,7 @@ export const aggregateCourses = (
 
   let workload = 0;
   for (const aggregateFCE of aggregatedFCEs) {
+    if (!aggregateFCE.aggregateData) continue;
     if (aggregateFCE.aggregateData.workload)
       workload += aggregateFCE.aggregateData.workload;
   }

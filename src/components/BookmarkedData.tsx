@@ -20,7 +20,8 @@ const BookmarkedData = () => {
   const aggregatedData = aggregateCourses(bookmarkedFCEs, options);
   const aggregatedDataByCourseID = {};
   for (const row of aggregatedData.aggregatedFCEs) {
-    aggregatedDataByCourseID[row.courseID] = row.aggregateData;
+    if (row.aggregateData !== null)
+      aggregatedDataByCourseID[row.courseID] = row.aggregateData;
   }
 
   return (
