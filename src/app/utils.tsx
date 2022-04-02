@@ -1,6 +1,6 @@
 import reactStringReplace from "react-string-replace";
 import Link from "next/link";
-import { FCE, Session, Time } from "./types";
+import { AggregateFCEsOptions, FCE, Session, Time } from "./types";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
 
@@ -102,14 +102,14 @@ export const filterSessions = (sessions: Session[]) => {
   });
 };
 
-export const getLatestFCEs = (fces: FCE[], numSemesters: number) => {
-  const sortedFCEs = [...fces].sort(compareSessions);
+export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
+  const sortedFCEs = fces.filter(fce => options.counted[fce.semester]).sort(compareSessions);
   const result = [];
   const encounteredSemesters = new Set();
 
   for (const fce of sortedFCEs) {
     encounteredSemesters.add(sessionToShortString(fce));
-    if (encounteredSemesters.size > numSemesters) break;
+    if (encounteredSemesters.size > options.numSemesters) break;
     result.push(fce);
   }
 
@@ -155,13 +155,13 @@ export const timeArrToString = (times: Time[]) => {
 
 export const approximateHours = (
   fces: FCE[],
-  numSemesters: number = 2,
+  options: AggregateFCEsOptions
 ): number | undefined => {
   if (fces.length === 0) {
     return undefined;
   }
 
-  const filteredFCEs = getLatestFCEs(fces, numSemesters);
+  const filteredFCEs = filterFCEs(fces, options);
 
   let sum = 0;
   for (const fce of filteredFCEs) {

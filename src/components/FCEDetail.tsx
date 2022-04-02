@@ -3,7 +3,8 @@ import { aggregateFCEs } from "../app/fce";
 import StarRatings from "react-star-ratings";
 import { useTable } from "react-table";
 import { FCE } from "../app/types";
-import { getLatestFCEs, sessionToString } from "../app/utils";
+import { filterFCEs, sessionToString } from "../app/utils";
+import { useAppSelector } from "../app/hooks";
 
 const FCETable = ({ columns, data }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -89,13 +90,13 @@ const columns = [
 ];
 
 export const FCEDetail = ({ fces }) => {
-  const [numSemesters, setNumSemesters] = useState(null);
+  const aggregationOptions = useAppSelector(state => state.user.fceAggregation);
 
   let aggregateData: any = {};
   let filteredFCEs = fces;
 
   if (fces) {
-    filteredFCEs = getLatestFCEs(fces, parseInt(numSemesters) || 2);
+    filteredFCEs = filterFCEs(fces, aggregationOptions);
     aggregateData = aggregateFCEs(filteredFCEs);
   }
 
@@ -111,17 +112,6 @@ export const FCEDetail = ({ fces }) => {
           <div className="flex-1 ml-2 text-sm">
             (data from {aggregateData.semestersCounted} semesters)
           </div>
-          {/* <div className="flex items-baseline">
-            <div className="mr-2 text-sm">No. Semesters to Sample</div>
-            <input
-              placeholder="2"
-              className="px-2 py-1 text-sm rounded-md"
-              value={numSemesters}
-              onChange={(e) => {
-                setNumSemesters(e.target.value);
-              }}
-            ></input>
-          </div> */}
         </div>
 
         <div className="flex mt-2 space-x-2">
