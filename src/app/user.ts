@@ -16,8 +16,8 @@ const initialState = {
     counted: {
       spring: true,
       summer: false,
-      fall: true
-    }
+      fall: true,
+    },
   },
   token: null,
 };
@@ -47,6 +47,7 @@ export const userSlice = createSlice({
       state.loggedIn = true;
     },
     logOut: (state) => {
+      state.token = null;
       state.loggedIn = false;
     },
     updateSearch: (state, action) => {

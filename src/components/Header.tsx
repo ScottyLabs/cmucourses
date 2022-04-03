@@ -46,7 +46,6 @@ export default function Header({ children }): ReactElement {
       setUser(userDecode);
       dispatch(userSlice.actions.logIn());
     } catch {
-      dispatch(userSlice.actions.setToken(null));
       setUser(null);
       dispatch(userSlice.actions.logOut());
     }
@@ -57,7 +56,10 @@ export default function Header({ children }): ReactElement {
   if (user) {
     logInButton = (
       <>
-        <div onClick={() => setUser(null)}>Log Out</div>
+        <div onClick={() => {
+          setUser(null);
+          dispatch(userSlice.actions.logOut());
+        }}>Log Out</div>
       </>
     );
   } else {

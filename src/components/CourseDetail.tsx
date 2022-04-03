@@ -113,10 +113,11 @@ const Schedules = ({ scheduleInfos }) => {
 
 const CourseDetail = ({ info }) => {
   const dispatch = useAppDispatch();
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   useEffect(() => {
     dispatch(fetchFCEInfos({ courseIDs: [info.courseID] }));
-  }, [info.courseID]);
+  }, [info.courseID, loggedIn]);
 
   const sortedSchedules = filterSessions([...info.schedules]).sort(
     compareSessions,
@@ -126,9 +127,6 @@ const CourseDetail = ({ info }) => {
   const schedulesAvailableString = mostRecentSchedules
     .map(sessionToShortString)
     .join(", ");
-  const loggedIn = useAppSelector(
-    (state) => state.user.loggedIn,
-  );
 
   const options = useAppSelector(state => state.user.fceAggregation);
   const hours: number | undefined = info.fces

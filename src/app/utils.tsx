@@ -155,7 +155,7 @@ export const timeArrToString = (times: Time[]) => {
 
 export const approximateHours = (
   fces: FCE[],
-  options: AggregateFCEsOptions
+  options: AggregateFCEsOptions,
 ): number | undefined => {
   if (fces.length === 0) {
     return undefined;

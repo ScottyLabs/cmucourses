@@ -30,7 +30,7 @@ export const aggregateFCEs = (fces: FCE[]) => {
   if (fcesCounted === 0) {
     return {
       fcesCounted: 0,
-      semestersCounted: 0
+      semestersCounted: 0,
     };
   }
 

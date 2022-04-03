@@ -15,7 +15,7 @@ const BookmarkedList = () => {
       dispatch(fetchBookmarkedCourseInfos(bookmarked));
       if (loggedIn) dispatch(fetchFCEInfos({ courseIDs: bookmarked }));
     }
-  }, [bookmarked]);
+  }, [bookmarked, loggedIn]);
 
   const bookmarkedResults = useAppSelector((state) => state.courses.bookmarkedResults);
 
@@ -25,7 +25,7 @@ const BookmarkedList = () => {
         bookmarkedResults && bookmarkedResults.length > 0 ? (
           <div className="space-y-4">
             {bookmarkedResults.map((course) => (
-              <CourseCard info={course} key={course.courseID} showFCEs={true} />
+              <CourseCard info={course} key={course.courseID} showFCEs={true} showCourseInfo={true} />
             ))}
           </div>
         ) : (<div>Nothing bookmarked yet!</div>))}

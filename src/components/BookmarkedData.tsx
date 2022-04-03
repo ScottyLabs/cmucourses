@@ -4,10 +4,20 @@ import { aggregateCourses } from "../app/fce";
 import { roundTo } from "../app/utils";
 
 const BookmarkedData = () => {
+  const loggedIn = useAppSelector(state => state.user.loggedIn);
   const bookmarked = useAppSelector((state) => state.user.bookmarked);
   const bookmarkedResults = useAppSelector((state) => state.courses.bookmarkedResults);
   const FCEs = useAppSelector((state) => state.courses.fces);
   const options = useAppSelector(state => state.user.fceAggregation);
+
+  if (!loggedIn) {
+    return (
+      <div className="sticky top-0 z-10 p-8 bg-white text-zinc-700 drop-shadow-lg">
+        <h1 className="text-lg font-semibold">FCE Summary</h1>
+        <p>Log in to view FCE results.</p>
+      </div>
+    );
+  }
 
   const bookmarkedFCEs = [];
 
