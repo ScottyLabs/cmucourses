@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
@@ -6,11 +6,17 @@ import { userSlice } from "../app/user";
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
+  const search = useAppSelector((state) => state.user.filter.search);
 
   const onChange = (e) => {
     dispatch(userSlice.actions.updateSearch(e.target.value));
     throttledFilter();
   };
+
+  useEffect(() => {
+    dispatch(userSlice.actions.updateSearch(search));
+    throttledFilter();
+  }, []);
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
@@ -55,6 +61,7 @@ const SearchBar = () => {
         <input
           className="flex-1 py-2 text-xl pl-7 focus:outline-none bg-none"
           type="search"
+          value={search}
           onChange={onChange}
           placeholder="Search by Course ID, description, name or keyword..."
         />

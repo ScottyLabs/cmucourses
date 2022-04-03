@@ -1,5 +1,5 @@
 import Select from "react-select";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { userSlice } from "../app/user";
@@ -8,9 +8,12 @@ import { DEPARTMENTS } from "../app/constants";
 
 const Filter = () => {
   const dispatch = useAppDispatch();
+  const [departments, setDepartments] = useState({ });
+  const filterDepartments = useAppSelector((state) => state.user.filter.departments);
 
   const changeDepartment = (e) => {
     const departments = e.map(({ value }) => value);
+    setDepartments(e);
     dispatch(userSlice.actions.updateDepartments(departments));
     throttledFilter();
   };
@@ -19,6 +22,10 @@ const Filter = () => {
     value: name,
     label: name,
   }));
+
+  useEffect(() => {
+    setDepartments(filterDepartments.map(value => ({value, label: value})));
+  }, []);
 
   return (
     <div className="pb-3">
@@ -52,6 +59,7 @@ const Filter = () => {
           <div className="mb-2 font-semibold">Department</div>
           <Select
             isMulti
+            value={departments}
             options={DEPARTMENT_OPTIONS}
             onChange={changeDepartment} />
         </div>

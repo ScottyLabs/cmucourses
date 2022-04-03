@@ -138,7 +138,7 @@ const CourseDetail = ({ info }) => {
   );
 
   return (
-    <div className="max-w-6xl p-6 m-auto space-y-4">
+    <div className="p-6 m-auto space-y-4">
       <div className="p-6 bg-white rounded-md">
         <div className="flex flex-row flex-1">
           <div className="flex flex-col flex-1">
