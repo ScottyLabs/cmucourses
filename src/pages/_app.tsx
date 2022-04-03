@@ -7,14 +7,21 @@ import store, { persistor } from "../app/store";
 import Header from "../components/Header";
 import { PersistGate } from "redux-persist/integration/react";
 
+import Head from "next/head";
+
 export default function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Header>
-          <Component {...pageProps} />
-        </Header>
-      </PersistGate>
-    </Provider>
+  return (<>
+      <Head>
+        <title>ScottyLabs Course Tool Beta</title>
+        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+      </Head>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Header>
+            <Component {...pageProps} />
+          </Header>
+        </PersistGate>
+      </Provider>
+    </>
   );
 }

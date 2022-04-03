@@ -36,7 +36,7 @@ export default function Header({ children }): ReactElement {
       (data) => {
         setLoading(false);
         dispatch(userSlice.actions.setToken(data));
-      }
+      },
     );
   }
 
@@ -59,7 +59,8 @@ export default function Header({ children }): ReactElement {
         <div onClick={() => {
           setUser(null);
           dispatch(userSlice.actions.logOut());
-        }}>Log Out</div>
+        }}>Log Out
+        </div>
       </>
     );
   } else {

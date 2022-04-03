@@ -5,7 +5,6 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <title>ScottyLabs Course Tool Beta</title>
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <script
             async
@@ -25,8 +24,8 @@ export default class MyDocument extends Document {
           />
         </Head>
         <body>
-          <Main />
-          <NextScript />
+        <Main />
+        <NextScript />
         </body>
       </Html>
     );
