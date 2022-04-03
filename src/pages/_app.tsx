@@ -13,7 +13,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (<>
       <Head>
         <title>ScottyLabs Course Tool Beta</title>
-        <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
       </Head>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
