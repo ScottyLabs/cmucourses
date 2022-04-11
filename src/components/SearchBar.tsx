@@ -4,6 +4,22 @@ import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
 
+const AppliedFilters = () => {
+  const badges = [];
+  const filter = useAppSelector(state => state.user.filter);
+
+  filter.departments.forEach(department => {
+    badges.push(
+      <div className="py-1 px-2 bg-indigo-50 text-indigo-700 rounded-md text-sm">{`Department: ${department}`}</div>,
+    );
+  });
+
+  return <>
+    <div className="text-sm mb-2">Applied Filters</div>
+    <div className="flex space-x-1">{badges}</div>
+  </>;
+};
+
 const SearchBar = () => {
   const dispatch = useAppDispatch();
   const search = useAppSelector((state) => state.user.filter.search);
@@ -67,7 +83,7 @@ const SearchBar = () => {
         />
       </div>
       <div className="mt-3 text-zinc-500">
-        <div className="text-sm">Applied Filters</div>
+        <AppliedFilters />
       </div>
     </div>
   );
