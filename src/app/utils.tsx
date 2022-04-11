@@ -1,6 +1,7 @@
 import reactStringReplace from "react-string-replace";
 import Link from "next/link";
 import { AggregateFCEsOptions, FCE, Session, Time } from "./types";
+import { filterFCEs } from "./fce";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
 
@@ -100,20 +101,6 @@ export const filterSessions = (sessions: Session[]) => {
       (session.session && session.session !== "qatar summer")
     );
   });
-};
-
-export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
-  const sortedFCEs = fces.filter(fce => options.counted[fce.semester]).sort(compareSessions);
-  const result = [];
-  const encounteredSemesters = new Set();
-
-  for (const fce of sortedFCEs) {
-    encounteredSemesters.add(sessionToShortString(fce));
-    if (encounteredSemesters.size > options.numSemesters) break;
-    result.push(fce);
-  }
-
-  return result;
 };
 
 export const displayUnits = (units: string): string => {

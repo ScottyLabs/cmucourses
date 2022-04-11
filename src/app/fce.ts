@@ -1,5 +1,5 @@
 import { AggregateFCEsOptions, FCE } from "./types";
-import { filterFCEs, roundTo, sessionToShortString } from "./utils";
+import { compareSessions, roundTo, sessionToShortString } from "./utils";
 
 export const FCE_RATINGS = [
   "Interest in student learning",
@@ -43,14 +43,43 @@ export const aggregateFCEs = (fces: FCE[]) => {
   };
 };
 
+export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
+  const sortedFCEs = fces
+    .filter((fce) => options.counted[fce.semester])
+    .sort(compareSessions);
+  const result = [];
+  const encounteredSemesters = new Set();
+
+  for (const fce of sortedFCEs) {
+    encounteredSemesters.add(sessionToShortString(fce));
+    if (encounteredSemesters.size > options.numSemesters) break;
+    result.push(fce);
+  }
+
+  return result;
+};
+
 export const aggregateCourses = (
   data: { courseID: string; fces: FCE[] }[],
-  options: AggregateFCEsOptions,
+  options: AggregateFCEsOptions
 ) => {
-  let aggregatedFCEs = data.map(({ courseID, fces }) => ({
-    courseID,
-    aggregateData: aggregateFCEs(filterFCEs(fces, options)),
-  }));
+  let message = "";
+
+  const coursesWithoutFCEs = data
+    .filter(({ courseID, fces }) => fces === null)
+    .map(({ courseID }) => courseID);
+  if (coursesWithoutFCEs.length > 0) {
+    message += `There are courses with missing data (${coursesWithoutFCEs.join(
+      ", "
+    )}).`;
+  }
+
+  let aggregatedFCEs = data
+    .filter(({ courseID, fces }) => fces !== null)
+    .map(({ courseID, fces }) => ({
+      courseID,
+      aggregateData: aggregateFCEs(filterFCEs(fces, options)),
+    }));
 
   let workload = 0;
   for (const aggregateFCE of aggregatedFCEs) {
@@ -62,5 +91,6 @@ export const aggregateCourses = (
   return {
     aggregatedFCEs,
     workload,
+    message,
   };
 };

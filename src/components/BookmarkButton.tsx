@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
-import { BookmarkIcon as OutlineBookmark } from "@heroicons/react/outline";
-import { BookmarkIcon as SolidBookmark } from "@heroicons/react/solid";
+import { StarIcon as OutlineStar } from "@heroicons/react/outline";
+import { StarIcon as SolidStar } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { userSlice } from "../app/user";
 
@@ -23,9 +23,9 @@ const BookmarkButton: FunctionComponent<Props> = ({ courseID }) => {
   return (
     <div onClick={bookmarkCourse} className="cursor-pointer">
       {bookmarked ? (
-        <SolidBookmark className="w-6 h-6" />
+        <SolidStar className="w-6 h-6 " />
       ) : (
-        <OutlineBookmark className="w-6 h-6" />
+        <OutlineStar className="w-6 h-6" />
       )}
     </div>
   );
