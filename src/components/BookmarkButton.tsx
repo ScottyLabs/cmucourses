@@ -23,9 +23,9 @@ const BookmarkButton: FunctionComponent<Props> = ({ courseID }) => {
   return (
     <div onClick={bookmarkCourse} className="cursor-pointer">
       {bookmarked ? (
-        <SolidBookmark className="w-6 h-6" />
+        <SolidBookmark className="w-6 h-6 fill-grey-700 dark:fill-grey-200" />
       ) : (
-        <OutlineBookmark className="w-6 h-6" />
+        <OutlineBookmark className="w-6 h-6 stroke-grey-700 dark:stroke-grey-200" />
       )}
     </div>
   );
