@@ -142,18 +142,18 @@ const CourseDetail = ({ info }) => {
       <div className="p-6 bg-white rounded-md">
         <div className="flex flex-row flex-1">
           <div className="flex flex-col flex-1">
-            <div className="text-zinc-600">
+            <div className="text-grey-600">
               <div className="text-lg">
                 <span className="mr-2 font-semibold">{info.courseID}</span>
                 <span className="">{info.name}</span>
               </div>
-              <div className="text-sm text-zinc-500">{info.department}</div>
+              <div className="text-sm text-grey-500">{info.department}</div>
             </div>
-            <div className="flex-1 mt-4 text-sm leading-relaxed text-zinc-600">
+            <div className="flex-1 mt-4 text-sm leading-relaxed text-grey-600">
               {injectLinks(info.desc)}
             </div>
           </div>
-          <div className="w-64 text-zinc-600">
+          <div className="w-64 text-grey-600">
             <div className="ml-8 space-y-2">
               <div className="flex flex-row justify-between">
                 <div>
@@ -161,7 +161,7 @@ const CourseDetail = ({ info }) => {
                     {displayUnits(info.units)} units
                   </div>
                   {loggedIn && hours && (
-                    <div className="text-md text-zinc-500">
+                    <div className="text-md text-grey-500">
                       {hours} hrs/week
                     </div>
                   )}
@@ -174,19 +174,19 @@ const CourseDetail = ({ info }) => {
               <div>{schedulesAvailableString}</div>
               <div>
                 <div className="font-semibold">Prerequisites</div>
-                <div className="text-md text-zinc-500">
+                <div className="text-md text-grey-500">
                   {injectLinks(info.prereqString || "None")}
                 </div>
               </div>
               <div>
                 <div className="font-semibold">Corequisites</div>
-                <div className="text-md text-zinc-500">
+                <div className="text-md text-grey-500">
                   {injectLinks(courseListToString(info.coreqs))}
                 </div>
               </div>
               <div>
                 <div className="font-semibold">Crosslisted</div>
-                <div className="text-md text-zinc-500">
+                <div className="text-md text-grey-500">
                   {injectLinks(courseListToString(info.crosslisted))}
                 </div>
               </div>

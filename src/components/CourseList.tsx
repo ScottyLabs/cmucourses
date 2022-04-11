@@ -61,7 +61,7 @@ const CourseList = () => {
 
               <div className="flex items-center align-baseline">
                 <Pagination.PageButton
-                  activeClassName="bg-zinc-200"
+                  activeClassName="bg-grey-200"
                   inactiveClassName=""
                   className="inline-flex items-center justify-center w-8 h-8 mx-3 rounded-full hover:bg-white hover:cursor-pointer"
                 />

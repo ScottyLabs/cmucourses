@@ -4,6 +4,7 @@ import { SEMESTERS_COUNTED } from "./constants";
 
 const initialState = {
   bookmarked: [],
+  darkMode: false,
   showFCEs: false,
   showCourseInfos: true,
   loggedIn: false,
@@ -36,6 +37,9 @@ export const userSlice = createSlice({
       if (index > -1) {
         state.bookmarked.splice(index, 1);
       }
+    },
+    toggleDarkMode: (state) => {
+      state.darkMode = !state.darkMode;
     },
     showFCEs: (state, action) => {
       state.showFCEs = action.payload;

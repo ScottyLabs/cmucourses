@@ -10,7 +10,7 @@ interface Props {
 
 export default function CourseSearch({}: Props): ReactElement {
   return (
-    <div className="font-sans accent-indigo-600">
+    <div className="font-sans accent-purple-600">
       <div className="flex flex-col md:h-screen md:flex-row">
         <div className="relative w-full mt-28 md:mt-16 lg:w-96 md:w-72">
           <Sidebar>
@@ -18,7 +18,7 @@ export default function CourseSearch({}: Props): ReactElement {
             <Aggregate />
           </Sidebar>
         </div>
-        <div className="flex-1 overflow-y-scroll md:h-full md:pt-16">
+        <div className="flex-1 overflow-y-scroll md:h-full md:pt-16 bg-grey-50 dark:bg-grey-800">
           <SearchBar />
           <CourseList />
         </div>

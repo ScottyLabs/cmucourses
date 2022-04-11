@@ -1,10 +1,13 @@
-import Select from "react-select";
+import Select, { components } from "react-select";
 import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { userSlice } from "../app/user";
 import { DEPARTMENTS } from "../app/constants";
 
+const Input = (props) => (
+  <components.Input {...props} inputClassName={"bg-white dark:bg-grey-800"}/>
+);
 
 const Filter = () => {
   const dispatch = useAppDispatch();
@@ -61,7 +64,8 @@ const Filter = () => {
             isMulti
             value={departments}
             options={DEPARTMENT_OPTIONS}
-            onChange={changeDepartment} />
+            onChange={changeDepartment}
+            components={{ Input }}/>
         </div>
       </div>
     </div>
