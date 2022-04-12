@@ -5,6 +5,7 @@ import Image from "next/image";
 import Passlink from "passlink";
 import * as jose from "jose";
 import { userSlice } from "../app/user";
+import { StarIcon, AnnotationIcon, LoginIcon, LogoutIcon } from "@heroicons/react/solid";
 import DarkModeButton from "./DarkModeButton";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
@@ -70,7 +71,7 @@ export default function Header({ children }): ReactElement {
             dispatch(userSlice.actions.logOut());
           }}
         >
-          Log Out
+          <span className="flex items-center"><LogoutIcon className="h-4 w-4 inline mr-1" /> Log Out</span>
         </div>
       </>
     );
@@ -79,7 +80,9 @@ export default function Header({ children }): ReactElement {
       <>
         {loading && <p>Loading...</p>}
         {!loading && passlink && loginHandler && (
-          <div onClick={loginHandler}>Log In</div>
+          <div onClick={loginHandler}>
+            <span className="flex items-center"><LoginIcon className="h-4 w-4 inline mr-1" /> Log In</span>
+          </div>
         )}
       </>
     );
@@ -106,11 +109,11 @@ export default function Header({ children }): ReactElement {
           </div>
           <div className="flex flex-row space-x-10 text-grey-600 dark:text-grey-100">
             <div>
-              <Link href="/bookmarked">Bookmarked</Link>
+              <Link href="/saved"><span className="flex items-center hover:cursor-pointer"><StarIcon className="h-4 w-4 inline mr-1" /> Saved</span></Link>
             </div>
             <div>
               <a href="https://forms.gle/6vPTN6Eyqd1w7pqJA" target="_blank">
-                Feedback
+                <span className="flex items-center hover:cursor-pointer"><AnnotationIcon className="h-4 w-4 inline mr-1" /> Feedback</span>
               </a>
             </div>
             <div>
