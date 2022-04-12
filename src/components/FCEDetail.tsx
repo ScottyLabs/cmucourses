@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { aggregateFCEs } from "../app/fce";
+import { aggregateFCEs, filterFCEs } from "../app/fce";
 import StarRatings from "react-star-ratings";
 import { useTable } from "react-table";
 import { FCE } from "../app/types";
-import { filterFCEs, sessionToString } from "../app/utils";
+import { sessionToString } from "../app/utils";
 import { useAppSelector } from "../app/hooks";
 
 import resolveConfig from 'tailwindcss/resolveConfig';
