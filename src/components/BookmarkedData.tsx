@@ -9,7 +9,7 @@ const BookmarkedData = () => {
 
   const loggedIn = useAppSelector(state => state.user.loggedIn);
   const bookmarked = useAppSelector((state) => state.user.bookmarked);
-  const selected = useAppSelector(state => state.user.selected);
+  const selected = useAppSelector(state => state.user.bookmarkedSelected);
   const bookmarkedResults = useAppSelector((state) => state.courses.bookmarkedResults);
   const FCEs = useAppSelector((state) => state.courses.fces);
   const options = useAppSelector(state => state.user.fceAggregation);
@@ -64,10 +64,12 @@ const BookmarkedData = () => {
           </span>
           </div>
         </div>
-        <div>
-          <div className="text-sm py-1 px-2 bg-gray-100 rounded-md text-gray-600 hover:cursor-pointer"
-            onClick={() => {dispatch(userSlice.actions.clearBookmarks());}}>Clear Saved</div>
-        </div>
+      </div>
+      <div className="mt-2 flex justify-between">
+        <div className="text-sm py-1 px-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-600 hover:cursor-pointer"
+             onClick={() => {dispatch(userSlice.actions.toggleSelect());}}>Toggle Select</div>
+        <div className="text-sm py-1 px-2 bg-gray-100 hover:bg-gray-200 rounded-md text-gray-600 hover:cursor-pointer"
+             onClick={() => {dispatch(userSlice.actions.clearBookmarks());}}>Clear Saved</div>
       </div>
       <table className="w-full mt-3 table-auto">
         <thead>
