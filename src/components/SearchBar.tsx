@@ -10,7 +10,7 @@ const AppliedFilters = () => {
 
   filter.departments.forEach(department => {
     badges.push(
-      <div className="py-1 px-2 bg-blue-50 text-blue-700 rounded-md text-sm">{`Department: ${department}`}</div>,
+      <div className="py-1 px-2 bg-blue-50 text-blue-700 dark:bg-blue-700 dark:text-blue-50 rounded-md text-sm">{`Department: ${department}`}</div>,
     );
   });
 
@@ -82,7 +82,7 @@ const SearchBar = () => {
           placeholder="Search by Course ID, description, name or keyword..."
         />
       </div>
-      <div className="mt-3 text-grey-500">
+      <div className="mt-3 text-grey-500 dark:text-grey-300">
         <AppliedFilters />
       </div>
     </div>

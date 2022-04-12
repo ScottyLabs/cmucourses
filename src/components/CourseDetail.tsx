@@ -19,7 +19,7 @@ import { FCECard } from "./FCEDetail";
 const Lecture = ({ lectureInfo, sections }) => {
   return (
     <>
-      <div className="flex items-baseline px-2 py-2 mt-2 rounded-md hover:bg-gray-100">
+      <div className="flex items-baseline px-2 py-2 mt-2 rounded-md hover:bg-grey-100">
         <div className="w-1/12 font-bold text-md">{lectureInfo.name}</div>
         <div className="w-5/12 text-sm">
           {lectureInfo.instructors.join("; ")}
@@ -37,7 +37,7 @@ const Lecture = ({ lectureInfo, sections }) => {
       </div>
 
       {sections.map((section) => (
-        <div className="flex items-baseline px-2 py-1 text-gray-600 hover:bg-gray-100">
+        <div className="flex items-baseline px-2 py-1 text-grey-600 hover:bg-grey-100">
           <div className="w-1/12 text-md">{section.name}</div>
           <div className="w-5/12 text-sm">{section.instructors.join("; ")}</div>
           <div className="flex flex-col w-6/12 text-sm">
@@ -84,7 +84,7 @@ const Schedules = ({ scheduleInfos }) => {
     <div className="w-full">
       <h1 className="text-lg">Schedules</h1>
       <Tab.Group>
-        <Tab.List className="flex p-2 mt-2 space-x-1 bg-gray-100 rounded-md">
+        <Tab.List className="flex p-2 mt-2 space-x-1 bg-grey-100 rounded-md">
           {scheduleInfos.map((scheduleInfo) => {
             const label = sessionToString(scheduleInfo);
             return (

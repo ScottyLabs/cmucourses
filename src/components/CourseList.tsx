@@ -56,19 +56,19 @@ const CourseList = () => {
               className="flex justify-center w-full"
             >
               <Pagination.PrevButton className="">
-                <ChevronLeftIcon className="w-5 h-5" />
+                <ChevronLeftIcon className="w-5 h-5 dark:stroke-grey-50" />
               </Pagination.PrevButton>
 
               <div className="flex items-center align-baseline">
                 <Pagination.PageButton
-                  activeClassName="bg-grey-200"
+                  activeClassName="bg-grey-200 dark:bg-grey-600"
                   inactiveClassName=""
-                  className="inline-flex items-center justify-center w-8 h-8 mx-3 rounded-full hover:bg-white hover:cursor-pointer"
+                  className="inline-flex items-center justify-center w-8 h-8 mx-3 rounded-full hover:bg-white hover:cursor-pointer dark:text-grey-50"
                 />
               </div>
 
               <Pagination.NextButton>
-                <ChevronRightIcon className="w-5 h-5" />
+                <ChevronRightIcon className="w-5 h-5 dark:stroke-grey-50" />
               </Pagination.NextButton>
             </Pagination>
           </div>

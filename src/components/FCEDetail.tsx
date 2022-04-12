@@ -161,7 +161,7 @@ export const FCEDetail = ({ fces }) => {
           </div>
         </div>
       </div>
-      <div className="p-4 mt-3 overflow-x-scroll bg-grey-50 dark:bg-grey-800 rounded-md">
+      <div className="p-4 mt-3 overflow-x-auto bg-grey-50 dark:bg-grey-800 rounded-md">
         <FCETable columns={columns} data={convertFCEData(filteredFCEs)} />
       </div>
     </>

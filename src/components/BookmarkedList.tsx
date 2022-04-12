@@ -28,7 +28,7 @@ const BookmarkedList = () => {
               <CourseCard info={course} key={course.courseID} showFCEs={true} showCourseInfo={true} />
             ))}
           </div>
-        ) : (<div className="text-center text-gray-500 font-semibold">Nothing bookmarked yet!</div>))}
+        ) : (<div className="text-center text-grey-500 font-semibold">Nothing bookmarked yet!</div>))}
     </div>
   );
 };
