@@ -1,7 +1,7 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-import { fetchCourseInfosByPage, reducer as coursesReducer } from "./courses";
+import { fetchCourseInfos, fetchCourseInfosByPage, reducer as coursesReducer } from "./courses";
 import { reducer as userReducer } from "./user";
 import debounce from "lodash/debounce";
 import {
@@ -41,7 +41,14 @@ export const store = configureStore({
 export let persistor = persistStore(store);
 
 const updateFilter = () => {
-  setTimeout(() => store.dispatch(fetchCourseInfosByPage(1)), 0);
+  setTimeout(() => {
+    const state = store.getState();
+    store.dispatch(fetchCourseInfosByPage(1));
+    if (state.courses.exactResultsActive) {
+      const search = state.user.filter.search;
+      store.dispatch(fetchCourseInfos(search.split(/\s+/)));
+    }
+  }, 0);
 };
 export const throttledFilter = debounce(updateFilter, 500);
 

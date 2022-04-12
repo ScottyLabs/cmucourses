@@ -1,24 +1,24 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
-import { fetchBookmarkedCourseInfos, fetchFCEInfos } from "../app/courses";
+import { fetchCourseInfos, fetchFCEInfos } from "../app/courses";
 import Loading from "./Loading";
 
 const BookmarkedList = () => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const bookmarked = useAppSelector((state) => state.user.bookmarked);
-  const loading = useAppSelector((state) => state.courses.coursesLoading);
+  const loading = useAppSelector((state) => state.courses.exactResultsLoading);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (bookmarked) {
-      dispatch(fetchBookmarkedCourseInfos(bookmarked));
+      dispatch(fetchCourseInfos(bookmarked));
       if (loggedIn) dispatch(fetchFCEInfos({ courseIDs: bookmarked }));
     }
   }, [bookmarked, loggedIn]);
 
   const bookmarkedResults = useAppSelector(
-    (state) => state.courses.bookmarkedResults
+    (state) => state.courses.exactResults
   );
 
   return (

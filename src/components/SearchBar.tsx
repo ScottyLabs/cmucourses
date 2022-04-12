@@ -3,6 +3,8 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
+import { isExactSearch } from "../app/utils";
+import { coursesSlice, fetchCourseInfos } from "../app/courses";
 
 const AppliedFilters = () => {
   const badges = [];
@@ -26,14 +28,18 @@ const SearchBar = () => {
   const dispatch = useAppDispatch();
   const search = useAppSelector((state) => state.user.filter.search);
 
-  const onChange = (e) => {
-    dispatch(userSlice.actions.updateSearch(e.target.value));
+  const dispatchSearch = (search) => {
+    dispatch(userSlice.actions.updateSearch(search));
+    dispatch(coursesSlice.actions.setExactResultsActive(isExactSearch(search)));
     throttledFilter();
+  }
+
+  const onChange = (e) => {
+    dispatchSearch(e.target.value);
   };
 
   useEffect(() => {
-    dispatch(userSlice.actions.updateSearch(search));
-    throttledFilter();
+    dispatchSearch(search);
   }, []);
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);

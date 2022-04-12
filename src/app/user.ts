@@ -12,6 +12,7 @@ const initialState = {
   filter: {
     search: "",
     departments: [],
+    exactMatchesOnly: false,
   },
   fceAggregation: {
     numSemesters: 2,

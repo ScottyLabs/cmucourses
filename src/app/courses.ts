@@ -5,16 +5,19 @@ const initialState = {
   totalPages: 0,
   page: 1,
   results: [],
+  exactResults: [],
   bookmarkedResults: [],
   fces: {},
   fcesLoading: false,
   coursesLoading: false,
+  exactResultsActive: false,
+  exactResultsLoading: false,
 };
 
-export const fetchBookmarkedCourseInfos = createAsyncThunk(
+export const fetchCourseInfos = createAsyncThunk(
   "fetchCourseInfos",
   async (ids: String[], thunkAPI) => {
-    console.log("fetching");
+    console.log("fetching ", ids);
     const state: any = thunkAPI.getState();
 
     if (ids.length === 0) return [];
@@ -117,6 +120,9 @@ export const coursesSlice = createSlice({
       state.results = [];
       state.bookmarkedResults = [];
     },
+    setExactResultsActive: (state, action) => {
+      state.exactResultsActive = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -136,14 +142,14 @@ export const coursesSlice = createSlice({
       );
 
     builder
-      .addCase(fetchBookmarkedCourseInfos.pending, (state) => {
-        state.coursesLoading = true;
+      .addCase(fetchCourseInfos.pending, (state) => {
+        state.exactResultsLoading = true;
       })
       .addCase(
-        fetchBookmarkedCourseInfos.fulfilled,
+        fetchCourseInfos.fulfilled,
         (state, action: PayloadAction<any>) => {
-          state.bookmarkedResults = action.payload;
-          state.coursesLoading = false;
+          state.exactResults = action.payload;
+          state.exactResultsLoading = false;
         }
       );
 

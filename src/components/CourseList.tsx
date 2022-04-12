@@ -5,26 +5,40 @@ import { Pagination } from "react-headless-pagination";
 import { fetchCourseInfosByPage, fetchFCEInfos } from "../app/courses";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Loading from "./Loading";
+import { isExactSearch } from "../app/utils";
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
   const results = useAppSelector((state) => state.courses.results);
+
+  const exactResults = useAppSelector((state) => state.courses.exactResults);
+  const page = useAppSelector((state) => state.courses.page);
+  const exactResultsActive = useAppSelector(state => state.courses.exactResultsActive);
+
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
+  let resultsToShow;
+  if (page === 1 && exactResultsActive) {
+    const exactCourseIds = exactResults.map(({courseID}) => courseID);
+    resultsToShow = [...exactResults, ...results.filter(({ courseID }) => !exactCourseIds.includes(courseID))];
+  } else {
+    resultsToShow = results;
+  }
+
   useEffect(() => {
-    if (loggedIn && results) {
+    if (loggedIn && resultsToShow) {
       dispatch(
-        fetchFCEInfos({ courseIDs: results.map((course) => course.courseID) })
+        fetchFCEInfos({ courseIDs: resultsToShow.map((course) => course.courseID) })
       );
     }
-  }, [results, loggedIn]);
+  }, [resultsToShow, loggedIn]);
 
   return (
     <div className="space-y-4">
-      {results &&
-        results.map((course) => (
+      {resultsToShow &&
+        resultsToShow.map((course) => (
           <CourseCard
             info={course}
             key={course.courseID}
@@ -39,7 +53,11 @@ const CoursePage = () => {
 const CourseList = () => {
   const pages = useAppSelector((state) => state.courses.totalPages);
   const curPage = useAppSelector((state) => state.courses.page);
+
   const loading = useAppSelector((state) => state.courses.coursesLoading);
+  const exactResultsActive = useAppSelector((state) => state.courses.exactResultsActive);
+  const exactResultsLoading = useAppSelector((state) => state.courses.exactResultsLoading);
+
   const dispatch = useAppDispatch();
 
   const handlePageClick = (page) => {
@@ -48,7 +66,7 @@ const CourseList = () => {
 
   return (
     <div className="p-6">
-      {loading ? (
+      {(loading || (exactResultsActive && exactResultsLoading)) ? (
         <Loading />
       ) : (
         <>

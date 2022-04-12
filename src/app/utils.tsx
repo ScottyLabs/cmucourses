@@ -120,7 +120,7 @@ export const injectLinks = (text: string) => {
     standardizeIdsInString(text),
     courseIdRegex,
     (match, i) => (
-      <Link href={`/course/${standardizeId(match)}`} key={match}>
+      <Link href={`/course/${standardizeId(match)}`} key={`${match}-${i}`}>
         <span className="hover:cursor-pointer hover:underline">{match}</span>
       </Link>
     )
@@ -163,4 +163,10 @@ export const approximateHours = (
 export function roundTo(num: number, precision: number = 2) {
   let x = Math.pow(10, precision);
   return Math.round(num * x) / x;
+}
+
+const exactSearchRegex = new RegExp("(" + courseIdRegex.source + "\\s+)*" + courseIdRegex.source + "\\s*");
+export function isExactSearch(search: string): boolean {
+  console.log(exactSearchRegex.source);
+  return exactSearchRegex.test(search);
 }

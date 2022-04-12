@@ -11,7 +11,7 @@ const BookmarkedData = () => {
   const bookmarked = useAppSelector((state) => state.user.bookmarked);
   const selected = useAppSelector((state) => state.user.bookmarkedSelected);
   const bookmarkedResults = useAppSelector(
-    (state) => state.courses.bookmarkedResults
+    (state) => state.courses.exactResults
   );
   const FCEs = useAppSelector((state) => state.courses.fces);
   const options = useAppSelector((state) => state.user.fceAggregation);
