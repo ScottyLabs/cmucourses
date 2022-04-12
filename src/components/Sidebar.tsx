@@ -2,7 +2,7 @@ import React from "react";
 
 const Sidebar = ({ children }) => {
   return (
-    <div className="inset-0 p-6 bg-zinc-100 text-zinc-700 drop-shadow-lg md:absolute divide-y">
+    <div className="inset-0 z-20 divide-y bg-white p-6 text-grey-700 drop-shadow-md dark:bg-grey-900 dark:text-grey-100 md:absolute">
       {children}
     </div>
   );

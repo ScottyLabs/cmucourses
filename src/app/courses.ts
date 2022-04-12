@@ -21,9 +21,7 @@ export const fetchBookmarkedCourseInfos = createAsyncThunk(
 
     let url = `${process.env.backendUrl}/courseTool/courses/?`;
 
-    url += ids
-      .map((d) => `courseID=${d}`)
-      .join("&");
+    url += ids.map((d) => `courseID=${d}`).join("&");
 
     url += "&schedulesAvailable=true";
 
@@ -41,7 +39,7 @@ export const fetchBookmarkedCourseInfos = createAsyncThunk(
     } else {
       return fetch(url).then((response) => response.json());
     }
-  },
+  }
 );
 
 export const fetchCourseInfosByPage = createAsyncThunk(
@@ -76,7 +74,7 @@ export const fetchCourseInfosByPage = createAsyncThunk(
     } else {
       return fetch(url).then((response) => response.json());
     }
-  },
+  }
 );
 
 export const fetchCourseInfo = async ({ courseID, schedules }: any) => {
@@ -107,7 +105,7 @@ export const fetchFCEInfos = createAsyncThunk(
         }),
       }).then((response) => response.json());
     }
-  },
+  }
 );
 
 export const coursesSlice = createSlice({
@@ -134,7 +132,7 @@ export const coursesSlice = createSlice({
           state.page = action.payload.page;
           state.results = action.payload.docs;
           state.coursesLoading = false;
-        },
+        }
       );
 
     builder
@@ -146,34 +144,31 @@ export const coursesSlice = createSlice({
         (state, action: PayloadAction<any>) => {
           state.bookmarkedResults = action.payload;
           state.coursesLoading = false;
-        },
+        }
       );
 
     builder
       .addCase(fetchFCEInfos.pending, (state) => {
         state.fcesLoading = true;
       })
-      .addCase(
-        fetchFCEInfos.fulfilled,
-        (state, action: PayloadAction<any>) => {
-          state.fcesLoading = false;
-          if (!action.payload) return;
-          if (!action.payload[0]) return;
+      .addCase(fetchFCEInfos.fulfilled, (state, action: PayloadAction<any>) => {
+        state.fcesLoading = false;
+        if (!action.payload) return;
+        if (!action.payload[0]) return;
 
-          const courseIds = new Set<String>();
-          for (const fce of action.payload) {
-            courseIds.add(fce.courseID);
-          }
+        const courseIds = new Set<String>();
+        for (const fce of action.payload) {
+          courseIds.add(fce.courseID);
+        }
 
-          courseIds.forEach((courseId: any) => {
-            state.fces[courseId] = [];
-          });
+        courseIds.forEach((courseId: any) => {
+          state.fces[courseId] = [];
+        });
 
-          for (const fce of action.payload) {
-            state.fces[fce.courseID].push(fce);
-          }
-        },
-      );
+        for (const fce of action.payload) {
+          state.fces[fce.courseID].push(fce);
+        }
+      });
   },
 });
 

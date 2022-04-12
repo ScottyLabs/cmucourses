@@ -6,44 +6,52 @@ import { FCE } from "../app/types";
 import { sessionToString } from "../app/utils";
 import { useAppSelector } from "../app/hooks";
 
+import resolveConfig from "tailwindcss/resolveConfig";
+import tailwindConfig from "../../tailwind.config.js";
+
+const fullConfig = resolveConfig(tailwindConfig);
+
 const FCETable = ({ columns, data }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data });
 
   return (
-    <table {...getTableProps()} className="w-full table-auto min-w-fit">
+    <table {...getTableProps()} className="w-full min-w-fit table-auto">
       <thead>
-      {headerGroups.map((headerGroup) => (
-        <tr {...headerGroup.getHeaderGroupProps()}>
-          {headerGroup.headers.map((column) => (
-            <th
-              className="px-2 text-sm font-semibold text-left text-gray-800 whitespace-nowrap"
-              {...column.getHeaderProps()}
-            >
-              {column.render("Header")}
-            </th>
-          ))}
-        </tr>
-      ))}
+        {headerGroups.map((headerGroup) => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <th
+                className="whitespace-nowrap px-2 text-left text-sm font-semibold text-grey-700 dark:text-grey-100"
+                {...column.getHeaderProps()}
+              >
+                {column.render("Header")}
+              </th>
+            ))}
+          </tr>
+        ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-      {rows.map((row, i) => {
-        prepareRow(row);
-        return (
-          <tr {...row.getRowProps()} className="hover:bg-white">
-            {row.cells.map((cell) => {
-              return (
-                <td
-                  className="px-2 text-sm text-gray-600 whitespace-nowrap"
-                  {...cell.getCellProps()}
-                >
-                  {cell.render("Cell")}
-                </td>
-              );
-            })}
-          </tr>
-        );
-      })}
+        {rows.map((row, i) => {
+          prepareRow(row);
+          return (
+            <tr
+              {...row.getRowProps()}
+              className="hover:bg-white dark:hover:bg-grey-700"
+            >
+              {row.cells.map((cell) => {
+                return (
+                  <td
+                    className="whitespace-nowrap px-2 text-sm text-grey-600 dark:text-grey-200"
+                    {...cell.getCellProps()}
+                  >
+                    {cell.render("Cell")}
+                  </td>
+                );
+              })}
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
@@ -90,7 +98,10 @@ const columns = [
 ];
 
 export const FCEDetail = ({ fces }) => {
-  const aggregationOptions = useAppSelector(state => state.user.fceAggregation);
+  const aggregationOptions = useAppSelector(
+    (state) => state.user.fceAggregation
+  );
+  const darkMode = useAppSelector((state) => state.user.darkMode);
 
   let aggregateData: any = {};
   let filteredFCEs = fces;
@@ -106,53 +117,81 @@ export const FCEDetail = ({ fces }) => {
 
   return (
     <>
-      <div className="p-4 mt-3 text-gray-700 bg-gray-100 rounded-md text-md">
+      <div className="text-md mt-3 rounded-md bg-grey-50 p-4 text-grey-700 dark:bg-grey-800 dark:text-grey-100">
         <div className="flex items-baseline">
-          <h2 className="mb-2 text-md">Aggregate Data</h2>
-          <div className="flex-1 ml-2 text-sm">
+          <h2 className="text-md mb-2">Aggregate Data</h2>
+          <div className="ml-2 flex-1 text-sm">
             (data from {aggregateData.semestersCounted} semesters)
           </div>
         </div>
 
-        <div className="flex mt-2 space-x-2">
-          <div className="flex-1 w-1/5 p-2 bg-white rounded-md">
+        <div className="mt-2 flex space-x-2">
+          <div className="w-1/5 flex-1 rounded-md bg-white p-2 dark:bg-grey-700">
             <div>
               <span className="text-xl">{aggregateData.workload}</span>
-              <span className="ml-1 text-md">hrs/wk</span>
+              <span className="text-md ml-1">hrs/wk</span>
             </div>
-            <div className="text-sm text-gray-500">Workload</div>
+            <div className="text-sm text-grey-500 dark:text-grey-200">
+              Workload
+            </div>
           </div>
-          <div className="flex-1 p-2 bg-white rounded-md">
+          <div className="flex-1 rounded-md bg-white p-2 dark:bg-grey-700">
             <div className="flex content-end">
               <div className="hidden lg:block">
                 <StarRatings
                   rating={aggregateData.teachingRate}
                   starDimension="20px"
                   starSpacing="1px"
+                  starRatedColor={
+                    darkMode
+                      ? fullConfig.theme.colors.grey[50]
+                      : fullConfig.theme.colors.grey[500]
+                  }
+                  starEmptyColor={
+                    darkMode
+                      ? fullConfig.theme.colors.grey[500]
+                      : fullConfig.theme.colors.grey[200]
+                  }
                 />
               </div>
-              <span className="text-xl lg:ml-2">{aggregateData.teachingRate}</span>
+              <span className="text-xl lg:ml-2">
+                {aggregateData.teachingRate}
+              </span>
             </div>
-            <div className="text-sm text-gray-500">Teaching Rate</div>
+            <div className="text-sm text-grey-500 dark:text-grey-200">
+              Teaching Rate
+            </div>
           </div>
-          <div className="flex-1 p-2 bg-white rounded-md">
+          <div className="flex-1 rounded-md bg-white p-2 dark:bg-grey-700">
             <div className="flex content-end">
               <div className="hidden lg:block">
                 <StarRatings
                   rating={aggregateData.courseRate}
                   starDimension="20px"
                   starSpacing="1px"
+                  starRatedColor={
+                    darkMode
+                      ? fullConfig.theme.colors.grey[50]
+                      : fullConfig.theme.colors.grey[500]
+                  }
+                  starEmptyColor={
+                    darkMode
+                      ? fullConfig.theme.colors.grey[500]
+                      : fullConfig.theme.colors.grey[200]
+                  }
                 />
               </div>
               <span className="text-xl lg:ml-2">
                 {aggregateData.courseRate}
               </span>
             </div>
-            <div className="text-sm text-gray-500">Course Rate</div>
+            <div className="text-sm text-grey-500 dark:text-grey-200">
+              Course Rate
+            </div>
           </div>
         </div>
       </div>
-      <div className="p-4 mt-3 overflow-x-scroll bg-gray-100 rounded-md">
+      <div className="mt-3 overflow-x-auto rounded-md bg-grey-50 p-4 dark:bg-grey-800">
         <FCETable columns={columns} data={convertFCEData(filteredFCEs)} />
       </div>
     </>
@@ -161,7 +200,7 @@ export const FCEDetail = ({ fces }) => {
 
 export const FCECard = ({ fces }) => {
   return (
-    <div className="p-6 bg-white rounded-md">
+    <div className="rounded-md bg-white p-6 dark:bg-grey-900">
       <h1 className="text-lg">FCE Browser</h1>
       <FCEDetail fces={fces} />
     </div>

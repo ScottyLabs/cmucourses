@@ -8,9 +8,11 @@ import Header from "../components/Header";
 import { PersistGate } from "redux-persist/integration/react";
 
 import Head from "next/head";
+import { useAppSelector } from "../app/hooks";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  return (<>
+  return (
+    <>
       <Head>
         <title>ScottyLabs Course Tool Beta</title>
       </Head>

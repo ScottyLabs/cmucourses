@@ -47,6 +47,6 @@ export interface AggregateFCEsOptions {
     spring: boolean;
     summer: boolean;
     fall: boolean;
-  },
+  };
   numSemesters: number;
 }

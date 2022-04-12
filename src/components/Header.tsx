@@ -1,10 +1,12 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import Link from "next/link";
+import Image from "next/image";
 import Passlink from "passlink";
 import * as jose from "jose";
 import { userSlice } from "../app/user";
 import { StarIcon, AnnotationIcon, LoginIcon, LogoutIcon } from "@heroicons/react/solid";
+import DarkModeButton from "./DarkModeButton";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
 
@@ -37,7 +39,7 @@ export default function Header({ children }): ReactElement {
       (data) => {
         setLoading(false);
         dispatch(userSlice.actions.setToken(data));
-      },
+      }
     );
   }
 
@@ -52,15 +54,24 @@ export default function Header({ children }): ReactElement {
     }
   }, [token]);
 
+  const darkMode = useAppSelector((state) => state.user.darkMode);
+  useEffect(() => {
+    if (darkMode) document.querySelector("html").classList.add("dark");
+    else document.querySelector("html").classList.remove("dark");
+  }, [darkMode]);
+
   let logInButton;
 
   if (user) {
     logInButton = (
       <>
-        <div onClick={() => {
-          setUser(null);
-          dispatch(userSlice.actions.logOut());
-        }}><span className="flex items-center"><LogoutIcon className="h-4 w-4 inline mr-1" /> Log Out</span>
+        <div
+          onClick={() => {
+            setUser(null);
+            dispatch(userSlice.actions.logOut());
+          }}
+        >
+          <span className="flex items-center"><LogoutIcon className="h-4 w-4 inline mr-1" /> Log Out</span>
         </div>
       </>
     );
@@ -69,7 +80,9 @@ export default function Header({ children }): ReactElement {
       <>
         {loading && <p>Loading...</p>}
         {!loading && passlink && loginHandler && (
-          <div onClick={loginHandler}><span className="flex items-center"><LoginIcon className="h-4 w-4 inline mr-1" /> Log In</span></div>
+          <div onClick={loginHandler}>
+            <span className="flex items-center"><LoginIcon className="h-4 w-4 inline mr-1" /> Log In</span>
+          </div>
         )}
       </>
     );
@@ -79,19 +92,32 @@ export default function Header({ children }): ReactElement {
 
   return (
     <div className="relative">
-      <header className="fixed inset-x-0 top-0 z-50 text-white bg-indigo-700 h-28 md:h-16 drop-shadow">
-        <div className="flex flex-col justify-between h-full p-6 md:items-center md:flex-row">
-          <div className="flex-initial font-semibold">
-            <Link href="/">ScottyLabs Course Tool Beta</Link>
+      <header className="fixed inset-x-0 top-0 z-50 h-28 bg-grey-50 drop-shadow dark:bg-grey-800 dark:text-white md:h-16">
+        <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
+          <div className="flex-initial font-semibold text-grey-800 hover:cursor-pointer dark:text-white">
+            <Link href="/">
+              <span className="flex items-center">
+                <Image
+                  src="/favicon.ico"
+                  className="rounded-md"
+                  width={30}
+                  height={30}
+                />
+                <span className="ml-2">ScottyLabs Course Tool Beta</span>
+              </span>
+            </Link>
           </div>
-          <div className="flex flex-row space-x-10">
-            <div className="hover:cursor-pointer">
-              <Link href="/saved"><span className="flex items-center"><StarIcon className="h-4 w-4 inline mr-1" /> Saved</span></Link>
+          <div className="flex flex-row space-x-10 text-grey-600 dark:text-grey-100">
+            <div>
+              <Link href="/saved"><span className="flex items-center hover:cursor-pointer"><StarIcon className="h-4 w-4 inline mr-1" /> Saved</span></Link>
             </div>
             <div>
               <a href="https://forms.gle/6vPTN6Eyqd1w7pqJA" target="_blank">
-                <span className="flex items-center"><AnnotationIcon className="h-4 w-4 inline mr-1" /> Feedback</span>
+                <span className="flex items-center hover:cursor-pointer"><AnnotationIcon className="h-4 w-4 inline mr-1" /> Feedback</span>
               </a>
+            </div>
+            <div>
+              <DarkModeButton />
             </div>
             <div className="hover:cursor-pointer">{logInButton}</div>
           </div>

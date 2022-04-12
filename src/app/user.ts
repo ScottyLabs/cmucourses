@@ -4,6 +4,7 @@ import { SEMESTERS_COUNTED } from "./constants";
 
 const initialState = {
   bookmarked: [],
+  darkMode: false,
   bookmarkedSelected: [],
   showFCEs: false,
   showCourseInfos: true,
@@ -67,6 +68,9 @@ export const userSlice = createSlice({
         state.bookmarkedSelected = [...state.bookmarked];
       }
     },
+    toggleDarkMode: (state) => {
+      state.darkMode = !state.darkMode;
+    },
     showFCEs: (state, action) => {
       state.showFCEs = action.payload;
     },
@@ -88,10 +92,14 @@ export const userSlice = createSlice({
     },
     updateSemestersCounted: (state, action) => {
       if (!SEMESTERS_COUNTED.includes(action.payload.semester)) return;
-      state.fceAggregation.counted[action.payload.semester] = action.payload.value;
+      state.fceAggregation.counted[action.payload.semester] =
+        action.payload.value;
     },
     updateNumSemesters: (state, action) => {
-      const newNumSemesters = Math.min(Math.max(parseInt(action.payload), 1), 10);
+      const newNumSemesters = Math.min(
+        Math.max(parseInt(action.payload), 1),
+        10
+      );
       if (isNaN(newNumSemesters)) return;
       state.fceAggregation.numSemesters = newNumSemesters;
     },
@@ -99,8 +107,7 @@ export const userSlice = createSlice({
       state.token = action.payload;
     },
   },
-  extraReducers: (builder) => {
-  },
+  extraReducers: (builder) => {},
 });
 
 export const reducer = userSlice.reducer;
