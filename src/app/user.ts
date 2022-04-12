@@ -4,6 +4,7 @@ import { SEMESTERS_COUNTED } from "./constants";
 
 const initialState = {
   bookmarked: [],
+  bookmarkedSelected: [],
   showFCEs: false,
   showCourseInfos: true,
   loggedIn: false,
@@ -29,12 +30,41 @@ export const userSlice = createSlice({
     addBookmark: (state, action) => {
       if (state.bookmarked.indexOf(action.payload) == -1) {
         state.bookmarked.push(action.payload);
+        state.bookmarkedSelected.push(action.payload);
       }
     },
     removeBookmark: (state, action) => {
       const index = state.bookmarked.indexOf(action.payload);
       if (index > -1) {
         state.bookmarked.splice(index, 1);
+      }
+
+      const selectedIndex = state.bookmarkedSelected.indexOf(action.payload);
+      if (index > -1) {
+        state.bookmarkedSelected.splice(selectedIndex, 1);
+      }
+    },
+    clearBookmarks: (state) => {
+      state.bookmarked = [];
+      state.bookmarkedSelected = [];
+    },
+    addSelected: (state, action) => {
+      if (state.bookmarked.indexOf(action.payload) == -1) return;
+      if (state.bookmarkedSelected.indexOf(action.payload) == -1) {
+        state.bookmarkedSelected.push(action.payload);
+      }
+    },
+    removeSelected: (state, action) => {
+      const selectedIndex = state.bookmarkedSelected.indexOf(action.payload);
+      if (selectedIndex > -1) {
+        state.bookmarkedSelected.splice(selectedIndex, 1);
+      }
+    },
+    toggleSelect: (state, action) => {
+      if (state.bookmarkedSelected.length > 0) {
+        state.bookmarkedSelected = [];
+      } else {
+        state.bookmarkedSelected = [...state.bookmarked];
       }
     },
     showFCEs: (state, action) => {
