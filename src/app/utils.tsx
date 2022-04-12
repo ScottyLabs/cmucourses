@@ -66,7 +66,7 @@ export const sessionToShortString = (sessionInfo: Session | FCE) => {
 
 export const compareSessions = (
   session1: Session | FCE,
-  session2: Session | FCE,
+  session2: Session | FCE
 ) => {
   if (session1.year != session2.year)
     return session1.year < session2.year ? 1 : -1;
@@ -81,14 +81,14 @@ export const compareSessions = (
 
   if (session1.semester !== session2.semester) {
     return semesterNumbers.indexOf(session1.semester) <
-    semesterNumbers.indexOf(session2.semester)
+      semesterNumbers.indexOf(session2.semester)
       ? 1
       : -1;
   }
 
   if (session1.session !== session2.session) {
     return sessionNumbers.indexOf(session1.session) <
-    sessionNumbers.indexOf(session2.session)
+      sessionNumbers.indexOf(session2.session)
       ? 1
       : -1;
   }
@@ -121,9 +121,9 @@ export const injectLinks = (text: string) => {
     courseIdRegex,
     (match, i) => (
       <Link href={`/course/${standardizeId(match)}`} key={match}>
-        <span className="hover:underline hover:cursor-pointer">{match}</span>
+        <span className="hover:cursor-pointer hover:underline">{match}</span>
       </Link>
-    ),
+    )
   );
 };
 
@@ -142,7 +142,7 @@ export const timeArrToString = (times: Time[]) => {
 
 export const approximateHours = (
   fces: FCE[],
-  options: AggregateFCEsOptions,
+  options: AggregateFCEsOptions
 ): number | undefined => {
   if (fces.length === 0) {
     return undefined;

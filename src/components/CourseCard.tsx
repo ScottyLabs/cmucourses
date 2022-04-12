@@ -21,7 +21,7 @@ interface Props {
 
 const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
   const sortedSchedules = filterSessions([...info.schedules]).sort(
-    compareSessions,
+    compareSessions
   );
   const mostRecentSchedules = sortedSchedules.slice(0, 2);
   const schedulesAvailableString = mostRecentSchedules
@@ -30,43 +30,51 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const fces = useAppSelector((state) => state.courses.fces[info.courseID]);
-  const options = useAppSelector(state => state.user.fceAggregation);
+  const options = useAppSelector((state) => state.user.fceAggregation);
 
   const hours: number | undefined = fces
     ? approximateHours(fces, options)
     : undefined;
 
   return (
-    <div className="p-6 bg-white dark:bg-grey-900 rounded-xl drop-shadow-md">
-      <div className="grid grid-cols-8 gap-x-6 gap-y-2 auto-rows-min">
+    <div className="rounded-xl bg-white p-6 drop-shadow-md dark:bg-grey-900">
+      <div className="grid auto-rows-min grid-cols-8 gap-x-6 gap-y-2">
         <div className="col-span-5 col-start-1 row-span-1 row-start-1 md:col-span-6">
           <Link href={`/course/${info.courseID}`}>
-            <div className="text-lg hover:cursor-pointer text-grey-800 dark:text-grey-50">
+            <div className="text-lg text-grey-800 hover:cursor-pointer dark:text-grey-50">
               <span className="mr-2 font-semibold">{info.courseID}</span>
               <span className="">{info.name}</span>
             </div>
           </Link>
-          <div className="text-sm text-grey-500 dark:text-grey-200">{info.department}</div>
+          <div className="text-sm text-grey-500 dark:text-grey-200">
+            {info.department}
+          </div>
         </div>
 
         <div className="col-span-3 md:col-span-2">
           <div className="flex flex-row justify-between">
             <div>
-              <div className="text-lg text-grey-700 dark:text-grey-100">{displayUnits(info.units)} units</div>
+              <div className="text-lg text-grey-700 dark:text-grey-100">
+                {displayUnits(info.units)} units
+              </div>
             </div>
             <div>
               <BookmarkButton courseID={info.courseID} />
             </div>
           </div>
           {loggedIn && hours && (
-            <div className="text-md text-grey-500 dark:text-grey-200">{hours} hrs/week</div>
+            <div className="text-md text-grey-500 dark:text-grey-200">
+              {hours} hrs/week
+            </div>
           )}
         </div>
 
-        <div className="col-span-full md:col-span-2 md:col-start-7 text-grey-700 dark:text-grey-200">
-          <div className="hidden mb-1 md:block text-md">{schedulesAvailableString}</div>
+        <div className="col-span-full text-grey-700 dark:text-grey-200 md:col-span-2 md:col-start-7">
+          <div className="text-md mb-1 hidden md:block">
+            {schedulesAvailableString}
+          </div>
           {showCourseInfo && (
-            <div className="flex flex-row justify-between space-x-4 md:space-x-0 md:space-y-2 md:flex-col">
+            <div className="flex flex-row justify-between space-x-4 md:flex-col md:space-x-0 md:space-y-2">
               <div>
                 <div className="font-semibold">Prerequisites</div>
                 <div className="text-md text-grey-500 dark:text-grey-400">
@@ -89,8 +97,7 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
           )}
         </div>
         {showCourseInfo && (
-          <div
-            className="row-span-1 row-start-3 text-sm leading-relaxed md:row-start-2 col-span-full md:col-span-6 text-grey-600 dark:text-grey-200">
+          <div className="col-span-full row-span-1 row-start-3 text-sm leading-relaxed text-grey-600 dark:text-grey-200 md:col-span-6 md:row-start-2">
             {injectLinks(info.desc)}
           </div>
         )}

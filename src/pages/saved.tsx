@@ -9,12 +9,12 @@ const BookmarkedPage: NextPage = () => {
   return (
     <div className="font-sans accent-purple-600">
       <div className="flex flex-col md:h-screen md:flex-row">
-        <div className="relative w-full mt-28 md:mt-16 lg:w-96 md:w-72">
+        <div className="relative mt-28 w-full md:mt-16 md:w-72 lg:w-96">
           <Sidebar>
             <Aggregate />
           </Sidebar>
         </div>
-        <div className="flex-1 overflow-y-scroll md:h-full md:pt-16 dark:bg-grey-800">
+        <div className="flex-1 overflow-y-scroll dark:bg-grey-800 md:h-full md:pt-16">
           <BookmarkedData />
           <BookmarkedList />
         </div>

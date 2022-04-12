@@ -17,18 +17,30 @@ const BookmarkedList = () => {
     }
   }, [bookmarked, loggedIn]);
 
-  const bookmarkedResults = useAppSelector((state) => state.courses.bookmarkedResults);
+  const bookmarkedResults = useAppSelector(
+    (state) => state.courses.bookmarkedResults
+  );
 
   return (
     <div className="p-6">
-      {loading ? <Loading /> : (
-        bookmarkedResults && bookmarkedResults.length > 0 ? (
-          <div className="space-y-4">
-            {bookmarkedResults.map((course) => (
-              <CourseCard info={course} key={course.courseID} showFCEs={true} showCourseInfo={true} />
-            ))}
-          </div>
-        ) : (<div className="text-center text-grey-500 font-semibold">Nothing bookmarked yet!</div>))}
+      {loading ? (
+        <Loading />
+      ) : bookmarkedResults && bookmarkedResults.length > 0 ? (
+        <div className="space-y-4">
+          {bookmarkedResults.map((course) => (
+            <CourseCard
+              info={course}
+              key={course.courseID}
+              showFCEs={true}
+              showCourseInfo={true}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center font-semibold text-grey-500">
+          Nothing bookmarked yet!
+        </div>
+      )}
     </div>
   );
 };

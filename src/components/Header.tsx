@@ -38,7 +38,7 @@ export default function Header({ children }): ReactElement {
       (data) => {
         setLoading(false);
         dispatch(userSlice.actions.setToken(data));
-      },
+      }
     );
   }
 
@@ -53,12 +53,10 @@ export default function Header({ children }): ReactElement {
     }
   }, [token]);
 
-  const darkMode = useAppSelector(state => state.user.darkMode);
+  const darkMode = useAppSelector((state) => state.user.darkMode);
   useEffect(() => {
-    if (darkMode)
-      document.querySelector("html").classList.add("dark");
-    else
-      document.querySelector("html").classList.remove("dark");
+    if (darkMode) document.querySelector("html").classList.add("dark");
+    else document.querySelector("html").classList.remove("dark");
   }, [darkMode]);
 
   let logInButton;
@@ -66,10 +64,13 @@ export default function Header({ children }): ReactElement {
   if (user) {
     logInButton = (
       <>
-        <div onClick={() => {
-          setUser(null);
-          dispatch(userSlice.actions.logOut());
-        }}>Log Out
+        <div
+          onClick={() => {
+            setUser(null);
+            dispatch(userSlice.actions.logOut());
+          }}
+        >
+          Log Out
         </div>
       </>
     );
@@ -88,10 +89,20 @@ export default function Header({ children }): ReactElement {
 
   return (
     <div className="relative">
-      <header className="fixed inset-x-0 top-0 z-50 bg-grey-50 dark:bg-grey-800 dark:text-white h-28 md:h-16 drop-shadow">
-        <div className="flex flex-col justify-between h-full p-6 md:items-center md:flex-row">
-          <div className="flex-initial font-semibold text-grey-800 dark:text-white hover:cursor-pointer">
-            <Link href="/"><span className="flex items-center"><Image src="/favicon.ico" className="rounded-md" width={30} height={30}/><span className="ml-2">ScottyLabs Course Tool Beta</span></span></Link>
+      <header className="fixed inset-x-0 top-0 z-50 h-28 bg-grey-50 drop-shadow dark:bg-grey-800 dark:text-white md:h-16">
+        <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
+          <div className="flex-initial font-semibold text-grey-800 hover:cursor-pointer dark:text-white">
+            <Link href="/">
+              <span className="flex items-center">
+                <Image
+                  src="/favicon.ico"
+                  className="rounded-md"
+                  width={30}
+                  height={30}
+                />
+                <span className="ml-2">ScottyLabs Course Tool Beta</span>
+              </span>
+            </Link>
           </div>
           <div className="flex flex-row space-x-10 text-grey-600 dark:text-grey-100">
             <div>

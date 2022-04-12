@@ -19,12 +19,12 @@ import { FCECard } from "./FCEDetail";
 const Lecture = ({ lectureInfo, sections }) => {
   return (
     <>
-      <div className="flex items-baseline px-2 py-2 mt-2 rounded-md hover:bg-grey-100">
-        <div className="w-1/12 font-bold text-md">{lectureInfo.name}</div>
+      <div className="mt-2 flex items-baseline rounded-md px-2 py-2 hover:bg-grey-100">
+        <div className="text-md w-1/12 font-bold">{lectureInfo.name}</div>
         <div className="w-5/12 text-sm">
           {lectureInfo.instructors.join("; ")}
         </div>
-        <div className="flex flex-col w-6/12 text-sm">
+        <div className="flex w-6/12 flex-col text-sm">
           {lectureInfo.times.map((time) => (
             <div className="flex">
               <div className="w-2/3">{timeArrToString([time])}</div>
@@ -38,9 +38,9 @@ const Lecture = ({ lectureInfo, sections }) => {
 
       {sections.map((section) => (
         <div className="flex items-baseline px-2 py-1 text-grey-600 hover:bg-grey-100">
-          <div className="w-1/12 text-md">{section.name}</div>
+          <div className="text-md w-1/12">{section.name}</div>
           <div className="w-5/12 text-sm">{section.instructors.join("; ")}</div>
-          <div className="flex flex-col w-6/12 text-sm">
+          <div className="flex w-6/12 flex-col text-sm">
             {section.times.map((time) => (
               <div className="flex">
                 <div className="w-2/3">{timeArrToString([time])}</div>
@@ -64,7 +64,7 @@ const Schedule = ({ scheduleInfo }) => {
       <Lecture
         lectureInfo={lecture}
         sections={scheduleInfo.sections.filter(
-          (section) => section.lecture === lecture.name,
+          (section) => section.lecture === lecture.name
         )}
       />
     ));
@@ -84,13 +84,13 @@ const Schedules = ({ scheduleInfos }) => {
     <div className="w-full">
       <h1 className="text-lg">Schedules</h1>
       <Tab.Group>
-        <Tab.List className="flex p-2 mt-2 space-x-1 bg-grey-100 rounded-md">
+        <Tab.List className="mt-2 flex space-x-1 rounded-md bg-grey-100 p-2">
           {scheduleInfos.map((scheduleInfo) => {
             const label = sessionToString(scheduleInfo);
             return (
               <Tab
                 className={({ selected }) =>
-                  "px-2 py-1 text-sm rounded-md hover:bg-white " +
+                  "rounded-md px-2 py-1 text-sm hover:bg-white " +
                   (selected ? "bg-white" : "")
                 }
               >
@@ -120,7 +120,7 @@ const CourseDetail = ({ info }) => {
   }, [info.courseID, loggedIn]);
 
   const sortedSchedules = filterSessions([...info.schedules]).sort(
-    compareSessions,
+    compareSessions
   );
 
   const mostRecentSchedules = sortedSchedules.slice(0, 3);
@@ -128,20 +128,18 @@ const CourseDetail = ({ info }) => {
     .map(sessionToShortString)
     .join(", ");
 
-  const options = useAppSelector(state => state.user.fceAggregation);
+  const options = useAppSelector((state) => state.user.fceAggregation);
   const hours: number | undefined = info.fces
     ? approximateHours(info.fces, options)
     : undefined;
 
-  const fces = useAppSelector(
-    (state) => state.courses.fces[info.courseID],
-  );
+  const fces = useAppSelector((state) => state.courses.fces[info.courseID]);
 
   return (
-    <div className="p-6 m-auto space-y-4">
-      <div className="p-6 bg-white rounded-md">
-        <div className="flex flex-row flex-1">
-          <div className="flex flex-col flex-1">
+    <div className="m-auto space-y-4 p-6">
+      <div className="rounded-md bg-white p-6">
+        <div className="flex flex-1 flex-row">
+          <div className="flex flex-1 flex-col">
             <div className="text-grey-600">
               <div className="text-lg">
                 <span className="mr-2 font-semibold">{info.courseID}</span>
@@ -149,7 +147,7 @@ const CourseDetail = ({ info }) => {
               </div>
               <div className="text-sm text-grey-500">{info.department}</div>
             </div>
-            <div className="flex-1 mt-4 text-sm leading-relaxed text-grey-600">
+            <div className="mt-4 flex-1 text-sm leading-relaxed text-grey-600">
               {injectLinks(info.desc)}
             </div>
           </div>
@@ -195,7 +193,7 @@ const CourseDetail = ({ info }) => {
         </div>
       </div>
       {fces && <FCECard fces={fces} />}
-      <div className="p-6 bg-white rounded-md">
+      <div className="rounded-md bg-white p-6">
         <Schedules scheduleInfos={sortedSchedules} />
       </div>
     </div>

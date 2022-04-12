@@ -31,7 +31,7 @@ const CourseDetailPage: NextPage = () => {
   return (
     <div>
       <div className="flex flex-col md:h-screen md:flex-row">
-        <div className="relative w-full mt-28 md:mt-16 lg:w-96 md:w-72">
+        <div className="relative mt-28 w-full md:mt-16 md:w-72 lg:w-96">
           <Sidebar>
             <Aggregate />
           </Sidebar>
