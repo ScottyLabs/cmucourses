@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { aggregateCourses } from "../app/fce";
-import { roundTo } from "../app/utils";
+import { displayUnits, roundTo } from "../app/utils";
 import { userSlice } from "../app/user";
 
 const BookmarkedData = () => {
@@ -54,12 +54,20 @@ const BookmarkedData = () => {
 
   return (
     <div className="sticky top-0 z-10 p-8 bg-white text-zinc-700 drop-shadow-lg">
-      <h1 className="text-lg font-semibold">FCE Summary</h1>
-      <div className="text-lg text-zinc-600">
-        Total Workload{" "}
-        <span className="ml-4">
-          {roundTo(aggregatedSelectedData.workload, 2)} hrs/week{message === "" ? "" : "*"}
-        </span>
+      <div className="flex justify-between items-end">
+        <div>
+          <h1 className="text-lg font-semibold">FCE Summary</h1>
+          <div className="text-lg text-zinc-600">
+            Total Workload{" "}
+            <span className="ml-4">
+            {roundTo(aggregatedSelectedData.workload, 2)} hrs/week{message === "" ? "" : "*"}
+          </span>
+          </div>
+        </div>
+        <div>
+          <div className="text-sm py-1 px-2 bg-gray-100 rounded-md text-gray-600 hover:cursor-pointer"
+            onClick={() => {dispatch(userSlice.actions.clearBookmarks());}}>Clear Saved</div>
+        </div>
       </div>
       <table className="w-full mt-3 table-auto">
         <thead>
@@ -67,6 +75,7 @@ const BookmarkedData = () => {
           <th />
           <th className="font-semibold">Course ID</th>
           <th className="font-semibold">Course Name</th>
+          <th className="font-semibold">Units</th>
           <th className="font-semibold">Workload (hrs/week)</th>
         </tr>
         </thead>
@@ -79,6 +88,7 @@ const BookmarkedData = () => {
                            onChange={(e) => selectCourse(e.target.checked, result.courseID)} /></td>
                 <td>{result.courseID}</td>
                 <td>{result.name}</td>
+                <td>{displayUnits(result.units)}</td>
                 <td>
                   {result.courseID in aggregatedDataByCourseID
                     ? aggregatedDataByCourseID[result.courseID].workload

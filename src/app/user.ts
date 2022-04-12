@@ -44,6 +44,10 @@ export const userSlice = createSlice({
         state.selected.splice(selectedIndex, 1);
       }
     },
+    clearBookmarks: (state) => {
+      state.bookmarked = [];
+      state.selected = [];
+    },
     addSelected: (state, action) => {
       if (state.bookmarked.indexOf(action.payload) == -1) return;
       if (state.selected.indexOf(action.payload) == -1) {
