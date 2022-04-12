@@ -60,7 +60,7 @@ export const userSlice = createSlice({
         state.bookmarkedSelected.splice(selectedIndex, 1);
       }
     },
-    toggleSelect: (state, action) => {
+    toggleSelect: (state) => {
       if (state.bookmarkedSelected.length > 0) {
         state.bookmarkedSelected = [];
       } else {
