@@ -6,8 +6,6 @@ import CourseDetail from "../../components/CourseDetail";
 import { CircularProgress } from "@mui/material";
 import Sidebar from "../../components/Sidebar";
 import Aggregate from "../../components/Aggregate";
-import BookmarkedData from "../../components/BookmarkedData";
-import BookmarkedList from "../../components/BookmarkedList";
 
 const CourseDetailPage: NextPage = () => {
   const router = useRouter();
@@ -36,7 +34,7 @@ const CourseDetailPage: NextPage = () => {
             <Aggregate />
           </Sidebar>
         </div>
-        <div className="flex-1 overflow-y-scroll md:h-full md:pt-16">
+        <div className="flex-1 overflow-y-scroll dark:bg-grey-800 md:h-full md:pt-16">
           <CourseDetail info={info} />
         </div>
       </div>

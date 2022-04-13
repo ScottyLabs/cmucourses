@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { SunIcon } from "@heroicons/react/outline";
-import { MoonIcon } from "@heroicons/react/outline";
+import { MoonIcon, SunIcon } from "@heroicons/react/outline";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { userSlice } from "../app/user";
 

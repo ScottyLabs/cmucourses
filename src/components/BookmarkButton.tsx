@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 import { StarIcon as OutlineStar } from "@heroicons/react/outline";
-import { StarIcon as SolidStar } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { userSlice } from "../app/user";
 

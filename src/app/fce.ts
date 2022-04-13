@@ -66,7 +66,7 @@ export const aggregateCourses = (
   let message = "";
 
   const coursesWithoutFCEs = data
-    .filter(({ courseID, fces }) => fces === null)
+    .filter(({ fces }) => fces === null)
     .map(({ courseID }) => courseID);
   if (coursesWithoutFCEs.length > 0) {
     message += `There are courses with missing data (${coursesWithoutFCEs.join(
@@ -75,7 +75,7 @@ export const aggregateCourses = (
   }
 
   let aggregatedFCEs = data
-    .filter(({ courseID, fces }) => fces !== null)
+    .filter(({ fces }) => fces !== null)
     .map(({ courseID, fces }) => ({
       courseID,
       aggregateData: aggregateFCEs(filterFCEs(fces, options)),

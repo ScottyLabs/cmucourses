@@ -5,7 +5,12 @@ import Image from "next/image";
 import Passlink from "passlink";
 import * as jose from "jose";
 import { userSlice } from "../app/user";
-import { StarIcon, AnnotationIcon, LoginIcon, LogoutIcon } from "@heroicons/react/solid";
+import {
+  AnnotationIcon,
+  LoginIcon,
+  LogoutIcon,
+  StarIcon,
+} from "@heroicons/react/solid";
 import DarkModeButton from "./DarkModeButton";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
@@ -71,7 +76,9 @@ export default function Header({ children }): ReactElement {
             dispatch(userSlice.actions.logOut());
           }}
         >
-          <span className="flex items-center"><LogoutIcon className="h-4 w-4 inline mr-1" /> Log Out</span>
+          <span className="flex items-center">
+            <LogoutIcon className="mr-1 inline h-4 w-4" /> Log Out
+          </span>
         </div>
       </>
     );
@@ -81,14 +88,14 @@ export default function Header({ children }): ReactElement {
         {loading && <p>Loading...</p>}
         {!loading && passlink && loginHandler && (
           <div onClick={loginHandler}>
-            <span className="flex items-center"><LoginIcon className="h-4 w-4 inline mr-1" /> Log In</span>
+            <span className="flex items-center">
+              <LoginIcon className="mr-1 inline h-4 w-4" /> Log In
+            </span>
           </div>
         )}
       </>
     );
   }
-
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   return (
     <div className="relative">
@@ -109,11 +116,17 @@ export default function Header({ children }): ReactElement {
           </div>
           <div className="flex flex-row space-x-10 text-grey-600 dark:text-grey-100">
             <div>
-              <Link href="/saved"><span className="flex items-center hover:cursor-pointer"><StarIcon className="h-4 w-4 inline mr-1" /> Saved</span></Link>
+              <Link href="/saved">
+                <span className="flex items-center hover:cursor-pointer">
+                  <StarIcon className="mr-1 inline h-4 w-4" /> Saved
+                </span>
+              </Link>
             </div>
             <div>
               <a href="https://forms.gle/6vPTN6Eyqd1w7pqJA" target="_blank">
-                <span className="flex items-center hover:cursor-pointer"><AnnotationIcon className="h-4 w-4 inline mr-1" /> Feedback</span>
+                <span className="flex items-center hover:cursor-pointer">
+                  <AnnotationIcon className="mr-1 inline h-4 w-4" /> Feedback
+                </span>
               </a>
             </div>
             <div>
