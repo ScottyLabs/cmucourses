@@ -36,7 +36,7 @@ const CourseDetailPage: NextPage = () => {
             <Aggregate />
           </Sidebar>
         </div>
-        <div className="flex-1 overflow-y-scroll md:h-full md:pt-16">
+        <div className="flex-1 overflow-y-scroll md:h-full md:pt-16 dark:bg-grey-800">
           <CourseDetail info={info} />
         </div>
       </div>
