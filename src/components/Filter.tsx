@@ -15,6 +15,7 @@ const Filter = () => {
   const filterDepartments = useAppSelector(
     (state) => state.user.filter.departments
   );
+  const exactMatchesOnly = useAppSelector(state => state.user.filter.exactMatchesOnly);
 
   const changeDepartment = (e) => {
     const departments = e.map(({ value }) => value);
@@ -35,7 +36,7 @@ const Filter = () => {
   return (
     <div className="pb-3">
       <div className="mb-3 text-lg">Filter by</div>
-      <div className="divide-y text-sm">
+      <div className="text-sm space-y-3">
         {/*<div className="py-3">*/}
         {/*  <div className="mb-1 font-semibold">Semester</div>*/}
         {/*  <div className="flex flex-col space-y-1 text-sm">*/}
@@ -60,7 +61,20 @@ const Filter = () => {
         {/*  </div>*/}
         {/*</div>*/}
 
-        <div className="py-3">
+        <div>
+          <input
+            type="checkbox"
+            className="mr-2"
+            checked={exactMatchesOnly}
+            onChange={(e) => {
+              dispatch(userSlice.actions.setExactMatchesOnly(e.target.checked));
+              throttledFilter();
+            }}
+          />
+          Show Exact ID Matches Only
+        </div>
+
+        <div>
           <div className="mb-2 font-semibold">Department</div>
           <Select
             isMulti

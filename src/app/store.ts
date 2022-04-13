@@ -43,8 +43,10 @@ export let persistor = persistStore(store);
 const updateFilter = () => {
   setTimeout(() => {
     const state = store.getState();
-    store.dispatch(fetchCourseInfosByPage(1));
-    if (state.courses.exactResultsActive) {
+    if (!state.user.filter.exactMatchesOnly)
+      store.dispatch(fetchCourseInfosByPage(1));
+
+    if (state.courses.exactResultsActive || state.user.filter.exactMatchesOnly) {
       const search = state.user.filter.search;
       store.dispatch(fetchCourseInfos(search.split(/\s+/)));
     }

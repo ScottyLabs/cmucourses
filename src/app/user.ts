@@ -62,6 +62,9 @@ export const userSlice = createSlice({
         state.bookmarkedSelected.splice(selectedIndex, 1);
       }
     },
+    setExactMatchesOnly: (state, action) => {
+      state.filter.exactMatchesOnly = action.payload;
+    },
     toggleSelect: (state) => {
       if (state.bookmarkedSelected.length > 0) {
         state.bookmarkedSelected = [];

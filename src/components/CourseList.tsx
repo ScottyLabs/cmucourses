@@ -11,16 +11,20 @@ const CoursePage = () => {
   const dispatch = useAppDispatch();
   const results = useAppSelector((state) => state.courses.results);
 
-  const exactResults = useAppSelector((state) => state.courses.exactResults);
   const page = useAppSelector((state) => state.courses.page);
+
+  const exactResults = useAppSelector((state) => state.courses.exactResults);
   const exactResultsActive = useAppSelector(state => state.courses.exactResultsActive);
+  const exactMatchesOnly = useAppSelector((state) => state.user.filter.exactMatchesOnly);
 
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   let resultsToShow;
-  if (page === 1 && exactResultsActive) {
+  if (exactMatchesOnly) {
+    resultsToShow = [...exactResults];
+  } else if (page === 1 && exactResultsActive) {
     const exactCourseIds = exactResults.map(({courseID}) => courseID);
     resultsToShow = [...exactResults, ...results.filter(({ courseID }) => !exactCourseIds.includes(courseID))];
   } else {
@@ -55,6 +59,7 @@ const CourseList = () => {
   const curPage = useAppSelector((state) => state.courses.page);
 
   const loading = useAppSelector((state) => state.courses.coursesLoading);
+  const exactMatchesOnly = useAppSelector((state) => state.user.filter.exactMatchesOnly);
   const exactResultsActive = useAppSelector((state) => state.courses.exactResultsActive);
   const exactResultsLoading = useAppSelector((state) => state.courses.exactResultsLoading);
 
@@ -71,6 +76,7 @@ const CourseList = () => {
       ) : (
         <>
           <CoursePage />
+          { !exactMatchesOnly && (
           <div className="mx-auto my-6">
             <Pagination
               currentPage={curPage - 1}
@@ -95,6 +101,7 @@ const CourseList = () => {
               </Pagination.NextButton>
             </Pagination>
           </div>
+            )}
         </>
       )}
     </div>
