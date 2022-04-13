@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { aggregateCourses } from "../app/fce";
 import { displayUnits, roundTo } from "../app/utils";
 import { userSlice } from "../app/user";
+import SmallButton from "./SmallButton";
 
 const BookmarkedData = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ const BookmarkedData = () => {
 
   if (!loggedIn) {
     return (
-      <div className="sticky top-0 z-10 bg-white dark:bg-grey-900 p-8 text-grey-700 dark:text-grey-200 drop-shadow-lg">
+      <div className="sticky top-0 z-10 bg-white p-8 text-grey-700 drop-shadow-lg dark:bg-grey-900 dark:text-grey-200">
         <h1 className="text-lg font-semibold">FCE Summary</h1>
         <p>Log in to view FCE results.</p>
       </div>
@@ -55,7 +56,7 @@ const BookmarkedData = () => {
   };
 
   return (
-    <div className="sticky top-0 z-10 bg-white dark:bg-grey-900 p-8 text-grey-700 drop-shadow-lg dark:text-grey-200">
+    <div className="sticky top-0 z-10 bg-white p-8 text-grey-700 drop-shadow-lg dark:bg-grey-900 dark:text-grey-200">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-lg font-semibold">FCE Summary</h1>
@@ -69,22 +70,20 @@ const BookmarkedData = () => {
         </div>
       </div>
       <div className="mt-2 flex justify-between">
-        <div
-          className="rounded-md bg-grey-50 dark:bg-grey-800 py-1 px-2 text-sm text-grey-600 dark:text-grey-200 hover:cursor-pointer hover:bg-grey-100 dark:hover:bg-grey-700"
+        <SmallButton
           onClick={() => {
             dispatch(userSlice.actions.toggleSelect());
           }}
         >
           Toggle Select
-        </div>
-        <div
-          className="rounded-md bg-grey-50 dark:bg-grey-800 py-1 px-2 text-sm text-grey-600 dark:text-grey-200 hover:cursor-pointer hover:bg-grey-100 dark:hover:bg-grey-700"
+        </SmallButton>
+        <SmallButton
           onClick={() => {
             dispatch(userSlice.actions.clearBookmarks());
           }}
         >
           Clear Saved
-        </div>
+        </SmallButton>
       </div>
       <table className="mt-3 w-full table-auto">
         <thead>

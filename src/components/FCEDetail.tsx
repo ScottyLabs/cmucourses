@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { aggregateFCEs, filterFCEs } from "../app/fce";
 import StarRatings from "react-star-ratings";
 import { useTable } from "react-table";
@@ -32,7 +32,7 @@ const FCETable = ({ columns, data }) => {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
+        {rows.map((row) => {
           prepareRow(row);
           return (
             <tr

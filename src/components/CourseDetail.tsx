@@ -1,16 +1,10 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import BookmarkButton from "./BookmarkButton";
 import { fetchFCEInfos } from "../app/courses";
 import { Tab } from "@headlessui/react";
 import {
-  approximateHours,
   compareSessions,
-  courseListToString,
-  displayUnits,
   filterSessions,
-  injectLinks,
-  sessionToShortString,
   sessionToString,
   timeArrToString,
 } from "../app/utils";
@@ -20,7 +14,7 @@ import CourseCard from "./CourseCard";
 const Lecture = ({ lectureInfo, sections }) => {
   return (
     <>
-      <div className="mt-2 flex items-baseline rounded-md px-2 py-2 hover:bg-grey-100 dark:text-grey-200">
+      <div className="mt-2 flex items-baseline rounded-md px-2 py-2 text-grey-700 hover:bg-grey-50 dark:text-grey-200 dark:hover:bg-grey-800">
         <div className="text-md w-1/12 font-bold">{lectureInfo.name}</div>
         <div className="w-5/12 text-sm">
           {lectureInfo.instructors.join("; ")}
@@ -38,7 +32,7 @@ const Lecture = ({ lectureInfo, sections }) => {
       </div>
 
       {sections.map((section) => (
-        <div className="flex items-baseline px-2 py-1 text-grey-600 dark:text-grey-300 hover:bg-grey-100">
+        <div className="flex items-baseline px-2 py-1 text-grey-600 hover:bg-grey-50 dark:text-grey-300 dark:hover:bg-grey-800">
           <div className="text-md w-1/12">{section.name}</div>
           <div className="w-5/12 text-sm">{section.instructors.join("; ")}</div>
           <div className="flex w-6/12 flex-col text-sm">
@@ -58,7 +52,7 @@ const Lecture = ({ lectureInfo, sections }) => {
 };
 
 const Schedule = ({ scheduleInfo }) => {
-  let scheduleDivs = <></>;
+  let scheduleDivs;
 
   if (scheduleInfo.lectures.length !== 0) {
     scheduleDivs = scheduleInfo.lectures.map((lecture) => (
@@ -83,15 +77,15 @@ const Schedules = ({ scheduleInfos }) => {
 
   return (
     <div className="w-full">
-      <h1 className="text-lg dark:text-white">Schedules</h1>
+      <h1 className="text-lg text-grey-800 dark:text-grey-50">Schedules</h1>
       <Tab.Group>
-        <Tab.List className="mt-2 flex space-x-1 rounded-md bg-grey-100 dark:bg-grey-800 p-2">
+        <Tab.List className="mt-2 flex space-x-1 rounded-md bg-grey-50 p-2 dark:bg-grey-800">
           {scheduleInfos.map((scheduleInfo) => {
             const label = sessionToString(scheduleInfo);
             return (
               <Tab
                 className={({ selected }) =>
-                  "rounded-md px-2 py-1 text-sm hover:bg-white dark:hover:bg-grey-900 dark:text-grey-100 " +
+                  "rounded-md px-2 py-1 text-sm hover:bg-white dark:text-grey-100 dark:hover:bg-grey-900 " +
                   (selected ? "bg-white dark:bg-grey-900" : "")
                 }
               >
@@ -128,9 +122,9 @@ const CourseDetail = ({ info }) => {
 
   return (
     <div className="m-auto space-y-4 p-6">
-      <CourseCard info={info} showFCEs={false} showCourseInfo={true}/>
+      <CourseCard info={info} showFCEs={false} showCourseInfo={true} />
       {fces && <FCECard fces={fces} />}
-      <div className="rounded-md bg-white dark:bg-grey-900 p-6">
+      <div className="rounded-md bg-white p-6 dark:bg-grey-900">
         <Schedules scheduleInfos={sortedSchedules} />
       </div>
     </div>
