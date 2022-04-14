@@ -38,7 +38,11 @@ export const fetchCourseInfos = createAsyncThunk(
         body: JSON.stringify({
           token: state.user.token,
         }),
-      }).then((response) => response.json());
+      })
+        .then((response) => response.json())
+        .then((data) =>
+          data.sort((a, b) => ids.indexOf(a.courseID) > ids.indexOf(b.courseID))
+        );
     } else {
       return fetch(url).then((response) => response.json());
     }
@@ -122,7 +126,7 @@ export const coursesSlice = createSlice({
     },
     setExactResultsActive: (state, action) => {
       state.exactResultsActive = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder

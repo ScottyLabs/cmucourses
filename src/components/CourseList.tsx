@@ -14,8 +14,12 @@ const CoursePage = () => {
   const page = useAppSelector((state) => state.courses.page);
 
   const exactResults = useAppSelector((state) => state.courses.exactResults);
-  const exactResultsActive = useAppSelector(state => state.courses.exactResultsActive);
-  const exactMatchesOnly = useAppSelector((state) => state.user.filter.exactMatchesOnly);
+  const exactResultsActive = useAppSelector(
+    (state) => state.courses.exactResultsActive
+  );
+  const exactMatchesOnly = useAppSelector(
+    (state) => state.user.filter.exactMatchesOnly
+  );
 
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
@@ -25,8 +29,11 @@ const CoursePage = () => {
   if (exactMatchesOnly) {
     resultsToShow = [...exactResults];
   } else if (page === 1 && exactResultsActive) {
-    const exactCourseIds = exactResults.map(({courseID}) => courseID);
-    resultsToShow = [...exactResults, ...results.filter(({ courseID }) => !exactCourseIds.includes(courseID))];
+    const exactCourseIds = exactResults.map(({ courseID }) => courseID);
+    resultsToShow = [
+      ...exactResults,
+      ...results.filter(({ courseID }) => !exactCourseIds.includes(courseID)),
+    ];
   } else {
     resultsToShow = results;
   }
@@ -34,7 +41,9 @@ const CoursePage = () => {
   useEffect(() => {
     if (loggedIn && resultsToShow) {
       dispatch(
-        fetchFCEInfos({ courseIDs: resultsToShow.map((course) => course.courseID) })
+        fetchFCEInfos({
+          courseIDs: resultsToShow.map((course) => course.courseID),
+        })
       );
     }
   }, [resultsToShow, loggedIn]);
@@ -59,9 +68,15 @@ const CourseList = () => {
   const curPage = useAppSelector((state) => state.courses.page);
 
   const loading = useAppSelector((state) => state.courses.coursesLoading);
-  const exactMatchesOnly = useAppSelector((state) => state.user.filter.exactMatchesOnly);
-  const exactResultsActive = useAppSelector((state) => state.courses.exactResultsActive);
-  const exactResultsLoading = useAppSelector((state) => state.courses.exactResultsLoading);
+  const exactMatchesOnly = useAppSelector(
+    (state) => state.user.filter.exactMatchesOnly
+  );
+  const exactResultsActive = useAppSelector(
+    (state) => state.courses.exactResultsActive
+  );
+  const exactResultsLoading = useAppSelector(
+    (state) => state.courses.exactResultsLoading
+  );
 
   const dispatch = useAppDispatch();
 
@@ -71,37 +86,37 @@ const CourseList = () => {
 
   return (
     <div className="p-6">
-      {(loading || (exactResultsActive && exactResultsLoading)) ? (
+      {loading || (exactResultsActive && exactResultsLoading) ? (
         <Loading />
       ) : (
         <>
           <CoursePage />
-          { !exactMatchesOnly && (
-          <div className="mx-auto my-6">
-            <Pagination
-              currentPage={curPage - 1}
-              setCurrentPage={handlePageClick}
-              totalPages={pages}
-              className="flex w-full justify-center"
-            >
-              <Pagination.PrevButton className="">
-                <ChevronLeftIcon className="h-5 w-5 dark:stroke-grey-50" />
-              </Pagination.PrevButton>
+          {!exactMatchesOnly && (
+            <div className="mx-auto my-6">
+              <Pagination
+                currentPage={curPage - 1}
+                setCurrentPage={handlePageClick}
+                totalPages={pages}
+                className="flex w-full justify-center text-grey-600"
+              >
+                <Pagination.PrevButton className="">
+                  <ChevronLeftIcon className="h-5 w-5 dark:stroke-grey-50" />
+                </Pagination.PrevButton>
 
-              <div className="flex items-center align-baseline">
-                <Pagination.PageButton
-                  activeClassName="bg-grey-200 dark:bg-grey-600"
-                  inactiveClassName=""
-                  className="mx-3 inline-flex h-8 w-8 items-center justify-center rounded-full hover:cursor-pointer hover:bg-white dark:text-grey-50"
-                />
-              </div>
+                <div className="flex items-center align-baseline">
+                  <Pagination.PageButton
+                    activeClassName="bg-grey-100 dark:bg-grey-700"
+                    inactiveClassName=""
+                    className="mx-3 inline-flex h-8 w-8 items-center justify-center rounded-full hover:cursor-pointer hover:bg-white dark:text-grey-50"
+                  />
+                </div>
 
-              <Pagination.NextButton>
-                <ChevronRightIcon className="h-5 w-5 dark:stroke-grey-50" />
-              </Pagination.NextButton>
-            </Pagination>
-          </div>
-            )}
+                <Pagination.NextButton>
+                  <ChevronRightIcon className="h-5 w-5 dark:stroke-grey-50" />
+                </Pagination.NextButton>
+              </Pagination>
+            </div>
+          )}
         </>
       )}
     </div>

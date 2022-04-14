@@ -164,8 +164,14 @@ export function roundTo(num: number, precision: number = 2) {
   return Math.round(num * x) / x;
 }
 
-const exactSearchRegex = new RegExp("(" + courseIdRegex.source + "\\s+)*" + courseIdRegex.source + "\\s*");
+const exactSearchRegex = new RegExp(
+  "(" + courseIdRegex.source + "\\s+)*" + courseIdRegex.source + "\\s*"
+);
 export function isExactSearch(search: string): boolean {
   console.log(exactSearchRegex.source);
   return exactSearchRegex.test(search);
+}
+
+export function getCourseIds(search: string): string[] {
+  return search.match(courseIdRegex);
 }

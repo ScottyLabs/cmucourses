@@ -32,7 +32,7 @@ const SearchBar = () => {
     dispatch(userSlice.actions.updateSearch(search));
     dispatch(coursesSlice.actions.setExactResultsActive(isExactSearch(search)));
     throttledFilter();
-  }
+  };
 
   const onChange = (e) => {
     dispatchSearch(e.target.value);
