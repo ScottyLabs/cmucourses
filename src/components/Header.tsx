@@ -51,8 +51,13 @@ export default function Header({ children }): ReactElement {
   useEffect(() => {
     try {
       const userDecode = jose.decodeJwt(token);
-      setUser(userDecode);
-      dispatch(userSlice.actions.logIn());
+      if (Date.now().valueOf() / 1000 > userDecode.exp) {
+        setUser(null);
+        dispatch(userSlice.actions.logOut());
+      } else {
+        setUser(userDecode);
+        dispatch(userSlice.actions.logIn());
+      }
     } catch {
       setUser(null);
       dispatch(userSlice.actions.logOut());
