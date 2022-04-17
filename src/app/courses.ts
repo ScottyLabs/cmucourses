@@ -16,21 +16,21 @@ const initialState = {
 
 export const fetchCourseInfos = createAsyncThunk(
   "fetchCourseInfos",
-  async (ids: String[], thunkAPI) => {
+  async (ids: string[], thunkAPI) => {
     console.log("fetching ", ids);
     const state: any = thunkAPI.getState();
 
     if (ids.length === 0) return [];
 
-    let url = `${process.env.backendUrl}/courseTool/courses/?`;
+    const url = `${process.env.backendUrl}/courseTool/courses/?`;
+    const params = new URLSearchParams(ids.map((id) => ["courseID", id]));
 
-    url += ids.map((d) => `courseID=${d}`).join("&");
-
-    url += "&schedulesAvailable=true";
+    params.set("schedulesAvailable", "true");
 
     if (state.user.loggedIn) {
-      url += `&fces=true`;
-      return fetch(url, {
+      params.set("fces", "true");
+
+      return fetch(url + params.toString(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export const fetchCourseInfos = createAsyncThunk(
           data.sort((a, b) => ids.indexOf(a.courseID) > ids.indexOf(b.courseID))
         );
     } else {
-      return fetch(url).then((response) => response.json());
+      return fetch(url + params.toString()).then((response) => response.json());
     }
   }
 );
@@ -52,24 +52,26 @@ export const fetchCourseInfos = createAsyncThunk(
 export const fetchCourseInfosByPage = createAsyncThunk(
   "fetchCourseInfosByPage",
   async (page: number, thunkAPI) => {
-    console.log("fetching");
     const state: any = thunkAPI.getState();
 
-    let url = `${process.env.backendUrl}/courseTool/?page=${page}&schedulesAvailable=true`;
+    const url = `${process.env.backendUrl}/courseTool/?`;
+    const params = new URLSearchParams({
+      page: `${page}`,
+      schedulesAvailable: "true",
+    });
 
     if (state.user.filter.search !== "") {
-      url += `&keywords=${state.user.filter.search}`;
+      params.set("keywords", state.user.filter.search);
     }
 
     if (state.user.filter.departments.length > 0) {
-      url += state.user.filter.departments
-        .map((d) => `&department=${d}`)
-        .join("");
+      state.user.filter.departments.forEach((d) =>
+        params.append("department", d)
+      );
     }
 
     if (state.user.loggedIn) {
-      // url += `&fces=true`;
-      return fetch(url, {
+      return fetch(url + params.toString(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,30 +81,42 @@ export const fetchCourseInfosByPage = createAsyncThunk(
         }),
       }).then((response) => response.json());
     } else {
-      return fetch(url).then((response) => response.json());
+      return fetch(url + params.toString()).then((response) => response.json());
     }
   }
 );
 
-export const fetchCourseInfo = async ({ courseID, schedules }: any) => {
+export const fetchCourseInfo = async ({
+  courseID,
+  schedules,
+}: {
+  courseID: string;
+  schedules: boolean;
+}) => {
   if (!courseID) return;
-  let url = `${process.env.backendUrl}/courseTool/courseID/${courseID}?`;
-  if (schedules) url += `schedules=${schedules}`;
 
-  return fetch(url).then((response) => response.json());
+  const url = `${process.env.backendUrl}/courseTool/courseID/?`;
+  const params = new URLSearchParams({
+    courseID,
+    schedules: `${schedules}`,
+  });
+
+  return fetch(url + params.toString()).then((response) => response.json());
 };
 
 export const fetchFCEInfos = createAsyncThunk(
   "fetchFCEInfos",
-  async ({ courseIDs }: any, thunkAPI) => {
+  async ({ courseIDs }: { courseIDs: string[] }, thunkAPI) => {
     if (!courseIDs || courseIDs.length === 0) return;
 
     const state: any = thunkAPI.getState();
-    let url = `${process.env.backendUrl}/fces/?`;
-    url += courseIDs.map((courseID) => `courseID=${courseID}`).join("&");
+    const url = `${process.env.backendUrl}/fces/?`;
+    const params = new URLSearchParams();
+
+    courseIDs.forEach((courseID) => params.append("courseID", courseID));
 
     if (state.user.loggedIn && state.user.token) {
-      return fetch(url, {
+      return fetch(url + params.toString(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
