@@ -95,9 +95,8 @@ export const fetchCourseInfo = async ({
 }) => {
   if (!courseID) return;
 
-  const url = `${process.env.backendUrl}/courseTool/courseID/?`;
+  const url = `${process.env.backendUrl}/courseTool/courseID/${courseID}?`;
   const params = new URLSearchParams({
-    courseID,
     schedules: `${schedules}`,
   });
 

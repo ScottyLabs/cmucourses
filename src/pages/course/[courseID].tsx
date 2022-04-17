@@ -10,11 +10,7 @@ import Aggregate from "../../components/Aggregate";
 const CourseDetailPage: NextPage = () => {
   const router = useRouter();
   const [info, setInfo] = useState(null);
-
-  const courseID =
-    typeof router.query.courseID === "string"
-      ? router.query.courseID
-      : router.query.courseID[0];
+  const courseID = router.query.courseID as string;
 
   useEffect(() => {
     const fetchInfo = async () => {
