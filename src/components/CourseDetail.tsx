@@ -73,8 +73,6 @@ const Schedule = ({ scheduleInfo }) => {
 };
 
 const Schedules = ({ scheduleInfos }) => {
-  console.log(scheduleInfos);
-
   return (
     <div className="w-full">
       <h1 className="text-lg text-grey-800 dark:text-grey-50">Schedules</h1>
@@ -106,7 +104,7 @@ const Schedules = ({ scheduleInfos }) => {
   );
 };
 
-const CourseDetail = ({ info }) => {
+const CourseDetail = ({ info, schedules }) => {
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
@@ -114,9 +112,9 @@ const CourseDetail = ({ info }) => {
     dispatch(fetchFCEInfos({ courseIDs: [info.courseID] }));
   }, [info.courseID, loggedIn]);
 
-  const sortedSchedules = filterSessions([...info.schedules]).sort(
-    compareSessions
-  );
+  let sortedSchedules;
+  if (schedules)
+    sortedSchedules = filterSessions([...schedules]).sort(compareSessions);
 
   const fces = useAppSelector((state) => state.courses.fces[info.courseID]);
 
@@ -124,9 +122,11 @@ const CourseDetail = ({ info }) => {
     <div className="m-auto space-y-4 p-6">
       <CourseCard info={info} showFCEs={false} showCourseInfo={true} />
       {fces && <FCECard fces={fces} />}
-      <div className="rounded-md bg-white p-6 dark:bg-grey-900">
-        <Schedules scheduleInfos={sortedSchedules} />
-      </div>
+      {schedules && (
+        <div className="rounded-md bg-white p-6 dark:bg-grey-900">
+          <Schedules scheduleInfos={sortedSchedules} />
+        </div>
+      )}
     </div>
   );
 };
