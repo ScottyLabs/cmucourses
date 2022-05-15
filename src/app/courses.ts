@@ -14,8 +14,6 @@ const initialState = {
   exactResultsLoading: false,
 };
 
-console.log(process.env.backendUrl);
-
 export const fetchCourseInfos = createAsyncThunk(
   "fetchCourseInfos",
   async (ids: string[], thunkAPI) => {
