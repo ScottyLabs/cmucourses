@@ -28,7 +28,7 @@ export default function Header({ children }): ReactElement {
   if (window !== undefined) {
     passlink = new Passlink(window);
     loginHandler = passlink.generateloginHandler(
-      `${BASE_URL}/signingrequest`,
+      `/api/signingrequest`,
       () => {
         setLoading(true);
       },
