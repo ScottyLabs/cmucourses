@@ -1,5 +1,4 @@
 import React from "react";
-import { userSlice } from "../app/user";
 
 const SmallButton = ({ onClick, children }) => {
   return (

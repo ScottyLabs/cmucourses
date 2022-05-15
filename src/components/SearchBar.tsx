@@ -4,7 +4,7 @@ import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
 import { isExactSearch } from "../app/utils";
-import { coursesSlice, fetchCourseInfos } from "../app/courses";
+import { coursesSlice } from "../app/courses";
 
 const AppliedFilters = () => {
   const badges = [];

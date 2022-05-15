@@ -5,7 +5,6 @@ import { Pagination } from "react-headless-pagination";
 import { fetchCourseInfosByPage, fetchFCEInfos } from "../app/courses";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Loading from "./Loading";
-import { isExactSearch } from "../app/utils";
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();

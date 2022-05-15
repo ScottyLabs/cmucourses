@@ -7,6 +7,7 @@ export default async function handler(req, res) {
   await dbConnect();
 
   if (req.method !== "POST" || !(await isUser(req, res))) {
+    res.status(401).send();
     return;
   }
 

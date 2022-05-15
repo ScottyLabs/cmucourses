@@ -5,12 +5,7 @@ import Image from "next/image";
 import Passlink from "passlink";
 import * as jose from "jose";
 import { userSlice } from "../app/user";
-import {
-  AnnotationIcon,
-  LoginIcon,
-  LogoutIcon,
-  StarIcon,
-} from "@heroicons/react/solid";
+import { AnnotationIcon, LoginIcon, LogoutIcon, StarIcon } from "@heroicons/react/solid";
 import DarkModeButton from "./DarkModeButton";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
