@@ -1,7 +1,4 @@
+const { PHASE_DEVELOPMENT_SERVER } = require('next/constants');
 const withTM = require('next-transpile-modules')(['passlink']);
 
-module.exports = withTM({
-  env: {
-    backendUrl: 'https://beta.course.apis.scottylabs.org'
-  },
-});
+module.exports = (phase, { defaultConfig }) => withTM( {});
