@@ -11,14 +11,8 @@ async function getLoginKey() {
   JWT_PUBKEY = await jose.importSPKI(pubkey, "RS256");
 }
 
-if (process.env.NETLIFY) {
-  //@ts-ignore
-  KeyStore.readKey(process.env.LOGIN_API_KEY.split("\\n").join("\n"));
-} else {
-  //@ts-ignore
-  KeyStore.readKey(process.env.LOGIN_API_KEY);
-}
-
+//@ts-ignore
+KeyStore.readKey(process.env.LOGIN_API_KEY.replace(/\\n/gm, "\n"));
 const secretKey = KeyStore.getSecretKey();
 
 export const signingRequestHandler = generateSigningRequestHandler(
