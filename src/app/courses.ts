@@ -34,7 +34,7 @@ export const fetchCourseInfos = createAsyncThunk(
     const newIds = ids.filter((id) => !(id in state.courses.courseResults));
     if (newIds.length === 0) return [];
 
-    const url = `${process.env.backendUrl}/courseTool/courses/?`;
+    const url = `/api/courses?`;
     const params = new URLSearchParams(newIds.map((id) => ["courseID", id]));
 
     params.set("schedulesAvailable", "true");
@@ -62,7 +62,7 @@ export const fetchCourseInfosByPage = createAsyncThunk(
   async (page: number, thunkAPI) => {
     const state: any = thunkAPI.getState();
 
-    const url = `${process.env.backendUrl}/courseTool/?`;
+    const url = `/api/courses/search/?`;
     const params = new URLSearchParams({
       page: `${page}`,
       schedulesAvailable: "true",
@@ -111,7 +111,7 @@ export const fetchCourseInfo = createAsyncThunk(
     const state: any = thunkAPI.getState();
     if (courseID in state.courses.courseResults && !schedules) return;
 
-    const url = `${process.env.backendUrl}/courseTool/courseID/${courseID}?`;
+    const url = `/api/course/${courseID}?`;
     const params = new URLSearchParams({
       schedules: `${schedules}`,
     });
@@ -128,7 +128,7 @@ export const fetchFCEInfos = createAsyncThunk(
     const newIds = courseIDs.filter((id) => !(id in state.courses.fces));
     if (newIds.length === 0) return;
 
-    const url = `${process.env.backendUrl}/fces/?`;
+    const url = `/api/fces?`;
     const params = new URLSearchParams();
 
     newIds.forEach((courseID) => params.append("courseID", courseID));

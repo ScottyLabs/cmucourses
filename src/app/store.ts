@@ -1,23 +1,10 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-import {
-  fetchCourseInfos,
-  fetchCourseInfosByPage,
-  reducer as coursesReducer,
-} from "./courses";
+import { fetchCourseInfos, fetchCourseInfosByPage, reducer as coursesReducer } from "./courses";
 import { reducer as userReducer } from "./user";
 import debounce from "lodash/debounce";
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  persistReducer,
-  persistStore,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-} from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import { getCourseIds } from "./utils";
 
 const persistConfig = {
