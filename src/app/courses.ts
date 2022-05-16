@@ -1,29 +1,41 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+interface CoursesState {
+  totalDocs: number;
+  totalPages: number;
+  page: number;
+  pageCourses: string[];
+  courseResults: { [courseID: string]: any };
+  scheduleResults: { [courseID: string]: any };
+  fces: { [courseID: string]: any };
+  fcesLoading: boolean;
+  coursesLoading: boolean;
+  exactResultsCourses: string[];
+}
+
+const initialState: CoursesState = {
   totalDocs: 0,
   totalPages: 0,
   page: 1,
-  results: [],
-  exactResults: [],
-  bookmarkedResults: [],
+  pageCourses: [],
+  courseResults: {},
+  scheduleResults: {},
   fces: {},
   fcesLoading: false,
   coursesLoading: false,
-  exactResultsActive: false,
-  exactResultsLoading: false,
+  exactResultsCourses: [],
 };
 
 export const fetchCourseInfos = createAsyncThunk(
   "fetchCourseInfos",
   async (ids: string[], thunkAPI) => {
-    console.log("fetching ", ids);
     const state: any = thunkAPI.getState();
 
-    if (ids.length === 0) return [];
+    const newIds = ids.filter((id) => !(id in state.courses.courseResults));
+    if (newIds.length === 0) return [];
 
     const url = `/api/courses?`;
-    const params = new URLSearchParams(ids.map((id) => ["courseID", id]));
+    const params = new URLSearchParams(newIds.map((id) => ["courseID", id]));
 
     params.set("schedulesAvailable", "true");
 
@@ -38,11 +50,7 @@ export const fetchCourseInfos = createAsyncThunk(
         body: JSON.stringify({
           token: state.user.token,
         }),
-      })
-        .then((response) => response.json())
-        .then((data) =>
-          data.sort((a, b) => ids.indexOf(a.courseID) > ids.indexOf(b.courseID))
-        );
+      }).then((response) => response.json());
     } else {
       return fetch(url + params.toString()).then((response) => response.json());
     }
@@ -86,33 +94,44 @@ export const fetchCourseInfosByPage = createAsyncThunk(
   }
 );
 
-export const fetchCourseInfo = async ({
-  courseID,
-  schedules,
-}: {
-  courseID: string;
-  schedules: boolean;
-}) => {
-  if (!courseID) return;
+export const fetchCourseInfo = createAsyncThunk(
+  "fetchCourseInfo",
+  async (
+    {
+      courseID,
+      schedules,
+    }: {
+      courseID: string;
+      schedules: boolean;
+    },
+    thunkAPI
+  ) => {
+    if (!courseID) return;
 
-  const url = `/api/course/${courseID}?`;
-  const params = new URLSearchParams({
-    schedules: `${schedules}`,
-  });
+    const state: any = thunkAPI.getState();
+    if (courseID in state.courses.courseResults && !schedules) return;
 
-  return fetch(url + params.toString()).then((response) => response.json());
-};
+    const url = `/api/course/${courseID}?`;
+    const params = new URLSearchParams({
+      schedules: `${schedules}`,
+    });
+
+    return fetch(url + params.toString()).then((response) => response.json());
+  }
+);
 
 export const fetchFCEInfos = createAsyncThunk(
   "fetchFCEInfos",
   async ({ courseIDs }: { courseIDs: string[] }, thunkAPI) => {
-    if (!courseIDs || courseIDs.length === 0) return;
-
     const state: any = thunkAPI.getState();
+
+    const newIds = courseIDs.filter((id) => !(id in state.courses.fces));
+    if (newIds.length === 0) return;
+
     const url = `/api/fces?`;
     const params = new URLSearchParams();
 
-    courseIDs.forEach((courseID) => params.append("courseID", courseID));
+    newIds.forEach((courseID) => params.append("courseID", courseID));
 
     if (state.user.loggedIn && state.user.token) {
       return fetch(url + params.toString(), {
@@ -128,17 +147,36 @@ export const fetchFCEInfos = createAsyncThunk(
   }
 );
 
+export const selectCourseResults = (courseIDs: string[]) => (state) =>
+  courseIDs
+    .filter((courseID) => courseID in state.courses.courseResults)
+    .map((courseID) => state.courses.courseResults[courseID]);
+
+export const selectCourseResult = (courseID: string) => (state) =>
+  state.courses.courseResults[courseID];
+
+export const selectFCEResultsForCourses = (courseIDs: string[]) => (state) =>
+  courseIDs.map((courseID) => {
+    if (!state.courses.fces[courseID]) return { courseID, fces: null };
+    return { courseID, fces: state.courses.fces[courseID] };
+  });
+
+export const selectFCEResultsForCourse = (courseID: string) => (state) =>
+  state.courses.fces[courseID];
+
+export const selectScheduleForCourse = (courseID: string) => (state) =>
+  state.courses.scheduleResults[courseID];
+
 export const coursesSlice = createSlice({
   name: "courses",
   initialState,
   reducers: {
     clearData: (state) => {
       state.fces = {};
-      state.results = [];
-      state.bookmarkedResults = [];
+      state.courseResults = {};
     },
-    setExactResultsActive: (state, action) => {
-      state.exactResultsActive = action.payload;
+    setExactResultsCourses: (state, action) => {
+      state.exactResultsCourses = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -153,20 +191,45 @@ export const coursesSlice = createSlice({
           state.totalDocs = action.payload.totalDocs;
           state.totalPages = action.payload.totalPages;
           state.page = action.payload.page;
-          state.results = action.payload.docs;
+          state.pageCourses = [];
+
+          for (const result of action.payload.docs) {
+            state.pageCourses.push(result.courseID);
+            state.courseResults[result.courseID] = result;
+          }
+
           state.coursesLoading = false;
         }
       );
 
     builder
       .addCase(fetchCourseInfos.pending, (state) => {
-        state.exactResultsLoading = true;
+        state.coursesLoading = true;
       })
       .addCase(
         fetchCourseInfos.fulfilled,
         (state, action: PayloadAction<any>) => {
-          state.exactResults = action.payload;
-          state.exactResultsLoading = false;
+          for (const result of action.payload) {
+            state.courseResults[result.courseID] = result;
+          }
+          state.coursesLoading = false;
+        }
+      );
+
+    builder
+      .addCase(fetchCourseInfo.pending, (state) => {
+        state.coursesLoading = true;
+      })
+      .addCase(
+        fetchCourseInfo.fulfilled,
+        (state, action: PayloadAction<any>) => {
+          state.courseResults[action.payload.courseID] = action.payload;
+          state.coursesLoading = false;
+
+          if (action.payload.schedules) {
+            state.scheduleResults[action.payload.courseID] =
+              action.payload.schedules;
+          }
         }
       );
 

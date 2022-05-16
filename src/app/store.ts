@@ -39,11 +39,10 @@ const updateFilter = () => {
       store.dispatch(fetchCourseInfosByPage(1));
 
     if (
-      state.courses.exactResultsActive ||
+      state.courses.exactResultsCourses ||
       state.user.filter.exactMatchesOnly
     ) {
-      const search = state.user.filter.search;
-      store.dispatch(fetchCourseInfos(getCourseIds(search)));
+      store.dispatch(fetchCourseInfos(state.courses.exactResultsCourses));
     }
   }, 0);
 };

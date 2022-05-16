@@ -2,19 +2,22 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
 import { Pagination } from "react-headless-pagination";
-import { fetchCourseInfosByPage, fetchFCEInfos } from "../app/courses";
+import {
+  fetchCourseInfosByPage,
+  fetchFCEInfos,
+  selectCourseResults,
+} from "../app/courses";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Loading from "./Loading";
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
-  const results = useAppSelector((state) => state.courses.results);
 
+  const pageCourses = useAppSelector((state) => state.courses.pageCourses);
   const page = useAppSelector((state) => state.courses.page);
 
-  const exactResults = useAppSelector((state) => state.courses.exactResults);
-  const exactResultsActive = useAppSelector(
-    (state) => state.courses.exactResultsActive
+  const exactResultsCourses = useAppSelector(
+    (state) => state.courses.exactResultsCourses
   );
   const exactMatchesOnly = useAppSelector(
     (state) => state.user.filter.exactMatchesOnly
@@ -24,33 +27,34 @@ const CoursePage = () => {
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
-  let resultsToShow;
+  let coursesToShow: string[] = [];
+
   if (exactMatchesOnly) {
-    resultsToShow = [...exactResults];
-  } else if (page === 1 && exactResultsActive) {
-    const exactCourseIds = exactResults.map(({ courseID }) => courseID);
-    resultsToShow = [
-      ...exactResults,
-      ...results.filter(({ courseID }) => !exactCourseIds.includes(courseID)),
+    coursesToShow = [...exactResultsCourses];
+  } else if (page === 1 && exactResultsCourses.length > 0) {
+    coursesToShow = [
+      ...exactResultsCourses,
+      ...pageCourses.filter(
+        (courseID) => !exactResultsCourses.includes(courseID)
+      ),
     ];
   } else {
-    resultsToShow = results;
+    coursesToShow = [...pageCourses];
   }
 
+  const results = useAppSelector(selectCourseResults(coursesToShow));
+
   useEffect(() => {
-    if (loggedIn && resultsToShow) {
-      dispatch(
-        fetchFCEInfos({
-          courseIDs: resultsToShow.map((course) => course.courseID),
-        })
-      );
+    console.log(coursesToShow);
+    if (loggedIn && coursesToShow) {
+      dispatch(fetchFCEInfos({ courseIDs: coursesToShow }));
     }
-  }, [resultsToShow, loggedIn]);
+  }, [coursesToShow.join(" "), loggedIn]);
 
   return (
     <div className="space-y-4">
-      {resultsToShow &&
-        resultsToShow.map((course) => (
+      {results &&
+        results.map((course) => (
           <CourseCard
             info={course}
             key={course.courseID}
@@ -70,12 +74,6 @@ const CourseList = () => {
   const exactMatchesOnly = useAppSelector(
     (state) => state.user.filter.exactMatchesOnly
   );
-  const exactResultsActive = useAppSelector(
-    (state) => state.courses.exactResultsActive
-  );
-  const exactResultsLoading = useAppSelector(
-    (state) => state.courses.exactResultsLoading
-  );
 
   const dispatch = useAppDispatch();
 
@@ -85,7 +83,7 @@ const CourseList = () => {
 
   return (
     <div className="p-6">
-      {loading || (exactResultsActive && exactResultsLoading) ? (
+      {loading ? (
         <Loading />
       ) : (
         <>

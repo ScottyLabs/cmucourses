@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
-import { fetchCourseInfos, fetchFCEInfos } from "../app/courses";
+import {
+  fetchCourseInfos,
+  fetchFCEInfos,
+  selectCourseResults,
+} from "../app/courses";
 import Loading from "./Loading";
 
 const BookmarkedList = () => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const bookmarked = useAppSelector((state) => state.user.bookmarked);
-  const loading = useAppSelector((state) => state.courses.exactResultsLoading);
+  const loading = useAppSelector((state) => state.courses.coursesLoading);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -17,9 +21,7 @@ const BookmarkedList = () => {
     }
   }, [bookmarked, loggedIn]);
 
-  const bookmarkedResults = useAppSelector(
-    (state) => state.courses.exactResults
-  );
+  const bookmarkedResults = useAppSelector(selectCourseResults(bookmarked));
 
   return (
     <div className="p-6">
