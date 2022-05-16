@@ -2,7 +2,7 @@ import { generateSigningRequestHandler, KeyStore } from "passlink-server";
 import * as jose from "jose";
 import axios from "axios";
 
-let JWT_PUBKEY;
+let JWT_PUBKEY = null;
 
 async function getLoginKey() {
   const pubkey = (await axios.get("https://login.scottylabs.org/login/pubkey"))
@@ -11,8 +11,14 @@ async function getLoginKey() {
   JWT_PUBKEY = await jose.importSPKI(pubkey, "RS256");
 }
 
-//@ts-ignore
-KeyStore.readKey(process.env.LOGIN_API_KEY);
+if (process.env.NETLIFY) {
+  //@ts-ignore
+  KeyStore.readKey(process.env.LOGIN_API_KEY.split("\\n").join("\n"));
+} else {
+  //@ts-ignore
+  KeyStore.readKey(process.env.LOGIN_API_KEY);
+}
+
 const secretKey = KeyStore.getSecretKey();
 
 export const signingRequestHandler = generateSigningRequestHandler(
