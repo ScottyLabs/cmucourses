@@ -3,9 +3,9 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { fetchCourseInfo } from "../../app/courses";
 import CourseDetail from "../../components/CourseDetail";
-import { CircularProgress } from "@mui/material";
 import Sidebar from "../../components/Sidebar";
 import Aggregate from "../../components/Aggregate";
+import Loading from "../../components/Loading";
 
 const CourseDetailPage: NextPage = () => {
   const router = useRouter();
@@ -22,7 +22,7 @@ const CourseDetailPage: NextPage = () => {
   }, [courseID]);
 
   if (!info) {
-    return <CircularProgress />;
+    return <Loading />;
   }
 
   return (

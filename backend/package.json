@@ -1,0 +1,31 @@
+{
+  "name": "course-tool-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "doppler run -- npm run serve",
+    "dev": "doppler run -- nodemon ./src/app.js",
+    "serve": "node src/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.0",
+    "jose": "^4.8.1",
+    "mongoose": "^6.3.1",
+    "mongoose-paginate-v2": "^1.6.3",
+    "node-cron": "^3.0.0",
+    "passlink-server": "^1.1.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/core": "^7.17.9",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "nodemon": "^2.0.15"
+  },
+  "type": "module"
+}
