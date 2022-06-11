@@ -23,7 +23,7 @@ export default function Header({ children }): ReactElement {
   if (window !== undefined) {
     passlink = new Passlink(window);
     loginHandler = passlink.generateloginHandler(
-      `/api/signingrequest`,
+      `${process.env.backendUrl}/signingrequest`,
       () => {
         setLoading(true);
       },
@@ -77,7 +77,7 @@ export default function Header({ children }): ReactElement {
           }}
         >
           <span className="flex items-center">
-            <LogoutIcon className="mr-1 inline h-4 w-4" /> Log Out
+            <LogoutIcon className="inline w-4 h-4 mr-1" /> Log Out
           </span>
         </div>
       </>
@@ -89,7 +89,7 @@ export default function Header({ children }): ReactElement {
         {!loading && passlink && loginHandler && (
           <div onClick={loginHandler}>
             <span className="flex items-center">
-              <LoginIcon className="mr-1 inline h-4 w-4" /> Log In
+              <LoginIcon className="inline w-4 h-4 mr-1" /> Log In
             </span>
           </div>
         )}
@@ -100,7 +100,7 @@ export default function Header({ children }): ReactElement {
   return (
     <div className="relative">
       <header className="fixed inset-x-0 top-0 z-50 h-28 bg-grey-50 drop-shadow dark:bg-grey-800 dark:text-white md:h-16">
-        <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
+        <div className="flex flex-col justify-between h-full p-6 md:flex-row md:items-center">
           <div className="flex-initial font-semibold text-grey-800 hover:cursor-pointer dark:text-white">
             <Link href="/">
               <span className="flex items-center">
@@ -118,14 +118,14 @@ export default function Header({ children }): ReactElement {
             <div>
               <Link href="/saved">
                 <span className="flex items-center hover:cursor-pointer">
-                  <StarIcon className="mr-1 inline h-4 w-4" /> Saved
+                  <StarIcon className="inline w-4 h-4 mr-1" /> Saved
                 </span>
               </Link>
             </div>
             <div>
               <a href="https://forms.gle/6vPTN6Eyqd1w7pqJA" target="_blank">
                 <span className="flex items-center hover:cursor-pointer">
-                  <AnnotationIcon className="mr-1 inline h-4 w-4" /> Feedback
+                  <AnnotationIcon className="inline w-4 h-4 mr-1" /> Feedback
                 </span>
               </a>
             </div>
