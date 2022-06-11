@@ -111,7 +111,7 @@ export const fetchCourseInfo = createAsyncThunk(
     const state: any = thunkAPI.getState();
     if (courseID in state.courses.courseResults && !schedules) return;
 
-    const url = `${process.env.backendUrl}/api/course/${courseID}?`;
+    const url = `${process.env.backendUrl}/course/${courseID}?`;
     const params = new URLSearchParams({
       schedules: `${schedules}`,
     });
