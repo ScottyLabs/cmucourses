@@ -4,6 +4,10 @@ import { aggregateCourses } from "../app/fce";
 import { displayUnits, roundTo } from "../app/utils";
 import { userSlice } from "../app/user";
 import SmallButton from "./SmallButton";
+import {
+  selectCourseResults,
+  selectFCEResultsForCourses,
+} from "../app/courses";
 
 const BookmarkedData = () => {
   const dispatch = useAppDispatch();
@@ -11,10 +15,8 @@ const BookmarkedData = () => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const bookmarked = useAppSelector((state) => state.user.bookmarked);
   const selected = useAppSelector((state) => state.user.bookmarkedSelected);
-  const bookmarkedResults = useAppSelector(
-    (state) => state.courses.exactResults
-  );
-  const FCEs = useAppSelector((state) => state.courses.fces);
+  const bookmarkedResults = useAppSelector(selectCourseResults(bookmarked));
+
   const options = useAppSelector((state) => state.user.fceAggregation);
 
   if (!loggedIn) {
@@ -26,16 +28,7 @@ const BookmarkedData = () => {
     );
   }
 
-  const bookmarkedFCEs = [];
-
-  for (const courseID of bookmarked) {
-    if (courseID in FCEs) {
-      bookmarkedFCEs.push({ courseID, fces: FCEs[courseID] });
-    } else {
-      bookmarkedFCEs.push({ courseID, fces: null });
-    }
-  }
-
+  const bookmarkedFCEs = useAppSelector(selectFCEResultsForCourses(bookmarked));
   const selectedFCEs = bookmarkedFCEs.filter(({ courseID }) =>
     selected.includes(courseID)
   );

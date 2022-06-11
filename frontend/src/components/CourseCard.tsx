@@ -12,6 +12,7 @@ import { useAppSelector } from "../app/hooks";
 import BookmarkButton from "./BookmarkButton";
 import Link from "next/link";
 import { FCEDetail } from "./FCEDetail";
+import { selectFCEResultsForCourse } from "../app/courses";
 
 interface Props {
   info: Course;
@@ -29,7 +30,7 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
     .join(", ");
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  const fces = useAppSelector((state) => state.courses.fces[info.courseID]);
+  const fces = useAppSelector(selectFCEResultsForCourse(info.courseID));
   const options = useAppSelector((state) => state.user.fceAggregation);
 
   const hours: number | undefined = fces

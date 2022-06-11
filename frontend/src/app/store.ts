@@ -1,23 +1,10 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-import {
-  fetchCourseInfos,
-  fetchCourseInfosByPage,
-  reducer as coursesReducer,
-} from "./courses";
+import { fetchCourseInfos, fetchCourseInfosByPage, reducer as coursesReducer } from "./courses";
 import { reducer as userReducer } from "./user";
 import debounce from "lodash/debounce";
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  persistReducer,
-  persistStore,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-} from "redux-persist";
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import { getCourseIds } from "./utils";
 
 const persistConfig = {
@@ -52,11 +39,10 @@ const updateFilter = () => {
       store.dispatch(fetchCourseInfosByPage(1));
 
     if (
-      state.courses.exactResultsActive ||
+      state.courses.exactResultsCourses ||
       state.user.filter.exactMatchesOnly
     ) {
-      const search = state.user.filter.search;
-      store.dispatch(fetchCourseInfos(getCourseIds(search)));
+      store.dispatch(fetchCourseInfos(state.courses.exactResultsCourses));
     }
   }, 0);
 };
