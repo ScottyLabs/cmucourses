@@ -187,7 +187,6 @@ export const coursesSlice = createSlice({
       .addCase(
         fetchCourseInfosByPage.fulfilled,
         (state, action: PayloadAction<any>) => {
-          console.log(action.payload);
           state.totalDocs = action.payload.totalDocs;
           state.totalPages = action.payload.totalPages;
           state.page = action.payload.page;

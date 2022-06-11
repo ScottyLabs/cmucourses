@@ -32,7 +32,7 @@ const Aggregate = () => {
         </div>
         <div className="flex flex-row justify-between text-sm">
           {SEMESTERS_COUNTED.map((sem) => (
-            <label className="capitalize">
+            <label className="capitalize" key={sem}>
               <input
                 type="checkbox"
                 className="mr-1"

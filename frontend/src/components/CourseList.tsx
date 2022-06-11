@@ -43,13 +43,13 @@ const CoursePage = () => {
   }
 
   const results = useAppSelector(selectCourseResults(coursesToShow));
+  const coursesToShowStr = coursesToShow.join(" ");
 
   useEffect(() => {
-    console.log(coursesToShow);
     if (loggedIn && coursesToShow) {
       dispatch(fetchFCEInfos({ courseIDs: coursesToShow }));
     }
-  }, [coursesToShow.join(" "), loggedIn]);
+  }, [coursesToShowStr, loggedIn]);
 
   return (
     <div className="space-y-4">

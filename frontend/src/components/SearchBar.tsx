@@ -36,8 +36,7 @@ const SearchBar = () => {
     const exactCourses = getCourseIds(search);
     if (exactCourses)
       dispatch(coursesSlice.actions.setExactResultsCourses(exactCourses));
-    else
-      dispatch(coursesSlice.actions.setExactResultsCourses([]));
+    else dispatch(coursesSlice.actions.setExactResultsCourses([]));
     throttledFilter();
   };
 

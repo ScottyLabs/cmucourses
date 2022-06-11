@@ -2,7 +2,12 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { fetchFCEInfos } from "../app/courses";
 import { Tab } from "@headlessui/react";
-import { compareSessions, filterSessions, sessionToString, timeArrToString } from "../app/utils";
+import {
+  compareSessions,
+  filterSessions,
+  sessionToString,
+  timeArrToString,
+} from "../app/utils";
 import { FCECard } from "./FCEDetail";
 import CourseCard from "./CourseCard";
 
@@ -16,7 +21,7 @@ const Lecture = ({ lectureInfo, sections }) => {
         </div>
         <div className="flex w-6/12 flex-col text-sm">
           {lectureInfo.times.map((time) => (
-            <div className="flex">
+            <div className="flex" key={timeArrToString([time])}>
               <div className="w-2/3">{timeArrToString([time])}</div>
               <div className="w-1/3">
                 {time.building} {time.room}
@@ -27,12 +32,15 @@ const Lecture = ({ lectureInfo, sections }) => {
       </div>
 
       {sections.map((section) => (
-        <div className="flex items-baseline px-2 py-1 text-grey-600 hover:bg-grey-50 dark:text-grey-300 dark:hover:bg-grey-800">
+        <div
+          className="flex items-baseline px-2 py-1 text-grey-600 hover:bg-grey-50 dark:text-grey-300 dark:hover:bg-grey-800"
+          key={section.name}
+        >
           <div className="text-md w-1/12">{section.name}</div>
           <div className="w-5/12 text-sm">{section.instructors.join("; ")}</div>
           <div className="flex w-6/12 flex-col text-sm">
             {section.times.map((time) => (
-              <div className="flex">
+              <div className="flex" key={timeArrToString([time])}>
                 <div className="w-2/3">{timeArrToString([time])}</div>
                 <div className="w-1/3">
                   {time.building} {time.room}
@@ -52,6 +60,7 @@ const Schedule = ({ scheduleInfo }) => {
   if (scheduleInfo.lectures.length !== 0) {
     scheduleDivs = scheduleInfo.lectures.map((lecture) => (
       <Lecture
+        key={lecture.name}
         lectureInfo={lecture}
         sections={scheduleInfo.sections.filter(
           (section) => section.lecture === lecture.name
@@ -59,9 +68,8 @@ const Schedule = ({ scheduleInfo }) => {
       />
     ));
   } else {
-    console.log(scheduleInfo.sections);
     scheduleDivs = scheduleInfo.sections.map((section) => (
-      <Lecture lectureInfo={section} sections={[]} />
+      <Lecture lectureInfo={section} sections={[]} key={section.name} />
     ));
   }
   return <div className="p-2">{scheduleDivs}</div>;
@@ -77,6 +85,7 @@ const Schedules = ({ scheduleInfos }) => {
             const label = sessionToString(scheduleInfo);
             return (
               <Tab
+                key={label}
                 className={({ selected }) =>
                   "rounded-md px-2 py-1 text-sm hover:bg-white dark:text-grey-100 dark:hover:bg-grey-900 " +
                   (selected ? "bg-white dark:bg-grey-900" : "")
@@ -89,7 +98,7 @@ const Schedules = ({ scheduleInfos }) => {
         </Tab.List>
         <Tab.Panels>
           {scheduleInfos.map((scheduleInfo) => (
-            <Tab.Panel>
+            <Tab.Panel key={sessionToString(scheduleInfo)}>
               <Schedule scheduleInfo={scheduleInfo} />
             </Tab.Panel>
           ))}

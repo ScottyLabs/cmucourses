@@ -6,7 +6,7 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: 'class',
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
@@ -14,11 +14,11 @@ module.exports = {
       },
     },
     colors: {
-      transparent: 'transparent',
-      current: 'currentColor',
-      white: 'white',
+      transparent: "transparent",
+      current: "currentColor",
+      white: "white",
       grey: {
-        50 : "#F0F4F8",
+        50: "#F0F4F8",
         100: "#D9E2EC",
         200: "#BCCCDC",
         300: "#9FB3C8",
@@ -31,7 +31,7 @@ module.exports = {
       },
       // primary colors
       purple: {
-        50 : "#E6E6FF",
+        50: "#E6E6FF",
         100: "#C4C6FF",
         200: "#A2A5FC",
         300: "#8888FC",
@@ -43,7 +43,7 @@ module.exports = {
         900: "#0C008C",
       },
       teal: {
-        50 : "#EFFCF6",
+        50: "#EFFCF6",
         100: "#C6F7E2",
         200: "#8EEDC7",
         300: "#65D6AD",
@@ -56,7 +56,7 @@ module.exports = {
       },
       // secondary colors
       blue: {
-        50 : "#E3F8FF",
+        50: "#E3F8FF",
         100: "#B3ECFF",
         200: "#81DEFD",
         300: "#5ED0FA",
@@ -65,10 +65,10 @@ module.exports = {
         600: "#1992D4",
         700: "#127FBF",
         800: "#0B69A3",
-        900: "#035388"
+        900: "#035388",
       },
       red: {
-        50 : "#FFE3E3",
+        50: "#FFE3E3",
         100: "#FFBDBD",
         200: "#FF9B9B",
         300: "#F86A6A",
@@ -80,7 +80,7 @@ module.exports = {
         900: "#610316",
       },
       yellow: {
-        50 : "#FFFBEA",
+        50: "#FFFBEA",
         100: "#FFF3C4",
         200: "#FCE588",
         300: "#FADB5F",
@@ -90,8 +90,8 @@ module.exports = {
         700: "#CB6E17",
         800: "#B44D12",
         900: "#8D2B0B",
-      }
-    }
+      },
+    },
   },
   plugins: [],
 };

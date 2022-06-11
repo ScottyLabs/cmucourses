@@ -18,11 +18,12 @@ const FCETable = ({ columns, data }) => {
   return (
     <table {...getTableProps()} className="w-full min-w-fit table-auto">
       <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
+        {headerGroups.map((headerGroup, idx) => (
+          <tr {...headerGroup.getHeaderGroupProps()} key={idx}>
+            {headerGroup.headers.map((column, idx) => (
               <th
                 className="whitespace-nowrap px-2 text-left text-sm font-semibold text-grey-700 dark:text-grey-100"
+                key={idx}
                 {...column.getHeaderProps()}
               >
                 {column.render("Header")}
@@ -32,17 +33,19 @@ const FCETable = ({ columns, data }) => {
         ))}
       </thead>
       <tbody {...getTableBodyProps()}>
-        {rows.map((row) => {
+        {rows.map((row, idx) => {
           prepareRow(row);
           return (
             <tr
+              key={idx}
               {...row.getRowProps()}
               className="hover:bg-white dark:hover:bg-grey-700"
             >
-              {row.cells.map((cell) => {
+              {row.cells.map((cell, idx) => {
                 return (
                   <td
                     className="whitespace-nowrap px-2 text-sm text-grey-600 dark:text-grey-200"
+                    key={idx}
                     {...cell.getCellProps()}
                   >
                     {cell.render("Cell")}

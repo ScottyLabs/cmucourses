@@ -168,7 +168,6 @@ const exactSearchRegex = new RegExp(
   "(" + courseIdRegex.source + "\\s+)*" + courseIdRegex.source + "\\s*"
 );
 export function isExactSearch(search: string): boolean {
-  console.log(exactSearchRegex.source);
   return exactSearchRegex.test(search);
 }
 

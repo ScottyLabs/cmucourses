@@ -18,6 +18,7 @@ const BookmarkedData = () => {
   const bookmarkedResults = useAppSelector(selectCourseResults(bookmarked));
 
   const options = useAppSelector((state) => state.user.fceAggregation);
+  const bookmarkedFCEs = useAppSelector(selectFCEResultsForCourses(bookmarked));
 
   if (!loggedIn) {
     return (
@@ -28,7 +29,6 @@ const BookmarkedData = () => {
     );
   }
 
-  const bookmarkedFCEs = useAppSelector(selectFCEResultsForCourses(bookmarked));
   const selectedFCEs = bookmarkedFCEs.filter(({ courseID }) =>
     selected.includes(courseID)
   );
@@ -92,7 +92,7 @@ const BookmarkedData = () => {
           {bookmarkedResults &&
             bookmarkedResults.map((result) => {
               return (
-                <tr>
+                <tr key={result.courseID}>
                   <td>
                     <input
                       type="checkbox"
