@@ -7,6 +7,6 @@ module.exports = (phase, defaultConfig) =>
       backendUrl:
         phase === PHASE_DEVELOPMENT_SERVER
           ? "http://localhost:3000"
-          : "https://beta.course.apis.scottylabs.org",
+          : "https://course-tool-backend-2kh6wuzobq-uc.a.run.app",
     },
   });
