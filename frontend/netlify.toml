@@ -1,3 +1,6 @@
+[[plugins]]
+package = "@netlify/plugin-nextjs"
+
 [context.production]
   command = "npm run doppler-install && ./doppler run --token $DOPPLER_TOKEN_PRD -- npm run build"
 
