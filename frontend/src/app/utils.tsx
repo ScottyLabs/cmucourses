@@ -167,10 +167,15 @@ export function roundTo(num: number, precision: number = 2) {
 const exactSearchRegex = new RegExp(
   "(" + courseIdRegex.source + "\\s+)*" + courseIdRegex.source + "\\s*"
 );
+
 export function isExactSearch(search: string): boolean {
   return exactSearchRegex.test(search);
 }
 
 export function getCourseIds(search: string): string[] {
   return search.match(courseIdRegex);
+}
+
+export function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
 }

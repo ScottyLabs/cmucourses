@@ -18,12 +18,13 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import { getCourseIds } from "./utils";
+import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
+  stateReconciler: autoMergeLevel2,
 };
 
 const reducers = combineReducers({
