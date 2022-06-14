@@ -22,12 +22,6 @@ export interface UserState {
       fall: boolean;
     };
   };
-  schedules: {
-    active: number;
-    saved: { name: string; courses: string[] }[];
-    current: string[];
-    selected: string[];
-  };
   token: string;
 }
 
