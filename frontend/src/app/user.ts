@@ -2,7 +2,36 @@ import { createSlice } from "@reduxjs/toolkit";
 import { standardizeIdsInString } from "./utils";
 import { SEMESTERS_COUNTED } from "./constants";
 
-const initialState = {
+export interface UserState {
+  bookmarked: string[];
+  darkMode: boolean;
+  bookmarkedSelected: string[];
+  showFCEs: boolean;
+  showCourseInfos: boolean;
+  loggedIn: boolean;
+  filter: {
+    search: string;
+    departments: string[];
+    exactMatchesOnly: boolean;
+  };
+  fceAggregation: {
+    numSemesters: number;
+    counted: {
+      spring: boolean;
+      summer: boolean;
+      fall: boolean;
+    };
+  };
+  schedules: {
+    active: number;
+    saved: { name: string; courses: string[] }[];
+    current: string[];
+    selected: string[];
+  };
+  token: string;
+}
+
+const initialState: UserState = {
   bookmarked: [],
   darkMode: false,
   bookmarkedSelected: [],

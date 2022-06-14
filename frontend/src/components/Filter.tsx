@@ -7,10 +7,6 @@ import { Listbox } from "@headlessui/react";
 import { classNames } from "../app/utils";
 import { CheckIcon, SelectorIcon, XIcon } from "@heroicons/react/solid";
 
-const Input = (props) => (
-  <components.Input {...props} inputClassName={"bg-white dark:bg-grey-800"} />
-);
-
 const DepartmentFilter = () => {
   const dispatch = useAppDispatch();
   const filterDepartments = useAppSelector(

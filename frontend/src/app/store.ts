@@ -6,7 +6,7 @@ import {
   fetchCourseInfosByPage,
   reducer as coursesReducer,
 } from "./courses";
-import { reducer as userReducer } from "./user";
+import { reducer as userReducer, UserState } from "./user";
 import debounce from "lodash/debounce";
 import {
   FLUSH,
@@ -29,7 +29,7 @@ const persistConfig = {
 
 const reducers = combineReducers({
   courses: coursesReducer,
-  user: persistReducer(persistConfig, userReducer),
+  user: persistReducer<UserState>(persistConfig, userReducer),
 });
 // const persistedReducer = persistReducer(persistConfig, reducers);
 const persistedReducer = reducers;
