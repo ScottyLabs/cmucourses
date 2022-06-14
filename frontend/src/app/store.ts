@@ -6,7 +6,7 @@ import {
   fetchCourseInfosByPage,
   reducer as coursesReducer,
 } from "./courses";
-import { reducer as userReducer } from "./user";
+import { reducer as userReducer, UserState } from "./user";
 import debounce from "lodash/debounce";
 import {
   FLUSH,
@@ -18,17 +18,18 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import { getCourseIds } from "./utils";
+import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
+  stateReconciler: autoMergeLevel2,
 };
 
 const reducers = combineReducers({
   courses: coursesReducer,
-  user: persistReducer(persistConfig, userReducer),
+  user: persistReducer<UserState>(persistConfig, userReducer),
 });
 // const persistedReducer = persistReducer(persistConfig, reducers);
 const persistedReducer = reducers;
