@@ -4,7 +4,7 @@ import { throttledFilter } from "../app/store";
 import { userSlice } from "../app/user";
 import { DEPARTMENTS } from "../app/constants";
 import { Listbox } from "@headlessui/react";
-import { classNames } from "../app/utils";
+import { classNames, getDepartmentByName } from "../app/utils";
 import { CheckIcon, SelectorIcon, XIcon } from "@heroicons/react/solid";
 
 const DepartmentFilter = () => {
@@ -32,7 +32,7 @@ const DepartmentFilter = () => {
                   key={department}
                   className="flex items-center gap-1 rounded bg-blue-50 px-2 py-0.5"
                 >
-                  <span>{department}</span>
+                  <span>{getDepartmentByName(department).shortName}</span>
                   <XIcon
                     className="h-3 w-3 cursor-pointer"
                     onClick={(e) => {
@@ -53,10 +53,10 @@ const DepartmentFilter = () => {
         </Listbox.Button>
         <div className="absolute mt-1 w-full rounded-md bg-white shadow-lg">
           <Listbox.Options className="shadow-xs max-h-60 overflow-auto rounded-md py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
-            {DEPARTMENTS.map((department) => (
+            {DEPARTMENTS.map(({ name, prefix, shortName }) => (
               <Listbox.Option
-                key={department}
-                value={department}
+                key={name}
+                value={name}
                 className={({ active }) => {
                   return classNames(
                     "relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none",
@@ -66,13 +66,19 @@ const DepartmentFilter = () => {
               >
                 {({ active, selected }) => (
                   <>
-                    <span
-                      className={classNames(
-                        "block truncate",
-                        selected ? "font-semibold" : "font-normal"
-                      )}
-                    >
-                      {department}
+                    <span className={"block truncate"}>
+                      <span className="inline-block w-12">
+                        {prefix}
+                        <span className="text-grey-300">XXX</span>
+                      </span>
+                      <span
+                        className={classNames(
+                          "ml-1",
+                          selected ? "font-semibold" : "font-normal"
+                        )}
+                      >
+                        {name}
+                      </span>
                     </span>
                     {selected && (
                       <span className="absolute inset-y-0 right-0 flex items-center pr-4">

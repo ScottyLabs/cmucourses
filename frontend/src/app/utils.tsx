@@ -2,6 +2,7 @@ import reactStringReplace from "react-string-replace";
 import Link from "next/link";
 import { AggregateFCEsOptions, FCE, Session, Time } from "./types";
 import { filterFCEs } from "./fce";
+import { DEPARTMENT_MAP_NAME, DEPARTMENT_MAP_SHORTNAME } from "./constants";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
 
@@ -178,4 +179,12 @@ export function getCourseIds(search: string): string[] {
 
 export function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
+}
+
+export function getDepartmentByName(name: string) {
+  return DEPARTMENT_MAP_NAME[name];
+}
+
+export function getDepartmentByShortName(shortName: string) {
+  return DEPARTMENT_MAP_SHORTNAME[shortName];
 }
