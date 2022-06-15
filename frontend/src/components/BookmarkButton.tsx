@@ -22,7 +22,7 @@ const BookmarkButton: FunctionComponent<Props> = ({ courseID }) => {
       {bookmarked ? (
         <OutlineStar className="h-6 w-6 fill-yellow-500 stroke-yellow-500" />
       ) : (
-        <OutlineStar className="h-6 w-6 fill-transparent stroke-gray-700 dark:stroke-gray-200" />
+        <OutlineStar className="h-6 w-6 fill-transparent stroke-gray-700 " />
       )}
     </div>
   );

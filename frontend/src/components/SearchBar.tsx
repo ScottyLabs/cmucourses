@@ -12,7 +12,7 @@ const AppliedFilters = () => {
 
   filter.departments.forEach((department) => {
     badges.push(
-      <div className="rounded-md bg-blue-50 py-1 px-2 text-sm text-blue-700 dark:bg-blue-700 dark:text-blue-50">{`Department: ${department}`}</div>
+      <div className="rounded-md bg-blue-50 py-1 px-2 text-sm text-blue-700  ">{`Department: ${department}`}</div>
     );
   });
 
@@ -60,7 +60,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="sticky top-0 z-10 bg-white p-8 text-gray-700 drop-shadow-md dark:bg-gray-900 dark:text-gray-100">
+    <div className="sticky top-0 z-10 bg-white p-8 text-gray-700 drop-shadow-md  ">
       <div className="flex">
         <div className="flex-1 text-lg">Course Search</div>
         <div className="mr-6">
@@ -89,14 +89,14 @@ const SearchBar = () => {
           <SearchIcon className="h-5 w-5" />
         </span>
         <input
-          className="flex-1 bg-transparent py-2 pl-7 text-xl text-gray-500 focus:outline-none dark:text-gray-200"
+          className="flex-1 bg-transparent py-2 pl-7 text-xl text-gray-500 focus:outline-none "
           type="search"
           value={search}
           onChange={onChange}
           placeholder="Search by Course ID, description, name or keyword..."
         />
       </div>
-      <div className="mt-3 text-gray-500 dark:text-gray-300">
+      <div className="mt-3 text-gray-500 ">
         <AppliedFilters />
       </div>
     </div>

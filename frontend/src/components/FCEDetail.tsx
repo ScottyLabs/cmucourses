@@ -22,7 +22,7 @@ const FCETable = ({ columns, data }) => {
           <tr {...headerGroup.getHeaderGroupProps()} key={idx}>
             {headerGroup.headers.map((column, idx) => (
               <th
-                className="whitespace-nowrap px-2 text-left text-sm font-semibold text-gray-700 dark:text-gray-100"
+                className="whitespace-nowrap px-2 text-left text-sm font-semibold text-gray-700 "
                 key={idx}
                 {...column.getHeaderProps()}
               >
@@ -36,15 +36,11 @@ const FCETable = ({ columns, data }) => {
         {rows.map((row, idx) => {
           prepareRow(row);
           return (
-            <tr
-              key={idx}
-              {...row.getRowProps()}
-              className="hover:bg-white dark:hover:bg-gray-700"
-            >
+            <tr key={idx} {...row.getRowProps()} className="hover:bg-white ">
               {row.cells.map((cell, idx) => {
                 return (
                   <td
-                    className="whitespace-nowrap px-2 text-sm text-gray-600 dark:text-gray-200"
+                    className="whitespace-nowrap px-2 text-sm text-gray-600 "
                     key={idx}
                     {...cell.getCellProps()}
                   >
@@ -120,7 +116,7 @@ export const FCEDetail = ({ fces }) => {
 
   return (
     <>
-      <div className="text-md mt-3 rounded-md bg-gray-50 p-4 text-gray-700 dark:bg-gray-800 dark:text-gray-100">
+      <div className="text-md mt-3 rounded-md bg-gray-50 p-4 text-gray-700  ">
         <div className="flex items-baseline">
           <h2 className="text-md mb-2">Aggregate Data</h2>
           <div className="ml-2 flex-1 text-sm">
@@ -129,16 +125,14 @@ export const FCEDetail = ({ fces }) => {
         </div>
 
         <div className="mt-2 flex space-x-2">
-          <div className="w-1/5 flex-1 rounded-md bg-white p-2 dark:bg-gray-700">
+          <div className="w-1/5 flex-1 rounded-md bg-white p-2 ">
             <div>
               <span className="text-xl">{aggregateData.workload}</span>
               <span className="text-md ml-1">hrs/wk</span>
             </div>
-            <div className="text-sm text-gray-500 dark:text-gray-200">
-              Workload
-            </div>
+            <div className="text-sm text-gray-500 ">Workload</div>
           </div>
-          <div className="flex-1 rounded-md bg-white p-2 dark:bg-gray-700">
+          <div className="flex-1 rounded-md bg-white p-2 ">
             <div className="flex content-end">
               <div className="hidden lg:block">
                 <StarRatings
@@ -161,11 +155,9 @@ export const FCEDetail = ({ fces }) => {
                 {aggregateData.teachingRate}
               </span>
             </div>
-            <div className="text-sm text-gray-500 dark:text-gray-200">
-              Teaching Rate
-            </div>
+            <div className="text-sm text-gray-500 ">Teaching Rate</div>
           </div>
-          <div className="flex-1 rounded-md bg-white p-2 dark:bg-gray-700">
+          <div className="flex-1 rounded-md bg-white p-2 ">
             <div className="flex content-end">
               <div className="hidden lg:block">
                 <StarRatings
@@ -188,13 +180,11 @@ export const FCEDetail = ({ fces }) => {
                 {aggregateData.courseRate}
               </span>
             </div>
-            <div className="text-sm text-gray-500 dark:text-gray-200">
-              Course Rate
-            </div>
+            <div className="text-sm text-gray-500 ">Course Rate</div>
           </div>
         </div>
       </div>
-      <div className="mt-3 overflow-x-auto rounded-md bg-gray-50 p-4 dark:bg-gray-800">
+      <div className="mt-3 overflow-x-auto rounded-md bg-gray-50 p-4 ">
         <FCETable columns={columns} data={convertFCEData(filteredFCEs)} />
       </div>
     </>
@@ -203,8 +193,8 @@ export const FCEDetail = ({ fces }) => {
 
 export const FCECard = ({ fces }) => {
   return (
-    <div className="rounded-md bg-white p-6 dark:bg-gray-900">
-      <h1 className="text-lg dark:text-white">FCE Browser</h1>
+    <div className="rounded-md bg-white p-6 ">
+      <h1 className="text-lg ">FCE Browser</h1>
       <FCEDetail fces={fces} />
     </div>
   );

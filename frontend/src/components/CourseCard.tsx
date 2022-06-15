@@ -38,24 +38,22 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
     : undefined;
 
   return (
-    <div className="rounded-xl bg-white p-6 drop-shadow-md dark:bg-gray-900">
+    <div className="rounded-xl bg-white p-6 drop-shadow-md ">
       <div className="grid auto-rows-min grid-cols-8 gap-x-6 gap-y-2">
         <div className="col-span-5 col-start-1 row-span-1 row-start-1 md:col-span-6">
           <Link href={`/course/${info.courseID}`}>
-            <div className="text-lg text-gray-800 hover:cursor-pointer dark:text-gray-50">
+            <div className="text-lg text-gray-800 hover:cursor-pointer ">
               <span className="mr-2 font-semibold">{info.courseID}</span>
               <span className="">{info.name}</span>
             </div>
           </Link>
-          <div className="text-sm text-gray-500 dark:text-gray-200">
-            {info.department}
-          </div>
+          <div className="text-sm text-gray-500 ">{info.department}</div>
         </div>
 
         <div className="col-span-3 md:col-span-2">
           <div className="flex flex-row justify-between">
             <div>
-              <div className="text-lg text-gray-700 dark:text-gray-100">
+              <div className="text-lg text-gray-700 ">
                 {displayUnits(info.units)} units
               </div>
             </div>
@@ -64,13 +62,11 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
             </div>
           </div>
           {loggedIn && hours && (
-            <div className="text-md text-gray-500 dark:text-gray-200">
-              {hours} hrs/week
-            </div>
+            <div className="text-md text-gray-500 ">{hours} hrs/week</div>
           )}
         </div>
 
-        <div className="col-span-full text-gray-700 dark:text-gray-200 md:col-span-2 md:col-start-7">
+        <div className="col-span-full text-gray-700  md:col-span-2 md:col-start-7">
           <div className="text-md mb-1 hidden md:block">
             {schedulesAvailableString}
           </div>
@@ -78,19 +74,19 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
             <div className="flex flex-row justify-between space-x-4 md:flex-col md:space-x-0 md:space-y-2">
               <div>
                 <div className="font-semibold">Prerequisites</div>
-                <div className="text-md text-gray-500 dark:text-gray-400">
+                <div className="text-md text-gray-500 ">
                   {injectLinks(info.prereqString || "None")}
                 </div>
               </div>
               <div>
                 <div className="font-semibold">Corequisites</div>
-                <div className="text-md text-gray-500 dark:text-gray-400">
+                <div className="text-md text-gray-500 ">
                   {injectLinks(courseListToString(info.coreqs))}
                 </div>
               </div>
               <div>
                 <div className="font-semibold">Crosslisted</div>
-                <div className="text-md text-gray-500 dark:text-gray-400">
+                <div className="text-md text-gray-500 ">
                   {injectLinks(courseListToString(info.crosslisted))}
                 </div>
               </div>
@@ -98,7 +94,7 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
           )}
         </div>
         {showCourseInfo && (
-          <div className="col-span-full row-span-1 row-start-3 text-sm leading-relaxed text-gray-600 dark:text-gray-200 md:col-span-6 md:row-start-2">
+          <div className="col-span-full row-span-1 row-start-3 text-sm leading-relaxed text-gray-600  md:col-span-6 md:row-start-2">
             {injectLinks(info.desc)}
           </div>
         )}

@@ -14,9 +14,9 @@ const DarkModeButton: FunctionComponent = () => {
   return (
     <div onClick={toggleDarkMode} className="cursor-pointer">
       {darkMode ? (
-        <SunIcon className="h-6 w-6 stroke-gray-500 dark:stroke-gray-200" />
+        <SunIcon className="h-6 w-6 stroke-gray-500 " />
       ) : (
-        <MoonIcon className="h-6 w-6 stroke-gray-500 dark:stroke-gray-200" />
+        <MoonIcon className="h-6 w-6 stroke-gray-500 " />
       )}
     </div>
   );
