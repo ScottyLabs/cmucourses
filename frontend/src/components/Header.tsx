@@ -115,7 +115,9 @@ export default function Header({ children }): ReactElement {
                   width={30}
                   height={30}
                 />
-                <span className="ml-2">ScottyLabs Course Tool Beta</span>
+                <span className="ml-2">
+                  ScottyLabs Course Tool <sup>β</sup>
+                </span>
               </span>
             </Link>
           </div>

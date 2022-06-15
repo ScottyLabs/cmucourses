@@ -18,8 +18,12 @@ const AppliedFilters = () => {
 
   return (
     <>
-      <div className="mb-2 text-sm">Applied Filters</div>
-      <div className="flex flex-wrap gap-x-1 gap-y-1.5">{badges}</div>
+      {badges.length > 0 && (
+        <>
+          <div className="mb-2 text-sm">Applied Filters</div>
+          <div className="flex flex-wrap gap-x-1 gap-y-1.5">{badges}</div>
+        </>
+      )}
     </>
   );
 };
@@ -61,8 +65,21 @@ const SearchBar = () => {
 
   return (
     <div className="bg-white text-gray-700 sticky top-0 z-10 p-8 drop-shadow-md">
-      <div className="flex">
-        <div className="flex-1 text-lg">Course Search</div>
+      <div className="relative flex border-b border-b-gray-300 dark:border-b-zinc-600">
+        <span className="absolute inset-y-0 left-0 flex items-center">
+          <SearchIcon className="h-5 w-5" />
+        </span>
+        <input
+          autoFocus
+          className="text-gray-500 flex-1 py-2 pl-7 text-xl placeholder-gray-400 bg-transparent focus:outline-none dark:text-zinc-300 dark:placeholder-zinc-500"
+          type="search"
+          value={search}
+          onChange={onChange}
+          placeholder="Search courses by ID, description, name or keyword..."
+        />
+      </div>
+      <div className="text-gray-500 mt-3 flex justify-end">
+        <div className="mr-6">Show</div>
         <div className="mr-6">
           <input
             type="checkbox"
@@ -83,20 +100,7 @@ const SearchBar = () => {
           <span>Course Info</span>
         </div>
       </div>
-
-      <div className="relative flex border-b border-b-gray-300 dark:border-b-zinc-600">
-        <span className="absolute inset-y-0 left-0 flex items-center">
-          <SearchIcon className="h-5 w-5" />
-        </span>
-        <input
-          className="text-gray-500 flex-1 py-2 pl-7 text-xl placeholder-gray-400 bg-transparent focus:outline-none dark:text-zinc-300 dark:placeholder-zinc-500"
-          type="search"
-          value={search}
-          onChange={onChange}
-          placeholder="Search by Course ID, description, name or keyword..."
-        />
-      </div>
-      <div className="text-gray-500 mt-3">
+      <div className="text-gray-500">
         <AppliedFilters />
       </div>
     </div>
