@@ -24,7 +24,7 @@ const Aggregate = () => {
           </div>
           <input
             placeholder="2"
-            className="min-w-0 flex-auto rounded-md bg-grey-50 px-2 py-1 text-sm"
+            className="min-w-0 flex-auto rounded-md bg-gray-50 px-2 py-1 text-sm"
             onChange={(e) => {
               setNumSemesters(parseInt(e.target.value));
             }}

@@ -22,7 +22,7 @@ const BookmarkedData = () => {
 
   if (!loggedIn) {
     return (
-      <div className="sticky top-0 z-10 bg-white p-8 text-grey-700 drop-shadow-lg dark:bg-grey-900 dark:text-grey-200">
+      <div className="sticky top-0 z-10 bg-white p-8 text-gray-700 drop-shadow-lg dark:bg-gray-900 dark:text-gray-200">
         <h1 className="text-lg font-semibold">FCE Summary</h1>
         <p>Log in to view FCE results.</p>
       </div>
@@ -49,11 +49,11 @@ const BookmarkedData = () => {
   };
 
   return (
-    <div className="sticky top-0 z-10 bg-white p-8 text-grey-700 drop-shadow-lg dark:bg-grey-900 dark:text-grey-200">
+    <div className="sticky top-0 z-10 bg-white p-8 text-gray-700 drop-shadow-lg dark:bg-gray-900 dark:text-gray-200">
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-lg font-semibold">FCE Summary</h1>
-          <div className="text-lg text-grey-600 dark:text-grey-200">
+          <div className="text-lg text-gray-600 dark:text-gray-200">
             Total Workload{" "}
             <span className="ml-4">
               {roundTo(aggregatedSelectedData.workload, 2)} hrs/week
@@ -88,7 +88,7 @@ const BookmarkedData = () => {
             <th className="font-semibold">Workload (hrs/week)</th>
           </tr>
         </thead>
-        <tbody className="text-grey-500 dark:text-grey-300">
+        <tbody className="text-gray-500 dark:text-gray-300">
           {bookmarkedResults &&
             bookmarkedResults.map((result) => {
               return (
@@ -116,7 +116,7 @@ const BookmarkedData = () => {
             })}
         </tbody>
       </table>
-      <div className="mt-2 text-sm text-grey-400 dark:text-grey-300">
+      <div className="mt-2 text-sm text-gray-400 dark:text-gray-300">
         {message === "" ? "" : `*${message}`}
       </div>
     </div>

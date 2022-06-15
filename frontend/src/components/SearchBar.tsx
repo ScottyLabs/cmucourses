@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
-import { getCourseIds, isExactSearch } from "../app/utils";
-import { coursesSlice, fetchCourseInfos } from "../app/courses";
+import { getCourseIds } from "../app/utils";
+import { coursesSlice } from "../app/courses";
 
 const AppliedFilters = () => {
   const badges = [];
@@ -60,7 +60,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="sticky top-0 z-10 bg-white p-8 text-grey-700 drop-shadow-md dark:bg-grey-900 dark:text-grey-100">
+    <div className="sticky top-0 z-10 bg-white p-8 text-gray-700 drop-shadow-md dark:bg-gray-900 dark:text-gray-100">
       <div className="flex">
         <div className="flex-1 text-lg">Course Search</div>
         <div className="mr-6">
@@ -84,19 +84,19 @@ const SearchBar = () => {
         </div>
       </div>
 
-      <div className="relative flex border-b border-b-grey-300">
+      <div className="relative flex border-b border-b-gray-300">
         <span className="absolute inset-y-0 left-0 flex items-center">
           <SearchIcon className="h-5 w-5" />
         </span>
         <input
-          className="flex-1 bg-transparent py-2 pl-7 text-xl text-grey-500 focus:outline-none dark:text-grey-200"
+          className="flex-1 bg-transparent py-2 pl-7 text-xl text-gray-500 focus:outline-none dark:text-gray-200"
           type="search"
           value={search}
           onChange={onChange}
           placeholder="Search by Course ID, description, name or keyword..."
         />
       </div>
-      <div className="mt-3 text-grey-500 dark:text-grey-300">
+      <div className="mt-3 text-gray-500 dark:text-gray-300">
         <AppliedFilters />
       </div>
     </div>

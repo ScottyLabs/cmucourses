@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import {
@@ -36,7 +36,7 @@ const CourseDetailPage: NextPage = () => {
             <Aggregate />
           </Sidebar>
         </div>
-        <div className="flex-1 overflow-y-scroll dark:bg-grey-800 md:h-full md:pt-16">
+        <div className="flex-1 overflow-y-scroll dark:bg-gray-800 md:h-full md:pt-16">
           <CourseDetail info={info} schedules={schedules} />
         </div>
       </div>
