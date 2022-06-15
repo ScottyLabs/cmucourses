@@ -39,7 +39,7 @@ const BookmarkedList = () => {
           ))}
         </div>
       ) : (
-        <div className="text-center font-semibold text-gray-500">
+        <div className="text-gray-500 text-center font-semibold">
           Nothing bookmarked yet!
         </div>
       )}

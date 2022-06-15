@@ -12,6 +12,7 @@ import {
   StarIcon,
 } from "@heroicons/react/solid";
 import DarkModeButton from "./DarkModeButton";
+import nightwind from "nightwind/helper";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
 
@@ -66,8 +67,7 @@ export default function Header({ children }): ReactElement {
 
   const darkMode = useAppSelector((state) => state.user.darkMode);
   useEffect(() => {
-    if (darkMode) document.querySelector("html").classList.add("dark");
-    else document.querySelector("html").classList.remove("dark");
+    nightwind.enable(darkMode);
   }, [darkMode]);
 
   let logInButton;
@@ -104,9 +104,9 @@ export default function Header({ children }): ReactElement {
 
   return (
     <div className="relative">
-      <header className="fixed inset-x-0 top-0 z-50 h-28 bg-gray-50 drop-shadow   md:h-16">
+      <header className="bg-gray-50 fixed inset-x-0 top-0 z-50 h-28 drop-shadow dark:bg-zinc-800 md:h-16">
         <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
-          <div className="flex-initial font-semibold text-gray-800 hover:cursor-pointer ">
+          <div className="text-gray-800 flex-initial font-semibold hover:cursor-pointer">
             <Link href="/">
               <span className="flex items-center">
                 <Image
@@ -119,7 +119,7 @@ export default function Header({ children }): ReactElement {
               </span>
             </Link>
           </div>
-          <div className="flex flex-row space-x-10 text-gray-600 ">
+          <div className="text-gray-600 flex flex-row items-center space-x-10">
             <div>
               <Link href="/saved">
                 <span className="flex items-center hover:cursor-pointer">
@@ -138,9 +138,7 @@ export default function Header({ children }): ReactElement {
                 </span>
               </a>
             </div>
-            <div>
-              <DarkModeButton />
-            </div>
+            <DarkModeButton />
             <div className="hover:cursor-pointer">{logInButton}</div>
           </div>
         </div>

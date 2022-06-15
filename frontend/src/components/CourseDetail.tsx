@@ -14,7 +14,7 @@ import CourseCard from "./CourseCard";
 const Lecture = ({ lectureInfo, sections }) => {
   return (
     <>
-      <div className="mt-2 flex items-baseline rounded-md px-2 py-2 text-gray-700 hover:bg-gray-50  ">
+      <div className="text-gray-700 mt-2 flex items-baseline rounded-md px-2 py-2 hover:bg-gray-50">
         <div className="text-md w-1/12 font-bold">{lectureInfo.name}</div>
         <div className="w-5/12 text-sm">
           {lectureInfo.instructors.join("; ")}
@@ -33,7 +33,7 @@ const Lecture = ({ lectureInfo, sections }) => {
 
       {sections.map((section) => (
         <div
-          className="flex items-baseline px-2 py-1 text-gray-600 hover:bg-gray-50  "
+          className="text-gray-600 flex items-baseline px-2 py-1 hover:bg-gray-50"
           key={section.name}
         >
           <div className="text-md w-1/12">{section.name}</div>
@@ -78,17 +78,17 @@ const Schedule = ({ scheduleInfo }) => {
 const Schedules = ({ scheduleInfos }) => {
   return (
     <div className="w-full">
-      <h1 className="text-lg text-gray-800 ">Schedules</h1>
+      <h1 className="text-gray-700 text-lg">Schedules</h1>
       <Tab.Group>
-        <Tab.List className="mt-2 flex space-x-1 rounded-md bg-gray-50 p-2 ">
+        <Tab.List className="bg-gray-50 mt-2 flex space-x-1 rounded-md p-2">
           {scheduleInfos.map((scheduleInfo) => {
             const label = sessionToString(scheduleInfo);
             return (
               <Tab
                 key={label}
                 className={({ selected }) =>
-                  "rounded-md px-2 py-1 text-sm hover:bg-white   " +
-                  (selected ? "bg-white " : "")
+                  "text-gray-800 rounded-md px-2 py-1 text-sm hover:bg-white " +
+                  (selected ? "bg-white" : "")
                 }
               >
                 {label}
@@ -127,7 +127,7 @@ const CourseDetail = ({ info, schedules }) => {
       <CourseCard info={info} showFCEs={false} showCourseInfo={true} />
       {fces && <FCECard fces={fces} />}
       {schedules && (
-        <div className="rounded-md bg-white p-6 ">
+        <div className="bg-white rounded-md p-6">
           <Schedules scheduleInfos={sortedSchedules} />
         </div>
       )}

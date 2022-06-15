@@ -22,7 +22,7 @@ const DepartmentFilter = () => {
     <div className="relative mt-1">
       <Listbox value={filterDepartments} onChange={setDepartments} multiple>
         <Listbox.Label className="font-semibold">Department</Listbox.Label>
-        <Listbox.Button className="focus:shadow-outline-blue relative mt-2 w-full cursor-default rounded-md bg-gray-50 py-2 pl-2 pr-10 text-left transition duration-150 ease-in-out focus:border-blue-300 focus:outline-none sm:text-sm sm:leading-5">
+        <Listbox.Button className="focus:shadow-outline-blue bg-gray-50 relative mt-2 w-full cursor-default rounded-md py-2 pl-2 pr-10 text-left transition duration-150 ease-in-out focus:border-blue-300 focus:outline-none sm:text-sm sm:leading-5">
           <span className="block flex flex-wrap gap-2">
             {filterDepartments.length === 0 ? (
               <span className="p-0.5">None</span>
@@ -30,7 +30,7 @@ const DepartmentFilter = () => {
               filterDepartments.map((department) => (
                 <span
                   key={department}
-                  className="flex items-center gap-1 rounded bg-blue-50 px-2 py-0.5"
+                  className="text-blue-800 bg-blue-50 flex items-center gap-1 rounded px-2 py-0.5"
                 >
                   <span>{getDepartmentByName(department).shortName}</span>
                   <XIcon
@@ -51,7 +51,7 @@ const DepartmentFilter = () => {
             <SelectorIcon className="h-5 w-5" />
           </span>
         </Listbox.Button>
-        <div className="absolute mt-1 w-full rounded-md bg-white shadow-lg">
+        <div className="bg-white absolute mt-1 w-full rounded-md shadow-lg">
           <Listbox.Options className="shadow-xs max-h-60 overflow-auto rounded-md py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
             {DEPARTMENTS.map(({ name, prefix, shortName }) => (
               <Listbox.Option

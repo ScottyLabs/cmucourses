@@ -91,7 +91,31 @@ module.exports = {
         800: "#B44D12",
         900: "#8D2B0B",
       },
+      zinc: {
+        50: "#FAFAFA",
+        100: "#F4F4F5",
+        200: "#E4E4E7",
+        300: "#D4D4D8",
+        400: "#A1A1AA",
+        500: "#71717A",
+        600: "#52525B",
+        700: "#3F3F46",
+        800: "#27272A",
+        900: "#18181B",
+      },
+    },
+    nightwind: {
+      colors: {
+        gray: "zinc",
+        white: "#101015",
+      },
+      colorScale: {
+        preset: "reduced",
+      },
+    },
+    variants: {
+      nightwind: ["stroke"],
     },
   },
-  plugins: [],
+  plugins: [require("nightwind")],
 };

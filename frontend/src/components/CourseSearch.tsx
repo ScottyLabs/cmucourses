@@ -17,7 +17,7 @@ export default function CourseSearch({}: Props): ReactElement {
             <Aggregate />
           </Sidebar>
         </div>
-        <div className="flex-1 overflow-y-auto bg-gray-50  md:h-full md:pt-16">
+        <div className="bg-gray-50 flex-1 overflow-y-auto dark:bg-zinc-800 md:h-full md:pt-16">
           <SearchBar />
           <CourseList />
         </div>

@@ -3,7 +3,7 @@ import React from "react";
 const SmallButton = ({ onClick, children }) => {
   return (
     <div
-      className="rounded-md bg-gray-50 py-1 px-2 text-sm text-gray-600 hover:cursor-pointer hover:bg-gray-100   "
+      className="text-gray-600 bg-gray-50 rounded-md py-1 px-2 text-sm hover:bg-gray-100 hover:cursor-pointer"
       onClick={onClick}
     >
       {children}
