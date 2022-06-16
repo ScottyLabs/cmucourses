@@ -8,8 +8,7 @@
     "test": "jest",
     "lint": "next lint",
     "format": "prettier --write . --ignore-path .gitignore",
-    "doppler-install": "(curl -Ls https://cli.doppler.com/install.sh || wget -qO- https://cli.doppler.com/install.sh) | sh -s -- --no-install --no-package-manager",
-    "prepare": "husky install"
+    "doppler-install": "(curl -Ls https://cli.doppler.com/install.sh || wget -qO- https://cli.doppler.com/install.sh) | sh -s -- --no-install --no-package-manager"
   },
   "dependencies": {
     "@headlessui/react": "^1.6.4",
