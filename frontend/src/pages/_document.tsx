@@ -1,5 +1,6 @@
 import Document, { Head, Html, Main, NextScript } from "next/document";
 import Script from "next/script";
+import nightwind from "nightwind/helper";
 
 export default class MyDocument extends Document {
   render() {
@@ -21,8 +22,9 @@ export default class MyDocument extends Document {
               });
             `}
           </Script>
+          <script dangerouslySetInnerHTML={{ __html: nightwind.init() }} />
         </Head>
-        <body>
+        <body className="bg-gray-50">
           <Main />
           <NextScript />
         </body>

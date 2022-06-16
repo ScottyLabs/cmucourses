@@ -3,8 +3,8 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
-import { getCourseIds, isExactSearch } from "../app/utils";
-import { coursesSlice, fetchCourseInfos } from "../app/courses";
+import { getCourseIds } from "../app/utils";
+import { coursesSlice } from "../app/courses";
 
 const AppliedFilters = () => {
   const badges = [];
@@ -12,14 +12,20 @@ const AppliedFilters = () => {
 
   filter.departments.forEach((department) => {
     badges.push(
-      <div className="rounded-md bg-blue-50 py-1 px-2 text-sm text-blue-700 dark:bg-blue-700 dark:text-blue-50">{`Department: ${department}`}</div>
+      <div className="text-blue-800 bg-blue-50 flex-initial rounded-md py-1 px-2 text-sm">
+        {department}
+      </div>
     );
   });
 
   return (
     <>
-      <div className="mb-2 text-sm">Applied Filters</div>
-      <div className="flex space-x-1">{badges}</div>
+      {badges.length > 0 && (
+        <>
+          <div className="mb-2 text-sm">Applied Filters</div>
+          <div className="flex flex-wrap gap-x-1 gap-y-1.5">{badges}</div>
+        </>
+      )}
     </>
   );
 };
@@ -60,9 +66,22 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="sticky top-0 z-10 bg-white p-8 text-grey-700 drop-shadow-md dark:bg-grey-900 dark:text-grey-100">
-      <div className="flex">
-        <div className="flex-1 text-lg">Course Search</div>
+    <div className="bg-white text-gray-700 sticky top-0 z-10 p-8 drop-shadow-md">
+      <div className="relative flex border-b border-b-gray-300 dark:border-b-zinc-600">
+        <span className="absolute inset-y-0 left-0 flex items-center">
+          <SearchIcon className="h-5 w-5" />
+        </span>
+        <input
+          autoFocus
+          className="text-gray-500 flex-1 py-2 pl-7 text-xl placeholder-gray-400 bg-transparent focus:outline-none dark:text-zinc-300 dark:placeholder-zinc-500"
+          type="search"
+          value={search}
+          onChange={onChange}
+          placeholder="Search courses by ID, description, name or keyword..."
+        />
+      </div>
+      <div className="text-gray-500 mt-3 flex justify-end">
+        <div className="mr-6">Show</div>
         <div className="mr-6">
           <input
             type="checkbox"
@@ -83,20 +102,7 @@ const SearchBar = () => {
           <span>Course Info</span>
         </div>
       </div>
-
-      <div className="relative flex border-b border-b-grey-300">
-        <span className="absolute inset-y-0 left-0 flex items-center">
-          <SearchIcon className="h-5 w-5" />
-        </span>
-        <input
-          className="flex-1 bg-transparent py-2 pl-7 text-xl text-grey-500 focus:outline-none dark:text-grey-200"
-          type="search"
-          value={search}
-          onChange={onChange}
-          placeholder="Search by Course ID, description, name or keyword..."
-        />
-      </div>
-      <div className="mt-3 text-grey-500 dark:text-grey-300">
+      <div className="text-gray-500">
         <AppliedFilters />
       </div>
     </div>

@@ -16,7 +16,7 @@ const Aggregate = () => {
 
   return (
     <div>
-      <div className="text-md mt-6">Aggregate FCEs</div>
+      <div className="text-md">Aggregate FCEs</div>
       <div className="mt-3 space-y-3">
         <div className="flex items-baseline">
           <div className="mr-2 whitespace-nowrap text-sm font-semibold">
@@ -24,7 +24,7 @@ const Aggregate = () => {
           </div>
           <input
             placeholder="2"
-            className="min-w-0 flex-auto rounded-md bg-grey-50 px-2 py-1 text-sm"
+            className="bg-gray-50 min-w-0 flex-auto rounded-md px-2 py-1 text-sm"
             onChange={(e) => {
               setNumSemesters(parseInt(e.target.value));
             }}
