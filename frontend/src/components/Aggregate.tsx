@@ -16,7 +16,7 @@ const Aggregate = () => {
 
   return (
     <div>
-      <div className="text-md mt-6">Aggregate FCEs</div>
+      <div className="text-md">Aggregate FCEs</div>
       <div className="mt-3 space-y-3">
         <div className="flex items-baseline">
           <div className="mr-2 whitespace-nowrap text-sm font-semibold">

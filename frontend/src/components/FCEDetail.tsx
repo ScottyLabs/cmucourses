@@ -193,7 +193,7 @@ export const FCEDetail = ({ fces }) => {
 
 export const FCECard = ({ fces }) => {
   return (
-    <div className="bg-white rounded-md p-6">
+    <div className="bg-white rounded-md p-6 drop-shadow">
       <h1 className="text-gray-700 text-lg">FCE Browser</h1>
       <FCEDetail fces={fces} />
     </div>

@@ -80,14 +80,14 @@ const Schedules = ({ scheduleInfos }) => {
     <div className="w-full">
       <h1 className="text-gray-700 text-lg">Schedules</h1>
       <Tab.Group>
-        <Tab.List className="bg-gray-50 mt-2 flex space-x-1 rounded-md p-2">
+        <Tab.List className="bg-gray-50 mt-2 space-x-1 overflow-x-scroll whitespace-nowrap rounded-md p-2">
           {scheduleInfos.map((scheduleInfo) => {
             const label = sessionToString(scheduleInfo);
             return (
               <Tab
                 key={label}
                 className={({ selected }) =>
-                  "text-gray-800 rounded-md px-2 py-1 text-sm hover:bg-white " +
+                  "text-gray-800 inline-block rounded-md px-2 py-1 text-sm hover:bg-white " +
                   (selected ? "bg-white" : "")
                 }
               >
@@ -127,7 +127,7 @@ const CourseDetail = ({ info, schedules }) => {
       <CourseCard info={info} showFCEs={false} showCourseInfo={true} />
       {fces && <FCECard fces={fces} />}
       {schedules && (
-        <div className="bg-white rounded-md p-6">
+        <div className="bg-white rounded-md p-6 drop-shadow">
           <Schedules scheduleInfos={sortedSchedules} />
         </div>
       )}
