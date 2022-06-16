@@ -22,7 +22,7 @@ const DepartmentFilter = () => {
     <div className="relative mt-1">
       <Listbox value={filterDepartments} onChange={setDepartments} multiple>
         <Listbox.Label className="font-semibold">Department</Listbox.Label>
-        <Listbox.Button className="focus:shadow-outline-blue bg-gray-50 relative mt-2 w-full cursor-default rounded-md py-2 pl-2 pr-10 text-left transition duration-150 ease-in-out focus:border-blue-300 focus:outline-none sm:text-sm sm:leading-5">
+        <Listbox.Button className="bg-gray-50 relative mt-2 w-full cursor-default rounded-md py-2 pl-2 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
           <span className="block flex flex-wrap gap-2">
             {filterDepartments.length === 0 ? (
               <span className="p-0.5">None</span>

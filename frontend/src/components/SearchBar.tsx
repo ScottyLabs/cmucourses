@@ -12,7 +12,9 @@ const AppliedFilters = () => {
 
   filter.departments.forEach((department) => {
     badges.push(
-      <div className="text-blue-800 bg-blue-50 flex-initial rounded-md py-1 px-2 text-sm">{`Department: ${department}`}</div>
+      <div className="text-blue-800 bg-blue-50 flex-initial rounded-md py-1 px-2 text-sm">
+        {department}
+      </div>
     );
   });
 
