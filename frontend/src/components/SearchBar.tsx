@@ -66,14 +66,14 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="bg-white text-gray-700 sticky top-0 z-10 p-8 drop-shadow-md">
-      <div className="relative flex border-b border-b-gray-300 dark:border-b-zinc-600">
+    <>
+      <div className="text-gray-500 relative flex border-b border-b-gray-300 dark:border-b-zinc-500">
         <span className="absolute inset-y-0 left-0 flex items-center">
           <SearchIcon className="h-5 w-5" />
         </span>
         <input
           autoFocus
-          className="text-gray-500 flex-1 py-2 pl-7 text-xl placeholder-gray-400 bg-transparent focus:outline-none dark:text-zinc-300 dark:placeholder-zinc-500"
+          className="text-gray-500 flex-1 py-2 pl-7 text-xl placeholder-gray-400 bg-transparent focus:outline-none"
           type="search"
           value={search}
           onChange={onChange}
@@ -105,7 +105,7 @@ const SearchBar = () => {
       <div className="text-gray-500">
         <AppliedFilters />
       </div>
-    </div>
+    </>
   );
 };
 

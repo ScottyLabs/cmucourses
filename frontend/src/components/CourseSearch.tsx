@@ -1,9 +1,10 @@
 import React, { ReactElement } from "react";
-import CourseList from "./CourseList";
 import SearchBar from "./SearchBar";
 import Filter from "./Filter";
 import Aggregate from "./Aggregate";
 import Sidebar from "./Sidebar";
+import Topbar from "./Topbar";
+import CourseSearchList from "./CourseSearchList";
 
 interface Props {}
 
@@ -17,9 +18,11 @@ export default function CourseSearch({}: Props): ReactElement {
             <Aggregate />
           </Sidebar>
         </div>
-        <div className="bg-gray-50 flex-1 overflow-y-auto dark:bg-zinc-800 md:h-full md:pt-16">
-          <SearchBar />
-          <CourseList />
+        <div className="bg-grey-50 dark:bg-grey-800 flex-1 overflow-y-auto md:h-full md:pt-16">
+          <Topbar>
+            <SearchBar />
+          </Topbar>
+          <CourseSearchList />
         </div>
       </div>
     </div>

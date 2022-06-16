@@ -7,6 +7,7 @@ import * as jose from "jose";
 import { userSlice } from "../app/user";
 import {
   AnnotationIcon,
+  ClockIcon,
   LoginIcon,
   LogoutIcon,
   StarIcon,
@@ -126,6 +127,13 @@ export default function Header({ children }): ReactElement {
               <Link href="/saved">
                 <span className="flex items-center hover:cursor-pointer">
                   <StarIcon className="mr-1 inline h-4 w-4" /> Saved
+                </span>
+              </Link>
+            </div>
+            <div>
+              <Link href="/schedules">
+                <span className="flex items-center hover:cursor-pointer">
+                  <ClockIcon className="mr-1 inline h-4 w-4" /> Schedules
                 </span>
               </Link>
             </div>

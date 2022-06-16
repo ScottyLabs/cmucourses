@@ -11,6 +11,7 @@ interface CoursesState {
   fcesLoading: boolean;
   coursesLoading: boolean;
   exactResultsCourses: string[];
+  allCourses: { courseID: string; name: string }[];
 }
 
 const initialState: CoursesState = {
@@ -24,6 +25,7 @@ const initialState: CoursesState = {
   fcesLoading: false,
   coursesLoading: false,
   exactResultsCourses: [],
+  allCourses: [],
 };
 
 export const fetchCourseInfos = createAsyncThunk(
@@ -117,6 +119,23 @@ export const fetchCourseInfo = createAsyncThunk(
     });
 
     return fetch(url + params.toString()).then((response) => response.json());
+  }
+);
+
+export const fetchAllCourses = createAsyncThunk(
+  "fetchAllCourses",
+  async (_, thunkAPI) => {
+    const url = `${process.env.backendUrl}/courses/all`;
+    const state: any = thunkAPI.getState();
+
+    if (state.courses.allCourses.length > 0) return;
+
+    return fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
   }
 );
 
@@ -254,6 +273,10 @@ export const coursesSlice = createSlice({
           state.fces[fce.courseID].push(fce);
         }
       });
+
+    builder.addCase(fetchAllCourses.fulfilled, (state, action) => {
+      if (action.payload) state.allCourses = action.payload;
+    });
   },
 });
 

@@ -188,3 +188,15 @@ export function getDepartmentByName(name: string) {
 export function getDepartmentByShortName(shortName: string) {
   return DEPARTMENT_MAP_SHORTNAME[shortName];
 }
+
+export function removeFromSet(arr, item) {
+  return arr.filter((x) => x !== item);
+}
+
+export function addToSet(arr, item) {
+  if (arr.indexOf(item) === -1) {
+    return [...arr, item];
+  } else {
+    return arr;
+  }
+}
