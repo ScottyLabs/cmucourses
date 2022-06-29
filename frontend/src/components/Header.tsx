@@ -64,7 +64,7 @@ export default function Header({ children }): ReactElement {
       setUser(null);
       dispatch(userSlice.actions.logOut());
     }
-  }, [token]);
+  }, [dispatch, token]);
 
   const darkMode = useAppSelector((state) => state.user.darkMode);
   useEffect(() => {
@@ -115,6 +115,7 @@ export default function Header({ children }): ReactElement {
                   className="rounded-md"
                   width={30}
                   height={30}
+                  alt="favicon"
                 />
                 <span className="ml-2">
                   ScottyLabs Course Tool <sup>β</sup>

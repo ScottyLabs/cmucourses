@@ -22,7 +22,7 @@ const CourseDetailPage: NextPage = () => {
 
   useEffect(() => {
     if (courseID) dispatch(fetchCourseInfo({ courseID, schedules: true }));
-  }, [courseID]);
+  }, [dispatch, courseID]);
 
   if (!info) {
     return <Loading />;

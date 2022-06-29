@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
@@ -33,26 +33,25 @@ const AppliedFilters = () => {
 const SearchBar = () => {
   const dispatch = useAppDispatch();
   const search = useAppSelector((state) => state.user.filter.search);
-  const exactMatchesOnly = useAppSelector(
-    (state) => state.user.filter.exactMatchesOnly
+
+  const dispatchSearch = useCallback(
+    (search) => {
+      const exactCourses = getCourseIds(search);
+      if (exactCourses)
+        dispatch(coursesSlice.actions.setExactResultsCourses(exactCourses));
+      else dispatch(coursesSlice.actions.setExactResultsCourses([]));
+      throttledFilter();
+    },
+    [dispatch]
   );
 
-  const dispatchSearch = (search) => {
-    dispatch(userSlice.actions.updateSearch(search));
-    const exactCourses = getCourseIds(search);
-    if (exactCourses)
-      dispatch(coursesSlice.actions.setExactResultsCourses(exactCourses));
-    else dispatch(coursesSlice.actions.setExactResultsCourses([]));
-    throttledFilter();
-  };
-
   const onChange = (e) => {
-    dispatchSearch(e.target.value);
+    dispatch(userSlice.actions.updateSearch(e.target.value));
   };
 
   useEffect(() => {
     dispatchSearch(search);
-  }, []);
+  }, [dispatchSearch, search]);
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const showFCEs = useAppSelector((state) => state.user.showFCEs);

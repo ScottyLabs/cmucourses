@@ -47,7 +47,10 @@ const ScheduleSelection = ({ name, id, courses, active }) => {
         <div>{name}</div>
         <XIcon
           className="h-4 w-4 cursor-pointer"
-          onClick={() => dispatch(userSlice.actions.deleteSchedule(id))}
+          onClick={() => {
+            dispatch(userSlice.actions.deleteSchedule(id));
+            return false;
+          }}
         />
       </div>
     );

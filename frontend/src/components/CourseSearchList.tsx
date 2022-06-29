@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
 import { Pagination } from "react-headless-pagination";
@@ -27,29 +27,28 @@ const CoursePage = () => {
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
-  let coursesToShow: string[] = [];
-
-  if (exactMatchesOnly) {
-    coursesToShow = [...exactResultsCourses];
-  } else if (page === 1 && exactResultsCourses.length > 0) {
-    coursesToShow = [
-      ...exactResultsCourses,
-      ...pageCourses.filter(
-        (courseID) => !exactResultsCourses.includes(courseID)
-      ),
-    ];
-  } else {
-    coursesToShow = [...pageCourses];
-  }
+  let coursesToShow: string[] = useMemo(() => {
+    if (exactMatchesOnly) {
+      return (coursesToShow = [...exactResultsCourses]);
+    } else if (page === 1 && exactResultsCourses.length > 0) {
+      return (coursesToShow = [
+        ...exactResultsCourses,
+        ...pageCourses.filter(
+          (courseID) => !exactResultsCourses.includes(courseID)
+        ),
+      ]);
+    } else {
+      return [...pageCourses];
+    }
+  }, [exactMatchesOnly, exactResultsCourses, pageCourses, page]);
 
   const results = useAppSelector(selectCourseResults(coursesToShow));
 
   useEffect(() => {
-    console.log(coursesToShow);
     if (loggedIn && coursesToShow) {
       dispatch(fetchFCEInfos({ courseIDs: coursesToShow }));
     }
-  }, [coursesToShow.join(" "), loggedIn]);
+  }, [dispatch, coursesToShow, loggedIn]);
 
   return (
     <div className="space-y-4">

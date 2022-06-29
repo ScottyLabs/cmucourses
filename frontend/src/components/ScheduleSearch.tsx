@@ -14,16 +14,17 @@ import {
 
 const fullConfig = resolveConfig(tailwindConfig);
 
-const CourseCombobox = ({ onSelectedItemsChange }) => {
+const CourseCombobox = ({ active, onSelectedItemsChange }) => {
   const [inputValue, setInputValue] = useState("");
   const listRef = useRef();
   const dispatch = useAppDispatch();
 
   const allCourses = useAppSelector((state) => state.courses.allCourses);
+  const scheduled = useAppSelector((state) => state.user.schedules.current);
 
   useEffect(() => {
     dispatch(fetchAllCourses());
-  }, []);
+  }, [dispatch]);
 
   function getCourses() {
     return allCourses.filter(
@@ -35,11 +36,6 @@ const CourseCombobox = ({ onSelectedItemsChange }) => {
     );
   }
 
-  const scheduled = useAppSelector((state) => state.user.schedules.current);
-  useEffect(() => {
-    setSelectedItems(scheduled.map((courseID) => ({ courseID, name: "" })));
-  }, [scheduled.join(" ")]);
-
   const {
     getSelectedItemProps,
     getDropdownProps,
@@ -49,12 +45,16 @@ const CourseCombobox = ({ onSelectedItemsChange }) => {
     activeIndex,
     selectedItems,
   } = useMultipleSelection({
-    initialSelectedItems: [],
     onSelectedItemsChange,
   });
 
-  const filteredCourses = getCourses();
+  useEffect(
+    () =>
+      setSelectedItems(scheduled.map((courseID) => ({ courseID, name: "" }))),
+    [active]
+  );
 
+  const filteredCourses = getCourses();
   const rowVirtualizer = useVirtual({
     size: filteredCourses.length,
     parentRef: listRef,
@@ -239,6 +239,7 @@ const ScheduleSearch = () => {
         )}
 
         <CourseCombobox
+          active={active}
           onSelectedItemsChange={({ selectedItems }) => {
             const courseIDs = selectedItems.map(({ courseID }) => courseID);
             dispatch(fetchFCEInfos({ courseIDs }));

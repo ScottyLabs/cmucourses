@@ -21,7 +21,7 @@ const SharedSchedulePage: NextPage = () => {
       );
       router.push("/schedules");
     }
-  }, [router.isReady]);
+  }, [dispatch, router, coursesString, router.isReady]);
 
   return <Loading />;
 };

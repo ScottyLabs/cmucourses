@@ -23,7 +23,7 @@ const CourseList = ({ courseIDs, children }: Props) => {
       dispatch(fetchCourseInfos(courseIDs));
       if (loggedIn) dispatch(fetchFCEInfos({ courseIDs }));
     }
-  }, [loggedIn]);
+  }, [dispatch, courseIDs, loggedIn]);
 
   const results = useAppSelector(selectCourseResults(courseIDs));
 
