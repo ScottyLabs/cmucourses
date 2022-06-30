@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Loading from "../../components/Loading";
 import { getCourseIds } from "../../app/utils";
 import { useAppDispatch } from "../../app/hooks";
-import { userSlice } from "../../app/user";
+import { userSchedulesSlice } from "../../app/userSchedules";
 
 const SharedSchedulePage: NextPage = () => {
   const router = useRouter();
@@ -14,11 +14,7 @@ const SharedSchedulePage: NextPage = () => {
   useEffect(() => {
     if (router.isReady) {
       const courseIDs = getCourseIds(coursesString);
-      dispatch(
-        userSlice.actions.createSharedSchedule({
-          courses: courseIDs,
-        })
-      );
+      dispatch(userSchedulesSlice.actions.createSharedSchedule(courseIDs));
       router.push("/schedules");
     }
   }, [dispatch, router, coursesString, router.isReady]);
