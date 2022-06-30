@@ -42,14 +42,14 @@ const ScheduleSelection = ({ name, id, courses, active }) => {
     return (
       <div
         className="flex cursor-pointer justify-between rounded-md px-2 py-2 text-sm hover:bg-gray-50"
-        onClick={() => dispatch(userSlice.actions.selectSchedule(id))}
+        onClick={() => dispatch(userSlice.actions.changeActiveSchedule(id))}
       >
         <div>{name}</div>
         <XIcon
           className="h-4 w-4 cursor-pointer"
-          onClick={() => {
+          onClick={(e) => {
             dispatch(userSlice.actions.deleteSchedule(id));
-            return false;
+            e.stopPropagation();
           }}
         />
       </div>
@@ -60,7 +60,6 @@ const ScheduleSelector = () => {
   const dispatch = useAppDispatch();
   const savedSchedules = useAppSelector((state) => state.user.schedules.saved);
   const active = useAppSelector((state) => state.user.schedules.active);
-  const current = useAppSelector((state) => state.user.schedules.current);
 
   return (
     <div>
@@ -68,31 +67,24 @@ const ScheduleSelector = () => {
         <div className="text-md">Schedules</div>
         <FlushedButton
           onClick={() => {
-            dispatch(userSlice.actions.createSchedule());
+            dispatch(userSlice.actions.createEmptySchedule());
           }}
         >
           Create New
         </FlushedButton>
       </div>
       <div>
-        {savedSchedules.length > 0 ? (
-          savedSchedules.map((schedule, index) => (
-            <ScheduleSelection
-              name={schedule.name}
-              courses={schedule.courses}
-              id={index}
-              active={index === active}
-              key={index}
-            />
-          ))
-        ) : (
-          <ScheduleSelection
-            name={"My Schedule"}
-            courses={current}
-            id={-1}
-            active={true}
-          />
-        )}
+        {Object.keys(savedSchedules).length > 0
+          ? Object.entries(savedSchedules).map(([id, schedule], index) => (
+              <ScheduleSelection
+                name={schedule.name}
+                courses={schedule.courses}
+                id={id}
+                active={id === active}
+                key={id}
+              />
+            ))
+          : "No schedules created."}
       </div>
     </div>
   );

@@ -189,11 +189,11 @@ export function getDepartmentByShortName(shortName: string) {
   return DEPARTMENT_MAP_SHORTNAME[shortName];
 }
 
-export function removeFromSet(arr, item) {
+export function removeFromSet<T>(arr: T[], item: T): T[] {
   return arr.filter((x) => x !== item);
 }
 
-export function addToSet(arr, item) {
+export function addToSet<T>(arr: T[], item: T): T[] {
   if (arr.indexOf(item) === -1) {
     return [...arr, item];
   } else {

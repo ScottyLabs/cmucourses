@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
 
 interface CoursesState {
   totalDocs: number;
@@ -166,25 +167,29 @@ export const fetchFCEInfos = createAsyncThunk(
   }
 );
 
-export const selectCourseResults = (courseIDs: string[]) => (state) =>
-  courseIDs
-    .filter((courseID) => courseID in state.courses.courseResults)
-    .map((courseID) => state.courses.courseResults[courseID]);
+export const selectCourseResults =
+  (courseIDs: string[]) => (state: RootState) =>
+    courseIDs
+      .filter((courseID) => courseID in state.courses.courseResults)
+      .map((courseID) => state.courses.courseResults[courseID]);
 
-export const selectCourseResult = (courseID: string) => (state) =>
+export const selectCourseResult = (courseID: string) => (state: RootState) =>
   state.courses.courseResults[courseID];
 
-export const selectFCEResultsForCourses = (courseIDs: string[]) => (state) =>
-  courseIDs.map((courseID) => {
-    if (!state.courses.fces[courseID]) return { courseID, fces: null };
-    return { courseID, fces: state.courses.fces[courseID] };
-  });
+export const selectFCEResultsForCourses =
+  (courseIDs: string[]) => (state: RootState) =>
+    courseIDs.map((courseID) => {
+      if (!state.courses.fces[courseID]) return { courseID, fces: null };
+      return { courseID, fces: state.courses.fces[courseID] };
+    });
 
-export const selectFCEResultsForCourse = (courseID: string) => (state) =>
-  state.courses.fces[courseID];
+export const selectFCEResultsForCourse =
+  (courseID: string) => (state: RootState) =>
+    state.courses.fces[courseID];
 
-export const selectScheduleForCourse = (courseID: string) => (state) =>
-  state.courses.scheduleResults[courseID];
+export const selectScheduleForCourse =
+  (courseID: string) => (state: RootState) =>
+    state.courses.scheduleResults[courseID];
 
 export const coursesSlice = createSlice({
   name: "courses",

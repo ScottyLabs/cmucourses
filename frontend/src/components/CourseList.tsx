@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
 import {
@@ -7,6 +7,7 @@ import {
   selectCourseResults,
 } from "../app/courses";
 import Loading from "./Loading";
+import useDeepCompareEffect from "use-deep-compare-effect";
 
 interface Props {
   courseIDs: string[];
@@ -18,12 +19,13 @@ const CourseList = ({ courseIDs, children }: Props) => {
   const loading = useAppSelector((state) => state.courses.coursesLoading);
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  useDeepCompareEffect(() => {
+    console.log(courseIDs);
     if (courseIDs) {
       dispatch(fetchCourseInfos(courseIDs));
       if (loggedIn) dispatch(fetchFCEInfos({ courseIDs }));
     }
-  }, [dispatch, courseIDs, loggedIn]);
+  }, [courseIDs]);
 
   const results = useAppSelector(selectCourseResults(courseIDs));
 

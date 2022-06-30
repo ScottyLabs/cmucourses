@@ -1,6 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { addToSet, removeFromSet, standardizeIdsInString } from "./utils";
 import { SEMESTERS_COUNTED } from "./constants";
+import { Session } from "./types";
+import { v4 as uuidv4 } from "uuid";
+import { RootState } from "./store";
+
+export interface UserSchedule {
+  name: string;
+  courses: string[];
+  id: string;
+  session?: Session;
+}
 
 export interface UserState {
   bookmarked: string[];
@@ -22,10 +32,8 @@ export interface UserState {
     };
   };
   schedules: {
-    active: number;
-    saved: { name: string; courses: string[] }[];
-    current: string[];
-    selected: string[];
+    active: string | null;
+    saved: { [id: string]: UserSchedule };
   };
   token: string;
 }
@@ -51,9 +59,7 @@ const initialState: UserState = {
   },
   schedules: {
     active: null,
-    saved: [],
-    current: [],
-    selected: [],
+    saved: {},
   },
   token: null,
 };
@@ -73,13 +79,6 @@ export const userSlice = createSlice({
     },
     setExactMatchesOnly: (state, action) => {
       state.filter.exactMatchesOnly = action.payload;
-    },
-    toggleSelect: (state) => {
-      if (state.schedules.selected.length > 0) {
-        state.schedules.selected = [];
-      } else {
-        state.schedules.selected = [...state.schedules.current];
-      }
     },
     toggleDarkMode: (state) => {
       state.darkMode = !state.darkMode;
@@ -119,123 +118,64 @@ export const userSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
-    updateScheduleSelected: (state, action) => {
-      state.schedules.selected = [...action.payload];
+    changeActiveSchedule: (state, action: PayloadAction<string>) => {
+      state.schedules.active = action.payload;
     },
-    addScheduleSelected: (state, action) => {
-      state.schedules.selected = addToSet(
-        state.schedules.selected,
-        action.payload
-      );
-    },
-    removeScheduleSelected: (state, action) => {
-      state.schedules.selected = removeFromSet(
-        state.schedules.selected,
-        action.payload
-      );
-    },
-    updateCurrentSchedule: (state, action) => {
-      state.schedules.current = [...action.payload];
-      if (state.schedules.active !== null) {
-        state.schedules.saved[state.schedules.active].courses = [
-          ...action.payload,
-        ];
-      }
-    },
-    addToCurrentSchedule: (state, action) => {
-      if (!state.schedules.current.includes(action.payload)) {
-        state.schedules.current.push(action.payload);
-        state.schedules.selected.push(action.payload);
-      }
-    },
-    removeFromCurrentSchedule: (state, action) => {
-      state.schedules.current = removeFromSet(
-        state.schedules.current,
-        action.payload
-      );
-      state.schedules.selected = removeFromSet(
-        state.schedules.selected,
-        action.payload
-      );
-    },
-    saveSchedule: (state) => {
+    addCourseToActiveSchedule: (state, action: PayloadAction<string>) => {
       if (state.schedules.active === null) {
-        state.schedules.saved.push({
-          name: "My Schedule",
-          courses: [...state.schedules.current],
-        });
-      } else {
-        state.schedules.saved[state.schedules.active].courses = [
-          ...state.schedules.current,
-        ];
-      }
-    },
-    createEmptySchedule: (state) => {
-      state.schedules.saved.push({
-        name: "My Schedule",
-        courses: [],
-      });
-      state.schedules.active = state.schedules.saved.length - 1;
-      state.schedules.current =
-        state.schedules.saved[state.schedules.active].courses;
-      state.schedules.selected =
-        state.schedules.saved[state.schedules.active].courses;
-    },
-    createSharedSchedule: (state, action) => {
-      state.schedules.saved.push({
-        name: "Shared Schedule",
-        courses: action.payload.courses,
-      });
-      state.schedules.active = state.schedules.saved.length - 1;
-      state.schedules.current =
-        state.schedules.saved[state.schedules.active].courses;
-      state.schedules.selected =
-        state.schedules.saved[state.schedules.active].courses;
-    },
-    createSchedule: (state) => {
-      if (state.schedules.active === null) {
-        state.schedules.saved.push({
-          name: "My Schedule",
-          courses: [...state.schedules.current],
-        });
-      } else {
-        state.schedules.saved.push({
+        const newId = uuidv4();
+        state.schedules.saved[newId] = {
           name: "My Schedule",
           courses: [],
-        });
+          id: newId,
+        };
+        state.schedules.active = newId;
       }
-      state.schedules.active = state.schedules.saved.length - 1;
-      state.schedules.current =
-        state.schedules.saved[state.schedules.active].courses;
-      state.schedules.selected =
-        state.schedules.saved[state.schedules.active].courses;
+      state.schedules.saved[state.schedules.active].courses = addToSet(
+        state.schedules.saved[state.schedules.active].courses,
+        action.payload
+      );
     },
-    selectSchedule: (state, action) => {
-      if (action.payload < 0) return;
-      state.schedules.active = action.payload;
-      state.schedules.current =
-        state.schedules.saved[state.schedules.active].courses;
-      state.schedules.selected = [...state.schedules.current];
+    removeCourseFromActiveSchedule: (state, action: PayloadAction<string>) => {
+      state.schedules.saved[state.schedules.active].courses = removeFromSet(
+        state.schedules.saved[state.schedules.active].courses,
+        action.payload
+      );
     },
-    deleteSchedule: (state, action) => {
-      state.schedules.saved.splice(action.payload, 1);
-      if (state.schedules.saved.length === 0) {
-        state.schedules.active = null;
-        state.schedules.current = [];
-        state.schedules.selected = [];
-      } else {
-        if (state.schedules.active >= state.schedules.saved.length) {
-          state.schedules.active -= 1;
-        } else if (state.schedules.active < 0) {
-          state.schedules.active = 0;
+    setActiveScheduleCourses: (state, action: PayloadAction<string[]>) => {
+      if (state.schedules.active === null) return;
+      state.schedules.saved[state.schedules.active].courses = action.payload;
+    },
+    createEmptySchedule: (state) => {
+      const newId = uuidv4();
+      state.schedules.saved[newId] = {
+        name: "My Schedule",
+        courses: [],
+        id: newId,
+      };
+      state.schedules.active = newId;
+    },
+    createSharedSchedule: (state, action: PayloadAction<string[]>) => {
+      const newId = uuidv4();
+      state.schedules.saved[newId] = {
+        name: "Shared Schedule",
+        courses: action.payload,
+        id: newId,
+      };
+    },
+    deleteSchedule: (state, action: PayloadAction<string>) => {
+      delete state.schedules.saved[action.payload];
+      if (state.schedules.active === action.payload) {
+        // TODO: make this more intuitive - pick nearest ID?
+        const scheduleIDs = Object.keys(state.schedules.saved);
+        if (scheduleIDs.length === 0) {
+          state.schedules.active = null;
+        } else {
+          state.schedules.active = scheduleIDs[0];
         }
-        state.schedules.current =
-          state.schedules.saved[state.schedules.active].courses;
-        state.schedules.selected =
-          state.schedules.saved[state.schedules.active].courses;
       }
     },
-    updateActiveScheduleName: (state, action) => {
+    updateActiveScheduleName: (state, action: PayloadAction<string>) => {
       if (state.schedules.active !== null) {
         state.schedules.saved[state.schedules.active].name = action.payload;
       }
@@ -243,5 +183,10 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {},
 });
+
+export const selectCoursesInActiveSchedule = (state: RootState): string[] => {
+  if (state.user.schedules.active === null) return [];
+  return state.user.schedules.saved[state.user.schedules.active].courses;
+};
 
 export const reducer = userSlice.reducer;

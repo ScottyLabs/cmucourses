@@ -2,7 +2,7 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { aggregateCourses } from "../app/fce";
 import { displayUnits, roundTo } from "../app/utils";
-import { userSlice } from "../app/user";
+import { selectCoursesInActiveSchedule } from "../app/user";
 import { SmallButton } from "./Buttons";
 import {
   selectCourseResults,
@@ -13,7 +13,7 @@ const ScheduleData = ({ scheduled }) => {
   const dispatch = useAppDispatch();
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  const selected = useAppSelector((state) => state.user.schedules.selected);
+  const selected = useAppSelector(selectCoursesInActiveSchedule);
   const scheduledResults = useAppSelector(selectCourseResults(scheduled));
 
   const options = useAppSelector((state) => state.user.fceAggregation);
@@ -45,8 +45,8 @@ const ScheduleData = ({ scheduled }) => {
   const message = aggregatedSelectedData.message;
 
   const selectCourse = (value, courseID) => {
-    if (value) dispatch(userSlice.actions.addScheduleSelected(courseID));
-    else dispatch(userSlice.actions.removeScheduleSelected(courseID));
+    // if (value) dispatch(userSlice.actions.addScheduleSelected(courseID));
+    // else dispatch(userSlice.actions.removeScheduleSelected(courseID));
   };
 
   return (
@@ -66,7 +66,7 @@ const ScheduleData = ({ scheduled }) => {
       <div className="mt-2 flex justify-between">
         <SmallButton
           onClick={() => {
-            dispatch(userSlice.actions.toggleSelect());
+            // dispatch(userSlice.actions.toggleSelect());
           }}
         >
           Toggle Select

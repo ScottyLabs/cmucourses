@@ -1,15 +1,16 @@
 import { NextPage } from "next";
 import Sidebar from "../components/Sidebar";
 import Aggregate from "../components/Aggregate";
-import ScheduleData from "../components/ScheduleData";
 import Topbar from "../components/Topbar";
 import { useAppSelector } from "../app/hooks";
 import ScheduleSelector from "../components/ScheduleSelector";
 import CourseList from "../components/CourseList";
 import ScheduleSearch from "../components/ScheduleSearch";
+import { selectCoursesInActiveSchedule } from "../app/user";
+import ScheduleData from "../components/ScheduleData";
 
 const SchedulePage: NextPage = () => {
-  const scheduled = useAppSelector((state) => state.user.schedules.current);
+  const scheduled = useAppSelector(selectCoursesInActiveSchedule);
 
   return (
     <div className="font-sans">

@@ -25,6 +25,7 @@ const persistConfig = {
   version: 1,
   storage,
   stateReconciler: autoMergeLevel2,
+  blacklist: ["schedules"],
 };
 
 const reducers = combineReducers({
@@ -43,6 +44,8 @@ export const store = configureStore({
       },
     }),
 });
+
+export type RootState = ReturnType<typeof store.getState>;
 
 export let persistor = persistStore(store);
 

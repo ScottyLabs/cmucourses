@@ -5,26 +5,45 @@ import { PencilAltIcon, SearchIcon } from "@heroicons/react/solid";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../tailwind.config.js";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { userSlice } from "../app/user";
+import { selectCoursesInActiveSchedule, userSlice } from "../app/user";
 import {
   fetchAllCourses,
   fetchCourseInfos,
   fetchFCEInfos,
 } from "../app/courses";
+import useDeepCompareEffect from "use-deep-compare-effect";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
-const CourseCombobox = ({ active, onSelectedItemsChange }) => {
+type selectedItem = {
+  courseID: string;
+  name: string;
+};
+
+const CourseCombobox = ({
+  active,
+  onSelectedItemsChange,
+}: {
+  active: string;
+  onSelectedItemsChange: (items: string[]) => any;
+}) => {
   const [inputValue, setInputValue] = useState("");
   const listRef = useRef();
   const dispatch = useAppDispatch();
 
   const allCourses = useAppSelector((state) => state.courses.allCourses);
-  const scheduled = useAppSelector((state) => state.user.schedules.current);
+  const schedules = useAppSelector((state) => state.user.schedules.saved);
+  const activeSchedule = useAppSelector(selectCoursesInActiveSchedule);
 
   useEffect(() => {
     dispatch(fetchAllCourses());
   }, [dispatch]);
+
+  useDeepCompareEffect(() => {
+    setSelectedItems(
+      activeSchedule.map((courseID) => ({ courseID, name: "" }))
+    );
+  }, [activeSchedule]);
 
   function getCourses() {
     return allCourses.filter(
@@ -44,15 +63,11 @@ const CourseCombobox = ({ active, onSelectedItemsChange }) => {
     setSelectedItems,
     activeIndex,
     selectedItems,
-  } = useMultipleSelection({
-    onSelectedItemsChange,
+  } = useMultipleSelection<selectedItem>({
+    onSelectedItemsChange: ({ selectedItems }) => {
+      onSelectedItemsChange(selectedItems.map(({ courseID }) => courseID));
+    },
   });
-
-  useEffect(
-    () =>
-      setSelectedItems(scheduled.map((courseID) => ({ courseID, name: "" }))),
-    [active]
-  );
 
   const filteredCourses = getCourses();
   const rowVirtualizer = useVirtual({
@@ -106,7 +121,7 @@ const CourseCombobox = ({ active, onSelectedItemsChange }) => {
             setInputValue("");
             addSelectedItem(selectedItem);
             dispatch(
-              userSlice.actions.addToCurrentSchedule(selectedItem.courseID)
+              userSlice.actions.addCourseToActiveSchedule(selectedItem.courseID)
             );
           }
           break;
@@ -240,11 +255,10 @@ const ScheduleSearch = () => {
 
         <CourseCombobox
           active={active}
-          onSelectedItemsChange={({ selectedItems }) => {
-            const courseIDs = selectedItems.map(({ courseID }) => courseID);
+          onSelectedItemsChange={(courseIDs) => {
             dispatch(fetchFCEInfos({ courseIDs }));
             dispatch(fetchCourseInfos(courseIDs));
-            dispatch(userSlice.actions.updateCurrentSchedule(courseIDs));
+            dispatch(userSlice.actions.setActiveScheduleCourses(courseIDs));
           }}
         />
       </div>
