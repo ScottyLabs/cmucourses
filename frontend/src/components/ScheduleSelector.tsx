@@ -2,8 +2,8 @@ import React from "react";
 import { ShareIcon } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { FlushedButton } from "./Buttons";
-import { userSlice } from "../app/user";
 import { XIcon } from "@heroicons/react/outline";
+import { userSchedulesSlice } from "../app/userSchedules";
 
 const ScheduleSelection = ({ name, id, courses, active }) => {
   const dispatch = useAppDispatch();
@@ -15,7 +15,9 @@ const ScheduleSelection = ({ name, id, courses, active }) => {
           <div>{name}</div>
           <XIcon
             className="h-4 w-4 cursor-pointer"
-            onClick={() => dispatch(userSlice.actions.deleteSchedule(id))}
+            onClick={() =>
+              dispatch(userSchedulesSlice.actions.deleteSchedule(id))
+            }
           />
         </div>
         <div className="">
@@ -42,13 +44,15 @@ const ScheduleSelection = ({ name, id, courses, active }) => {
     return (
       <div
         className="flex cursor-pointer justify-between rounded-md px-2 py-2 text-sm hover:bg-gray-50"
-        onClick={() => dispatch(userSlice.actions.changeActiveSchedule(id))}
+        onClick={() =>
+          dispatch(userSchedulesSlice.actions.changeActiveSchedule(id))
+        }
       >
         <div>{name}</div>
         <XIcon
           className="h-4 w-4 cursor-pointer"
           onClick={(e) => {
-            dispatch(userSlice.actions.deleteSchedule(id));
+            dispatch(userSchedulesSlice.actions.deleteSchedule(id));
             e.stopPropagation();
           }}
         />
@@ -58,8 +62,8 @@ const ScheduleSelection = ({ name, id, courses, active }) => {
 
 const ScheduleSelector = () => {
   const dispatch = useAppDispatch();
-  const savedSchedules = useAppSelector((state) => state.user.schedules.saved);
-  const active = useAppSelector((state) => state.user.schedules.active);
+  const savedSchedules = useAppSelector((state) => state.schedules.saved);
+  const active = useAppSelector((state) => state.schedules.active);
 
   return (
     <div>
@@ -67,7 +71,7 @@ const ScheduleSelector = () => {
         <div className="text-md">Schedules</div>
         <FlushedButton
           onClick={() => {
-            dispatch(userSlice.actions.createEmptySchedule());
+            dispatch(userSchedulesSlice.actions.createEmptySchedule());
           }}
         >
           Create New

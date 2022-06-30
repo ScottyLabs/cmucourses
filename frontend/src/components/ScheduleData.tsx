@@ -2,12 +2,12 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { aggregateCourses } from "../app/fce";
 import { displayUnits, roundTo } from "../app/utils";
-import { selectCoursesInActiveSchedule } from "../app/user";
 import { SmallButton } from "./Buttons";
 import {
   selectCourseResults,
   selectFCEResultsForCourses,
 } from "../app/courses";
+import { selectCoursesInActiveSchedule } from "../app/userSchedules";
 
 const ScheduleData = ({ scheduled }) => {
   const dispatch = useAppDispatch();

@@ -16,9 +16,9 @@ const SavedPage: NextPage = () => {
             <Aggregate />
           </Sidebar>
         </div>
-        <div className="flex-1 overflow-y-scroll dark:bg-grey-800 md:h-full md:pt-16">
+        <div className="dark:bg-grey-800 flex-1 overflow-y-scroll md:h-full md:pt-16">
           <CourseList courseIDs={saved}>
-            <div className="text-center font-semibold text-grey-500">
+            <div className="text-grey-500 text-center font-semibold">
               Nothing bookmarked yet!
             </div>
           </CourseList>

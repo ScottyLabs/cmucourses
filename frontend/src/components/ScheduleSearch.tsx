@@ -5,13 +5,16 @@ import { PencilAltIcon, SearchIcon } from "@heroicons/react/solid";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../tailwind.config.js";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { selectCoursesInActiveSchedule, userSlice } from "../app/user";
 import {
   fetchAllCourses,
   fetchCourseInfos,
   fetchFCEInfos,
 } from "../app/courses";
 import useDeepCompareEffect from "use-deep-compare-effect";
+import {
+  selectCoursesInActiveSchedule,
+  userSchedulesSlice,
+} from "../app/userSchedules";
 
 const fullConfig = resolveConfig(tailwindConfig);
 
@@ -32,7 +35,6 @@ const CourseCombobox = ({
   const dispatch = useAppDispatch();
 
   const allCourses = useAppSelector((state) => state.courses.allCourses);
-  const schedules = useAppSelector((state) => state.user.schedules.saved);
   const activeSchedule = useAppSelector(selectCoursesInActiveSchedule);
 
   useEffect(() => {
@@ -121,7 +123,9 @@ const CourseCombobox = ({
             setInputValue("");
             addSelectedItem(selectedItem);
             dispatch(
-              userSlice.actions.addCourseToActiveSchedule(selectedItem.courseID)
+              userSchedulesSlice.actions.addCourseToActiveSchedule(
+                selectedItem.courseID
+              )
             );
           }
           break;
@@ -231,8 +235,8 @@ const CourseCombobox = ({
 
 const ScheduleSearch = () => {
   const dispatch = useAppDispatch();
-  const savedSchedules = useAppSelector((state) => state.user.schedules.saved);
-  const active = useAppSelector((state) => state.user.schedules.active);
+  const savedSchedules = useAppSelector((state) => state.schedules.saved);
+  const active = useAppSelector((state) => state.schedules.active);
 
   return (
     <div className="mb-6">
@@ -245,7 +249,9 @@ const ScheduleSearch = () => {
               value={savedSchedules[active].name}
               onChange={(e) =>
                 dispatch(
-                  userSlice.actions.updateActiveScheduleName(e.target.value)
+                  userSchedulesSlice.actions.updateActiveScheduleName(
+                    e.target.value
+                  )
                 )
               }
               placeholder="Schedule Name"
@@ -258,7 +264,9 @@ const ScheduleSearch = () => {
           onSelectedItemsChange={(courseIDs) => {
             dispatch(fetchFCEInfos({ courseIDs }));
             dispatch(fetchCourseInfos(courseIDs));
-            dispatch(userSlice.actions.setActiveScheduleCourses(courseIDs));
+            dispatch(
+              userSchedulesSlice.actions.setActiveScheduleCourses(courseIDs)
+            );
           }}
         />
       </div>

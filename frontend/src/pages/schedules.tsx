@@ -6,8 +6,8 @@ import { useAppSelector } from "../app/hooks";
 import ScheduleSelector from "../components/ScheduleSelector";
 import CourseList from "../components/CourseList";
 import ScheduleSearch from "../components/ScheduleSearch";
-import { selectCoursesInActiveSchedule } from "../app/user";
 import ScheduleData from "../components/ScheduleData";
+import { selectCoursesInActiveSchedule } from "../app/userSchedules";
 
 const SchedulePage: NextPage = () => {
   const scheduled = useAppSelector(selectCoursesInActiveSchedule);

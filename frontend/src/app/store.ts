@@ -7,6 +7,10 @@ import {
   reducer as coursesReducer,
 } from "./courses";
 import { reducer as userReducer, UserState } from "./user";
+import {
+  reducer as userSchedulesReducer,
+  UserSchedulesState,
+} from "./userSchedules";
 import debounce from "lodash/debounce";
 import {
   FLUSH,
@@ -25,14 +29,17 @@ const persistConfig = {
   version: 1,
   storage,
   stateReconciler: autoMergeLevel2,
-  blacklist: ["schedules"],
 };
 
 const reducers = combineReducers({
   courses: coursesReducer,
   user: persistReducer<UserState>(persistConfig, userReducer),
+  schedules: persistReducer<UserSchedulesState>(
+    persistConfig,
+    userSchedulesReducer
+  ),
 });
-// const persistedReducer = persistReducer(persistConfig, reducers);
+
 const persistedReducer = reducers;
 
 export const store = configureStore({
