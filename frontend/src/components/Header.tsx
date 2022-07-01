@@ -105,7 +105,7 @@ export default function Header({ children }): ReactElement {
 
   return (
     <div className="relative">
-      <header className="bg-gray-50 fixed inset-x-0 top-0 z-50 h-28 drop-shadow dark:bg-zinc-800 md:h-16">
+      <header className="bg-gray-50 fixed inset-x-0 top-0 z-50 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
         <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
           <div className="text-gray-800 flex-initial font-semibold hover:cursor-pointer">
             <Link href="/">
@@ -123,7 +123,7 @@ export default function Header({ children }): ReactElement {
               </span>
             </Link>
           </div>
-          <div className="text-gray-600 flex flex-row items-center space-x-10">
+          <div className="text-gray-600 flex flex-row flex-wrap items-center justify-end gap-x-8 gap-y-1">
             <div>
               <Link href="/saved">
                 <span className="flex items-center hover:cursor-pointer">
