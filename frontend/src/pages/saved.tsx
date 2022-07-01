@@ -1,11 +1,13 @@
 import type { NextPage } from "next";
 import React from "react";
-import BookmarkedData from "../components/BookmarkedData";
-import BookmarkedList from "../components/BookmarkedList";
+import CourseList from "../components/CourseList";
 import Sidebar from "../components/Sidebar";
 import Aggregate from "../components/Aggregate";
+import { useAppSelector } from "../app/hooks";
 
-const BookmarkedPage: NextPage = () => {
+const SavedPage: NextPage = () => {
+  const saved = useAppSelector((state) => state.user.bookmarked);
+
   return (
     <div className="font-sans accent-purple-600">
       <div className="flex flex-col md:h-screen md:flex-row">
@@ -14,13 +16,16 @@ const BookmarkedPage: NextPage = () => {
             <Aggregate />
           </Sidebar>
         </div>
-        <div className="flex-1 overflow-y-scroll md:h-full md:pt-16">
-          <BookmarkedData />
-          <BookmarkedList />
+        <div className="dark:bg-grey-800 flex-1 overflow-y-scroll md:h-full md:pt-16">
+          <CourseList courseIDs={saved}>
+            <div className="text-grey-500 text-center font-semibold">
+              Nothing bookmarked yet!
+            </div>
+          </CourseList>
         </div>
       </div>
     </div>
   );
 };
 
-export default BookmarkedPage;
+export default SavedPage;

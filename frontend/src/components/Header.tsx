@@ -7,6 +7,7 @@ import * as jose from "jose";
 import { userSlice } from "../app/user";
 import {
   AnnotationIcon,
+  ClockIcon,
   LoginIcon,
   LogoutIcon,
   StarIcon,
@@ -16,7 +17,19 @@ import nightwind from "nightwind/helper";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
 
-export default function Header({ children }): ReactElement {
+const HeaderItem = ({ children, disableHover = false, active = false }) => {
+  return (
+    <div
+      className={`rounded px-2 py-1 hover:cursor-pointer md:p-2 ${
+        !disableHover && "hover:bg-gray-100"
+      } ${active && "bg-gray-100"}`}
+    >
+      {children}
+    </div>
+  );
+};
+
+export default function Header({ children, activePage }): ReactElement {
   const dispatch = useAppDispatch();
 
   const token = useAppSelector((state) => state.user.token);
@@ -63,7 +76,7 @@ export default function Header({ children }): ReactElement {
       setUser(null);
       dispatch(userSlice.actions.logOut());
     }
-  }, [token]);
+  }, [dispatch, token]);
 
   const darkMode = useAppSelector((state) => state.user.darkMode);
   useEffect(() => {
@@ -104,7 +117,7 @@ export default function Header({ children }): ReactElement {
 
   return (
     <div className="relative">
-      <header className="bg-gray-50 fixed inset-x-0 top-0 z-50 h-28 drop-shadow dark:bg-zinc-800 md:h-16">
+      <header className="bg-gray-50 fixed inset-x-0 top-0 z-50 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
         <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
           <div className="text-gray-800 flex-initial font-semibold hover:cursor-pointer">
             <Link href="/">
@@ -114,6 +127,7 @@ export default function Header({ children }): ReactElement {
                   className="rounded-md"
                   width={30}
                   height={30}
+                  alt="favicon"
                 />
                 <span className="ml-2">
                   ScottyLabs Course Tool <sup>β</sup>
@@ -121,15 +135,22 @@ export default function Header({ children }): ReactElement {
               </span>
             </Link>
           </div>
-          <div className="text-gray-600 flex flex-row items-center space-x-10">
-            <div>
+          <div className="text-gray-600 flex flex-row flex-wrap items-center justify-end gap-x-4">
+            <HeaderItem active={activePage === "saved"}>
               <Link href="/saved">
                 <span className="flex items-center hover:cursor-pointer">
                   <StarIcon className="mr-1 inline h-4 w-4" /> Saved
                 </span>
               </Link>
-            </div>
-            <div>
+            </HeaderItem>
+            <HeaderItem active={activePage === "schedules"}>
+              <Link href="/schedules">
+                <span className="flex items-center hover:cursor-pointer">
+                  <ClockIcon className="mr-1 inline h-4 w-4" /> Schedules
+                </span>
+              </Link>
+            </HeaderItem>
+            <HeaderItem>
               <a
                 href="https://forms.gle/6vPTN6Eyqd1w7pqJA"
                 target="_blank"
@@ -139,9 +160,11 @@ export default function Header({ children }): ReactElement {
                   <AnnotationIcon className="mr-1 inline h-4 w-4" /> Feedback
                 </span>
               </a>
-            </div>
-            <DarkModeButton />
-            <div className="hover:cursor-pointer">{logInButton}</div>
+            </HeaderItem>
+            <HeaderItem disableHover>
+              <DarkModeButton />
+            </HeaderItem>
+            <HeaderItem>{logInButton}</HeaderItem>
           </div>
         </div>
       </header>

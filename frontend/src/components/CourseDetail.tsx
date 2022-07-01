@@ -12,7 +12,7 @@ const CourseDetail = ({ info, schedules }) => {
 
   useEffect(() => {
     dispatch(fetchFCEInfos({ courseIDs: [info.courseID] }));
-  }, [info.courseID, loggedIn]);
+  }, [dispatch, info.courseID, loggedIn]);
 
   let sortedSchedules;
   if (schedules)

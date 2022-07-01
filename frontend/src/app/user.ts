@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { standardizeIdsInString } from "./utils";
+import { addToSet, removeFromSet, standardizeIdsInString } from "./utils";
 import { SEMESTERS_COUNTED } from "./constants";
 
 export interface UserState {
   bookmarked: string[];
   darkMode: boolean;
-  bookmarkedSelected: string[];
   showFCEs: boolean;
   showCourseInfos: boolean;
   loggedIn: boolean;
@@ -28,7 +27,6 @@ export interface UserState {
 const initialState: UserState = {
   bookmarked: [],
   darkMode: false,
-  bookmarkedSelected: [],
   showFCEs: false,
   showCourseInfos: true,
   loggedIn: false,
@@ -45,6 +43,7 @@ const initialState: UserState = {
       fall: true,
     },
   },
+
   token: null,
 };
 
@@ -53,47 +52,16 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     addBookmark: (state, action) => {
-      if (state.bookmarked.indexOf(action.payload) == -1) {
-        state.bookmarked.push(action.payload);
-        state.bookmarkedSelected.push(action.payload);
-      }
+      state.bookmarked = addToSet(state.bookmarked, action.payload);
     },
     removeBookmark: (state, action) => {
-      const index = state.bookmarked.indexOf(action.payload);
-      if (index > -1) {
-        state.bookmarked.splice(index, 1);
-      }
-
-      const selectedIndex = state.bookmarkedSelected.indexOf(action.payload);
-      if (index > -1) {
-        state.bookmarkedSelected.splice(selectedIndex, 1);
-      }
+      state.bookmarked = removeFromSet(state.bookmarked, action.payload);
     },
     clearBookmarks: (state) => {
       state.bookmarked = [];
-      state.bookmarkedSelected = [];
-    },
-    addSelected: (state, action) => {
-      if (state.bookmarked.indexOf(action.payload) == -1) return;
-      if (state.bookmarkedSelected.indexOf(action.payload) == -1) {
-        state.bookmarkedSelected.push(action.payload);
-      }
-    },
-    removeSelected: (state, action) => {
-      const selectedIndex = state.bookmarkedSelected.indexOf(action.payload);
-      if (selectedIndex > -1) {
-        state.bookmarkedSelected.splice(selectedIndex, 1);
-      }
     },
     setExactMatchesOnly: (state, action) => {
       state.filter.exactMatchesOnly = action.payload;
-    },
-    toggleSelect: (state) => {
-      if (state.bookmarkedSelected.length > 0) {
-        state.bookmarkedSelected = [];
-      } else {
-        state.bookmarkedSelected = [...state.bookmarked];
-      }
     },
     toggleDarkMode: (state) => {
       state.darkMode = !state.darkMode;

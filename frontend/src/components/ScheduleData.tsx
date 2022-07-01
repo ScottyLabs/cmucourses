@@ -2,38 +2,46 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { aggregateCourses } from "../app/fce";
 import { displayUnits, roundTo } from "../app/utils";
-import { userSlice } from "../app/user";
-import SmallButton from "./SmallButton";
 import {
   selectCourseResults,
   selectFCEResultsForCourses,
 } from "../app/courses";
+import {
+  selectSelectedCoursesInActiveSchedule,
+  userSchedulesSlice,
+} from "../app/userSchedules";
 
-const BookmarkedData = () => {
+const ScheduleData = ({ scheduled }) => {
   const dispatch = useAppDispatch();
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  const bookmarked = useAppSelector((state) => state.user.bookmarked);
-  const selected = useAppSelector((state) => state.user.bookmarkedSelected);
-  const bookmarkedResults = useAppSelector(selectCourseResults(bookmarked));
+  const active = useAppSelector((state) => state.schedules.active);
+  const selected = useAppSelector(selectSelectedCoursesInActiveSchedule);
+  const scheduledResults = useAppSelector(selectCourseResults(scheduled));
 
   const options = useAppSelector((state) => state.user.fceAggregation);
-  const bookmarkedFCEs = useAppSelector(selectFCEResultsForCourses(bookmarked));
+  const scheduledFCEs = useAppSelector(
+    selectFCEResultsForCourses(scheduled || [])
+  );
 
   if (!loggedIn) {
     return (
-      <div className="bg-white text-gray-700 sticky top-0 z-10 p-8 drop-shadow-lg">
+      <div className="text-grey-700 bg-white sticky top-0 z-10 p-8 drop-shadow-lg">
         <h1 className="text-lg font-semibold">FCE Summary</h1>
         <p>Log in to view FCE results.</p>
       </div>
     );
   }
 
-  const selectedFCEs = bookmarkedFCEs.filter(({ courseID }) =>
+  if (!active) {
+    return <></>;
+  }
+
+  const selectedFCEs = scheduledFCEs.filter(({ courseID }) =>
     selected.includes(courseID)
   );
 
-  const aggregatedData = aggregateCourses(bookmarkedFCEs, options);
+  const aggregatedData = aggregateCourses(scheduledFCEs, options);
   const aggregatedDataByCourseID = {};
   for (const row of aggregatedData.aggregatedFCEs) {
     if (row.aggregateData !== null)
@@ -44,16 +52,24 @@ const BookmarkedData = () => {
   const message = aggregatedSelectedData.message;
 
   const selectCourse = (value, courseID) => {
-    if (value) dispatch(userSlice.actions.addSelected(courseID));
-    else dispatch(userSlice.actions.removeSelected(courseID));
+    if (value)
+      dispatch(
+        userSchedulesSlice.actions.selectCourseInActiveSchedule(courseID)
+      );
+    else
+      dispatch(
+        userSchedulesSlice.actions.deselectCourseInActiveSchedule(courseID)
+      );
   };
 
+  console.log(aggregatedSelectedData);
+
   return (
-    <div className="bg-white text-gray-700 sticky top-0 z-10 p-8 drop-shadow-lg">
+    <>
       <div className="flex items-end justify-between">
         <div>
           <h1 className="text-lg font-semibold">FCE Summary</h1>
-          <div className="text-gray-600 text-lg">
+          <div className="text-grey-600 text-lg">
             Total Workload{" "}
             <span className="ml-4">
               {roundTo(aggregatedSelectedData.workload, 2)} hrs/week
@@ -62,22 +78,6 @@ const BookmarkedData = () => {
           </div>
         </div>
       </div>
-      <div className="mt-2 flex justify-between">
-        <SmallButton
-          onClick={() => {
-            dispatch(userSlice.actions.toggleSelect());
-          }}
-        >
-          Toggle Select
-        </SmallButton>
-        <SmallButton
-          onClick={() => {
-            dispatch(userSlice.actions.clearBookmarks());
-          }}
-        >
-          Clear Saved
-        </SmallButton>
-      </div>
       <table className="mt-3 w-full table-auto">
         <thead>
           <tr className="text-left">
@@ -85,12 +85,12 @@ const BookmarkedData = () => {
             <th className="font-semibold">Course ID</th>
             <th className="font-semibold">Course Name</th>
             <th className="font-semibold">Units</th>
-            <th className="font-semibold">Workload (hrs/week)</th>
+            <th className="font-semibold">Workload</th>
           </tr>
         </thead>
-        <tbody className="text-gray-500">
-          {bookmarkedResults &&
-            bookmarkedResults.map((result) => {
+        <tbody className="text-gray-700">
+          {scheduledResults &&
+            scheduledResults.map((result) => {
               return (
                 <tr key={result.courseID}>
                   <td>
@@ -116,11 +116,11 @@ const BookmarkedData = () => {
             })}
         </tbody>
       </table>
-      <div className="text-gray-400 mt-2 text-sm">
+      <div className="text-gray-500 mt-2 text-sm">
         {message === "" ? "" : `*${message}`}
       </div>
-    </div>
+    </>
   );
 };
 
-export default BookmarkedData;
+export default ScheduleData;

@@ -19,7 +19,7 @@ const BookmarkedList = () => {
       dispatch(fetchCourseInfos(bookmarked));
       if (loggedIn) dispatch(fetchFCEInfos({ courseIDs: bookmarked }));
     }
-  }, [bookmarked, loggedIn]);
+  }, [dispatch, bookmarked, loggedIn]);
 
   const bookmarkedResults = useAppSelector(selectCourseResults(bookmarked));
 

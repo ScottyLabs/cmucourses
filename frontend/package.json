@@ -17,6 +17,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/mongoose-paginate-v2": "^1.4.0",
     "axios": "^0.24.0",
+    "downshift": "^6.1.7",
     "jose": "^4.8.1",
     "mongoose-paginate-v2": "^1.6.3",
     "next": "^12.0.7",
@@ -30,7 +31,10 @@
     "react-star-ratings": "^2.3.0",
     "react-string-replace": "^0.4.4",
     "react-table": "^7.7.0",
-    "redux-persist": "^6.0.0"
+    "react-virtual": "^2.10.4",
+    "redux-persist": "^6.0.0",
+    "use-deep-compare-effect": "^1.8.1",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^4.8.0",
