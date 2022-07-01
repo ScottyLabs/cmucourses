@@ -2,18 +2,21 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { aggregateCourses } from "../app/fce";
 import { displayUnits, roundTo } from "../app/utils";
-import { SmallButton } from "./Buttons";
 import {
   selectCourseResults,
   selectFCEResultsForCourses,
 } from "../app/courses";
-import { selectCoursesInActiveSchedule } from "../app/userSchedules";
+import {
+  selectSelectedCoursesInActiveSchedule,
+  userSchedulesSlice,
+} from "../app/userSchedules";
 
 const ScheduleData = ({ scheduled }) => {
   const dispatch = useAppDispatch();
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  const selected = useAppSelector(selectCoursesInActiveSchedule);
+  const active = useAppSelector((state) => state.schedules.active);
+  const selected = useAppSelector(selectSelectedCoursesInActiveSchedule);
   const scheduledResults = useAppSelector(selectCourseResults(scheduled));
 
   const options = useAppSelector((state) => state.user.fceAggregation);
@@ -28,6 +31,10 @@ const ScheduleData = ({ scheduled }) => {
         <p>Log in to view FCE results.</p>
       </div>
     );
+  }
+
+  if (!active) {
+    return <></>;
   }
 
   const selectedFCEs = scheduledFCEs.filter(({ courseID }) =>
@@ -45,9 +52,17 @@ const ScheduleData = ({ scheduled }) => {
   const message = aggregatedSelectedData.message;
 
   const selectCourse = (value, courseID) => {
-    // if (value) dispatch(userSlice.actions.addScheduleSelected(courseID));
-    // else dispatch(userSlice.actions.removeScheduleSelected(courseID));
+    if (value)
+      dispatch(
+        userSchedulesSlice.actions.selectCourseInActiveSchedule(courseID)
+      );
+    else
+      dispatch(
+        userSchedulesSlice.actions.deselectCourseInActiveSchedule(courseID)
+      );
   };
+
+  console.log(aggregatedSelectedData);
 
   return (
     <>
@@ -63,22 +78,17 @@ const ScheduleData = ({ scheduled }) => {
           </div>
         </div>
       </div>
-      <div className="mt-2 flex justify-between">
-        <SmallButton
-          onClick={() => {
-            // dispatch(userSlice.actions.toggleSelect());
-          }}
-        >
-          Toggle Select
-        </SmallButton>
-        {/*<SmallButton*/}
-        {/*  onClick={() => {*/}
-        {/*    dispatch(userSlice.actions.clearBookmarks());*/}
-        {/*  }}*/}
-        {/*>*/}
-        {/*  Clear Saved*/}
-        {/*</SmallButton>*/}
-      </div>
+      {/*<div className="mt-2 flex justify-between">*/}
+      {/*  <SmallButton*/}
+      {/*    onClick={() => {*/}
+      {/*      dispatch(*/}
+      {/*        userSchedulesSlice.actions.toggleSelectedInActiveSchedule()*/}
+      {/*      );*/}
+      {/*    }}*/}
+      {/*  >*/}
+      {/*    Toggle Select*/}
+      {/*  </SmallButton>*/}
+      {/*</div>*/}
       <table className="mt-3 w-full table-auto">
         <thead>
           <tr className="text-left">
@@ -89,7 +99,7 @@ const ScheduleData = ({ scheduled }) => {
             <th className="font-semibold">Workload</th>
           </tr>
         </thead>
-        <tbody className="text-grey-500">
+        <tbody className="text-gray-700">
           {scheduledResults &&
             scheduledResults.map((result) => {
               return (
@@ -117,7 +127,7 @@ const ScheduleData = ({ scheduled }) => {
             })}
         </tbody>
       </table>
-      <div className="text-grey-400 mt-2 text-sm">
+      <div className="text-gray-500 mt-2 text-sm">
         {message === "" ? "" : `*${message}`}
       </div>
     </>

@@ -24,10 +24,8 @@ type selectedItem = {
 };
 
 const CourseCombobox = ({
-  active,
   onSelectedItemsChange,
 }: {
-  active: string;
   onSelectedItemsChange: (items: string[]) => any;
 }) => {
   const [inputValue, setInputValue] = useState("");
@@ -260,7 +258,6 @@ const ScheduleSearch = () => {
         )}
 
         <CourseCombobox
-          active={active}
           onSelectedItemsChange={(courseIDs) => {
             dispatch(fetchFCEInfos({ courseIDs }));
             dispatch(fetchCourseInfos(courseIDs));

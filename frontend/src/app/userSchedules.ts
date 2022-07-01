@@ -7,6 +7,7 @@ import { RootState } from "./store";
 export interface UserSchedule {
   name: string;
   courses: string[];
+  selected: string[];
   id: string;
   session?: Session;
 }
@@ -34,6 +35,7 @@ export const userSchedulesSlice = createSlice({
         state.saved[newId] = {
           name: "My Schedule",
           courses: [],
+          selected: [],
           id: newId,
         };
         state.active = newId;
@@ -42,12 +44,39 @@ export const userSchedulesSlice = createSlice({
         state.saved[state.active].courses,
         action.payload
       );
+      state.saved[state.active].selected = addToSet(
+        state.saved[state.active].selected,
+        action.payload
+      );
     },
     removeCourseFromActiveSchedule: (state, action: PayloadAction<string>) => {
       state.saved[state.active].courses = removeFromSet(
         state.saved[state.active].courses,
         action.payload
       );
+      state.saved[state.active].selected = removeFromSet(
+        state.saved[state.active].selected,
+        action.payload
+      );
+    },
+    selectCourseInActiveSchedule: (state, action: PayloadAction<string>) => {
+      state.saved[state.active].selected = addToSet(
+        state.saved[state.active].selected,
+        action.payload
+      );
+    },
+    deselectCourseInActiveSchedule: (state, action: PayloadAction<string>) => {
+      state.saved[state.active].selected = removeFromSet(
+        state.saved[state.active].selected,
+        action.payload
+      );
+    },
+    toggleSelectedInActiveSchedule: (state) => {
+      if (state.saved[state.active].selected.length > 0) {
+        state.saved[state.active].selected = [];
+      } else {
+        state.saved[state.active].selected = state.saved[state.active].courses;
+      }
     },
     setActiveScheduleCourses: (state, action: PayloadAction<string[]>) => {
       if (state.active === null) return;
@@ -57,6 +86,7 @@ export const userSchedulesSlice = createSlice({
       const newId = uuidv4();
       state.saved[newId] = {
         name: "My Schedule",
+        selected: [],
         courses: [],
         id: newId,
       };
@@ -66,6 +96,7 @@ export const userSchedulesSlice = createSlice({
       const newId = uuidv4();
       state.saved[newId] = {
         name: "Shared Schedule",
+        selected: action.payload,
         courses: action.payload,
         id: newId,
       };
@@ -94,6 +125,13 @@ export const userSchedulesSlice = createSlice({
 export const selectCoursesInActiveSchedule = (state: RootState): string[] => {
   if (state.schedules.active === null) return [];
   return state.schedules.saved[state.schedules.active].courses;
+};
+
+export const selectSelectedCoursesInActiveSchedule = (
+  state: RootState
+): string[] => {
+  if (state.schedules.active === null) return [];
+  return state.schedules.saved[state.schedules.active].selected;
 };
 
 export const reducer = userSchedulesSlice.reducer;

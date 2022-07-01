@@ -63,15 +63,18 @@ export const aggregateCourses = (
   data: { courseID: string; fces: FCE[] }[],
   options: AggregateFCEsOptions
 ) => {
-  let message = "";
+  const messages = [];
 
   const coursesWithoutFCEs = data
     .filter(({ fces }) => fces === null)
     .map(({ courseID }) => courseID);
+
   if (coursesWithoutFCEs.length > 0) {
-    message += `There are courses with missing data (${coursesWithoutFCEs.join(
-      ", "
-    )}).`;
+    messages.push(
+      `There are courses without any FCE data (${coursesWithoutFCEs.join(
+        ", "
+      )}).`
+    );
   }
 
   let aggregatedFCEs = data
@@ -80,6 +83,18 @@ export const aggregateCourses = (
       courseID,
       aggregateData: aggregateFCEs(filterFCEs(fces, options)),
     }));
+
+  const coursesWithoutFilteredFCEs = aggregatedFCEs
+    .filter(({ courseID, aggregateData }) => aggregateData.fcesCounted === 0)
+    .map(({ courseID }) => courseID);
+
+  if (coursesWithoutFilteredFCEs.length > 0) {
+    messages.push(
+      `There are courses with FCE data missing for the sampled semesters (${coursesWithoutFilteredFCEs.join(
+        ", "
+      )}).`
+    );
+  }
 
   let workload = 0;
   for (const aggregateFCE of aggregatedFCEs) {
@@ -91,6 +106,6 @@ export const aggregateCourses = (
   return {
     aggregatedFCEs,
     workload,
-    message,
+    message: messages.join(" "),
   };
 };
