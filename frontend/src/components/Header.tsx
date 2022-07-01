@@ -20,7 +20,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
 const HeaderItem = ({ children, disableHover = false, active = false }) => {
   return (
     <div
-      className={`rounded px-2 py-1 md:p-2 ${
+      className={`rounded px-2 py-1 hover:cursor-pointer md:p-2 ${
         !disableHover && "hover:bg-gray-100"
       } ${active && "bg-gray-100"}`}
     >
