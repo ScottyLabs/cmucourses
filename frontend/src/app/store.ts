@@ -7,7 +7,10 @@ import {
   reducer as coursesReducer,
 } from "./courses";
 import { reducer as userReducer, UserState } from "./user";
-import { reducer as userSchedulesReducer } from "./userSchedules";
+import {
+  reducer as userSchedulesReducer,
+  UserSchedulesState,
+} from "./userSchedules";
 import debounce from "lodash/debounce";
 import {
   FLUSH,
@@ -21,21 +24,26 @@ import {
 } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
-const persistConfig = {
-  key: "root",
-  version: 2,
-  storage,
-  stateReconciler: autoMergeLevel2,
-};
-
 const reducers = combineReducers({
   courses: coursesReducer,
-  user: persistReducer<UserState>(persistConfig, userReducer),
-  // schedules: persistReducer<UserSchedulesState>(
-  //   persistConfig,
-  //   userSchedulesReducer
-  // ),
-  schedules: userSchedulesReducer,
+  user: persistReducer<UserState>(
+    {
+      key: "root",
+      version: 1,
+      storage,
+      stateReconciler: autoMergeLevel2,
+    },
+    userReducer
+  ),
+  schedules: persistReducer<UserSchedulesState>(
+    {
+      key: "schedules",
+      version: 1,
+      storage,
+      stateReconciler: autoMergeLevel2,
+    },
+    userSchedulesReducer
+  ),
 });
 
 const persistedReducer = reducers;

@@ -28,7 +28,7 @@ const SchedulePage: NextPage = () => {
             <ScheduleData scheduled={scheduled} />
           </Topbar>
           <CourseList courseIDs={scheduled}>
-            <div className="text-grey-500 text-center font-semibold">
+            <div className="text-gray-500 mt-6 text-center font-semibold">
               Nothing in your schedule yet!
             </div>
           </CourseList>

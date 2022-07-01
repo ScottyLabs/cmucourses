@@ -78,17 +78,6 @@ const ScheduleData = ({ scheduled }) => {
           </div>
         </div>
       </div>
-      {/*<div className="mt-2 flex justify-between">*/}
-      {/*  <SmallButton*/}
-      {/*    onClick={() => {*/}
-      {/*      dispatch(*/}
-      {/*        userSchedulesSlice.actions.toggleSelectedInActiveSchedule()*/}
-      {/*      );*/}
-      {/*    }}*/}
-      {/*  >*/}
-      {/*    Toggle Select*/}
-      {/*  </SmallButton>*/}
-      {/*</div>*/}
       <table className="mt-3 w-full table-auto">
         <thead>
           <tr className="text-left">

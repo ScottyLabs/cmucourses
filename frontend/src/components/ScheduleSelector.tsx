@@ -1,5 +1,5 @@
 import React from "react";
-import { ShareIcon } from "@heroicons/react/solid";
+import { ClipboardCopyIcon, ShareIcon } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { FlushedButton } from "./Buttons";
 import { XIcon } from "@heroicons/react/outline";
@@ -7,6 +7,8 @@ import { userSchedulesSlice } from "../app/userSchedules";
 
 const ScheduleSelection = ({ name, id, courses, active }) => {
   const dispatch = useAppDispatch();
+  const shareableLink =
+    window.location.host + "/schedules/shared?courses=" + courses.join(",");
 
   if (active)
     return (
@@ -26,13 +28,19 @@ const ScheduleSelection = ({ name, id, courses, active }) => {
             <input
               onFocus={(e) => e.target.select()}
               className="bg-white min-w-0 flex-1 px-2"
-              value={
-                window.location.host +
-                "/schedules/shared?courses=" +
-                courses.join(",")
-              }
+              value={shareableLink}
               readOnly={true}
             />
+            <button
+              className="ml-2 inline-flex items-center rounded px-1 hover:bg-gray-100"
+              onClick={() => {
+                navigator.clipboard.writeText(shareableLink);
+                // TODO: Show a toast on success
+              }}
+            >
+              <ClipboardCopyIcon className="h-4 w-4 flex-none" />
+              <div className="ml-1">Copy</div>
+            </button>
           </div>
           <p className="text-gray-400 mt-1 text-xs">
             Use this to share this schedule with others.
