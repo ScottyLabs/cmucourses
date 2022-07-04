@@ -29,15 +29,15 @@ const HeaderItem = ({ children, disableHover = false, active = false }) => {
   );
 };
 
+export let passlink;
+export let loginHandler;
+
 export default function Header({ activePage }): ReactElement {
   const dispatch = useAppDispatch();
 
   const token = useAppSelector((state) => state.user.token);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
-
-  let passlink;
-  let loginHandler;
 
   if (window !== undefined) {
     passlink = new Passlink(window);

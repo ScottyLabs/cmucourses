@@ -51,6 +51,7 @@ const reducers = combineReducers({
       version: 1,
       storage,
       stateReconciler: autoMergeLevel2,
+      blacklist: ["session"],
     },
     uiReducer
   ),

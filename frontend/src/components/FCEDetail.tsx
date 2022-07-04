@@ -100,7 +100,7 @@ export const FCEDetail = ({ fces }) => {
   const aggregationOptions = useAppSelector(
     (state) => state.user.fceAggregation
   );
-  const darkMode = useAppSelector((state) => state.user.darkMode);
+  const darkMode = useAppSelector((state) => state.ui.darkMode);
 
   let aggregateData: any = {};
   let filteredFCEs = fces;
@@ -141,12 +141,12 @@ export const FCEDetail = ({ fces }) => {
                   starSpacing="1px"
                   starRatedColor={
                     darkMode
-                      ? fullConfig.theme.colors.gray[50]
+                      ? fullConfig.theme.colors.zinc[50]
                       : fullConfig.theme.colors.gray[500]
                   }
                   starEmptyColor={
                     darkMode
-                      ? fullConfig.theme.colors.gray[500]
+                      ? fullConfig.theme.colors.zinc[500]
                       : fullConfig.theme.colors.gray[200]
                   }
                 />
@@ -166,12 +166,12 @@ export const FCEDetail = ({ fces }) => {
                   starSpacing="1px"
                   starRatedColor={
                     darkMode
-                      ? fullConfig.theme.colors.gray[50]
+                      ? fullConfig.theme.colors.zinc[50]
                       : fullConfig.theme.colors.gray[500]
                   }
                   starEmptyColor={
                     darkMode
-                      ? fullConfig.theme.colors.gray[500]
+                      ? fullConfig.theme.colors.zinc[500]
                       : fullConfig.theme.colors.gray[200]
                   }
                 />

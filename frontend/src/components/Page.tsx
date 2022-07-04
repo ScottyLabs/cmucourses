@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { LoginModal } from "./LoginModal";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { uiSlice } from "../app/ui";
 
 type Props = {
   sidebar: React.ReactNode;
@@ -9,9 +12,22 @@ type Props = {
 };
 
 export const Page = ({ sidebar, content, footer }: Props) => {
+  const loggedIn = useAppSelector((state) => state.user.loggedIn);
+  const modalShown = useAppSelector(
+    (state) => state.ui.session.loginModalShown
+  );
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (!loggedIn && !modalShown) {
+      dispatch(uiSlice.actions.openLoginModal());
+    }
+  }, [loggedIn]);
+
   return (
     <div>
-      <header className="bg-gray-50 fixed inset-x-0 top-0 z-50 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
+      <LoginModal />
+      <header className="bg-gray-50 fixed inset-x-0 top-0 z-40 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
         <Header activePage="" />
       </header>
       <main className="relative flex flex-col pt-32 md:h-screen md:flex-row md:pt-16">
