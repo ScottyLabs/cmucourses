@@ -15,7 +15,7 @@ const Sidebar = ({ children }) => {
 
   return open ? (
     <div className="relative z-20 z-40 w-full md:w-72 lg:w-96">
-      <button className="absolute right-3 top-3 z-50 md:top-4 md:right-2">
+      <button className="absolute right-3 top-3 z-40 md:top-4 md:right-2">
         <FlushedButton
           onClick={() => dispatch(uiSlice.actions.toggleSidebarOpen())}
         >
@@ -34,7 +34,7 @@ const Sidebar = ({ children }) => {
       </div>
     </div>
   ) : (
-    <div className="bg-white relative z-40 h-12 w-full drop-shadow-md md:h-full md:w-16 lg:w-16">
+    <div className="bg-white relative z-30 h-12 w-full drop-shadow-md md:h-full md:w-16 lg:w-16">
       <button className="absolute right-3 top-3 z-50">
         <FlushedButton
           onClick={() => dispatch(uiSlice.actions.toggleSidebarOpen())}
