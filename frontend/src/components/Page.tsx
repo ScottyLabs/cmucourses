@@ -23,7 +23,7 @@ export const Page = ({ sidebar, content, footer, activePage }: Props) => {
     if (!loggedIn && !modalShown) {
       dispatch(uiSlice.actions.openLoginModal());
     }
-  }, [loggedIn]);
+  }, [dispatch, loggedIn, modalShown]);
 
   return (
     <div>

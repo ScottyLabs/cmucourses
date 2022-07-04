@@ -59,7 +59,7 @@ export const LoginModal = () => {
                       . Your feedback is appreciated.
                     </p>
                     <p className="text-gray-600 mt-3 text-sm">
-                      You are currently logged out, so you can't access FCE
+                      You are currently logged out, so you can&apos;t access FCE
                       data.
                     </p>
                   </div>
