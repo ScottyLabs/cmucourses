@@ -162,7 +162,7 @@ const CourseCombobox = ({
           ))}
         </div>
         <div {...getComboboxProps()} className="w-full flex-1">
-          <div className="border-b-grey-300 relative flex w-full border-b">
+          <div className="relative flex w-full border-b border-b-gray-300">
             <span className="absolute inset-y-0 left-0 flex items-center">
               <SearchIcon className="h-5 w-5" />
             </span>

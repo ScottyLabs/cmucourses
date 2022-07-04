@@ -11,6 +11,7 @@ import {
   reducer as userSchedulesReducer,
   UserSchedulesState,
 } from "./userSchedules";
+import { reducer as uiReducer, UIState } from "./ui";
 import debounce from "lodash/debounce";
 import {
   FLUSH,
@@ -43,6 +44,15 @@ const reducers = combineReducers({
       stateReconciler: autoMergeLevel2,
     },
     userSchedulesReducer
+  ),
+  ui: persistReducer<UIState>(
+    {
+      key: "ui",
+      version: 1,
+      storage,
+      stateReconciler: autoMergeLevel2,
+    },
+    uiReducer
   ),
 });
 

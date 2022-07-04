@@ -78,7 +78,7 @@ export default function Header({ activePage }): ReactElement {
     }
   }, [dispatch, token]);
 
-  const darkMode = useAppSelector((state) => state.user.darkMode);
+  const darkMode = useAppSelector((state) => state.ui.darkMode);
   useEffect(() => {
     nightwind.enable(darkMode);
   }, [darkMode]);

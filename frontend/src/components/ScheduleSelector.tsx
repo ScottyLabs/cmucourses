@@ -75,7 +75,7 @@ const ScheduleSelector = () => {
 
   return (
     <div>
-      <div className="mb-2 flex items-baseline justify-between">
+      <div className="mb-2 flex items-baseline gap-3">
         <div className="text-md">Schedules</div>
         <FlushedButton
           onClick={() => {

@@ -4,7 +4,6 @@ import { SEMESTERS_COUNTED } from "./constants";
 
 export interface UserState {
   bookmarked: string[];
-  darkMode: boolean;
   showFCEs: boolean;
   showCourseInfos: boolean;
   loggedIn: boolean;
@@ -26,7 +25,6 @@ export interface UserState {
 
 const initialState: UserState = {
   bookmarked: [],
-  darkMode: false,
   showFCEs: false,
   showCourseInfos: true,
   loggedIn: false,
@@ -62,9 +60,6 @@ export const userSlice = createSlice({
     },
     setExactMatchesOnly: (state, action) => {
       state.filter.exactMatchesOnly = action.payload;
-    },
-    toggleDarkMode: (state) => {
-      state.darkMode = !state.darkMode;
     },
     showFCEs: (state, action) => {
       state.showFCEs = action.payload;
