@@ -17,6 +17,22 @@ import nightwind from "nightwind/helper";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
 
+const HeaderItemIconText = ({ icon, text, href = undefined }) => {
+  const Icon = icon;
+  const content = (
+    <span className="flex flex-col items-center hover:cursor-pointer md:flex-row">
+      <Icon className="mr-1 inline h-5 w-5 sm:h-4 sm:w-4" />{" "}
+      <div className="mt-1 text-sm sm:mt-0 sm:text-base">{text}</div>
+    </span>
+  );
+
+  if (href) {
+    return <Link href={href}>{content}</Link>;
+  }
+
+  return content;
+};
+
 const HeaderItem = ({ children, disableHover = false, active = false }) => {
   return (
     <div
@@ -94,9 +110,7 @@ export default function Header({ activePage }): ReactElement {
             dispatch(userSlice.actions.logOut());
           }}
         >
-          <span className="flex items-center">
-            <LogoutIcon className="mr-1 inline h-4 w-4" /> Log Out
-          </span>
+          <HeaderItemIconText icon={LogoutIcon} text="Log Out" />
         </div>
       </>
     );
@@ -106,9 +120,7 @@ export default function Header({ activePage }): ReactElement {
         {loading && <p>Loading...</p>}
         {!loading && passlink && loginHandler && (
           <div onClick={loginHandler}>
-            <span className="flex items-center">
-              <LoginIcon className="mr-1 inline h-4 w-4" /> Log In
-            </span>
+            <HeaderItemIconText icon={LoginIcon} text="Log In" />
           </div>
         )}
       </>
@@ -117,9 +129,9 @@ export default function Header({ activePage }): ReactElement {
 
   return (
     <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
-      <div className="text-gray-800 flex-initial font-semibold hover:cursor-pointer">
+      <div className="text-gray-800 flex flex-initial flex-row justify-between gap-x-5 font-semibold hover:cursor-pointer sm:justify-start">
         <Link href="/">
-          <span className="flex items-center">
+          <div className="flex items-center">
             <Image
               src="/favicon.ico"
               className="rounded-md"
@@ -130,23 +142,20 @@ export default function Header({ activePage }): ReactElement {
             <span className="ml-2">
               ScottyLabs Course Tool <sup>β</sup>
             </span>
-          </span>
+          </div>
         </Link>
+        <DarkModeButton />
       </div>
-      <div className="text-gray-600 flex flex-row flex-wrap items-center justify-end gap-x-4">
+      <div className="text-gray-600 mt-3 flex flex-row flex-wrap items-center justify-between md:mt-0 md:gap-x-4">
         <HeaderItem active={activePage === "saved"}>
-          <Link href="/saved">
-            <span className="flex items-center hover:cursor-pointer">
-              <StarIcon className="mr-1 inline h-4 w-4" /> Saved
-            </span>
-          </Link>
+          <HeaderItemIconText icon={StarIcon} text="Saved" href="/saved" />
         </HeaderItem>
         <HeaderItem active={activePage === "schedules"}>
-          <Link href="/schedules">
-            <span className="flex items-center hover:cursor-pointer">
-              <ClockIcon className="mr-1 inline h-4 w-4" /> Schedules
-            </span>
-          </Link>
+          <HeaderItemIconText
+            icon={ClockIcon}
+            text="Schedules"
+            href="/schedules"
+          />
         </HeaderItem>
         <HeaderItem>
           <a
@@ -154,14 +163,10 @@ export default function Header({ activePage }): ReactElement {
             target="_blank"
             rel="noreferrer"
           >
-            <span className="flex items-center hover:cursor-pointer">
-              <AnnotationIcon className="mr-1 inline h-4 w-4" /> Feedback
-            </span>
+            <HeaderItemIconText icon={AnnotationIcon} text="Feedback" />
           </a>
         </HeaderItem>
-        <HeaderItem disableHover>
-          <DarkModeButton />
-        </HeaderItem>
+
         <HeaderItem>{logInButton}</HeaderItem>
       </div>
     </div>
