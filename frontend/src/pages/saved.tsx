@@ -10,6 +10,7 @@ const SavedPage: NextPage = () => {
 
   return (
     <Page
+      activePage="saved"
       sidebar={<Aggregate />}
       content={
         <CourseList courseIDs={saved}>

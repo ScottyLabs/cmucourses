@@ -5,23 +5,10 @@ import type { AppProps } from "next/app";
 
 import store, { persistor } from "../app/store";
 import { PersistGate } from "redux-persist/integration/react";
-import { useRouter } from "next/router";
 
 import Head from "next/head";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const router = useRouter();
-
-  let activePage;
-  switch (router.pathname) {
-    case "/saved":
-      activePage = "saved";
-      break;
-    case "/schedules":
-      activePage = "schedules";
-      break;
-  }
-
   return (
     <>
       <Head>

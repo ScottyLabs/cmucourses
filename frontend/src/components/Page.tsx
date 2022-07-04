@@ -9,9 +9,10 @@ type Props = {
   sidebar: React.ReactNode;
   content: React.ReactNode;
   footer?: React.ReactNode;
+  activePage?: string;
 };
 
-export const Page = ({ sidebar, content, footer }: Props) => {
+export const Page = ({ sidebar, content, footer, activePage }: Props) => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const modalShown = useAppSelector(
     (state) => state.ui.session.loginModalShown
@@ -28,7 +29,7 @@ export const Page = ({ sidebar, content, footer }: Props) => {
     <div>
       <LoginModal />
       <header className="bg-gray-50 fixed inset-x-0 top-0 z-40 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
-        <Header activePage="" />
+        <Header activePage={activePage} />
       </header>
       <main className="relative flex flex-col pt-32 md:h-screen md:flex-row md:pt-16">
         <Sidebar>{sidebar}</Sidebar>

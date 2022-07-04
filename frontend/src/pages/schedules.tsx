@@ -14,6 +14,7 @@ const SchedulePage: NextPage = () => {
 
   return (
     <Page
+      activePage={"schedules"}
       content={
         <>
           <Topbar>
