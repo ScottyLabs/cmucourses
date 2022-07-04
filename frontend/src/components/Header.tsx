@@ -29,7 +29,7 @@ const HeaderItem = ({ children, disableHover = false, active = false }) => {
   );
 };
 
-export default function Header({ children, activePage }): ReactElement {
+export default function Header({ activePage }): ReactElement {
   const dispatch = useAppDispatch();
 
   const token = useAppSelector((state) => state.user.token);
@@ -116,59 +116,54 @@ export default function Header({ children, activePage }): ReactElement {
   }
 
   return (
-    <div className="relative">
-      <header className="bg-gray-50 fixed inset-x-0 top-0 z-50 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
-        <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
-          <div className="text-gray-800 flex-initial font-semibold hover:cursor-pointer">
-            <Link href="/">
-              <span className="flex items-center">
-                <Image
-                  src="/favicon.ico"
-                  className="rounded-md"
-                  width={30}
-                  height={30}
-                  alt="favicon"
-                />
-                <span className="ml-2">
-                  ScottyLabs Course Tool <sup>β</sup>
-                </span>
-              </span>
-            </Link>
-          </div>
-          <div className="text-gray-600 flex flex-row flex-wrap items-center justify-end gap-x-4">
-            <HeaderItem active={activePage === "saved"}>
-              <Link href="/saved">
-                <span className="flex items-center hover:cursor-pointer">
-                  <StarIcon className="mr-1 inline h-4 w-4" /> Saved
-                </span>
-              </Link>
-            </HeaderItem>
-            <HeaderItem active={activePage === "schedules"}>
-              <Link href="/schedules">
-                <span className="flex items-center hover:cursor-pointer">
-                  <ClockIcon className="mr-1 inline h-4 w-4" /> Schedules
-                </span>
-              </Link>
-            </HeaderItem>
-            <HeaderItem>
-              <a
-                href="https://forms.gle/6vPTN6Eyqd1w7pqJA"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="flex items-center hover:cursor-pointer">
-                  <AnnotationIcon className="mr-1 inline h-4 w-4" /> Feedback
-                </span>
-              </a>
-            </HeaderItem>
-            <HeaderItem disableHover>
-              <DarkModeButton />
-            </HeaderItem>
-            <HeaderItem>{logInButton}</HeaderItem>
-          </div>
-        </div>
-      </header>
-      <main className="relative">{children}</main>
+    <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
+      <div className="text-gray-800 flex-initial font-semibold hover:cursor-pointer">
+        <Link href="/">
+          <span className="flex items-center">
+            <Image
+              src="/favicon.ico"
+              className="rounded-md"
+              width={30}
+              height={30}
+              alt="favicon"
+            />
+            <span className="ml-2">
+              ScottyLabs Course Tool <sup>β</sup>
+            </span>
+          </span>
+        </Link>
+      </div>
+      <div className="text-gray-600 flex flex-row flex-wrap items-center justify-end gap-x-4">
+        <HeaderItem active={activePage === "saved"}>
+          <Link href="/saved">
+            <span className="flex items-center hover:cursor-pointer">
+              <StarIcon className="mr-1 inline h-4 w-4" /> Saved
+            </span>
+          </Link>
+        </HeaderItem>
+        <HeaderItem active={activePage === "schedules"}>
+          <Link href="/schedules">
+            <span className="flex items-center hover:cursor-pointer">
+              <ClockIcon className="mr-1 inline h-4 w-4" /> Schedules
+            </span>
+          </Link>
+        </HeaderItem>
+        <HeaderItem>
+          <a
+            href="https://forms.gle/6vPTN6Eyqd1w7pqJA"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <span className="flex items-center hover:cursor-pointer">
+              <AnnotationIcon className="mr-1 inline h-4 w-4" /> Feedback
+            </span>
+          </a>
+        </HeaderItem>
+        <HeaderItem disableHover>
+          <DarkModeButton />
+        </HeaderItem>
+        <HeaderItem>{logInButton}</HeaderItem>
+      </div>
     </div>
   );
 }

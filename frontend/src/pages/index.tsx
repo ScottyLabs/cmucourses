@@ -1,8 +1,31 @@
 import type { NextPage } from "next";
-import CourseSearch from "../components/CourseSearch";
+import Filter from "../components/Filter";
+import Aggregate from "../components/Aggregate";
+import Topbar from "../components/Topbar";
+import SearchBar from "../components/SearchBar";
+import CourseSearchList from "../components/CourseSearchList";
+import React from "react";
+import { Page } from "../components/Page";
 
 const IndexPage: NextPage = () => {
-  return <CourseSearch />;
+  return (
+    <Page
+      sidebar={
+        <>
+          <Filter />
+          <Aggregate />
+        </>
+      }
+      content={
+        <>
+          <Topbar>
+            <SearchBar />
+          </Topbar>
+          <CourseSearchList />
+        </>
+      }
+    />
+  );
 };
 
 export default IndexPage;
