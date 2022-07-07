@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { FlushedButton } from "./Buttons";
 import { XIcon } from "@heroicons/react/outline";
 import { userSchedulesSlice } from "../app/userSchedules";
+import { showToast } from "./Toast";
 
 const ScheduleSelection = ({ name, id, courses, active }) => {
   const dispatch = useAppDispatch();
@@ -35,7 +36,10 @@ const ScheduleSelection = ({ name, id, courses, active }) => {
               className="ml-2 inline-flex items-center rounded px-1 hover:bg-gray-100"
               onClick={() => {
                 navigator.clipboard.writeText(shareableLink);
-                // TODO: Show a toast on success
+                showToast({
+                  message: "Copied link.",
+                  icon: ClipboardCopyIcon,
+                });
               }}
             >
               <ClipboardCopyIcon className="h-4 w-4 flex-none" />

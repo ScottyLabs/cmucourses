@@ -11,9 +11,11 @@ import {
   LoginIcon,
   LogoutIcon,
   StarIcon,
+  XIcon,
 } from "@heroicons/react/solid";
 import DarkModeButton from "./DarkModeButton";
 import nightwind from "nightwind/helper";
+import { showToast } from "./Toast";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
 
@@ -84,6 +86,11 @@ export default function Header({ activePage }): ReactElement {
       if (Date.now().valueOf() / 1000 > userDecode.exp) {
         setUser(null);
         dispatch(userSlice.actions.logOut());
+        showToast({
+          message: "Login expired, please log in again.",
+          icon: XIcon,
+        });
+        return;
       } else {
         setUser(userDecode);
         dispatch(userSlice.actions.logIn());
@@ -91,6 +98,7 @@ export default function Header({ activePage }): ReactElement {
     } catch {
       setUser(null);
       dispatch(userSlice.actions.logOut());
+      return;
     }
   }, [dispatch, token]);
 

@@ -4,6 +4,7 @@ import Sidebar from "./Sidebar";
 import { LoginModal } from "./LoginModal";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { uiSlice } from "../app/ui";
+import { Toaster } from "react-hot-toast";
 
 type Props = {
   sidebar: React.ReactNode;
@@ -28,6 +29,7 @@ export const Page = ({ sidebar, content, footer, activePage }: Props) => {
   return (
     <div>
       <LoginModal />
+      <Toaster position="bottom-right" />
       <header className="bg-gray-50 fixed inset-x-0 top-0 z-40 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
         <Header activePage={activePage} />
       </header>
