@@ -100,7 +100,7 @@ export const FCEDetail = ({ fces }) => {
   const aggregationOptions = useAppSelector(
     (state) => state.user.fceAggregation
   );
-  const darkMode = useAppSelector((state) => state.user.darkMode);
+  const darkMode = useAppSelector((state) => state.ui.darkMode);
 
   let aggregateData: any = {};
   let filteredFCEs = fces;
@@ -128,7 +128,7 @@ export const FCEDetail = ({ fces }) => {
           <div className="bg-white w-1/5 flex-1 rounded-md p-2">
             <div>
               <span className="text-xl">{aggregateData.workload}</span>
-              <span className="text-md ml-1">hrs/wk</span>
+              <span className="text-md ml-1 hidden sm:inline">hrs/wk</span>
             </div>
             <div className="text-gray-500 text-sm">Workload</div>
           </div>
@@ -141,12 +141,12 @@ export const FCEDetail = ({ fces }) => {
                   starSpacing="1px"
                   starRatedColor={
                     darkMode
-                      ? fullConfig.theme.colors.gray[50]
+                      ? fullConfig.theme.colors.zinc[50]
                       : fullConfig.theme.colors.gray[500]
                   }
                   starEmptyColor={
                     darkMode
-                      ? fullConfig.theme.colors.gray[500]
+                      ? fullConfig.theme.colors.zinc[500]
                       : fullConfig.theme.colors.gray[200]
                   }
                 />
@@ -155,7 +155,9 @@ export const FCEDetail = ({ fces }) => {
                 {aggregateData.teachingRate}
               </span>
             </div>
-            <div className="text-gray-500 text-sm">Teaching Rate</div>
+            <div className="text-gray-500 text-sm">
+              Teaching <span className="hidden sm:inline">Rate</span>
+            </div>
           </div>
           <div className="bg-white flex-1 rounded-md p-2">
             <div className="flex content-end">
@@ -166,12 +168,12 @@ export const FCEDetail = ({ fces }) => {
                   starSpacing="1px"
                   starRatedColor={
                     darkMode
-                      ? fullConfig.theme.colors.gray[50]
+                      ? fullConfig.theme.colors.zinc[50]
                       : fullConfig.theme.colors.gray[500]
                   }
                   starEmptyColor={
                     darkMode
-                      ? fullConfig.theme.colors.gray[500]
+                      ? fullConfig.theme.colors.zinc[500]
                       : fullConfig.theme.colors.gray[200]
                   }
                 />
@@ -180,7 +182,9 @@ export const FCEDetail = ({ fces }) => {
                 {aggregateData.courseRate}
               </span>
             </div>
-            <div className="text-gray-500 text-sm">Course Rate</div>
+            <div className="text-gray-500 text-sm">
+              Course <span className="hidden sm:inline">Rate</span>
+            </div>
           </div>
         </div>
       </div>

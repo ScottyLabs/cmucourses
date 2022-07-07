@@ -30,7 +30,7 @@ const CourseList = ({ courseIDs, children }: Props) => {
   const results = useAppSelector(selectCourseResults(courseIDs));
 
   return (
-    <div className="p-6">
+    <div className="py-6 px-2 md:px-6">
       {loading ? (
         <Loading />
       ) : results && results.length > 0 ? (

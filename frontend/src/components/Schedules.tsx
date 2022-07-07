@@ -71,7 +71,7 @@ export const Schedules = ({ scheduleInfos }) => {
     <div className="w-full">
       <h1 className="text-gray-700 text-lg">Schedules</h1>
       <Tab.Group>
-        <Tab.List className="bg-gray-50 mt-2 space-x-1 overflow-x-scroll whitespace-nowrap rounded-md p-2">
+        <Tab.List className="bg-gray-50 mt-2 space-x-1 overflow-x-auto whitespace-nowrap rounded-md p-2">
           {scheduleInfos.map((scheduleInfo) => {
             const label = sessionToString(scheduleInfo);
             return (

@@ -11,11 +11,29 @@ import {
   LoginIcon,
   LogoutIcon,
   StarIcon,
+  XIcon,
 } from "@heroicons/react/solid";
 import DarkModeButton from "./DarkModeButton";
 import nightwind from "nightwind/helper";
+import { showToast } from "./Toast";
 
 const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
+
+const HeaderItemIconText = ({ icon, text, href = undefined }) => {
+  const Icon = icon;
+  const content = (
+    <span className="flex flex-col items-center hover:cursor-pointer md:flex-row">
+      <Icon className="mr-1 inline h-5 w-5 sm:h-4 sm:w-4" />{" "}
+      <div className="mt-1 text-sm sm:mt-0 sm:text-base">{text}</div>
+    </span>
+  );
+
+  if (href) {
+    return <Link href={href}>{content}</Link>;
+  }
+
+  return content;
+};
 
 const HeaderItem = ({ children, disableHover = false, active = false }) => {
   return (
@@ -29,15 +47,15 @@ const HeaderItem = ({ children, disableHover = false, active = false }) => {
   );
 };
 
-export default function Header({ children, activePage }): ReactElement {
+export let passlink;
+export let loginHandler;
+
+export default function Header({ activePage }): ReactElement {
   const dispatch = useAppDispatch();
 
   const token = useAppSelector((state) => state.user.token);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(null);
-
-  let passlink;
-  let loginHandler;
 
   if (window !== undefined) {
     passlink = new Passlink(window);
@@ -68,6 +86,11 @@ export default function Header({ children, activePage }): ReactElement {
       if (Date.now().valueOf() / 1000 > userDecode.exp) {
         setUser(null);
         dispatch(userSlice.actions.logOut());
+        showToast({
+          message: "Login expired, please log in again.",
+          icon: XIcon,
+        });
+        return;
       } else {
         setUser(userDecode);
         dispatch(userSlice.actions.logIn());
@@ -75,10 +98,11 @@ export default function Header({ children, activePage }): ReactElement {
     } catch {
       setUser(null);
       dispatch(userSlice.actions.logOut());
+      return;
     }
   }, [dispatch, token]);
 
-  const darkMode = useAppSelector((state) => state.user.darkMode);
+  const darkMode = useAppSelector((state) => state.ui.darkMode);
   useEffect(() => {
     nightwind.enable(darkMode);
   }, [darkMode]);
@@ -94,9 +118,7 @@ export default function Header({ children, activePage }): ReactElement {
             dispatch(userSlice.actions.logOut());
           }}
         >
-          <span className="flex items-center">
-            <LogoutIcon className="mr-1 inline h-4 w-4" /> Log Out
-          </span>
+          <HeaderItemIconText icon={LogoutIcon} text="Log Out" />
         </div>
       </>
     );
@@ -106,9 +128,7 @@ export default function Header({ children, activePage }): ReactElement {
         {loading && <p>Loading...</p>}
         {!loading && passlink && loginHandler && (
           <div onClick={loginHandler}>
-            <span className="flex items-center">
-              <LoginIcon className="mr-1 inline h-4 w-4" /> Log In
-            </span>
+            <HeaderItemIconText icon={LoginIcon} text="Log In" />
           </div>
         )}
       </>
@@ -116,59 +136,47 @@ export default function Header({ children, activePage }): ReactElement {
   }
 
   return (
-    <div className="relative">
-      <header className="bg-gray-50 fixed inset-x-0 top-0 z-50 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
-        <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
-          <div className="text-gray-800 flex-initial font-semibold hover:cursor-pointer">
-            <Link href="/">
-              <span className="flex items-center">
-                <Image
-                  src="/favicon.ico"
-                  className="rounded-md"
-                  width={30}
-                  height={30}
-                  alt="favicon"
-                />
-                <span className="ml-2">
-                  ScottyLabs Course Tool <sup>β</sup>
-                </span>
-              </span>
-            </Link>
+    <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
+      <div className="text-gray-800 flex flex-initial flex-row justify-between gap-x-5 font-semibold hover:cursor-pointer sm:justify-start">
+        <Link href="/">
+          <div className="flex items-center">
+            <Image
+              src="/favicon.ico"
+              className="rounded-md"
+              width={30}
+              height={30}
+              alt="favicon"
+            />
+            <span className="ml-2">
+              ScottyLabs Course Tool <sup>β</sup>
+            </span>
           </div>
-          <div className="text-gray-600 flex flex-row flex-wrap items-center justify-end gap-x-4">
-            <HeaderItem active={activePage === "saved"}>
-              <Link href="/saved">
-                <span className="flex items-center hover:cursor-pointer">
-                  <StarIcon className="mr-1 inline h-4 w-4" /> Saved
-                </span>
-              </Link>
-            </HeaderItem>
-            <HeaderItem active={activePage === "schedules"}>
-              <Link href="/schedules">
-                <span className="flex items-center hover:cursor-pointer">
-                  <ClockIcon className="mr-1 inline h-4 w-4" /> Schedules
-                </span>
-              </Link>
-            </HeaderItem>
-            <HeaderItem>
-              <a
-                href="https://forms.gle/6vPTN6Eyqd1w7pqJA"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span className="flex items-center hover:cursor-pointer">
-                  <AnnotationIcon className="mr-1 inline h-4 w-4" /> Feedback
-                </span>
-              </a>
-            </HeaderItem>
-            <HeaderItem disableHover>
-              <DarkModeButton />
-            </HeaderItem>
-            <HeaderItem>{logInButton}</HeaderItem>
-          </div>
-        </div>
-      </header>
-      <main className="relative">{children}</main>
+        </Link>
+        <DarkModeButton />
+      </div>
+      <div className="text-gray-600 mt-3 flex flex-row flex-wrap items-center justify-between md:mt-0 md:gap-x-4">
+        <HeaderItem active={activePage === "saved"}>
+          <HeaderItemIconText icon={StarIcon} text="Saved" href="/saved" />
+        </HeaderItem>
+        <HeaderItem active={activePage === "schedules"}>
+          <HeaderItemIconText
+            icon={ClockIcon}
+            text="Schedules"
+            href="/schedules"
+          />
+        </HeaderItem>
+        <HeaderItem>
+          <a
+            href="https://forms.gle/6vPTN6Eyqd1w7pqJA"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <HeaderItemIconText icon={AnnotationIcon} text="Feedback" />
+          </a>
+        </HeaderItem>
+
+        <HeaderItem>{logInButton}</HeaderItem>
+      </div>
     </div>
   );
 }

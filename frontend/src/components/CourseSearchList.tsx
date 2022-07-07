@@ -93,22 +93,22 @@ const CourseSearchList = () => {
                 currentPage={curPage - 1}
                 setCurrentPage={handlePageClick}
                 totalPages={pages}
-                className="text-grey-600 flex w-full justify-center"
+                className="text-gray-600 flex w-full justify-center"
               >
                 <Pagination.PrevButton className="">
-                  <ChevronLeftIcon className="dark:stroke-grey-50 h-5 w-5" />
+                  <ChevronLeftIcon className="h-5 w-5 dark:stroke-gray-50" />
                 </Pagination.PrevButton>
 
                 <div className="flex items-center align-baseline">
                   <Pagination.PageButton
-                    activeClassName="bg-grey-100 dark:bg-grey-700"
+                    activeClassName="bg-gray-100"
                     inactiveClassName=""
-                    className="dark:text-grey-50 mx-3 inline-flex h-8 w-8 items-center justify-center rounded-full hover:bg-white hover:cursor-pointer"
+                    className="mx-3 inline-flex h-8 w-8 items-center justify-center rounded-full hover:bg-white hover:cursor-pointer"
                   />
                 </div>
 
                 <Pagination.NextButton>
-                  <ChevronRightIcon className="dark:stroke-grey-50 h-5 w-5" />
+                  <ChevronRightIcon className="h-5 w-5 dark:stroke-gray-50" />
                 </Pagination.NextButton>
               </Pagination>
             </div>

@@ -72,7 +72,7 @@ const SearchBar = () => {
         </span>
         <input
           autoFocus
-          className="text-gray-500 flex-1 py-2 pl-7 text-xl placeholder-gray-400 bg-transparent focus:outline-none"
+          className="text-gray-500 flex-1 py-2 pl-7 text-xl placeholder-gray-300 bg-transparent focus:outline-none dark:placeholder-zinc-700"
           type="search"
           value={search}
           onChange={onChange}
