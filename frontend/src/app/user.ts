@@ -89,11 +89,8 @@ export const userSlice = createSlice({
       state.fceAggregation.counted[action.payload.semester] =
         action.payload.value;
     },
-    updateNumSemesters: (state, action: PayloadAction<string>) => {
-      const newNumSemesters = Math.min(
-        Math.max(parseInt(action.payload), 1),
-        10
-      );
+    updateNumSemesters: (state, action: PayloadAction<number>) => {
+      const newNumSemesters = Math.min(Math.max(action.payload, 1), 10);
       if (isNaN(newNumSemesters)) return;
       state.fceAggregation.numSemesters = newNumSemesters;
     },
