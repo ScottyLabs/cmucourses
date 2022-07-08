@@ -13,7 +13,7 @@ const DepartmentFilter = () => {
     (state) => state.user.filter.departments
   );
 
-  const setDepartments = (departments) => {
+  const setDepartments = (departments: string[]) => {
     dispatch(userSlice.actions.updateDepartments(departments));
     throttledFilter();
   };
@@ -53,7 +53,7 @@ const DepartmentFilter = () => {
         </Listbox.Button>
         <div className="bg-white absolute mt-1 w-full rounded-md shadow-lg">
           <Listbox.Options className="shadow-xs max-h-60 overflow-auto rounded-md py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
-            {DEPARTMENTS.map(({ name, prefix, shortName }) => (
+            {DEPARTMENTS.map(({ name, prefix }) => (
               <Listbox.Option
                 key={name}
                 value={name}
@@ -64,7 +64,7 @@ const DepartmentFilter = () => {
                   );
                 }}
               >
-                {({ active, selected }) => (
+                {({ selected }) => (
                   <>
                     <span className={"block truncate"}>
                       <span className="inline-block w-12">

@@ -1,13 +1,20 @@
+export type Semester = "fall" | "spring" | "summer";
+export type SummerSession =
+  | "summer one"
+  | "summer two"
+  | "summer all"
+  | "qatar summer";
+
 export interface Time {
   begin: string;
   end: string;
-  days: string[];
+  days: number[];
 }
 
 export interface Session {
   year: string;
-  semester: "fall" | "spring" | "summer";
-  session?: "summer one" | "summer two" | "summer all" | "qatar summer";
+  semester: Semester;
+  session?: SummerSession;
 }
 
 export interface Course {
@@ -19,9 +26,34 @@ export interface Course {
   department: string;
   courseID: string;
   desc: string;
-  schedules?: Session[];
+  schedules?: Schedule[];
   units: string;
   fces?: FCE[];
+}
+
+interface Lesson {
+  instructors: string[];
+  name: string;
+  location: string;
+  times: {
+    days: number[];
+    begin: string;
+    end: string;
+    building: string;
+    room: string;
+  }[];
+}
+
+export type Lecture = Lesson;
+
+export interface Section extends Lesson {
+  lecture: string;
+}
+
+export interface Schedule extends Session {
+  courseID: string;
+  lectures: Lecture[];
+  sections: Section[];
 }
 
 export interface FCE {

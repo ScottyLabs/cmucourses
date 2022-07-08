@@ -36,7 +36,6 @@ export const uiSlice = createSlice({
       state.session.loginModalOpen = false;
     },
   },
-  extraReducers: (builder) => {},
 });
 
 export const reducer = uiSlice.reducer;

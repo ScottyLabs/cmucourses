@@ -6,7 +6,19 @@ import { XIcon } from "@heroicons/react/outline";
 import { userSchedulesSlice } from "../app/userSchedules";
 import { showToast } from "./Toast";
 
-const ScheduleSelection = ({ name, id, courses, active }) => {
+type ScheduleSelectionProps = {
+  name: string;
+  id: string;
+  courses: string[];
+  active: boolean;
+};
+
+const ScheduleSelection = ({
+  name,
+  id,
+  courses,
+  active,
+}: ScheduleSelectionProps) => {
   const dispatch = useAppDispatch();
   const shareableLink =
     window.location.host + "/schedules/shared?courses=" + courses.join(",");
@@ -35,11 +47,12 @@ const ScheduleSelection = ({ name, id, courses, active }) => {
             <button
               className="ml-2 inline-flex items-center rounded px-1 hover:bg-gray-100"
               onClick={() => {
-                navigator.clipboard.writeText(shareableLink);
-                showToast({
-                  message: "Copied link.",
-                  icon: ClipboardCopyIcon,
-                });
+                void navigator.clipboard.writeText(shareableLink).then(() =>
+                  showToast({
+                    message: "Copied link.",
+                    icon: ClipboardCopyIcon,
+                  })
+                );
               }}
             >
               <ClipboardCopyIcon className="h-4 w-4 flex-none" />
@@ -91,7 +104,7 @@ const ScheduleSelector = () => {
       </div>
       <div>
         {Object.keys(savedSchedules).length > 0
-          ? Object.entries(savedSchedules).map(([id, schedule], index) => (
+          ? Object.entries(savedSchedules).map(([id, schedule]) => (
               <ScheduleSelection
                 name={schedule.name}
                 courses={schedule.courses}

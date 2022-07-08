@@ -119,7 +119,6 @@ export const userSchedulesSlice = createSlice({
       }
     },
   },
-  extraReducers: (builder) => {},
 });
 
 export const selectCoursesInActiveSchedule = (state: RootState): string[] => {

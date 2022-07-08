@@ -9,7 +9,7 @@ import { FlushedButton } from "./Buttons";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { uiSlice } from "../app/ui";
 
-const Sidebar = ({ children }) => {
+const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const open = useAppSelector((state) => state.ui.sidebarOpen);
   const dispatch = useAppDispatch();
 

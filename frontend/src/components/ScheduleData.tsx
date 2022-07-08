@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { aggregateCourses } from "../app/fce";
+import { aggregateCourses, AggregatedFCEs } from "../app/fce";
 import { displayUnits, roundTo } from "../app/utils";
 import {
   selectCourseResults,
@@ -11,7 +11,11 @@ import {
   userSchedulesSlice,
 } from "../app/userSchedules";
 
-const ScheduleData = ({ scheduled }) => {
+type ScheduleDataProps = {
+  scheduled: string[];
+};
+
+const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
   const dispatch = useAppDispatch();
 
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
@@ -42,7 +46,7 @@ const ScheduleData = ({ scheduled }) => {
   );
 
   const aggregatedData = aggregateCourses(scheduledFCEs, options);
-  const aggregatedDataByCourseID = {};
+  const aggregatedDataByCourseID: { [courseID: string]: AggregatedFCEs } = {};
   for (const row of aggregatedData.aggregatedFCEs) {
     if (row.aggregateData !== null)
       aggregatedDataByCourseID[row.courseID] = row.aggregateData;
@@ -51,7 +55,7 @@ const ScheduleData = ({ scheduled }) => {
   const aggregatedSelectedData = aggregateCourses(selectedFCEs, options);
   const message = aggregatedSelectedData.message;
 
-  const selectCourse = (value, courseID) => {
+  const selectCourse = (value: boolean, courseID: string) => {
     if (value)
       dispatch(
         userSchedulesSlice.actions.selectCourseInActiveSchedule(courseID)

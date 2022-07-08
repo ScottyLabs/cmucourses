@@ -1,5 +1,9 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
 
+/** @typedef { import('tailwindcss/defaultConfig') } DefaultConfig */
+/** @typedef { import('tailwindcss/defaultTheme') } DefaultTheme */
+
+/** @type { DefaultConfig & { theme: { extend: DefaultTheme } } } */
 module.exports = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",

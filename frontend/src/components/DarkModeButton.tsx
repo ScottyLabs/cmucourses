@@ -1,9 +1,9 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import { MoonIcon, SunIcon } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { uiSlice } from "../app/ui";
 
-const DarkModeButton: FunctionComponent = () => {
+const DarkModeButton = () => {
   const dispatch = useAppDispatch();
   const darkMode = useAppSelector((state) => state.ui.darkMode);
 

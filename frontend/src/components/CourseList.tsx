@@ -22,8 +22,8 @@ const CourseList = ({ courseIDs, children }: Props) => {
   useDeepCompareEffect(() => {
     console.log(courseIDs);
     if (courseIDs) {
-      dispatch(fetchCourseInfos(courseIDs));
-      if (loggedIn) dispatch(fetchFCEInfos({ courseIDs }));
+      void dispatch(fetchCourseInfos(courseIDs));
+      if (loggedIn) void dispatch(fetchFCEInfos({ courseIDs }));
     }
   }, [courseIDs]);
 

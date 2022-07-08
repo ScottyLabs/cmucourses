@@ -21,7 +21,7 @@ const CourseDetailPage: NextPage = () => {
   const schedules = useAppSelector(selectScheduleForCourse(courseID));
 
   useEffect(() => {
-    if (courseID) dispatch(fetchCourseInfo({ courseID, schedules: true }));
+    if (courseID) void dispatch(fetchCourseInfo({ courseID, schedules: true }));
   }, [dispatch, courseID]);
 
   if (!info) {

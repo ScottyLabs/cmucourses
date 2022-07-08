@@ -1,6 +1,6 @@
 import reactStringReplace from "react-string-replace";
 import Link from "next/link";
-import { AggregateFCEsOptions, FCE, Session, Time } from "./types";
+import { AggregateFCEsOptions, FCE, Schedule, Session, Time } from "./types";
 import { filterFCEs } from "./fce";
 import { DEPARTMENT_MAP_NAME, DEPARTMENT_MAP_SHORTNAME } from "./constants";
 
@@ -18,7 +18,7 @@ export const standardizeIdsInString = (str: string) => {
   return str.replaceAll(courseIdRegex, standardizeId);
 };
 
-export const sessionToString = (sessionInfo: Session | FCE) => {
+export const sessionToString = (sessionInfo: Session | FCE | Schedule) => {
   const semester = sessionInfo.semester;
 
   const sessionStrings = {
@@ -41,7 +41,7 @@ export const sessionToString = (sessionInfo: Session | FCE) => {
   }
 };
 
-export const sessionToShortString = (sessionInfo: Session | FCE) => {
+export const sessionToShortString = (sessionInfo: Session | FCE | Schedule) => {
   const semester = sessionInfo.semester;
 
   const sessionStrings = {
@@ -94,14 +94,14 @@ export const compareSessions = (
   }
 };
 
-export const filterSessions = (sessions: Session[]) => {
+export function filterSessions<T extends Session>(sessions: T[]): T[] {
   return sessions.filter((session) => {
     return (
       session.semester !== "summer" ||
       (session.session && session.session !== "qatar summer")
     );
   });
-};
+}
 
 export const displayUnits = (units: string): string => {
   if (units.match(/[0-9]+\.[0-9]*/)) {
@@ -160,8 +160,8 @@ export const approximateHours = (
     : roundTo(sum / filteredFCEs.length, 1);
 };
 
-export function roundTo(num: number, precision: number = 2) {
-  let x = Math.pow(10, precision);
+export function roundTo(num: number, precision = 2) {
+  const x = Math.pow(10, precision);
   return Math.round(num * x) / x;
 }
 
@@ -173,7 +173,7 @@ export function isExactSearch(search: string): boolean {
   return exactSearchRegex.test(search);
 }
 
-export function getCourseIds(search: string): string[] {
+export function getCourseIDs(search: string): string[] {
   return search.match(courseIdRegex);
 }
 

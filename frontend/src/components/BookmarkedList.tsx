@@ -16,8 +16,8 @@ const BookmarkedList = () => {
 
   useEffect(() => {
     if (bookmarked) {
-      dispatch(fetchCourseInfos(bookmarked));
-      if (loggedIn) dispatch(fetchFCEInfos({ courseIDs: bookmarked }));
+      void dispatch(fetchCourseInfos(bookmarked));
+      if (loggedIn) void dispatch(fetchFCEInfos({ courseIDs: bookmarked }));
     }
   }, [dispatch, bookmarked, loggedIn]);
 

@@ -1,7 +1,12 @@
 import React from "react";
-import { aggregateFCEs, filterFCEs } from "../app/fce";
+import { AggregatedFCEs, aggregateFCEs, filterFCEs } from "../app/fce";
 import StarRatings from "react-star-ratings";
-import { useTable } from "react-table";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { FCE } from "../app/types";
 import { sessionToString } from "../app/utils";
 import { useAppSelector } from "../app/hooks";
@@ -9,52 +14,91 @@ import { useAppSelector } from "../app/hooks";
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../tailwind.config.js";
 
-const fullConfig = resolveConfig(tailwindConfig);
+/* eslint-disable-next-line */
+const fullConfig: any = resolveConfig(tailwindConfig);
 
-const FCETable = ({ columns, data }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+const columns: ColumnDef<FCEDetailRow>[] = [
+  {
+    header: "Semester",
+    accessorKey: "semesterStr",
+  },
+  {
+    header: "Instructor",
+    accessorKey: "instructor",
+  },
+  {
+    header: "Workload",
+    accessorKey: "hrsPerWeek",
+  },
+  {
+    header: "Teaching",
+    accessorKey: "teachingRate",
+  },
+  {
+    header: "Course Rate",
+    accessorKey: "courseRate",
+  },
+  {
+    header: "Respondents",
+    accessorKey: "numRespondents",
+  },
+  {
+    header: "Response Rate",
+    accessorKey: "responseRate",
+  },
+];
+
+const FCETable = ({
+  columns,
+  data,
+}: {
+  columns: ColumnDef<FCEDetailRow>[];
+  data: FCEDetailRow[];
+}) => {
+  const table = useReactTable({
+    columns,
+    data,
+    getCoreRowModel: getCoreRowModel(),
+  });
 
   return (
-    <table {...getTableProps()} className="w-full min-w-fit table-auto">
+    <table className="w-full min-w-fit table-auto">
       <thead>
-        {headerGroups.map((headerGroup, idx) => (
-          <tr {...headerGroup.getHeaderGroupProps()} key={idx}>
-            {headerGroup.headers.map((column, idx) => (
+        {table.getHeaderGroups().map((headerGroup) => (
+          <tr key={headerGroup.id}>
+            {headerGroup.headers.map((header) => (
               <th
                 className="text-gray-700 whitespace-nowrap px-2 text-left text-sm font-semibold"
-                key={idx}
-                {...column.getHeaderProps()}
+                key={header.id}
               >
-                {column.render("Header")}
+                {flexRender(
+                  header.column.columnDef.header,
+                  header.getContext()
+                )}
               </th>
             ))}
           </tr>
         ))}
       </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row, idx) => {
-          prepareRow(row);
-          return (
-            <tr key={idx} {...row.getRowProps()} className="hover:bg-white">
-              {row.cells.map((cell, idx) => {
-                return (
-                  <td
-                    className="text-gray-600 whitespace-nowrap px-2 text-sm"
-                    key={idx}
-                    {...cell.getCellProps()}
-                  >
-                    {cell.render("Cell")}
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
+      <tbody>
+        {table.getRowModel().rows.map((row) => (
+          <tr key={row.id} className="hover:bg-white">
+            {row.getVisibleCells().map((cell) => (
+              <td
+                className="text-gray-600 whitespace-nowrap px-2 text-sm"
+                key={cell.id}
+              >
+                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              </td>
+            ))}
+          </tr>
+        ))}
       </tbody>
     </table>
   );
 };
+
+type FCEDetailRow = ReturnType<typeof convertFCEData>[0];
 
 const convertFCEData = (fces: FCE[]) => {
   return fces.map((fce) => ({
@@ -65,44 +109,36 @@ const convertFCEData = (fces: FCE[]) => {
   }));
 };
 
-const columns = [
-  {
-    Header: "Semester",
-    accessor: "semesterStr",
-  },
-  {
-    Header: "Instructor",
-    accessor: "instructor",
-  },
-  {
-    Header: "Workload",
-    accessor: "hrsPerWeek",
-  },
-  {
-    Header: "Teaching",
-    accessor: "teachingRate",
-  },
-  {
-    Header: "Course Rate",
-    accessor: "courseRate",
-  },
-  {
-    Header: "Respondents",
-    accessor: "numRespondents",
-  },
-  {
-    Header: "Response Rate",
-    accessor: "responseRate",
-  },
-];
+const StarRating = ({ rating }: { rating: number }) => {
+  const darkMode = useAppSelector((state) => state.ui.darkMode);
 
-export const FCEDetail = ({ fces }) => {
+  /* eslint-disable */
+  return (
+    <StarRatings
+      rating={rating}
+      starDimension="20px"
+      starSpacing="1px"
+      starRatedColor={
+        darkMode
+          ? fullConfig.theme.colors.zinc[50]
+          : fullConfig.theme.colors.gray[500]
+      }
+      starEmptyColor={
+        darkMode
+          ? fullConfig.theme.colors.zinc[500]
+          : fullConfig.theme.colors.gray[200]
+      }
+    />
+  );
+  /* eslint-enable */
+};
+
+export const FCEDetail = ({ fces }: { fces: FCE[] }) => {
   const aggregationOptions = useAppSelector(
     (state) => state.user.fceAggregation
   );
-  const darkMode = useAppSelector((state) => state.ui.darkMode);
 
-  let aggregateData: any = {};
+  let aggregateData: AggregatedFCEs;
   let filteredFCEs = fces;
 
   if (fces) {
@@ -135,21 +171,7 @@ export const FCEDetail = ({ fces }) => {
           <div className="bg-white flex-1 rounded-md p-2">
             <div className="flex content-end">
               <div className="hidden lg:block">
-                <StarRatings
-                  rating={aggregateData.teachingRate}
-                  starDimension="20px"
-                  starSpacing="1px"
-                  starRatedColor={
-                    darkMode
-                      ? fullConfig.theme.colors.zinc[50]
-                      : fullConfig.theme.colors.gray[500]
-                  }
-                  starEmptyColor={
-                    darkMode
-                      ? fullConfig.theme.colors.zinc[500]
-                      : fullConfig.theme.colors.gray[200]
-                  }
-                />
+                <StarRating rating={aggregateData.teachingRate} />
               </div>
               <span className="text-xl lg:ml-2">
                 {aggregateData.teachingRate}
@@ -162,21 +184,7 @@ export const FCEDetail = ({ fces }) => {
           <div className="bg-white flex-1 rounded-md p-2">
             <div className="flex content-end">
               <div className="hidden lg:block">
-                <StarRatings
-                  rating={aggregateData.courseRate}
-                  starDimension="20px"
-                  starSpacing="1px"
-                  starRatedColor={
-                    darkMode
-                      ? fullConfig.theme.colors.zinc[50]
-                      : fullConfig.theme.colors.gray[500]
-                  }
-                  starEmptyColor={
-                    darkMode
-                      ? fullConfig.theme.colors.zinc[500]
-                      : fullConfig.theme.colors.gray[200]
-                  }
-                />
+                <StarRating rating={aggregateData.courseRate} />
               </div>
               <span className="text-xl lg:ml-2">
                 {aggregateData.courseRate}
@@ -195,7 +203,7 @@ export const FCEDetail = ({ fces }) => {
   );
 };
 
-export const FCECard = ({ fces }) => {
+export const FCECard = ({ fces }: { fces: FCE[] }) => {
   return (
     <div className="bg-white rounded-md p-6 drop-shadow">
       <h1 className="text-gray-700 text-lg">FCE Browser</h1>

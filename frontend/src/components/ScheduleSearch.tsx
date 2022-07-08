@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useVirtual } from "react-virtual";
-import { useCombobox, useMultipleSelection } from "downshift";
+import {
+  useCombobox,
+  UseComboboxGetInputPropsOptions,
+  useMultipleSelection,
+} from "downshift";
 import { PencilAltIcon, SearchIcon } from "@heroicons/react/solid";
-import resolveConfig from "tailwindcss/resolveConfig";
-import tailwindConfig from "../../tailwind.config.js";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import {
   fetchAllCourses,
@@ -16,8 +18,6 @@ import {
   userSchedulesSlice,
 } from "../app/userSchedules";
 
-const fullConfig = resolveConfig(tailwindConfig);
-
 type selectedItem = {
   courseID: string;
   name: string;
@@ -26,7 +26,7 @@ type selectedItem = {
 const CourseCombobox = ({
   onSelectedItemsChange,
 }: {
-  onSelectedItemsChange: (items: string[]) => any;
+  onSelectedItemsChange: (items: string[]) => void;
 }) => {
   const [inputValue, setInputValue] = useState("");
   const listRef = useRef();
@@ -36,7 +36,7 @@ const CourseCombobox = ({
   const activeSchedule = useAppSelector(selectCoursesInActiveSchedule);
 
   useEffect(() => {
-    dispatch(fetchAllCourses());
+    void dispatch(fetchAllCourses());
   }, [dispatch]);
 
   useDeepCompareEffect(() => {
@@ -85,7 +85,7 @@ const CourseCombobox = ({
     selectedItem,
     getComboboxProps,
     isOpen,
-  } = useCombobox({
+  } = useCombobox<selectedItem>({
     items: filteredCourses,
     itemToString: (item) => {
       if (!item) return "";
@@ -95,7 +95,6 @@ const CourseCombobox = ({
     inputValue,
     defaultHighlightedIndex: 0,
     onInputValueChange: ({ inputValue: newValue }) => setInputValue(newValue),
-    scrollIntoView: () => {},
     onHighlightedIndexChange: ({ highlightedIndex }) =>
       rowVirtualizer.scrollToIndex(highlightedIndex),
     stateReducer: (state, actionAndChanges) => {
@@ -169,7 +168,11 @@ const CourseCombobox = ({
             <input
               className="text-gray-500 min-w-0 flex-1 py-2 pl-7 text-xl bg-transparent focus:outline-none"
               type="search"
-              {...getInputProps(getDropdownProps({ preventKeyAction: isOpen }))}
+              {...getInputProps(
+                getDropdownProps({
+                  preventKeyAction: isOpen,
+                }) as UseComboboxGetInputPropsOptions
+              )}
               placeholder="Add a Course by Course ID/Name"
             />
             <ul
@@ -259,8 +262,8 @@ const ScheduleSearch = () => {
 
         <CourseCombobox
           onSelectedItemsChange={(courseIDs) => {
-            dispatch(fetchFCEInfos({ courseIDs }));
-            dispatch(fetchCourseInfos(courseIDs));
+            void dispatch(fetchFCEInfos({ courseIDs }));
+            void dispatch(fetchCourseInfos(courseIDs));
             dispatch(
               userSchedulesSlice.actions.setActiveScheduleCourses(courseIDs)
             );
