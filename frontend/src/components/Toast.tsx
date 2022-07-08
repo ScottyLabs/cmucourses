@@ -1,3 +1,4 @@
+import type { Toast as ToastType } from "react-hot-toast";
 import toast from "react-hot-toast";
 import React from "react";
 
@@ -7,7 +8,7 @@ type Props = {
   icon?: React.ElementType;
 };
 
-export const Toast = (t, { message, title, icon }: Props) => {
+export const Toast = (t: ToastType, { message, title, icon }: Props) => {
   const Icon = icon;
 
   return (

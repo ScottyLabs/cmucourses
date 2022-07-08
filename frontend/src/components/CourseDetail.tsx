@@ -5,16 +5,22 @@ import { compareSessions, filterSessions } from "../app/utils";
 import { FCECard } from "./FCEDetail";
 import CourseCard from "./CourseCard";
 import { Schedules } from "./Schedules";
+import { Course, Schedule } from "../app/types";
 
-const CourseDetail = ({ info, schedules }) => {
+type Props = {
+  info: Course;
+  schedules: Schedule[];
+};
+
+const CourseDetail = ({ info, schedules }: Props) => {
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   useEffect(() => {
-    dispatch(fetchFCEInfos({ courseIDs: [info.courseID] }));
+    void dispatch(fetchFCEInfos({ courseIDs: [info.courseID] }));
   }, [dispatch, info.courseID, loggedIn]);
 
-  let sortedSchedules;
+  let sortedSchedules: Schedule[];
   if (schedules)
     sortedSchedules = filterSessions([...schedules]).sort(compareSessions);
 

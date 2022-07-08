@@ -57,10 +57,8 @@ const reducers = combineReducers({
   ),
 });
 
-const persistedReducer = reducers;
-
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: reducers,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -71,19 +69,19 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 
-export let persistor = persistStore(store);
+export const persistor = persistStore(store);
 
 const updateFilter = () => {
   setTimeout(() => {
     const state = store.getState();
     if (!state.user.filter.exactMatchesOnly)
-      store.dispatch(fetchCourseInfosByPage(1));
+      void store.dispatch(fetchCourseInfosByPage(1));
 
     if (
       state.courses.exactResultsCourses ||
       state.user.filter.exactMatchesOnly
     ) {
-      store.dispatch(fetchCourseInfos(state.courses.exactResultsCourses));
+      void store.dispatch(fetchCourseInfos(state.courses.exactResultsCourses));
     }
   }, 0);
 };

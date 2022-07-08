@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
-import { getCourseIds } from "../app/utils";
+import { getCourseIDs } from "../app/utils";
 import { coursesSlice } from "../app/courses";
 
 const AppliedFilters = () => {
@@ -35,8 +35,8 @@ const SearchBar = () => {
   const search = useAppSelector((state) => state.user.filter.search);
 
   const dispatchSearch = useCallback(
-    (search) => {
-      const exactCourses = getCourseIds(search);
+    (search: string) => {
+      const exactCourses = getCourseIDs(search);
       if (exactCourses)
         dispatch(coursesSlice.actions.setExactResultsCourses(exactCourses));
       else dispatch(coursesSlice.actions.setExactResultsCourses([]));
@@ -45,7 +45,7 @@ const SearchBar = () => {
     [dispatch]
   );
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.updateSearch(e.target.value));
   };
 
@@ -56,11 +56,12 @@ const SearchBar = () => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
-  const setShowFCEs = (e) => {
+
+  const setShowFCEs = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showFCEs(e.target.checked));
   };
 
-  const setShowCourseInfos = (e) => {
+  const setShowCourseInfos = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showCourseInfos(e.target.checked));
   };
 

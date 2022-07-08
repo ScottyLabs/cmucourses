@@ -22,7 +22,10 @@ export default class MyDocument extends Document {
               });
             `}
           </Script>
-          <script dangerouslySetInnerHTML={{ __html: nightwind.init() }} />
+          {
+            /* eslint-disable-next-line */
+            <script dangerouslySetInnerHTML={{ __html: nightwind.init() }} />
+          }
         </Head>
         <body className="bg-gray-50">
           <Main />

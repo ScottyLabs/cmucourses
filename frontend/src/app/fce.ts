@@ -14,8 +14,8 @@ export const FCE_RATINGS = [
 ];
 
 export const aggregateFCEs = (fces: FCE[]) => {
-  let fcesCounted = fces.length;
-  let semesters = new Set();
+  const fcesCounted = fces.length;
+  const semesters = new Set();
   let workload = 0;
   let teachingRate = 0;
   let courseRate = 0;
@@ -47,7 +47,7 @@ export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
   const sortedFCEs = fces
     .filter((fce) => options.counted[fce.semester])
     .sort(compareSessions);
-  const result = [];
+  const result: FCE[] = [];
   const encounteredSemesters = new Set();
 
   for (const fce of sortedFCEs) {
@@ -77,7 +77,7 @@ export const aggregateCourses = (
     );
   }
 
-  let aggregatedFCEs = data
+  const aggregatedFCEs = data
     .filter(({ fces }) => fces !== null)
     .map(({ courseID, fces }) => ({
       courseID,
@@ -109,3 +109,5 @@ export const aggregateCourses = (
     message: messages.join(" "),
   };
 };
+
+export type AggregatedFCEs = ReturnType<typeof aggregateFCEs>;

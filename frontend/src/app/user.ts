@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { addToSet, removeFromSet, standardizeIdsInString } from "./utils";
 import { SEMESTERS_COUNTED } from "./constants";
+import { Semester } from "./types";
 
 export interface UserState {
   bookmarked: string[];
@@ -49,22 +50,22 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    addBookmark: (state, action) => {
+    addBookmark: (state, action: PayloadAction<string>) => {
       state.bookmarked = addToSet(state.bookmarked, action.payload);
     },
-    removeBookmark: (state, action) => {
+    removeBookmark: (state, action: PayloadAction<string>) => {
       state.bookmarked = removeFromSet(state.bookmarked, action.payload);
     },
     clearBookmarks: (state) => {
       state.bookmarked = [];
     },
-    setExactMatchesOnly: (state, action) => {
+    setExactMatchesOnly: (state, action: PayloadAction<boolean>) => {
       state.filter.exactMatchesOnly = action.payload;
     },
-    showFCEs: (state, action) => {
+    showFCEs: (state, action: PayloadAction<boolean>) => {
       state.showFCEs = action.payload;
     },
-    showCourseInfos: (state, action) => {
+    showCourseInfos: (state, action: PayloadAction<boolean>) => {
       state.showCourseInfos = action.payload;
     },
     logIn: (state) => {
@@ -74,30 +75,29 @@ export const userSlice = createSlice({
       state.token = null;
       state.loggedIn = false;
     },
-    updateSearch: (state, action) => {
+    updateSearch: (state, action: PayloadAction<string>) => {
       state.filter.search = standardizeIdsInString(action.payload);
     },
-    updateDepartments: (state, action) => {
+    updateDepartments: (state, action: PayloadAction<string[]>) => {
       state.filter.departments = action.payload;
     },
-    updateSemestersCounted: (state, action) => {
+    updateSemestersCounted: (
+      state,
+      action: PayloadAction<{ semester: Semester; value: boolean }>
+    ) => {
       if (!SEMESTERS_COUNTED.includes(action.payload.semester)) return;
       state.fceAggregation.counted[action.payload.semester] =
         action.payload.value;
     },
-    updateNumSemesters: (state, action) => {
-      const newNumSemesters = Math.min(
-        Math.max(parseInt(action.payload), 1),
-        10
-      );
+    updateNumSemesters: (state, action: PayloadAction<number>) => {
+      const newNumSemesters = Math.min(Math.max(action.payload, 1), 10);
       if (isNaN(newNumSemesters)) return;
       state.fceAggregation.numSemesters = newNumSemesters;
     },
-    setToken: (state, action) => {
+    setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
   },
-  extraReducers: (builder) => {},
 });
 
 export const reducer = userSlice.reducer;

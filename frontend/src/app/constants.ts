@@ -1,4 +1,6 @@
-export const SEMESTERS_COUNTED = ["spring", "summer", "fall"];
+import { Semester } from "./types";
+
+export const SEMESTERS_COUNTED: Semester[] = ["spring", "summer", "fall"];
 
 export type Department = { name: string; shortName: string; prefix: string };
 

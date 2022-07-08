@@ -1,8 +1,15 @@
 import { sessionToString, timeArrToString } from "../app/utils";
 import React from "react";
 import { Tab } from "@headlessui/react";
+import { Lecture, Schedule, Section } from "../app/types";
 
-const Lecture = ({ lectureInfo, sections }) => {
+const Lecture = ({
+  lectureInfo,
+  sections,
+}: {
+  lectureInfo: Lecture;
+  sections: Section[];
+}) => {
   return (
     <>
       <div className="text-gray-700 mt-2 flex items-baseline rounded-md px-2 py-2 hover:bg-gray-50">
@@ -45,7 +52,7 @@ const Lecture = ({ lectureInfo, sections }) => {
   );
 };
 
-const Schedule = ({ scheduleInfo }) => {
+const Schedule = ({ scheduleInfo }: { scheduleInfo: Schedule }) => {
   let scheduleDivs;
 
   if (scheduleInfo.lectures.length !== 0) {
@@ -66,7 +73,7 @@ const Schedule = ({ scheduleInfo }) => {
   return <div className="p-2">{scheduleDivs}</div>;
 };
 
-export const Schedules = ({ scheduleInfos }) => {
+export const Schedules = ({ scheduleInfos }: { scheduleInfos: Schedule[] }) => {
   return (
     <div className="w-full">
       <h1 className="text-gray-700 text-lg">Schedules</h1>

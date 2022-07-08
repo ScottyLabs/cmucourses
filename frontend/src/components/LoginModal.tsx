@@ -76,7 +76,7 @@ export const LoginModal = () => {
                       type="button"
                       className="text-blue-900 bg-blue-50 inline-flex justify-center rounded-md border px-4 py-2 text-sm font-medium border-transparent hover:bg-blue-100"
                       onClick={() => {
-                        loginHandler();
+                        if (loginHandler) loginHandler();
                         closeModal();
                       }}
                     >

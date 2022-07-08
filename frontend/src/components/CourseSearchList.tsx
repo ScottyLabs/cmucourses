@@ -46,7 +46,7 @@ const CoursePage = () => {
 
   useEffect(() => {
     if (loggedIn && coursesToShow) {
-      dispatch(fetchFCEInfos({ courseIDs: coursesToShow }));
+      void dispatch(fetchFCEInfos({ courseIDs: coursesToShow }));
     }
   }, [dispatch, coursesToShow, loggedIn]);
 
@@ -76,8 +76,8 @@ const CourseSearchList = () => {
 
   const dispatch = useAppDispatch();
 
-  const handlePageClick = (page) => {
-    dispatch(fetchCourseInfosByPage(page + 1));
+  const handlePageClick = (page: number) => {
+    void dispatch(fetchCourseInfosByPage(page + 1));
   };
 
   return (

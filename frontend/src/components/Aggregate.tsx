@@ -2,15 +2,16 @@ import React from "react";
 import { SEMESTERS_COUNTED } from "../app/constants";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { userSlice } from "../app/user";
+import { Semester } from "../app/types";
 
 const Aggregate = () => {
   const dispatch = useAppDispatch();
 
   const counted = useAppSelector((state) => state.user.fceAggregation.counted);
-  const setCounted = (semester, value) => {
+  const setCounted = (semester: Semester, value: boolean) => {
     dispatch(userSlice.actions.updateSemestersCounted({ semester, value }));
   };
-  const setNumSemesters = (numSemesters) => {
+  const setNumSemesters = (numSemesters: number) => {
     dispatch(userSlice.actions.updateNumSemesters(numSemesters));
   };
 

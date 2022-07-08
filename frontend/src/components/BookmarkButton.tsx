@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React from "react";
 import { StarIcon as OutlineStar } from "@heroicons/react/outline";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { userSlice } from "../app/user";
@@ -7,7 +7,7 @@ interface Props {
   courseID: string;
 }
 
-const BookmarkButton: FunctionComponent<Props> = ({ courseID }) => {
+const BookmarkButton = ({ courseID }: Props) => {
   const dispatch = useAppDispatch();
   const bookmarks = useAppSelector((state) => state.user.bookmarked);
   const bookmarked = bookmarks.indexOf(courseID) !== -1;

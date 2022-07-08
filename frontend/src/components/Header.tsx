@@ -17,9 +17,15 @@ import DarkModeButton from "./DarkModeButton";
 import nightwind from "nightwind/helper";
 import { showToast } from "./Toast";
 
-const BASE_URL = process.env.NEXT_PUBLIC_REACT_APP_API_URL;
-
-const HeaderItemIconText = ({ icon, text, href = undefined }) => {
+const HeaderItemIconText = ({
+  icon,
+  text,
+  href,
+}: {
+  icon: React.ComponentType<{ className: string }>;
+  text: string;
+  href?: string;
+}) => {
   const Icon = icon;
   const content = (
     <span className="flex flex-col items-center hover:cursor-pointer md:flex-row">
@@ -35,7 +41,15 @@ const HeaderItemIconText = ({ icon, text, href = undefined }) => {
   return content;
 };
 
-const HeaderItem = ({ children, disableHover = false, active = false }) => {
+const HeaderItem = ({
+  children,
+  disableHover = false,
+  active = false,
+}: {
+  children: React.ReactNode;
+  disableHover?: boolean;
+  active?: boolean;
+}) => {
   return (
     <div
       className={`rounded px-2 py-1 hover:cursor-pointer md:p-2 ${
@@ -47,15 +61,15 @@ const HeaderItem = ({ children, disableHover = false, active = false }) => {
   );
 };
 
-export let passlink;
-export let loginHandler;
+export let passlink: Passlink;
+export let loginHandler: () => void = undefined;
 
 export default function Header({ activePage }): ReactElement {
   const dispatch = useAppDispatch();
 
   const token = useAppSelector((state) => state.user.token);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<jose.JWTPayload>(null);
 
   if (window !== undefined) {
     passlink = new Passlink(window);
@@ -73,7 +87,7 @@ export default function Header({ activePage }): ReactElement {
       () => {
         setLoading(false);
       },
-      (data) => {
+      (data: string) => {
         setLoading(false);
         dispatch(userSlice.actions.setToken(data));
       }
@@ -104,10 +118,11 @@ export default function Header({ activePage }): ReactElement {
 
   const darkMode = useAppSelector((state) => state.ui.darkMode);
   useEffect(() => {
+    /* eslint-disable-next-line */
     nightwind.enable(darkMode);
   }, [darkMode]);
 
-  let logInButton;
+  let logInButton: React.ReactNode;
 
   if (user) {
     logInButton = (
