@@ -7,16 +7,13 @@ import {
 } from "downshift";
 import { PencilAltIcon, SearchIcon } from "@heroicons/react/solid";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import {
-  fetchAllCourses,
-  fetchCourseInfos,
-  fetchFCEInfos,
-} from "../app/courses";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import {
   selectCoursesInActiveSchedule,
   userSchedulesSlice,
 } from "../app/userSchedules";
+import { fetchAllCourses, fetchCourseInfos } from "../app/api/course";
+import { fetchFCEInfosByCourse } from "../app/api/fce";
 
 type selectedItem = {
   courseID: string;
@@ -32,7 +29,7 @@ const CourseCombobox = ({
   const listRef = useRef();
   const dispatch = useAppDispatch();
 
-  const allCourses = useAppSelector((state) => state.courses.allCourses);
+  const allCourses = useAppSelector((state) => state.cache.allCourses);
   const activeSchedule = useAppSelector(selectCoursesInActiveSchedule);
 
   useEffect(() => {
@@ -262,7 +259,7 @@ const ScheduleSearch = () => {
 
         <CourseCombobox
           onSelectedItemsChange={(courseIDs) => {
-            void dispatch(fetchFCEInfos({ courseIDs }));
+            void dispatch(fetchFCEInfosByCourse({ courseIDs }));
             void dispatch(fetchCourseInfos(courseIDs));
             dispatch(
               userSchedulesSlice.actions.setActiveScheduleCourses(courseIDs)

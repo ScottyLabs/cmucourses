@@ -1,16 +1,13 @@
 import React, { useEffect } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import {
-  fetchCourseInfo,
-  selectCourseResult,
-  selectScheduleForCourse,
-} from "../../app/courses";
+import { selectCourseResult, selectScheduleForCourse } from "../../app/cache";
 import CourseDetail from "../../components/CourseDetail";
 import Aggregate from "../../components/Aggregate";
 import Loading from "../../components/Loading";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Page } from "../../components/Page";
+import { fetchCourseInfo } from "../../app/api/course";
 
 const CourseDetailPage: NextPage = () => {
   const router = useRouter();

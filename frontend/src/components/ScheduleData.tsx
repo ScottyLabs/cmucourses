@@ -2,10 +2,7 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { aggregateCourses, AggregatedFCEs } from "../app/fce";
 import { displayUnits, roundTo } from "../app/utils";
-import {
-  selectCourseResults,
-  selectFCEResultsForCourses,
-} from "../app/courses";
+import { selectCourseResults, selectFCEResultsForCourses } from "../app/cache";
 import {
   selectSelectedCoursesInActiveSchedule,
   userSchedulesSlice,
