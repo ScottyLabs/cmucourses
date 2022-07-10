@@ -1,12 +1,12 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import { generateSigningRequestHandler, KeyStore } from "passlink-server";
+import { KeyStore, generateSigningRequestHandler } from "passlink-server";
 import { isUser } from "./controllers/user.js";
 import {
-  getAllCourses,
   getCourseByID,
   getCourses,
+  getAllCourses,
   getFilteredCourses,
 } from "./controllers/courses.js";
 import { getFCEs } from "./controllers/fces.js";
