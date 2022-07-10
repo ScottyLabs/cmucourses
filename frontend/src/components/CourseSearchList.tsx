@@ -2,22 +2,20 @@ import React, { useEffect, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
 import { Pagination } from "react-headless-pagination";
-import {
-  fetchCourseInfosByPage,
-  fetchFCEInfos,
-  selectCourseResults,
-} from "../app/courses";
+import { selectCourseResults } from "../app/cache";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Loading from "./Loading";
+import { fetchCourseInfosByPage } from "../app/api/course";
+import { fetchFCEInfosByCourse } from "../app/api/fce";
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
 
-  const pageCourses = useAppSelector((state) => state.courses.pageCourses);
-  const page = useAppSelector((state) => state.courses.page);
+  const pageCourses = useAppSelector((state) => state.cache.pageCourses);
+  const page = useAppSelector((state) => state.cache.page);
 
   const exactResultsCourses = useAppSelector(
-    (state) => state.courses.exactResultsCourses
+    (state) => state.cache.exactResultsCourses
   );
   const exactMatchesOnly = useAppSelector(
     (state) => state.user.filter.exactMatchesOnly
@@ -46,7 +44,7 @@ const CoursePage = () => {
 
   useEffect(() => {
     if (loggedIn && coursesToShow) {
-      void dispatch(fetchFCEInfos({ courseIDs: coursesToShow }));
+      void dispatch(fetchFCEInfosByCourse({ courseIDs: coursesToShow }));
     }
   }, [dispatch, coursesToShow, loggedIn]);
 
@@ -66,10 +64,10 @@ const CoursePage = () => {
 };
 
 const CourseSearchList = () => {
-  const pages = useAppSelector((state) => state.courses.totalPages);
-  const curPage = useAppSelector((state) => state.courses.page);
+  const pages = useAppSelector((state) => state.cache.totalPages);
+  const curPage = useAppSelector((state) => state.cache.page);
 
-  const loading = useAppSelector((state) => state.courses.coursesLoading);
+  const loading = useAppSelector((state) => state.cache.coursesLoading);
   const exactMatchesOnly = useAppSelector(
     (state) => state.user.filter.exactMatchesOnly
   );

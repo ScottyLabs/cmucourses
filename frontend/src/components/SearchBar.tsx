@@ -4,7 +4,7 @@ import { throttledFilter } from "../app/store";
 import { SearchIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
 import { getCourseIDs } from "../app/utils";
-import { coursesSlice } from "../app/courses";
+import { cacheSlice } from "../app/cache";
 
 const AppliedFilters = () => {
   const badges = [];
@@ -38,8 +38,8 @@ const SearchBar = () => {
     (search: string) => {
       const exactCourses = getCourseIDs(search);
       if (exactCourses)
-        dispatch(coursesSlice.actions.setExactResultsCourses(exactCourses));
-      else dispatch(coursesSlice.actions.setExactResultsCourses([]));
+        dispatch(cacheSlice.actions.setExactResultsCourses(exactCourses));
+      else dispatch(cacheSlice.actions.setExactResultsCourses([]));
       throttledFilter();
     },
     [dispatch]

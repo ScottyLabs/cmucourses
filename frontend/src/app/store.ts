@@ -1,11 +1,7 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-import {
-  fetchCourseInfos,
-  fetchCourseInfosByPage,
-  reducer as coursesReducer,
-} from "./courses";
+import { reducer as cacheReducer } from "./cache";
 import { reducer as userReducer, UserState } from "./user";
 import {
   reducer as userSchedulesReducer,
@@ -24,9 +20,10 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
+import { fetchCourseInfos, fetchCourseInfosByPage } from "./api/course";
 
 const reducers = combineReducers({
-  courses: coursesReducer,
+  cache: cacheReducer,
   user: persistReducer<UserState>(
     {
       key: "root",
@@ -77,11 +74,8 @@ const updateFilter = () => {
     if (!state.user.filter.exactMatchesOnly)
       void store.dispatch(fetchCourseInfosByPage(1));
 
-    if (
-      state.courses.exactResultsCourses ||
-      state.user.filter.exactMatchesOnly
-    ) {
-      void store.dispatch(fetchCourseInfos(state.courses.exactResultsCourses));
+    if (state.cache.exactResultsCourses || state.user.filter.exactMatchesOnly) {
+      void store.dispatch(fetchCourseInfos(state.cache.exactResultsCourses));
     }
   }, 0);
 };

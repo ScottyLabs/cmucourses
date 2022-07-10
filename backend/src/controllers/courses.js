@@ -1,4 +1,4 @@
-import { standardizeID, singleToArray } from "../util.js";
+import { singleToArray, standardizeID } from "../util.js";
 import { Course, Schedule } from "../models/course.js";
 
 const projection = { _id: false, __v: false };

@@ -12,7 +12,7 @@ import { useAppSelector } from "../app/hooks";
 import BookmarkButton from "./BookmarkButton";
 import Link from "next/link";
 import { FCEDetail } from "./FCEDetail";
-import { selectFCEResultsForCourse } from "../app/courses";
+import { selectFCEResultsForCourse } from "../app/cache";
 
 interface Props {
   info: Course;

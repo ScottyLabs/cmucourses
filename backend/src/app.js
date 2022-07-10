@@ -9,7 +9,7 @@ import {
   getAllCourses,
   getFilteredCourses,
 } from "./controllers/courses.js";
-import { getFCEsByID } from "./controllers/fces.js";
+import { getFCEs } from "./controllers/fces.js";
 
 KeyStore.readKey(process.env.LOGIN_API_KEY);
 
@@ -45,7 +45,7 @@ app.route("/courses/all").get(getAllCourses);
 app.route("/courses/search/").get(getFilteredCourses);
 app.route("/courses/search/").post(isUser, getFilteredCourses);
 
-app.route("/fces").post(isUser, getFCEsByID);
+app.route("/fces").post(isUser, getFCEs);
 
 app.listen(port, () =>
   console.log(`Course Tool backend listening on port ${port}.`)

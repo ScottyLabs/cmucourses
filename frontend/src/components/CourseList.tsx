@@ -1,13 +1,11 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
-import {
-  fetchCourseInfos,
-  fetchFCEInfos,
-  selectCourseResults,
-} from "../app/courses";
+import { selectCourseResults } from "../app/cache";
 import Loading from "./Loading";
 import useDeepCompareEffect from "use-deep-compare-effect";
+import { fetchCourseInfos } from "../app/api/course";
+import { fetchFCEInfosByCourse } from "../app/api/fce";
 
 interface Props {
   courseIDs: string[];
@@ -16,14 +14,14 @@ interface Props {
 
 const CourseList = ({ courseIDs, children }: Props) => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  const loading = useAppSelector((state) => state.courses.coursesLoading);
+  const loading = useAppSelector((state) => state.cache.coursesLoading);
   const dispatch = useAppDispatch();
 
   useDeepCompareEffect(() => {
     console.log(courseIDs);
     if (courseIDs) {
       void dispatch(fetchCourseInfos(courseIDs));
-      if (loggedIn) void dispatch(fetchFCEInfos({ courseIDs }));
+      if (loggedIn) void dispatch(fetchFCEInfosByCourse({ courseIDs }));
     }
   }, [courseIDs]);
 
