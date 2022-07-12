@@ -1,4 +1,4 @@
-import { AggregateFCEsOptions, FCE } from "./types";
+import { FCE } from "./types";
 import { compareSessions, roundTo, sessionToShortString } from "./utils";
 
 export const FCE_RATINGS = [
@@ -43,17 +43,33 @@ export const aggregateFCEs = (fces: FCE[]) => {
   };
 };
 
+export interface AggregateFCEsOptions {
+  counted: {
+    spring: boolean;
+    summer: boolean;
+    fall: boolean;
+  };
+  courses?: string[];
+  numSemesters: number;
+}
+
 export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
   const sortedFCEs = fces
     .filter((fce) => options.counted[fce.semester])
     .sort(compareSessions);
-  const result: FCE[] = [];
+  let result: FCE[] = [];
   const encounteredSemesters = new Set();
 
   for (const fce of sortedFCEs) {
     encounteredSemesters.add(sessionToShortString(fce));
     if (encounteredSemesters.size > options.numSemesters) break;
     result.push(fce);
+  }
+
+  if (options.courses) {
+    result = result.filter(({ courseID }) =>
+      options.courses.includes(courseID)
+    );
   }
 
   return result;

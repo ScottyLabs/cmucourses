@@ -73,6 +73,11 @@ export const selectScheduleForCourse =
   (state: RootState): Schedule[] | undefined =>
     state.cache.scheduleResults[courseID];
 
+export const selectFCEResultsForInstructor =
+  (name: string) =>
+  (state: RootState): FCE[] | undefined =>
+    state.cache.instructorResults[name];
+
 export const cacheSlice = createSlice({
   name: "cache",
   initialState,

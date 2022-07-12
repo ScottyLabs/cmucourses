@@ -1,5 +1,6 @@
 import React from "react";
 import { AggregatedFCEs, aggregateFCEs, filterFCEs } from "../app/fce";
+
 import {
   ColumnDef,
   flexRender,
@@ -15,10 +16,6 @@ const columns: ColumnDef<FCEDetailRow>[] = [
   {
     header: "Semester",
     accessorKey: "semesterStr",
-  },
-  {
-    header: "Instructor",
-    accessorKey: "instructor",
   },
   {
     header: "Workload",
@@ -103,7 +100,7 @@ const convertFCEData = (fces: FCE[]) => {
   }));
 };
 
-export const FCEDetail = ({ fces }: { fces: FCE[] }) => {
+export const InstructorFCEDetail = ({ fces }: { fces: FCE[] }) => {
   const aggregationOptions = useAppSelector(
     (state) => state.user.fceAggregation
   );
@@ -170,14 +167,5 @@ export const FCEDetail = ({ fces }: { fces: FCE[] }) => {
         <FCETable columns={columns} data={convertFCEData(filteredFCEs)} />
       </div>
     </>
-  );
-};
-
-export const FCECard = ({ fces }: { fces: FCE[] }) => {
-  return (
-    <div className="bg-white rounded-md p-6 drop-shadow">
-      <h1 className="text-gray-700 text-lg">FCE Browser</h1>
-      <FCEDetail fces={fces} />
-    </div>
   );
 };

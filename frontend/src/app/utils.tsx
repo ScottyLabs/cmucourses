@@ -1,7 +1,7 @@
 import reactStringReplace from "react-string-replace";
 import Link from "next/link";
-import { AggregateFCEsOptions, FCE, Schedule, Session, Time } from "./types";
-import { filterFCEs } from "./fce";
+import { FCE, Schedule, Session, Time } from "./types";
+import { AggregateFCEsOptions, filterFCEs } from "./fce";
 import { DEPARTMENT_MAP_NAME, DEPARTMENT_MAP_SHORTNAME } from "./constants";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;

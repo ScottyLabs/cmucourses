@@ -73,12 +73,3 @@ export interface FCE {
   session?: string;
   year: string;
 }
-
-export interface AggregateFCEsOptions {
-  counted: {
-    spring: boolean;
-    summer: boolean;
-    fall: boolean;
-  };
-  numSemesters: number;
-}
