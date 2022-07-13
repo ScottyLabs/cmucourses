@@ -56,7 +56,7 @@ export interface Schedule extends Session {
   sections: Section[];
 }
 
-export interface FCE {
+export interface FCE extends Session {
   andrewID?: string;
   college: string;
   courseID: string;
@@ -69,7 +69,4 @@ export interface FCE {
   possibleRespondents: number;
   rating: number[];
   responseRate: string;
-  semester: string;
-  session?: string;
-  year: string;
 }
