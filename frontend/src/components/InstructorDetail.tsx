@@ -3,12 +3,13 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { fetchFCEInfosByInstructor } from "../app/api/fce";
 import { selectFCEResultsForInstructor } from "../app/cache";
 import Loading from "./Loading";
+import { InstructorFCEDetail } from "./InstructorFCEDetail";
 
 type Props = {
   name: string;
 };
 
-const InstructorDetail = ({name}: Props) => {
+const InstructorDetail = ({ name }: Props) => {
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
@@ -20,10 +21,10 @@ const InstructorDetail = ({name}: Props) => {
   }, [dispatch, loggedIn, name]);
 
   if (!fces) {
-    return <Loading/>;
+    return <Loading />;
   }
 
-  const coursesTaught = new Set(fces.map(({courseID}) => courseID));
+  const coursesTaught = new Set(fces.map(({ courseID }) => courseID));
   console.log(coursesTaught);
 
   return (
@@ -33,7 +34,9 @@ const InstructorDetail = ({name}: Props) => {
           <div className="text-md text-gray-800">{name}</div>
           {/* TODO: Add more information about instructor  using Directory API */}
         </div>
-        <div></div>
+        <div>
+          <InstructorFCEDetail fces={fces} />
+        </div>
       </div>
     </div>
   );

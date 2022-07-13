@@ -9,13 +9,16 @@ import {
 } from "@tanstack/react-table";
 import { FCE } from "../app/types";
 import { sessionToString } from "../app/utils";
-import { useAppSelector } from "../app/hooks";
 import { StarRating } from "./StarRating";
 
 const columns: ColumnDef<FCEDetailRow>[] = [
   {
     header: "Semester",
     accessorKey: "semesterStr",
+  },
+  {
+    header: "Course",
+    accessorKey: "courseID",
   },
   {
     header: "Workload",
@@ -39,7 +42,7 @@ const columns: ColumnDef<FCEDetailRow>[] = [
   },
 ];
 
-const FCETable = ({
+const InstructorFCETable = ({
   columns,
   data,
 }: {
@@ -101,9 +104,10 @@ const convertFCEData = (fces: FCE[]) => {
 };
 
 export const InstructorFCEDetail = ({ fces }: { fces: FCE[] }) => {
-  const aggregationOptions = useAppSelector(
-    (state) => state.user.fceAggregation
-  );
+  const aggregationOptions = {
+    numSemesters: 10,
+    counted: { spring: true, summer: true, fall: true },
+  };
 
   let aggregateData: AggregatedFCEs;
   let filteredFCEs = fces;
@@ -128,13 +132,6 @@ export const InstructorFCEDetail = ({ fces }: { fces: FCE[] }) => {
         </div>
 
         <div className="mt-2 flex space-x-2">
-          <div className="bg-white w-1/5 flex-1 rounded-md p-2">
-            <div>
-              <span className="text-xl">{aggregateData.workload}</span>
-              <span className="text-md ml-1 hidden sm:inline">hrs/wk</span>
-            </div>
-            <div className="text-gray-500 text-sm">Workload</div>
-          </div>
           <div className="bg-white flex-1 rounded-md p-2">
             <div className="flex content-end">
               <div className="hidden lg:block">
@@ -164,7 +161,10 @@ export const InstructorFCEDetail = ({ fces }: { fces: FCE[] }) => {
         </div>
       </div>
       <div className="bg-gray-50 mt-3 overflow-x-auto rounded-md p-4">
-        <FCETable columns={columns} data={convertFCEData(filteredFCEs)} />
+        <InstructorFCETable
+          columns={columns}
+          data={convertFCEData(filteredFCEs)}
+        />
       </div>
     </>
   );
