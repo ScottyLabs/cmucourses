@@ -21,11 +21,14 @@ const InstructorDetail = ({ name }: Props) => {
   }, [dispatch, loggedIn, name]);
 
   if (!fces) {
-    return <Loading />;
+    return (
+      <div className="m-auto space-y-4 p-6">
+        <Loading />
+      </div>
+    );
   }
 
   const coursesTaught = new Set(fces.map(({ courseID }) => courseID));
-  console.log(coursesTaught);
 
   return (
     <div className="m-auto space-y-4 p-6">
