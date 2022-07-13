@@ -1,6 +1,7 @@
 import { default as NextLink } from "next/link";
+import React from "react";
 
-export default ({
+const Link = ({
   href,
   openInNewTab = false,
   children,
@@ -9,16 +10,18 @@ export default ({
   href: string;
   openInNewTab?: boolean;
   children?: React.ReactNode;
-  [x: string]: any;
-}) => {
+} & React.HTMLAttributes<HTMLSpanElement>) => {
   const content = (
-    <span className="cursor-pointer underline decoration-gray-200 hover:no-underline">
+    <span
+      className="cursor-pointer underline decoration-gray-200 hover:no-underline"
+      {...props}
+    >
       {children}
     </span>
   );
   if (openInNewTab) {
     return (
-      <a target="_blank" href={href} rel="noopener noreferrer" {...props}>
+      <a target="_blank" href={href} rel="noopener noreferrer">
         {content}
       </a>
     );
@@ -26,3 +29,5 @@ export default ({
     return <NextLink href={href}>{content}</NextLink>;
   }
 };
+
+export default Link;

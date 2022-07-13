@@ -29,7 +29,7 @@ const InstructorDetail = ({ name }: Props) => {
     );
   }
 
-  const coursesTaught = new Set(fces.map(({ courseID }) => courseID));
+  // const coursesTaught = new Set(fces.map(({ courseID }) => courseID));
 
   return (
     <div className="m-auto space-y-4 p-6">
