@@ -10,7 +10,7 @@ import {
 import { FCE } from "../app/types";
 import { sessionToString } from "../app/utils";
 import { StarRating } from "./StarRating";
-import Link from "next/link";
+import Link from "./Link";
 
 const columns: ColumnDef<FCEDetailRow>[] = [
   {
@@ -22,13 +22,7 @@ const columns: ColumnDef<FCEDetailRow>[] = [
     accessorKey: "courseID",
     cell: (info) => {
       const courseID = info.getValue() as string;
-      return (
-        <Link href={`/course/${courseID}`}>
-          <span className="cursor-pointer underline decoration-gray-200 hover:no-underline">
-            {courseID}
-          </span>
-        </Link>
-      );
+      return <Link href={`/course/${courseID}`}>{courseID}</Link>;
     },
   },
   {
