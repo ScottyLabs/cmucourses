@@ -7,7 +7,7 @@ import { uiSlice } from "../app/ui";
 import { Toaster } from "react-hot-toast";
 
 type Props = {
-  sidebar: React.ReactNode;
+  sidebar?: React.ReactNode;
   content: React.ReactNode;
   footer?: React.ReactNode;
   activePage?: string;
@@ -33,9 +33,15 @@ export const Page = ({ sidebar, content, footer, activePage }: Props) => {
       <header className="bg-gray-50 fixed inset-x-0 top-0 z-40 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
         <Header activePage={activePage} />
       </header>
-      <main className="relative flex flex-col pt-32 md:h-screen md:flex-row md:pt-16">
-        <Sidebar>{sidebar}</Sidebar>
-        <div className="flex-1 overflow-y-scroll md:h-full">{content}</div>
+      <main className="relative flex flex-col pt-32 md:h-screen md:flex-row md:justify-around md:pt-16">
+        {sidebar && <Sidebar>{sidebar}</Sidebar>}
+        <div
+          className={`flex-1 overflow-y-auto md:h-full ${
+            !sidebar && "max-w-7xl"
+          }`}
+        >
+          {content}
+        </div>
       </main>
       {footer && <footer>{footer}</footer>}
     </div>

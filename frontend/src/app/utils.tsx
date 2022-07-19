@@ -1,8 +1,9 @@
 import reactStringReplace from "react-string-replace";
-import Link from "next/link";
-import { AggregateFCEsOptions, FCE, Schedule, Session, Time } from "./types";
-import { filterFCEs } from "./fce";
+import Link from "../components/Link";
+import { FCE, Schedule, Session, Time } from "./types";
+import { AggregateFCEsOptions, filterFCEs } from "./fce";
 import { DEPARTMENT_MAP_NAME, DEPARTMENT_MAP_SHORTNAME } from "./constants";
+import namecase from "namecase";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
 
@@ -121,7 +122,7 @@ export const injectLinks = (text: string) => {
     courseIdRegex,
     (match, i) => (
       <Link href={`/course/${standardizeId(match)}`} key={`${match}-${i}`}>
-        <span className="hover:cursor-pointer hover:underline">{match}</span>
+        {match}
       </Link>
     )
   );
@@ -199,4 +200,12 @@ export function addToSet<T>(arr: T[], item: T): T[] {
   } else {
     return arr;
   }
+}
+
+export function toNameCase(name: string): string {
+  // Eventually we should get rid of this function altogether by
+  // getting the proper names from the Directory, but this will do for now.
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  return namecase(name) as string;
 }

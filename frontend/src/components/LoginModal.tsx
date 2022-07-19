@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { uiSlice } from "../app/ui";
 import { loginHandler } from "./Header";
-import Link from "next/link";
+import Link from "./Link";
 
 export const LoginModal = () => {
   const isOpen = useAppSelector((state) => state.ui.session.loginModalOpen);
@@ -51,12 +51,8 @@ export const LoginModal = () => {
                     <p className="text-gray-400 text-sm">
                       This is in beta, so expect things to break and change.
                       Find out more about ScottyLabs{" "}
-                      <Link href={"https://www.scottylabs.org"}>
-                        <span className="cursor-pointer underline hover:no-underline">
-                          here
-                        </span>
-                      </Link>
-                      . Your feedback is appreciated.
+                      <Link href={"https://www.scottylabs.org"}>here</Link>.
+                      Your feedback is appreciated.
                     </p>
                     <p className="text-gray-600 mt-3 text-sm">
                       You are currently logged out, so you can&apos;t access FCE

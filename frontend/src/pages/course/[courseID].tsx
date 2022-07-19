@@ -21,16 +21,13 @@ const CourseDetailPage: NextPage = () => {
     if (courseID) void dispatch(fetchCourseInfo({ courseID, schedules: true }));
   }, [dispatch, courseID]);
 
-  if (!info) {
-    return <Loading />;
+  let content = <Loading />;
+
+  if (info) {
+    content = <CourseDetail info={info} schedules={schedules} />;
   }
 
-  return (
-    <Page
-      content={<CourseDetail info={info} schedules={schedules} />}
-      sidebar={<Aggregate />}
-    />
-  );
+  return <Page content={content} sidebar={<Aggregate />} />;
 };
 
 export default CourseDetailPage;

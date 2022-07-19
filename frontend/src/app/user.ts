@@ -90,7 +90,7 @@ export const userSlice = createSlice({
         action.payload.value;
     },
     updateNumSemesters: (state, action: PayloadAction<number>) => {
-      const newNumSemesters = Math.min(Math.max(action.payload, 1), 10);
+      const newNumSemesters = Math.min(Math.max(action.payload, 1), 20);
       if (isNaN(newNumSemesters)) return;
       state.fceAggregation.numSemesters = newNumSemesters;
     },
