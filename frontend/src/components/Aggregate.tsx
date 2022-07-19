@@ -14,6 +14,9 @@ const Aggregate = () => {
   const setNumSemesters = (numSemesters: number) => {
     dispatch(userSlice.actions.updateNumSemesters(numSemesters));
   };
+  const numSemesters = useAppSelector(
+    (state) => state.user.fceAggregation.numSemesters
+  );
 
   return (
     <div>
@@ -21,10 +24,11 @@ const Aggregate = () => {
       <div className="mt-3 space-y-3">
         <div className="flex items-baseline">
           <div className="mr-2 whitespace-nowrap text-sm font-semibold">
-            Semesters to Sample
+            Semesters to Show
           </div>
           <input
-            placeholder="2"
+            type="number"
+            value={numSemesters}
             className="bg-gray-50 min-w-0 flex-auto rounded-md px-2 py-1 text-sm"
             onChange={(e) => {
               setNumSemesters(parseInt(e.target.value));

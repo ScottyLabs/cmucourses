@@ -11,8 +11,8 @@ import {
 import { useAppSelector } from "../app/hooks";
 import BookmarkButton from "./BookmarkButton";
 import Link from "next/link";
-import { FCEDetail } from "./FCEDetail";
 import { selectFCEResultsForCourse } from "../app/cache";
+import { FCEDetail } from "./FCEDetail";
 
 interface Props {
   info: Course;

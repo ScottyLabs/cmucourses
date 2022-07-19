@@ -1,5 +1,4 @@
 import React from "react";
-import { AggregatedFCEs, aggregateFCEs, filterFCEs } from "../app/fce";
 
 import {
   ColumnDef,
@@ -9,8 +8,8 @@ import {
 } from "@tanstack/react-table";
 import { FCE } from "../app/types";
 import { sessionToString } from "../app/utils";
-import { StarRating } from "./StarRating";
 import Link from "./Link";
+import { FCETable } from "./FCETable";
 
 const columns: ColumnDef<FCEDetailRow>[] = [
   {
@@ -114,63 +113,11 @@ export const InstructorFCEDetail = ({ fces }: { fces: FCE[] }) => {
     counted: { spring: true, summer: true, fall: true },
   };
 
-  let aggregateData: AggregatedFCEs;
-  let filteredFCEs = fces;
-
-  if (fces) {
-    filteredFCEs = filterFCEs(fces, aggregationOptions);
-    aggregateData = aggregateFCEs(filteredFCEs);
-  }
-
-  if (!fces || aggregateData.fcesCounted == 0) {
-    return <></>;
-  }
-
   return (
-    <>
-      <div className="text-md text-gray-700 bg-gray-50 mt-3 rounded-md p-4">
-        <div className="flex items-baseline">
-          <h2 className="text-md mb-2">Aggregate Data</h2>
-          <div className="ml-2 flex-1 text-sm">
-            (data from {aggregateData.semestersCounted} semesters)
-          </div>
-        </div>
-
-        <div className="mt-2 flex space-x-2">
-          <div className="bg-white flex-1 rounded-md p-2">
-            <div className="flex content-end">
-              <div className="hidden lg:block">
-                <StarRating rating={aggregateData.teachingRate} />
-              </div>
-              <span className="text-xl lg:ml-2">
-                {aggregateData.teachingRate}
-              </span>
-            </div>
-            <div className="text-gray-500 text-sm">
-              Teaching <span className="hidden sm:inline">Rate</span>
-            </div>
-          </div>
-          <div className="bg-white flex-1 rounded-md p-2">
-            <div className="flex content-end">
-              <div className="hidden lg:block">
-                <StarRating rating={aggregateData.courseRate} />
-              </div>
-              <span className="text-xl lg:ml-2">
-                {aggregateData.courseRate}
-              </span>
-            </div>
-            <div className="text-gray-500 text-sm">
-              Course <span className="hidden sm:inline">Rate</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="bg-gray-50 mt-3 overflow-x-auto rounded-md p-4">
-        <InstructorFCETable
-          columns={columns}
-          data={convertFCEData(filteredFCEs)}
-        />
-      </div>
-    </>
+    <FCETable
+      fces={fces}
+      columnVisibility={{ instructor: false }}
+      aggregationOptions={aggregationOptions}
+    />
   );
 };

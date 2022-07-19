@@ -38,7 +38,7 @@ const InstructorDetail = ({ name }: Props) => {
           <div className="text-md text-gray-800 font-semibold">
             {toNameCase(name)}
           </div>
-          {/* TODO: Add more information about instructor  using Directory API */}
+          {/* TODO: Add more information about instructor using Directory API */}
         </div>
         <div>
           <InstructorFCEDetail fces={fces} />
