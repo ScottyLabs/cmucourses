@@ -2,7 +2,6 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
 import { selectCourseResults } from "../app/cache";
-import Loading from "./Loading";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import { fetchCourseInfos } from "../app/api/course";
 import { fetchFCEInfosByCourse } from "../app/api/fce";
@@ -14,7 +13,6 @@ interface Props {
 
 const CourseList = ({ courseIDs, children }: Props) => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  const loading = useAppSelector((state) => state.cache.coursesLoading);
   const dispatch = useAppDispatch();
 
   useDeepCompareEffect(() => {
@@ -29,9 +27,7 @@ const CourseList = ({ courseIDs, children }: Props) => {
 
   return (
     <div className="py-6 px-2 md:px-6">
-      {loading ? (
-        <Loading />
-      ) : results && results.length > 0 ? (
+      {results.length > 0 ? (
         <div className="space-y-4">
           {results.map((course) => (
             <CourseCard
