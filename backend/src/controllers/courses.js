@@ -49,6 +49,39 @@ export const getFilteredCourses = (req, res) => {
     options.projection.score = { $meta: "textScore" };
   }
 
+  const pipeline = [];
+
+  const hasUnitsFilter =
+    ("unitsMin" in req.query && parseInt(req.query.unitsMin)) ||
+    ("unitsMax" in req.query && parseInt(req.query.unitsMax));
+
+  if (hasUnitsFilter) {
+    pipeline.unshift({
+      $addFields: {
+        unitsDecimal: {
+          $convert: {
+            input: "$units",
+            to: "decimal",
+            onError: null,
+            onNull: null,
+          },
+        },
+      },
+    });
+
+    matchQuery["unitsDecimal"] = {};
+
+    if ("unitsMin" in req.query && parseInt(req.query.unitsMin)) {
+      matchQuery["unitsDecimal"].$gte = parseInt(req.query.unitsMin) || 0;
+    }
+
+    if ("unitsMax" in req.query && parseInt(req.query.unitsMax)) {
+      matchQuery["unitsDecimal"].$lte = parseInt(req.query.unitsMax) || 100;
+    }
+  }
+
+  pipeline.push({ $match: matchQuery });
+
   if ("keywords" in req.query) options.sort = { score: { $meta: "textScore" } };
 
   if ("page" in req.query) options.page = req.query.page;
@@ -77,7 +110,9 @@ export const getFilteredCourses = (req, res) => {
     }
   }
 
-  Course.paginate(matchQuery, options)
+  const aggregate = Course.aggregate(pipeline);
+
+  Course.aggregatePaginate(aggregate, options)
     .then((result) => res.json(result))
     .catch((err) => res.status(500).send(err));
 };

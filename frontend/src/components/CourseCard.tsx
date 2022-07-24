@@ -21,7 +21,7 @@ interface Props {
 }
 
 const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
-  const sortedSchedules = filterSessions([...info.schedules]).sort(
+  const sortedSchedules = filterSessions(info.schedules || []).sort(
     compareSessions
   );
   const mostRecentSchedules = sortedSchedules.slice(0, 2);
