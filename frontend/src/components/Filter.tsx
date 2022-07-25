@@ -131,6 +131,7 @@ const UnitsFilter = () => {
             dispatch(
               userSlice.actions.updateUnitsFilterActive(e.target.checked)
             );
+            throttledFilter();
           }}
         />
       </div>
@@ -147,25 +148,21 @@ const UnitsFilter = () => {
           <Slider.Track className="bg-gray-100 relative h-0.5 flex-grow outline-none">
             <Slider.Range className="bg-blue-500 absolute h-full rounded-full outline-none" />
           </Slider.Track>
-          <Slider.Thumb
-            className="bg-blue-600 relative z-40 block h-3 w-3 cursor-pointer rounded-full font-bold shadow-xl outline-none ring-blue-200 hover:ring-4"
-            onPointerUp={() =>
-              dispatch(
-                userSlice.actions.updateUnitsRange(value as [number, number])
-              )
-            }
-          />
-          <Slider.Thumb
-            className="bg-blue-600 relative z-40 block h-3 w-3 cursor-pointer rounded-full font-bold shadow-xl outline-none ring-blue-200 hover:ring-4"
-            onPointerUp={() =>
-              dispatch(
-                userSlice.actions.updateUnitsRange(value as [number, number])
-              )
-            }
-          />
+          {[1, 2].map((i) => (
+            <Slider.Thumb
+              key={i}
+              className="bg-blue-600 relative z-40 block h-3 w-3 cursor-pointer rounded-full font-bold shadow-xl outline-none ring-blue-200 hover:ring-4"
+              onPointerUp={() => {
+                dispatch(
+                  userSlice.actions.updateUnitsRange(value as [number, number])
+                );
+                if (active) throttledFilter();
+              }}
+            />
+          ))}
         </Slider.Root>
       </div>
-      <div className="ml-6 w-8">
+      <div className="ml-5 w-10 text-right">
         {value[0]}-{value[1]}
       </div>
     </div>
