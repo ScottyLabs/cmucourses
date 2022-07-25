@@ -12,6 +12,11 @@ export interface UserState {
     search: string;
     departments: string[];
     exactMatchesOnly: boolean;
+    units: {
+      active: boolean;
+      min: number;
+      max: number;
+    };
   };
   fceAggregation: {
     numSemesters: number;
@@ -33,6 +38,11 @@ const initialState: UserState = {
     search: "",
     departments: [],
     exactMatchesOnly: false,
+    units: {
+      active: false,
+      min: 0,
+      max: 24,
+    },
   },
   fceAggregation: {
     numSemesters: 2,
@@ -93,6 +103,13 @@ export const userSlice = createSlice({
       const newNumSemesters = Math.min(Math.max(action.payload, 1), 20);
       if (isNaN(newNumSemesters)) return;
       state.fceAggregation.numSemesters = newNumSemesters;
+    },
+    updateUnitsFilterActive: (state, action: PayloadAction<boolean>) => {
+      state.filter.units.active = action.payload;
+    },
+    updateUnitsRange: (state, action: PayloadAction<[number, number]>) => {
+      state.filter.units.min = action.payload[0];
+      state.filter.units.max = action.payload[1];
     },
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;

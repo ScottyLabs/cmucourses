@@ -18,6 +18,18 @@ const AppliedFilters = () => {
     );
   });
 
+  if (filter.units.active) {
+    badges.push(
+      <div
+        className={
+          "text-teal-700 bg-teal-50 flex-initial rounded-md py-1 px-2 text-sm"
+        }
+      >
+        Units: {filter.units.min}-{filter.units.max}
+      </div>
+    );
+  }
+
   return (
     <>
       {badges.length > 0 && (

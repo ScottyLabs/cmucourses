@@ -49,11 +49,9 @@ export type FetchCourseInfosByPageResult = {
   nextPage: number | null;
 };
 
-export const fetchCourseInfosByPage = createAsyncThunk<
-  FetchCourseInfosByPageResult,
+export const fetchCourseInfosByPage = createAsyncThunk<FetchCourseInfosByPageResult,
   number,
-  { state: RootState }
->("fetchCourseInfosByPage", async (page: number, thunkAPI) => {
+  { state: RootState }>("fetchCourseInfosByPage", async (page: number, thunkAPI) => {
   const state = thunkAPI.getState();
 
   const url = `${process.env.backendUrl}/courses/search?`;
@@ -70,6 +68,11 @@ export const fetchCourseInfosByPage = createAsyncThunk<
     state.user.filter.departments.forEach((d) =>
       params.append("department", d)
     );
+  }
+
+  if (state.user.filter.units.active) {
+    params.append("unitsMin", state.user.filter.units.min.toString());
+    params.append("unitsMax", state.user.filter.units.max.toString());
   }
 
   if (state.user.loggedIn) {
@@ -94,13 +97,11 @@ type FetchCourseInfoOptions = {
   schedules: boolean;
 };
 
-export const fetchCourseInfo = createAsyncThunk<
-  Course,
+export const fetchCourseInfo = createAsyncThunk<Course,
   FetchCourseInfoOptions,
-  { state: RootState }
->(
+  { state: RootState }>(
   "fetchCourseInfo",
-  async ({ courseID, schedules }: FetchCourseInfoOptions, thunkAPI) => {
+  async ({courseID, schedules}: FetchCourseInfoOptions, thunkAPI) => {
     if (!courseID) return;
 
     const state = thunkAPI.getState();
@@ -117,11 +118,9 @@ export const fetchCourseInfo = createAsyncThunk<
 
 type FetchAllCoursesType = { name: string; courseID: string }[];
 
-export const fetchAllCourses = createAsyncThunk<
-  FetchAllCoursesType,
+export const fetchAllCourses = createAsyncThunk<FetchAllCoursesType,
   void,
-  { state: RootState }
->("fetchAllCourses", async (_, thunkAPI) => {
+  { state: RootState }>("fetchAllCourses", async (_, thunkAPI) => {
   const url = `${process.env.backendUrl}/courses/all`;
   const state = thunkAPI.getState();
 

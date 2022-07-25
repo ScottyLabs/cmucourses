@@ -27,7 +27,7 @@ export const Page = ({ sidebar, content, footer, activePage }: Props) => {
   }, [dispatch, loggedIn, modalShown]);
 
   return (
-    <div>
+    <div className="accent-blue-600">
       <LoginModal />
       <Toaster position="bottom-right" />
       <header className="bg-gray-50 fixed inset-x-0 top-0 z-40 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
