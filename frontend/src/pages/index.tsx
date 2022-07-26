@@ -24,6 +24,7 @@ const IndexPage: NextPage = () => {
           <CourseSearchList />
         </>
       }
+      activePage="search"
     />
   );
 };

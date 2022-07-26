@@ -33,7 +33,7 @@ const InstructorDetail = ({ name }: Props) => {
 
   return (
     <div className="m-auto space-y-4 p-6">
-      <div className="bg-white rounded-xl p-6 drop-shadow">
+      <div className="bg-white border-gray-100 rounded border p-6">
         <div>
           <div className="text-md text-gray-800 font-semibold">
             {toNameCase(name)}

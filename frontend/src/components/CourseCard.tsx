@@ -38,13 +38,13 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
     : undefined;
 
   return (
-    <div className="bg-white rounded-xl p-6 drop-shadow">
+    <div className="bg-white border-gray-100 rounded border p-6">
       <div className="grid auto-rows-min grid-cols-8 gap-x-6 gap-y-2">
         <div className="col-span-5 col-start-1 row-span-1 row-start-1 md:col-span-6">
           <Link href={`/course/${info.courseID}`}>
             <div className="text-gray-800 text-lg hover:cursor-pointer">
               <span className="mr-2 font-semibold">{info.courseID}</span>
-              <span className="">{info.name}</span>
+              <span className="leading-3">{info.name}</span>
             </div>
           </Link>
           <div className="text-gray-500 text-sm">{info.department}</div>
@@ -94,7 +94,7 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
           )}
         </div>
         {showCourseInfo && (
-          <div className="text-gray-600 col-span-full row-span-1 row-start-3 text-sm leading-relaxed  md:col-span-6 md:row-start-2">
+          <div className="text-gray-600 col-span-full row-span-1 row-start-3 text-sm leading-relaxed md:col-span-6 md:row-start-2">
             {injectLinks(info.desc)}
           </div>
         )}

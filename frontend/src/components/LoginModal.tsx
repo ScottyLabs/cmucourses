@@ -63,14 +63,14 @@ export const LoginModal = () => {
                   <div className="mt-4 flex justify-between">
                     <button
                       type="button"
-                      className="text-gray-500 rounded-md border px-4 py-2 text-sm hover:bg-gray-50"
+                      className="text-gray-500 rounded border px-4 py-2 text-sm hover:bg-gray-50"
                       onClick={closeModal}
                     >
                       Continue without logging in
                     </button>
                     <button
                       type="button"
-                      className="text-blue-900 bg-blue-50 inline-flex justify-center rounded-md border px-4 py-2 text-sm font-medium border-transparent hover:bg-blue-100"
+                      className="text-blue-900 bg-blue-50 inline-flex justify-center rounded border px-4 py-2 text-sm font-medium border-transparent hover:bg-blue-100"
                       onClick={() => {
                         if (loginHandler) loginHandler();
                         closeModal();

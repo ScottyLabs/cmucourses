@@ -12,12 +12,12 @@ type Props = {
   schedules: Schedule[];
 };
 
-const CourseDetail = ({info, schedules}: Props) => {
+const CourseDetail = ({ info, schedules }: Props) => {
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   useEffect(() => {
-    void dispatch(fetchFCEInfosByCourse({courseIDs: [info.courseID]}));
+    void dispatch(fetchFCEInfosByCourse({ courseIDs: [info.courseID] }));
   }, [dispatch, info.courseID, loggedIn]);
 
   let sortedSchedules: Schedule[];
@@ -28,11 +28,11 @@ const CourseDetail = ({info, schedules}: Props) => {
 
   return (
     <div className="m-auto space-y-4 p-6">
-      <CourseCard info={info} showFCEs={false} showCourseInfo={true}/>
-      {fces && <FCECard fces={fces}/>}
+      <CourseCard info={info} showFCEs={false} showCourseInfo={true} />
+      {fces && <FCECard fces={fces} />}
       {schedules && (
-        <div className="bg-white rounded-md p-6 drop-shadow">
-          <Schedules scheduleInfos={sortedSchedules}/>
+        <div className="bg-white border-gray-100 rounded border p-6">
+          <Schedules scheduleInfos={sortedSchedules} />
         </div>
       )}
     </div>

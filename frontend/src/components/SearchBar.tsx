@@ -19,7 +19,7 @@ const AppliedFiltersPill = ({
 }) => {
   return (
     <div
-      className={`${className} flex flex-initial items-center rounded-md py-1 px-2 text-sm`}
+      className={`${className} flex flex-initial items-center rounded py-1 px-2 text-sm`}
     >
       <span>{children}</span>
       {onDelete && (

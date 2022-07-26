@@ -12,7 +12,7 @@ const Lecture = ({
 }) => {
   return (
     <>
-      <div className="text-gray-700 mt-2 flex items-baseline rounded-md px-2 py-2 hover:bg-gray-50">
+      <div className="text-gray-700 mt-2 flex items-baseline rounded px-2 py-2 hover:bg-gray-50">
         <div className="text-md w-1/12 font-bold">{lectureInfo.name}</div>
         <div className="w-5/12 text-sm">
           {lectureInfo.instructors.join("; ")}
@@ -78,14 +78,14 @@ export const Schedules = ({ scheduleInfos }: { scheduleInfos: Schedule[] }) => {
     <div className="w-full">
       <h1 className="text-gray-700 text-lg">Schedules</h1>
       <Tab.Group>
-        <Tab.List className="bg-gray-50 mt-2 space-x-1 overflow-x-auto whitespace-nowrap rounded-md p-2">
+        <Tab.List className="bg-gray-50 mt-2 space-x-1 overflow-x-auto whitespace-nowrap rounded p-2">
           {scheduleInfos.map((scheduleInfo) => {
             const label = sessionToString(scheduleInfo);
             return (
               <Tab
                 key={label}
                 className={({ selected }) =>
-                  "text-gray-800 inline-block rounded-md px-2 py-1 text-sm hover:bg-white " +
+                  "text-gray-800 inline-block rounded px-2 py-1 text-sm hover:bg-white " +
                   (selected ? "bg-white" : "")
                 }
               >
