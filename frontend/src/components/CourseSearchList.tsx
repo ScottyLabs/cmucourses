@@ -18,25 +18,25 @@ const CoursePage = () => {
     (state) => state.cache.exactResultsCourses
   );
   const exactMatchesOnly = useAppSelector(
-    (state) => state.user.filter.exactMatchesOnly
+    (state) => state.filters.exactMatchesOnly
   );
 
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
-  let coursesToShow: string[] = useMemo(() => {
+  const coursesToShow: string[] = useMemo(() => {
     if (exactMatchesOnly) {
-      return (coursesToShow = [...exactResultsCourses]);
+      return exactResultsCourses;
     } else if (page === 1 && exactResultsCourses.length > 0) {
-      return (coursesToShow = [
+      return [
         ...exactResultsCourses,
         ...pageCourses.filter(
           (courseID) => !exactResultsCourses.includes(courseID)
         ),
-      ]);
+      ];
     } else {
-      return [...pageCourses];
+      return pageCourses;
     }
   }, [exactMatchesOnly, exactResultsCourses, pageCourses, page]);
 
@@ -69,7 +69,7 @@ const CourseSearchList = () => {
 
   const loading = useAppSelector((state) => state.cache.coursesLoading);
   const exactMatchesOnly = useAppSelector(
-    (state) => state.user.filter.exactMatchesOnly
+    (state) => state.filters.exactMatchesOnly
   );
 
   const dispatch = useAppDispatch();

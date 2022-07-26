@@ -1,22 +1,74 @@
 import React, { useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
-import { SearchIcon } from "@heroicons/react/solid";
+import { SearchIcon, XIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
 import { getCourseIDs } from "../app/utils";
 import { cacheSlice } from "../app/cache";
+import { filtersSlice } from "../app/filters";
+
+const AppliedFiltersPill = ({
+  className,
+  children,
+  onDelete,
+}: {
+  className: string;
+  children: React.ReactNode;
+  onDelete?: () => void;
+  key: string;
+}) => {
+  return (
+    <div
+      className={`${className} flex flex-initial items-center rounded-md py-1 px-2 text-sm`}
+    >
+      <span>{children}</span>
+      {onDelete && (
+        <XIcon
+          className="ml-2 h-3 w-3 cursor-pointer"
+          onClick={() => {
+            onDelete();
+            throttledFilter();
+          }}
+        />
+      )}
+    </div>
+  );
+};
 
 const AppliedFilters = () => {
+  const dispatch = useAppDispatch();
   const badges = [];
-  const filter = useAppSelector((state) => state.user.filter);
+  const filter = useAppSelector((state) => state.filters);
 
-  filter.departments.forEach((department) => {
+  if (filter.departments.active) {
+    filter.departments.names.forEach((department) => {
+      badges.push(
+        <AppliedFiltersPill
+          className="text-blue-800 bg-blue-50"
+          onDelete={() => {
+            dispatch(filtersSlice.actions.deleteDepartment(department));
+          }}
+          key={`department-${department}`}
+        >
+          {department}
+        </AppliedFiltersPill>
+      );
+    });
+  }
+
+  if (filter.units.active) {
     badges.push(
-      <div className="text-blue-800 bg-blue-50 flex-initial rounded-md py-1 px-2 text-sm">
-        {department}
-      </div>
+      <AppliedFiltersPill
+        className="text-teal-700 bg-teal-50"
+        onDelete={() => {
+          dispatch(filtersSlice.actions.updateUnitsActive(false));
+        }}
+        key="units"
+      >
+        {filter.units.min}-{filter.units.max} Units
+      </AppliedFiltersPill>
     );
-  });
+  }
 
   return (
     <>
@@ -32,7 +84,7 @@ const AppliedFilters = () => {
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
-  const search = useAppSelector((state) => state.user.filter.search);
+  const search = useAppSelector((state) => state.filters.search);
 
   const dispatchSearch = useCallback(
     (search: string) => {
@@ -46,7 +98,7 @@ const SearchBar = () => {
   );
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(userSlice.actions.updateSearch(e.target.value));
+    dispatch(filtersSlice.actions.updateSearch(e.target.value));
   };
 
   useEffect(() => {

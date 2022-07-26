@@ -62,14 +62,22 @@ export const fetchCourseInfosByPage = createAsyncThunk<
     schedulesAvailable: "true",
   });
 
-  if (state.user.filter.search !== "") {
-    params.set("keywords", state.user.filter.search);
+  if (state.filters.search !== "") {
+    params.set("keywords", state.filters.search);
   }
 
-  if (state.user.filter.departments.length > 0) {
-    state.user.filter.departments.forEach((d) =>
+  if (
+    state.filters.departments.active &&
+    state.filters.departments.names.length > 0
+  ) {
+    state.filters.departments.names.forEach((d) =>
       params.append("department", d)
     );
+  }
+
+  if (state.filters.units.active) {
+    params.append("unitsMin", state.filters.units.min.toString());
+    params.append("unitsMax", state.filters.units.max.toString());
   }
 
   if (state.user.loggedIn) {

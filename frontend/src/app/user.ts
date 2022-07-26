@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addToSet, removeFromSet, standardizeIdsInString } from "./utils";
+import { addToSet, removeFromSet } from "./utils";
 import { SEMESTERS_COUNTED } from "./constants";
 import { Semester } from "./types";
 
@@ -8,11 +8,6 @@ export interface UserState {
   showFCEs: boolean;
   showCourseInfos: boolean;
   loggedIn: boolean;
-  filter: {
-    search: string;
-    departments: string[];
-    exactMatchesOnly: boolean;
-  };
   fceAggregation: {
     numSemesters: number;
     counted: {
@@ -29,11 +24,6 @@ const initialState: UserState = {
   showFCEs: false,
   showCourseInfos: true,
   loggedIn: false,
-  filter: {
-    search: "",
-    departments: [],
-    exactMatchesOnly: false,
-  },
   fceAggregation: {
     numSemesters: 2,
     counted: {
@@ -42,7 +32,6 @@ const initialState: UserState = {
       fall: true,
     },
   },
-
   token: null,
 };
 
@@ -59,9 +48,6 @@ export const userSlice = createSlice({
     clearBookmarks: (state) => {
       state.bookmarked = [];
     },
-    setExactMatchesOnly: (state, action: PayloadAction<boolean>) => {
-      state.filter.exactMatchesOnly = action.payload;
-    },
     showFCEs: (state, action: PayloadAction<boolean>) => {
       state.showFCEs = action.payload;
     },
@@ -74,12 +60,6 @@ export const userSlice = createSlice({
     logOut: (state) => {
       state.token = null;
       state.loggedIn = false;
-    },
-    updateSearch: (state, action: PayloadAction<string>) => {
-      state.filter.search = standardizeIdsInString(action.payload);
-    },
-    updateDepartments: (state, action: PayloadAction<string[]>) => {
-      state.filter.departments = action.payload;
     },
     updateSemestersCounted: (
       state,

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import mongoosePaginate from "mongoose-paginate-v2";
+import aggregatePaginate from "mongoose-aggregate-paginate-v2";
 
 const lecture = [
   {
@@ -70,7 +70,7 @@ courseSchema.virtual("fces", {
   justOne: false,
 });
 
-courseSchema.plugin(mongoosePaginate);
+courseSchema.plugin(aggregatePaginate);
 
 export const scheduleSchema = new mongoose.Schema({
   courseID: String,
