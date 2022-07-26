@@ -1,35 +1,69 @@
 import React, { useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
-import { SearchIcon } from "@heroicons/react/solid";
+import { SearchIcon, XIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
 import { getCourseIDs } from "../app/utils";
 import { cacheSlice } from "../app/cache";
 import { filtersSlice } from "../app/filters";
 
+const AppliedFiltersPill = ({
+  className,
+  children,
+  onDelete,
+}: {
+  className: string;
+  children: React.ReactNode;
+  onDelete?: () => void;
+}) => {
+  return (
+    <div
+      className={`${className} flex flex-initial items-center rounded-md py-1 px-2 text-sm`}
+    >
+      <span>{children}</span>
+      {onDelete && (
+        <XIcon
+          className="ml-2 h-3 w-3 cursor-pointer"
+          onClick={(e) => {
+            onDelete();
+            throttledFilter();
+          }}
+        />
+      )}
+    </div>
+  );
+};
+
 const AppliedFilters = () => {
+  const dispatch = useAppDispatch();
   const badges = [];
   const filter = useAppSelector((state) => state.filters);
 
   if (filter.departments.active) {
     filter.departments.names.forEach((department) => {
       badges.push(
-        <div className="text-blue-800 bg-blue-50 flex-initial rounded-md py-1 px-2 text-sm">
+        <AppliedFiltersPill
+          className="text-blue-800 bg-blue-50"
+          onDelete={() => {
+            dispatch(filtersSlice.actions.deleteDepartment(department));
+          }}
+        >
           {department}
-        </div>
+        </AppliedFiltersPill>
       );
     });
   }
 
   if (filter.units.active) {
     badges.push(
-      <div
-        className={
-          "text-teal-700 bg-teal-50 flex-initial rounded-md py-1 px-2 text-sm"
-        }
+      <AppliedFiltersPill
+        className="text-teal-700 bg-teal-50"
+        onDelete={() => {
+          dispatch(filtersSlice.actions.updateUnitsActive(false));
+        }}
       >
         {filter.units.min}-{filter.units.max} Units
-      </div>
+      </AppliedFiltersPill>
     );
   }
 

@@ -42,6 +42,11 @@ export const filtersSlice = createSlice({
     updateDepartmentsActive: (state, action: PayloadAction<boolean>) => {
       state.departments.active = action.payload;
     },
+    deleteDepartment: (state, action: PayloadAction<string>) => {
+      state.departments.names = state.departments.names.filter(
+        (name) => name !== action.payload
+      );
+    },
     updateDepartments: (state, action: PayloadAction<string[]>) => {
       state.departments.names = action.payload;
     },

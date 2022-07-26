@@ -20,6 +20,11 @@ const DepartmentFilter = () => {
     throttledFilter();
   };
 
+  const deleteDepartment = (department: string) => {
+    dispatch(filtersSlice.actions.deleteDepartment(department));
+    throttledFilter();
+  };
+
   return (
     <div className="relative mt-1">
       <Listbox value={names} onChange={setDepartments} multiple>
@@ -55,7 +60,7 @@ const DepartmentFilter = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      setDepartments(names.filter((d) => d !== department));
+                      deleteDepartment(department);
                     }}
                   />
                 </span>
@@ -113,7 +118,7 @@ const DepartmentFilter = () => {
 
 const UnitsFilter = () => {
   const dispatch = useAppDispatch();
-  const { active, min, max } = useAppSelector((state) => state.filters.units);
+  const {active, min, max} = useAppSelector((state) => state.filters.units);
 
   const [value, setValue] = React.useState([0, 24]);
   useEffect(() => {
@@ -144,7 +149,7 @@ const UnitsFilter = () => {
           className="relative flex h-6 w-full select-none items-center"
         >
           <Slider.Track className="bg-gray-100 relative h-0.5 flex-grow outline-none">
-            <Slider.Range className="bg-blue-500 absolute h-full rounded-full outline-none" />
+            <Slider.Range className="bg-blue-500 absolute h-full rounded-full outline-none"/>
           </Slider.Track>
           {[1, 2].map((i) => (
             <Slider.Thumb
@@ -195,8 +200,8 @@ const Filter = () => {
           <span>Show Exact ID Matches Only</span>
         </div>
 
-        <DepartmentFilter />
-        <UnitsFilter />
+        <DepartmentFilter/>
+        <UnitsFilter/>
       </div>
     </div>
   );
