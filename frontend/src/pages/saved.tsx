@@ -14,7 +14,7 @@ const SavedPage: NextPage = () => {
       sidebar={<Aggregate />}
       content={
         <CourseList courseIDs={saved}>
-          <div className="text-gray-500 text-center font-semibold">
+          <div className="text-gray-400 mt-6 text-center">
             Nothing bookmarked yet!
           </div>
         </CourseList>

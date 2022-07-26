@@ -5,7 +5,8 @@ import { filtersSlice } from "../app/filters";
 import { DEPARTMENTS } from "../app/constants";
 import { Listbox } from "@headlessui/react";
 import { classNames, getDepartmentByName } from "../app/utils";
-import { CheckIcon, SelectorIcon, XIcon } from "@heroicons/react/solid";
+import { XIcon } from "@heroicons/react/solid";
+import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
 import * as Slider from "@radix-ui/react-slider";
 
 const DepartmentFilter = () => {
@@ -28,7 +29,7 @@ const DepartmentFilter = () => {
   return (
     <div className="relative mt-1">
       <Listbox value={names} onChange={setDepartments} multiple>
-        <Listbox.Label className="flex font-semibold">
+        <Listbox.Label className="flex">
           <div>
             <input
               type="checkbox"
@@ -44,8 +45,8 @@ const DepartmentFilter = () => {
           </div>
           Department
         </Listbox.Label>
-        <Listbox.Button className="bg-gray-50 relative mt-2 w-full cursor-default rounded-md py-2 pl-2 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-          <span className="block flex flex-wrap gap-2">
+        <Listbox.Button className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+          <span className="block flex flex-wrap gap-1">
             {names.length === 0 ? (
               <span className="p-0.5">None</span>
             ) : (
@@ -68,11 +69,11 @@ const DepartmentFilter = () => {
             )}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <SelectorIcon className="h-5 w-5" />
+            <SelectorIcon className="h-5 w-5 stroke-gray-500" />
           </span>
         </Listbox.Button>
-        <div className="bg-white absolute mt-1 w-full rounded-md shadow-lg">
-          <Listbox.Options className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded-md py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
+        <div className="bg-white absolute mt-1 w-full rounded shadow-lg">
+          <Listbox.Options className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
             {DEPARTMENTS.map(({ name, prefix }) => (
               <Listbox.Option
                 key={name}
@@ -140,7 +141,7 @@ const UnitsFilter = () => {
           }}
         />
       </div>
-      <div className="mr-6 font-semibold">Units</div>
+      <div className="mr-6">Units</div>
       <div className="flex-1">
         <Slider.Root
           step={1}
@@ -184,7 +185,7 @@ const Filter = () => {
   );
 
   return (
-    <div className="pb-6">
+    <div>
       <div className="mb-3 text-lg">Filter by</div>
       <div className="space-y-4 text-sm">
         <div>

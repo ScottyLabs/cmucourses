@@ -146,7 +146,7 @@ export const FCETable = ({
 
   return (
     <>
-      <div className="text-md text-gray-700 bg-gray-50 mt-3 rounded-md p-4">
+      <div className="text-md text-gray-700 bg-gray-50 mt-3 rounded p-4">
         <div className="flex items-baseline">
           <h2 className="text-md mb-2">Aggregate Data</h2>
           <div className="ml-2 flex-1 text-sm">
@@ -155,14 +155,14 @@ export const FCETable = ({
         </div>
 
         <div className="mt-2 flex space-x-2">
-          <div className="bg-white w-1/5 flex-1 rounded-md p-2">
+          <div className="bg-white w-1/5 flex-1 rounded p-2">
             <div>
               <span className="text-xl">{aggregateData.workload}</span>
               <span className="text-md ml-1 hidden sm:inline">hrs/wk</span>
             </div>
             <div className="text-gray-500 text-sm">Workload</div>
           </div>
-          <div className="bg-white flex-1 rounded-md p-2">
+          <div className="bg-white flex-1 rounded p-2">
             <div className="flex content-end">
               <div className="hidden lg:block">
                 <StarRating rating={aggregateData.teachingRate} />
@@ -175,7 +175,7 @@ export const FCETable = ({
               Teaching <span className="hidden sm:inline">Rate</span>
             </div>
           </div>
-          <div className="bg-white flex-1 rounded-md p-2">
+          <div className="bg-white flex-1 rounded p-2">
             <div className="flex content-end">
               <div className="hidden lg:block">
                 <StarRating rating={aggregateData.courseRate} />
@@ -190,7 +190,7 @@ export const FCETable = ({
           </div>
         </div>
       </div>
-      <div className="bg-gray-50 mt-3 overflow-x-auto rounded-md p-4">
+      <div className="bg-gray-50 mt-3 overflow-x-auto rounded p-4">
         <FCEDataTable
           columns={columns}
           data={convertFCEData(filteredFCEs)}

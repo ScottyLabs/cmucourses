@@ -27,8 +27,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
 
   if (!loggedIn) {
     return (
-      <div className="bg-white text-gray-700 sticky top-0 z-10 p-8 drop-shadow-lg">
-        <h1 className="text-lg font-semibold">FCE Summary</h1>
+      <div className="bg-white text-gray-700 z-10">
         <p>Log in to view FCE results.</p>
       </div>
     );
@@ -69,7 +68,6 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
     <>
       <div className="flex items-end justify-between">
         <div>
-          <h1 className="text-lg font-semibold">FCE Summary</h1>
           <div className="text-a-600 text-lg">
             Total Workload{" "}
             <span className="ml-4">

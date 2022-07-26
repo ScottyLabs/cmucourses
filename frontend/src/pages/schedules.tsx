@@ -18,12 +18,11 @@ const SchedulePage: NextPage = () => {
       content={
         <>
           <Topbar>
-            <h1 className="text-lg font-semibold">Schedule Explorer</h1>
             <ScheduleSearch />
             <ScheduleData scheduled={scheduled} />
           </Topbar>
           <CourseList courseIDs={scheduled}>
-            <div className="text-gray-500 mt-6 text-center font-semibold">
+            <div className="text-gray-400 mt-6 text-center">
               Nothing in your schedule yet!
             </div>
           </CourseList>

@@ -5,6 +5,7 @@ import { LoginModal } from "./LoginModal";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { uiSlice } from "../app/ui";
 import { Toaster } from "react-hot-toast";
+import { SideNav } from "./SideNav";
 
 type Props = {
   sidebar?: React.ReactNode;
@@ -27,13 +28,14 @@ export const Page = ({ sidebar, content, footer, activePage }: Props) => {
   }, [dispatch, loggedIn, modalShown]);
 
   return (
-    <div className="accent-blue-600">
+    <div className="accent-blue-600 dark:accent-blue-800">
       <LoginModal />
       <Toaster position="bottom-right" />
-      <header className="bg-gray-50 fixed inset-x-0 top-0 z-40 h-32 drop-shadow dark:bg-zinc-800 md:h-16">
+      <header className="bg-gray-50 border-gray-200 fixed inset-x-0 top-0 z-40 h-16 border-b drop-shadow dark:bg-zinc-800">
         <Header activePage={activePage} />
       </header>
-      <main className="relative flex flex-col pt-32 md:h-screen md:flex-row md:justify-around md:pt-16">
+      <main className="relative flex flex-col pt-16 md:h-screen md:flex-row md:justify-around">
+        <SideNav activePage={activePage} />
         {sidebar && <Sidebar>{sidebar}</Sidebar>}
         <div
           className={`flex-1 overflow-y-auto md:h-full ${

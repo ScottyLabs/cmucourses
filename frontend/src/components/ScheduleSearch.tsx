@@ -139,7 +139,7 @@ const CourseCombobox = ({
           {selectedItems.map((selectedItem, index) => (
             <div
               key={`selected-item-${index}`}
-              className={`text-blue-800 bg-blue-50 mr-2 rounded-md px-2 py-1 ${
+              className={`text-blue-800 bg-blue-50 mr-2 rounded px-2 py-1 ${
                 activeIndex === index ? "border-blue-800" : "border-blue-50"
               } border-2`}
               {...getSelectedItemProps({ selectedItem, index })}
@@ -192,7 +192,7 @@ const CourseCombobox = ({
                         className={
                           (highlightedIndex === virtualRow.index
                             ? "bg-gray-100"
-                            : "") + " table pl-7 hover:cursor-pointer"
+                            : "") + " table cursor-pointer pl-7"
                         }
                         {...getItemProps({
                           index: virtualRow.index,

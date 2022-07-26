@@ -25,7 +25,7 @@ const ScheduleSelection = ({
 
   if (active)
     return (
-      <div className="bg-gray-50 mt-1 mb-1 rounded-md p-2 text-sm">
+      <div className="bg-gray-50 mt-1 mb-1 rounded p-2 text-sm">
         <div className="flex justify-between">
           <div>{name}</div>
           <XIcon
@@ -68,7 +68,7 @@ const ScheduleSelection = ({
   else
     return (
       <div
-        className="flex cursor-pointer justify-between rounded-md px-2 py-2 text-sm hover:bg-gray-50"
+        className="flex cursor-pointer justify-between rounded px-2 py-2 text-sm hover:bg-gray-50"
         onClick={() =>
           dispatch(userSchedulesSlice.actions.changeActiveSchedule(id))
         }
@@ -93,7 +93,7 @@ const ScheduleSelector = () => {
   return (
     <div>
       <div className="mb-2 flex items-baseline gap-3">
-        <div className="text-md">Schedules</div>
+        <div className="text-lg">Schedules</div>
         <FlushedButton
           onClick={() => {
             dispatch(userSchedulesSlice.actions.createEmptySchedule());
@@ -103,17 +103,19 @@ const ScheduleSelector = () => {
         </FlushedButton>
       </div>
       <div>
-        {Object.keys(savedSchedules).length > 0
-          ? Object.entries(savedSchedules).map(([id, schedule]) => (
-              <ScheduleSelection
-                name={schedule.name}
-                courses={schedule.courses}
-                id={id}
-                active={id === active}
-                key={id}
-              />
-            ))
-          : "No schedules created."}
+        {Object.keys(savedSchedules).length > 0 ? (
+          Object.entries(savedSchedules).map(([id, schedule]) => (
+            <ScheduleSelection
+              name={schedule.name}
+              courses={schedule.courses}
+              id={id}
+              active={id === active}
+              key={id}
+            />
+          ))
+        ) : (
+          <span className="text-gray-400 text-sm">No schedules created.</span>
+        )}
       </div>
     </div>
   );

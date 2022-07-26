@@ -5,14 +5,7 @@ import Image from "next/image";
 import Passlink from "passlink";
 import * as jose from "jose";
 import { userSlice } from "../app/user";
-import {
-  AnnotationIcon,
-  ClockIcon,
-  LoginIcon,
-  LogoutIcon,
-  StarIcon,
-  XIcon,
-} from "@heroicons/react/solid";
+import { LoginIcon, LogoutIcon, XIcon } from "@heroicons/react/solid";
 import DarkModeButton from "./DarkModeButton";
 import nightwind from "nightwind/helper";
 import { showToast } from "./Toast";
@@ -28,9 +21,9 @@ const HeaderItemIconText = ({
 }) => {
   const Icon = icon;
   const content = (
-    <span className="flex flex-col items-center hover:cursor-pointer md:flex-row">
-      <Icon className="mr-1 inline h-5 w-5 sm:h-4 sm:w-4" />{" "}
-      <div className="mt-1 text-sm sm:mt-0 sm:text-base">{text}</div>
+    <span className="flex cursor-pointer flex-row items-center">
+      <Icon className="mr-1 inline h-4 w-4" />{" "}
+      <div className="mt-0 text-base">{text}</div>
     </span>
   );
 
@@ -52,7 +45,7 @@ const HeaderItem = ({
 }) => {
   return (
     <div
-      className={`rounded px-2 py-1 hover:cursor-pointer md:p-2 ${
+      className={`cursor-pointer rounded p-2 px-2 py-1 ${
         !disableHover && "hover:bg-gray-100"
       } ${active && "bg-gray-100"}`}
     >
@@ -151,13 +144,13 @@ export default function Header({ activePage }): ReactElement {
   }
 
   return (
-    <div className="flex h-full flex-col justify-between p-6 md:flex-row md:items-center">
-      <div className="text-gray-800 flex flex-initial flex-row justify-between gap-x-5 font-semibold hover:cursor-pointer sm:justify-start">
+    <div className="bg-gray-50 flex h-full flex-row items-center justify-between p-6">
+      <div className="text-gray-800 flex flex-initial cursor-pointer flex-row justify-start gap-x-5 font-semibold">
         <Link href="/">
           <div className="flex items-center">
             <Image
               src="/favicon.ico"
-              className="rounded-md"
+              className="rounded"
               width={30}
               height={30}
               alt="favicon"
@@ -167,29 +160,9 @@ export default function Header({ activePage }): ReactElement {
             </span>
           </div>
         </Link>
-        <DarkModeButton />
       </div>
-      <div className="text-gray-600 mt-3 flex flex-row flex-wrap items-center justify-between md:mt-0 md:gap-x-4">
-        <HeaderItem active={activePage === "saved"}>
-          <HeaderItemIconText icon={StarIcon} text="Saved" href="/saved" />
-        </HeaderItem>
-        <HeaderItem active={activePage === "schedules"}>
-          <HeaderItemIconText
-            icon={ClockIcon}
-            text="Schedules"
-            href="/schedules"
-          />
-        </HeaderItem>
-        <HeaderItem>
-          <a
-            href="https://forms.gle/6vPTN6Eyqd1w7pqJA"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <HeaderItemIconText icon={AnnotationIcon} text="Feedback" />
-          </a>
-        </HeaderItem>
-
+      <div className="text-gray-600 mt-0 flex flex-row flex-wrap items-center justify-between gap-x-4">
+        <DarkModeButton />
         <HeaderItem>{logInButton}</HeaderItem>
       </div>
     </div>

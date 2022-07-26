@@ -118,9 +118,6 @@ module.exports = {
         preset: "reduced",
       },
     },
-    variants: {
-      nightwind: ["stroke"],
-    },
     animation: {
       enter: "fadeInRight 300ms ease-out",
       leave: "fadeOutLeft 300ms ease-in forwards",
@@ -146,5 +143,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("nightwind")],
+  plugins: [require("nightwind"), require("@tailwindcss/line-clamp")],
 };
