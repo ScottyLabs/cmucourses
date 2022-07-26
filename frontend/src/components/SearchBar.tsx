@@ -15,6 +15,7 @@ const AppliedFiltersPill = ({
   className: string;
   children: React.ReactNode;
   onDelete?: () => void;
+  key: string;
 }) => {
   return (
     <div
@@ -24,7 +25,7 @@ const AppliedFiltersPill = ({
       {onDelete && (
         <XIcon
           className="ml-2 h-3 w-3 cursor-pointer"
-          onClick={(e) => {
+          onClick={() => {
             onDelete();
             throttledFilter();
           }}
@@ -47,6 +48,7 @@ const AppliedFilters = () => {
           onDelete={() => {
             dispatch(filtersSlice.actions.deleteDepartment(department));
           }}
+          key={`department-${department}`}
         >
           {department}
         </AppliedFiltersPill>
@@ -61,6 +63,7 @@ const AppliedFilters = () => {
         onDelete={() => {
           dispatch(filtersSlice.actions.updateUnitsActive(false));
         }}
+        key="units"
       >
         {filter.units.min}-{filter.units.max} Units
       </AppliedFiltersPill>

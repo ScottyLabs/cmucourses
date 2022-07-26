@@ -118,12 +118,14 @@ const DepartmentFilter = () => {
 
 const UnitsFilter = () => {
   const dispatch = useAppDispatch();
-  const {active, min, max} = useAppSelector((state) => state.filters.units);
+  const { active, min, max } = useAppSelector((state) => state.filters.units);
 
   const [value, setValue] = React.useState([0, 24]);
+  const [init, setInit] = React.useState(false);
   useEffect(() => {
-    setValue([min, max]);
-  }, []);
+    setInit(true);
+    if (!init) setValue([min, max]);
+  }, [min, max, init]);
 
   return (
     <div className="mt-2 flex">
@@ -149,7 +151,7 @@ const UnitsFilter = () => {
           className="relative flex h-6 w-full select-none items-center"
         >
           <Slider.Track className="bg-gray-100 relative h-0.5 flex-grow outline-none">
-            <Slider.Range className="bg-blue-500 absolute h-full rounded-full outline-none"/>
+            <Slider.Range className="bg-blue-500 absolute h-full rounded-full outline-none" />
           </Slider.Track>
           {[1, 2].map((i) => (
             <Slider.Thumb
@@ -200,8 +202,8 @@ const Filter = () => {
           <span>Show Exact ID Matches Only</span>
         </div>
 
-        <DepartmentFilter/>
-        <UnitsFilter/>
+        <DepartmentFilter />
+        <UnitsFilter />
       </div>
     </div>
   );
