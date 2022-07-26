@@ -144,7 +144,7 @@ export default function Header({ activePage }): ReactElement {
   }
 
   return (
-    <div className="bg-white flex h-full flex-row items-center justify-between p-6">
+    <div className="bg-gray-50 flex h-full flex-row items-center justify-between p-6">
       <div className="text-gray-800 flex flex-initial cursor-pointer flex-row justify-start gap-x-5 font-semibold">
         <Link href="/">
           <div className="flex items-center">
