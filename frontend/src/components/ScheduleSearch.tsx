@@ -192,7 +192,7 @@ const CourseCombobox = ({
                         className={
                           (highlightedIndex === virtualRow.index
                             ? "bg-gray-100"
-                            : "") + " table pl-7 hover:cursor-pointer"
+                            : "") + " table cursor-pointer pl-7"
                         }
                         {...getItemProps({
                           index: virtualRow.index,

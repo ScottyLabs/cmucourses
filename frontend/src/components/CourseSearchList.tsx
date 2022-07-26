@@ -101,7 +101,7 @@ const CourseSearchList = () => {
                   <Pagination.PageButton
                     activeClassName="bg-gray-100"
                     inactiveClassName=""
-                    className="mx-3 inline-flex h-8 w-8 items-center justify-center rounded-full hover:bg-white hover:cursor-pointer"
+                    className="mx-3 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-white"
                   />
                 </div>
 

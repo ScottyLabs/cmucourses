@@ -21,7 +21,7 @@ const HeaderItemIconText = ({
 }) => {
   const Icon = icon;
   const content = (
-    <span className="flex flex-row items-center hover:cursor-pointer">
+    <span className="flex cursor-pointer flex-row items-center">
       <Icon className="mr-1 inline h-4 w-4" />{" "}
       <div className="mt-0 text-base">{text}</div>
     </span>
@@ -45,7 +45,7 @@ const HeaderItem = ({
 }) => {
   return (
     <div
-      className={`rounded p-2 px-2 py-1 hover:cursor-pointer ${
+      className={`cursor-pointer rounded p-2 px-2 py-1 ${
         !disableHover && "hover:bg-gray-100"
       } ${active && "bg-gray-100"}`}
     >
@@ -145,7 +145,7 @@ export default function Header({ activePage }): ReactElement {
 
   return (
     <div className="bg-white flex h-full flex-row items-center justify-between p-6">
-      <div className="text-gray-800 flex flex-initial flex-row justify-start gap-x-5 font-semibold hover:cursor-pointer">
+      <div className="text-gray-800 flex flex-initial cursor-pointer flex-row justify-start gap-x-5 font-semibold">
         <Link href="/">
           <div className="flex items-center">
             <Image

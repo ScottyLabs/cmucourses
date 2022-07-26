@@ -42,7 +42,7 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
       <div className="grid auto-rows-min grid-cols-8 gap-x-6 gap-y-2">
         <div className="col-span-5 col-start-1 row-span-1 row-start-1 md:col-span-6">
           <Link href={`/course/${info.courseID}`}>
-            <div className="text-gray-800 text-lg hover:cursor-pointer">
+            <div className="text-gray-800 cursor-pointer text-lg">
               <span className="mr-2 font-semibold">{info.courseID}</span>
               <span className="leading-3">{info.name}</span>
             </div>

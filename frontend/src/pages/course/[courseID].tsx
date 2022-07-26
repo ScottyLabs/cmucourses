@@ -21,7 +21,11 @@ const CourseDetailPage: NextPage = () => {
     if (courseID) void dispatch(fetchCourseInfo({ courseID, schedules: true }));
   }, [dispatch, courseID]);
 
-  let content = <Loading />;
+  let content = (
+    <div className="p-6">
+      <Loading />
+    </div>
+  );
 
   if (info) {
     content = <CourseDetail info={info} schedules={schedules} />;

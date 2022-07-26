@@ -73,10 +73,7 @@ const AppliedFilters = () => {
   return (
     <>
       {badges.length > 0 && (
-        <>
-          <div className="mb-2 text-sm">Applied Filters</div>
-          <div className="flex flex-wrap gap-x-1 gap-y-1.5">{badges}</div>
-        </>
+        <div className="flex flex-wrap gap-x-1 gap-y-1.5">{badges}</div>
       )}
     </>
   );
@@ -117,44 +114,49 @@ const SearchBar = () => {
     dispatch(userSlice.actions.showCourseInfos(e.target.checked));
   };
 
+  const numResults = useAppSelector((state) => state.cache.totalDocs);
+
   return (
     <>
-      <div className="text-gray-500 relative flex border-b border-b-gray-300 dark:border-b-zinc-500">
+      <div className="text-gray-500 relative flex border-b border-b-gray-500 dark:text-zinc-300 dark:border-b-zinc-400">
         <span className="absolute inset-y-0 left-0 flex items-center">
           <SearchIcon className="h-5 w-5" />
         </span>
         <input
           autoFocus
-          className="text-gray-500 flex-1 py-2 pl-7 text-xl placeholder-gray-300 bg-transparent focus:outline-none dark:placeholder-zinc-700"
+          className="flex-1 py-2 pl-7 text-xl placeholder-gray-300 bg-transparent focus:outline-none dark:placeholder-zinc-500"
           type="search"
           value={search}
           onChange={onChange}
           placeholder="Search courses by ID, description, name or keyword..."
         />
       </div>
-      <div className="text-gray-500 mt-3 flex justify-end">
-        <div className="mr-6">Show</div>
-        <div className="mr-6">
-          <input
-            type="checkbox"
-            className="mr-2"
-            disabled={!loggedIn}
-            onChange={setShowFCEs}
-            checked={showFCEs}
-          />
-          <span>FCEs</span>
-        </div>
-        <div>
-          <input
-            type="checkbox"
-            className="mr-2"
-            onChange={setShowCourseInfos}
-            checked={showCourseInfos}
-          />
-          <span>Course Info</span>
+      <div className="flex justify-between">
+        <div className="text-gray-400 mt-3 text-sm">{numResults} results</div>
+        <div className="text-gray-500 mt-3 flex justify-end">
+          <div className="mr-6">Show</div>
+          <div className="mr-6">
+            <input
+              type="checkbox"
+              className="mr-2"
+              disabled={!loggedIn}
+              onChange={setShowFCEs}
+              checked={showFCEs}
+            />
+            <span>FCEs</span>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              className="mr-2"
+              onChange={setShowCourseInfos}
+              checked={showCourseInfos}
+            />
+            <span>Course Info</span>
+          </div>
         </div>
       </div>
-      <div className="text-gray-500">
+      <div className="text-gray-500 mt-2">
         <AppliedFilters />
       </div>
     </>
