@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addToSet, removeFromSet, standardizeIdsInString } from "./utils";
+import { addToSet, removeFromSet } from "./utils";
 import { SEMESTERS_COUNTED } from "./constants";
 import { Semester } from "./types";
 
@@ -8,16 +8,6 @@ export interface UserState {
   showFCEs: boolean;
   showCourseInfos: boolean;
   loggedIn: boolean;
-  filter: {
-    search: string;
-    departments: string[];
-    exactMatchesOnly: boolean;
-    units: {
-      active: boolean;
-      min: number;
-      max: number;
-    };
-  };
   fceAggregation: {
     numSemesters: number;
     counted: {
@@ -34,16 +24,6 @@ const initialState: UserState = {
   showFCEs: false,
   showCourseInfos: true,
   loggedIn: false,
-  filter: {
-    search: "",
-    departments: [],
-    exactMatchesOnly: false,
-    units: {
-      active: false,
-      min: 0,
-      max: 24,
-    },
-  },
   fceAggregation: {
     numSemesters: 2,
     counted: {
@@ -52,7 +32,6 @@ const initialState: UserState = {
       fall: true,
     },
   },
-
   token: null,
 };
 
@@ -69,9 +48,6 @@ export const userSlice = createSlice({
     clearBookmarks: (state) => {
       state.bookmarked = [];
     },
-    setExactMatchesOnly: (state, action: PayloadAction<boolean>) => {
-      state.filter.exactMatchesOnly = action.payload;
-    },
     showFCEs: (state, action: PayloadAction<boolean>) => {
       state.showFCEs = action.payload;
     },
@@ -85,12 +61,6 @@ export const userSlice = createSlice({
       state.token = null;
       state.loggedIn = false;
     },
-    updateSearch: (state, action: PayloadAction<string>) => {
-      state.filter.search = standardizeIdsInString(action.payload);
-    },
-    updateDepartments: (state, action: PayloadAction<string[]>) => {
-      state.filter.departments = action.payload;
-    },
     updateSemestersCounted: (
       state,
       action: PayloadAction<{ semester: Semester; value: boolean }>
@@ -103,13 +73,6 @@ export const userSlice = createSlice({
       const newNumSemesters = Math.min(Math.max(action.payload, 1), 20);
       if (isNaN(newNumSemesters)) return;
       state.fceAggregation.numSemesters = newNumSemesters;
-    },
-    updateUnitsFilterActive: (state, action: PayloadAction<boolean>) => {
-      state.filter.units.active = action.payload;
-    },
-    updateUnitsRange: (state, action: PayloadAction<[number, number]>) => {
-      state.filter.units.min = action.payload[0];
-      state.filter.units.max = action.payload[1];
     },
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;

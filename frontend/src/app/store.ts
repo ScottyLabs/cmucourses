@@ -1,8 +1,9 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-import { reducer as cacheReducer } from "./cache";
+import { cacheSlice, reducer as cacheReducer } from "./cache";
 import { reducer as userReducer, UserState } from "./user";
+import { FiltersState, reducer as filtersReducer } from "./filters";
 import {
   reducer as userSchedulesReducer,
   UserSchedulesState,
@@ -32,6 +33,15 @@ const reducers = combineReducers({
       stateReconciler: autoMergeLevel2,
     },
     userReducer
+  ),
+  filters: persistReducer<FiltersState>(
+    {
+      key: "filters",
+      version: 1,
+      storage,
+      stateReconciler: autoMergeLevel2,
+    },
+    filtersReducer
   ),
   schedules: persistReducer<UserSchedulesState>(
     {
@@ -71,15 +81,22 @@ export const persistor = persistStore(store);
 const updateFilter = () => {
   setTimeout(() => {
     const state = store.getState();
-    if (!state.user.filter.exactMatchesOnly)
+    if (!state.filters.exactMatchesOnly) {
       void store.dispatch(fetchCourseInfosByPage(1));
+    }
 
-    if (state.cache.exactResultsCourses || state.user.filter.exactMatchesOnly) {
+    if (state.cache.exactResultsCourses || state.filters.exactMatchesOnly) {
       void store.dispatch(fetchCourseInfos(state.cache.exactResultsCourses));
     }
   }, 0);
 };
-export const throttledFilter = debounce(updateFilter, 500);
+
+const debouncedFilter = debounce(updateFilter, 1000);
+
+export const throttledFilter = () => {
+  void store.dispatch(cacheSlice.actions.setCoursesLoading(true));
+  debouncedFilter();
+};
 
 export type AppState = ReturnType<typeof store.getState>;
 

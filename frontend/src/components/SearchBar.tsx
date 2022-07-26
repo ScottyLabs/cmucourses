@@ -5,18 +5,21 @@ import { SearchIcon } from "@heroicons/react/solid";
 import { userSlice } from "../app/user";
 import { getCourseIDs } from "../app/utils";
 import { cacheSlice } from "../app/cache";
+import { filtersSlice } from "../app/filters";
 
 const AppliedFilters = () => {
   const badges = [];
-  const filter = useAppSelector((state) => state.user.filter);
+  const filter = useAppSelector((state) => state.filters);
 
-  filter.departments.forEach((department) => {
-    badges.push(
-      <div className="text-blue-800 bg-blue-50 flex-initial rounded-md py-1 px-2 text-sm">
-        {department}
-      </div>
-    );
-  });
+  if (filter.departments.active) {
+    filter.departments.names.forEach((department) => {
+      badges.push(
+        <div className="text-blue-800 bg-blue-50 flex-initial rounded-md py-1 px-2 text-sm">
+          {department}
+        </div>
+      );
+    });
+  }
 
   if (filter.units.active) {
     badges.push(
@@ -25,7 +28,7 @@ const AppliedFilters = () => {
           "text-teal-700 bg-teal-50 flex-initial rounded-md py-1 px-2 text-sm"
         }
       >
-        Units: {filter.units.min}-{filter.units.max}
+        {filter.units.min}-{filter.units.max} Units
       </div>
     );
   }
@@ -44,7 +47,7 @@ const AppliedFilters = () => {
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
-  const search = useAppSelector((state) => state.user.filter.search);
+  const search = useAppSelector((state) => state.filters.search);
 
   const dispatchSearch = useCallback(
     (search: string) => {
@@ -58,7 +61,7 @@ const SearchBar = () => {
   );
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(userSlice.actions.updateSearch(e.target.value));
+    dispatch(filtersSlice.actions.updateSearch(e.target.value));
   };
 
   useEffect(() => {

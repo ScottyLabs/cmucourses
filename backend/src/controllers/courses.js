@@ -50,13 +50,14 @@ export const getFilteredCourses = (req, res) => {
   }
 
   const pipeline = [];
+  pipeline.push({ $match: matchQuery });
 
   const hasUnitsFilter =
     ("unitsMin" in req.query && parseInt(req.query.unitsMin)) ||
     ("unitsMax" in req.query && parseInt(req.query.unitsMax));
 
   if (hasUnitsFilter) {
-    pipeline.unshift({
+    pipeline.push({
       $addFields: {
         unitsDecimal: {
           $convert: {
@@ -69,18 +70,19 @@ export const getFilteredCourses = (req, res) => {
       },
     });
 
-    matchQuery["unitsDecimal"] = {};
+    const unitsQuery = {};
+    unitsQuery["unitsDecimal"] = {};
 
     if ("unitsMin" in req.query && parseInt(req.query.unitsMin)) {
-      matchQuery["unitsDecimal"].$gte = parseInt(req.query.unitsMin) || 0;
+      unitsQuery["unitsDecimal"].$gte = parseInt(req.query.unitsMin) || 0;
     }
 
     if ("unitsMax" in req.query && parseInt(req.query.unitsMax)) {
-      matchQuery["unitsDecimal"].$lte = parseInt(req.query.unitsMax) || 100;
+      unitsQuery["unitsDecimal"].$lte = parseInt(req.query.unitsMax) || 100;
     }
-  }
 
-  pipeline.push({ $match: matchQuery });
+    pipeline.push({ $match: unitsQuery });
+  }
 
   if ("keywords" in req.query) options.sort = { score: { $meta: "textScore" } };
 
@@ -111,7 +113,6 @@ export const getFilteredCourses = (req, res) => {
   }
 
   const aggregate = Course.aggregate(pipeline);
-
   Course.aggregatePaginate(aggregate, options)
     .then((result) => res.json(result))
     .catch((err) => res.status(500).send(err));

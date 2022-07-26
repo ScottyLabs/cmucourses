@@ -89,6 +89,9 @@ export const cacheSlice = createSlice({
     setExactResultsCourses: (state, action: PayloadAction<string[]>) => {
       state.exactResultsCourses = action.payload;
     },
+    setCoursesLoading: (state, action: PayloadAction<boolean>) => {
+      state.coursesLoading = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
-import { userSlice } from "../app/user";
+import { filtersSlice } from "../app/filters";
 import { DEPARTMENTS } from "../app/constants";
 import { Listbox } from "@headlessui/react";
 import { classNames, getDepartmentByName } from "../app/utils";
@@ -10,26 +10,30 @@ import * as Slider from "@radix-ui/react-slider";
 
 const DepartmentFilter = () => {
   const dispatch = useAppDispatch();
-  const filterDepartments = useAppSelector(
-    (state) => state.user.filter.departments
+
+  const { active, names } = useAppSelector(
+    (state) => state.filters.departments
   );
 
   const setDepartments = (departments: string[]) => {
-    dispatch(userSlice.actions.updateDepartments(departments));
+    dispatch(filtersSlice.actions.updateDepartments(departments));
     throttledFilter();
   };
 
   return (
     <div className="relative mt-1">
-      <Listbox value={filterDepartments} onChange={setDepartments} multiple>
+      <Listbox value={names} onChange={setDepartments} multiple>
         <Listbox.Label className="flex font-semibold">
           <div>
             <input
               type="checkbox"
               className="mr-2"
-              checked={true}
+              checked={active}
               onChange={(e) => {
-                // TODO
+                dispatch(
+                  filtersSlice.actions.updateDepartmentsActive(e.target.checked)
+                );
+                throttledFilter();
               }}
             />
           </div>
@@ -37,10 +41,10 @@ const DepartmentFilter = () => {
         </Listbox.Label>
         <Listbox.Button className="bg-gray-50 relative mt-2 w-full cursor-default rounded-md py-2 pl-2 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
           <span className="block flex flex-wrap gap-2">
-            {filterDepartments.length === 0 ? (
+            {names.length === 0 ? (
               <span className="p-0.5">None</span>
             ) : (
-              filterDepartments.map((department) => (
+              names.map((department) => (
                 <span
                   key={department}
                   className="text-blue-800 bg-blue-50 flex items-center gap-1 rounded px-2 py-0.5"
@@ -51,9 +55,7 @@ const DepartmentFilter = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      setDepartments(
-                        filterDepartments.filter((d) => d !== department)
-                      );
+                      setDepartments(names.filter((d) => d !== department));
                     }}
                   />
                 </span>
@@ -111,9 +113,7 @@ const DepartmentFilter = () => {
 
 const UnitsFilter = () => {
   const dispatch = useAppDispatch();
-  const { active, min, max } = useAppSelector(
-    (state) => state.user.filter.units
-  );
+  const { active, min, max } = useAppSelector((state) => state.filters.units);
 
   const [value, setValue] = React.useState([0, 24]);
   useEffect(() => {
@@ -128,9 +128,7 @@ const UnitsFilter = () => {
           className="mr-2"
           checked={active}
           onChange={(e) => {
-            dispatch(
-              userSlice.actions.updateUnitsFilterActive(e.target.checked)
-            );
+            dispatch(filtersSlice.actions.updateUnitsActive(e.target.checked));
             throttledFilter();
           }}
         />
@@ -154,7 +152,9 @@ const UnitsFilter = () => {
               className="bg-blue-600 relative z-40 block h-3 w-3 cursor-pointer rounded-full font-bold shadow-xl outline-none ring-blue-200 hover:ring-4"
               onPointerUp={() => {
                 dispatch(
-                  userSlice.actions.updateUnitsRange(value as [number, number])
+                  filtersSlice.actions.updateUnitsRange(
+                    value as [number, number]
+                  )
                 );
                 if (active) throttledFilter();
               }}
@@ -173,7 +173,7 @@ const Filter = () => {
   const dispatch = useAppDispatch();
 
   const exactMatchesOnly = useAppSelector(
-    (state) => state.user.filter.exactMatchesOnly
+    (state) => state.filters.exactMatchesOnly
   );
 
   return (
@@ -186,11 +186,13 @@ const Filter = () => {
             className="mr-2"
             checked={exactMatchesOnly}
             onChange={(e) => {
-              dispatch(userSlice.actions.setExactMatchesOnly(e.target.checked));
+              dispatch(
+                filtersSlice.actions.updateExactMatchesOnly(e.target.checked)
+              );
               throttledFilter();
             }}
           />
-          Show Exact ID Matches Only
+          <span>Show Exact ID Matches Only</span>
         </div>
 
         <DepartmentFilter />
