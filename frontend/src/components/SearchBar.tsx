@@ -134,7 +134,7 @@ const SearchBar = () => {
       <div className="flex justify-between">
         <div className="text-gray-400 mt-3 text-sm">{numResults} results</div>
         <div className="text-gray-500 mt-3 flex justify-end">
-          <div className="mr-6">Show</div>
+          <div className="mr-6 hidden md:block">Show</div>
           <div className="mr-6">
             <input
               type="checkbox"

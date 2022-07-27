@@ -5,7 +5,7 @@ import nightwind from "nightwind/helper";
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html className="bg-gray-50 min-h-full">
         <Head>
           {/* Global Site Tag (gtag.js) - Google Analytics */}
           <Script
@@ -27,7 +27,7 @@ export default class MyDocument extends Document {
             <script dangerouslySetInnerHTML={{ __html: nightwind.init() }} />
           }
         </Head>
-        <body className="bg-gray-50">
+        <body className="bg-gray-50 min-h-full">
           <Main />
           <NextScript />
         </body>

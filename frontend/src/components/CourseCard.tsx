@@ -73,13 +73,17 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
           {showCourseInfo && (
             <div className="flex flex-row justify-between space-x-4 md:flex-col md:space-x-0 md:space-y-2">
               <div>
-                <div className="font-semibold">Prerequisites</div>
+                <div className="font-semibold">
+                  Prereq<span className="hidden lg:inline">uisite</span>s
+                </div>
                 <div className="text-md text-gray-500">
                   {injectLinks(info.prereqString || "None")}
                 </div>
               </div>
               <div>
-                <div className="font-semibold">Corequisites</div>
+                <div className="font-semibold">
+                  Coreq<span className="hidden lg:inline">uisite</span>s
+                </div>
                 <div className="text-md text-gray-500">
                   {injectLinks(courseListToString(info.coreqs))}
                 </div>
