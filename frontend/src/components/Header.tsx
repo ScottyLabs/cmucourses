@@ -23,7 +23,7 @@ const HeaderItemIconText = ({
   const content = (
     <span className="flex cursor-pointer flex-row items-center">
       <Icon className="mr-1 inline h-4 w-4" />{" "}
-      <div className="mt-0 text-base">{text}</div>
+      <div className="mt-0 hidden text-base md:block">{text}</div>
     </span>
   );
 
@@ -145,7 +145,7 @@ export default function Header({ activePage }): ReactElement {
 
   return (
     <div className="bg-gray-50 flex h-full flex-row items-center justify-between p-6">
-      <div className="text-gray-800 flex flex-initial cursor-pointer flex-row justify-start gap-x-5 font-semibold">
+      <div className="text-gray-800 flex flex-initial cursor-pointer flex-row justify-start font-semibold">
         <Link href="/">
           <div className="flex items-center">
             <Image
@@ -161,7 +161,7 @@ export default function Header({ activePage }): ReactElement {
           </div>
         </Link>
       </div>
-      <div className="text-gray-600 mt-0 flex flex-row flex-wrap items-center justify-between gap-x-4">
+      <div className="text-gray-600 flex flex-row items-center justify-between gap-x-2">
         <DarkModeButton />
         <HeaderItem>{logInButton}</HeaderItem>
       </div>
