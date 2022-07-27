@@ -16,7 +16,12 @@ export const LoginModal = () => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-50" onClose={closeModal}>
+        <Dialog
+          as="div"
+          className="relative z-50"
+          onClose={closeModal}
+          open={isOpen}
+        >
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -40,7 +45,7 @@ export const LoginModal = () => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="bg-white w-full max-w-xl transform overflow-hidden rounded-2xl p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="bg-white w-full max-w-xl transform overflow-hidden rounded p-6 text-left align-middle shadow transition-all">
                   <Dialog.Title
                     as="h3"
                     className="text-gray-900 text-lg font-medium leading-6"

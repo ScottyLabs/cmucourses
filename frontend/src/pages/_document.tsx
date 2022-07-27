@@ -26,6 +26,10 @@ export default class MyDocument extends Document {
             /* eslint-disable-next-line */
             <script dangerouslySetInnerHTML={{ __html: nightwind.init() }} />
           }
+          <meta
+            name="viewport"
+            content="width=device-width, user-scalable=no"
+          />
         </Head>
         <body className="bg-gray-50 min-h-full">
           <Main />
