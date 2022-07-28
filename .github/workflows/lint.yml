@@ -1,0 +1,20 @@
+name: Lint
+on: pull_request
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm i
+        shell: bash
+      - name: Check TypeScript
+        working-directory: ./frontend
+        run: npx tsc --noEmit
+        shell: bash
+      - name: Run ESLint
+        working-directory: ./frontend
+        run: npm run lint
+        shell: bash
