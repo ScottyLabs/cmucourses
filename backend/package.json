@@ -7,7 +7,8 @@
     "start": "doppler run -- npm run serve",
     "dev": "doppler run -- nodemon ./src/app.js",
     "serve": "node src/app.js",
-    "format": "prettier --write . --ignore-path .gitignore"
+    "format": "prettier --write . --ignore-path .gitignore",
+    "lint": "./node_modules/.bin/eslint ./src/**"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "@babel/core": "^7.17.9",
     "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
+    "eslint": "^8.21.0",
     "nodemon": "^2.0.15"
   },
   "type": "module"

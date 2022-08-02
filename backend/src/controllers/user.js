@@ -24,9 +24,11 @@ const verifyUserToken = async (token) => {
 
   if (!payload) {
     throw "No token present. Did you forget to pass in the token with the API call?";
-
-    if (payload.applicationId !== process.env.LOGIN_API_ID || !payload.email)
-      throw "Bad token";
+  } else if (
+    payload.applicationId !== process.env.LOGIN_API_ID ||
+    !payload.email
+  ) {
+    throw "Bad token";
   }
 };
 
