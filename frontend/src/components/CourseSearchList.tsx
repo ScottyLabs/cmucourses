@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import CourseCard from "./CourseCard";
-import { Pagination } from "react-headless-pagination";
 import { selectCourseResults } from "../app/cache";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/outline";
 import Loading from "./Loading";
 import { fetchCourseInfosByPage } from "../app/api/course";
 import { fetchFCEInfosByCourse } from "../app/api/fce";
+import { Pagination } from "./Pagination";
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
@@ -91,24 +90,7 @@ const CourseSearchList = () => {
                 currentPage={curPage - 1}
                 setCurrentPage={handlePageClick}
                 totalPages={pages}
-                className="text-gray-600 flex w-full justify-center"
-              >
-                <Pagination.PrevButton className="">
-                  <ChevronLeftIcon className="h-5 w-5 dark:stroke-gray-50" />
-                </Pagination.PrevButton>
-
-                <div className="flex items-center align-baseline">
-                  <Pagination.PageButton
-                    activeClassName="bg-gray-100"
-                    inactiveClassName=""
-                    className="mx-3 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-white"
-                  />
-                </div>
-
-                <Pagination.NextButton>
-                  <ChevronRightIcon className="h-5 w-5 dark:stroke-gray-50" />
-                </Pagination.NextButton>
-              </Pagination>
+              />
             </div>
           )}
         </>
