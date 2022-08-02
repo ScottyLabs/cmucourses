@@ -13,6 +13,7 @@ import BookmarkButton from "./BookmarkButton";
 import Link from "next/link";
 import { selectFCEResultsForCourse } from "../app/cache";
 import { FCEDetail } from "./FCEDetail";
+import { Card } from "./Card";
 
 interface Props {
   info: Course;
@@ -38,12 +39,14 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
     : undefined;
 
   return (
-    <div className="bg-white border-gray-100 rounded border p-6">
+    <Card>
       <div className="grid auto-rows-min grid-cols-8 gap-x-6 gap-y-2">
         <div className="col-span-5 col-start-1 row-span-1 row-start-1 md:col-span-6">
           <Link href={`/course/${info.courseID}`}>
             <div className="text-gray-800 cursor-pointer text-lg">
-              <span className="mr-2 font-semibold">{info.courseID}</span>
+              <span className="mr-2 inline-block whitespace-nowrap font-semibold">
+                {info.courseID}
+              </span>
               <span className="leading-3">{info.name}</span>
             </div>
           </Link>
@@ -104,7 +107,7 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
         )}
       </div>
       {showFCEs && fces && <FCEDetail fces={fces} />}
-    </div>
+    </Card>
   );
 };
 

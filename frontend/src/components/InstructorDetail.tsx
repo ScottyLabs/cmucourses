@@ -5,6 +5,7 @@ import { selectFCEResultsForInstructor } from "../app/cache";
 import Loading from "./Loading";
 import { InstructorFCEDetail } from "./InstructorFCEDetail";
 import { toNameCase } from "../app/utils";
+import { Card } from "./Card";
 
 type Props = {
   name: string;
@@ -33,7 +34,7 @@ const InstructorDetail = ({ name }: Props) => {
 
   return (
     <div className="m-auto space-y-4 p-6">
-      <div className="bg-white border-gray-100 rounded border p-6">
+      <Card>
         <div>
           <div className="text-md text-gray-800 font-semibold">
             {toNameCase(name)}
@@ -43,7 +44,7 @@ const InstructorDetail = ({ name }: Props) => {
         <div>
           <InstructorFCEDetail fces={fces} />
         </div>
-      </div>
+      </Card>
     </div>
   );
 };

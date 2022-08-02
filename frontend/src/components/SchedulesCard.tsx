@@ -2,6 +2,7 @@ import { sessionToString, timeArrToString } from "../app/utils";
 import React from "react";
 import { Tab } from "@headlessui/react";
 import { Lecture, Schedule, Section } from "../app/types";
+import { Card } from "./Card";
 
 const Lecture = ({
   lectureInfo,
@@ -12,16 +13,20 @@ const Lecture = ({
 }) => {
   return (
     <>
-      <div className="text-gray-700 mt-2 flex items-baseline rounded px-2 py-2 hover:bg-gray-50">
-        <div className="text-md w-1/12 font-bold">{lectureInfo.name}</div>
-        <div className="w-5/12 text-sm">
+      <div className="text-gray-700 contents rounded hover:bg-gray-50">
+        <div className="text-md col-span-1 pt-2 font-bold">
+          {lectureInfo.name}
+        </div>
+        <div className="col-span-1 text-sm">
           {lectureInfo.instructors.join("; ")}
         </div>
-        <div className="flex w-6/12 flex-col text-sm">
+        <div className="contents flex-col text-sm">
           {lectureInfo.times.map((time) => (
-            <div className="flex" key={timeArrToString([time])}>
-              <div className="w-2/3">{timeArrToString([time])}</div>
-              <div className="w-1/3">
+            <div className="contents" key={timeArrToString([time])}>
+              <div className="col-span-1 col-start-3">
+                {timeArrToString([time])}
+              </div>
+              <div className="col-span-1">
                 {time.building} {time.room}
               </div>
             </div>
@@ -31,16 +36,20 @@ const Lecture = ({
 
       {sections.map((section) => (
         <div
-          className="text-gray-600 flex items-baseline px-2 py-1 hover:bg-gray-50"
+          className="text-gray-600 contents hover:bg-gray-50"
           key={section.name}
         >
-          <div className="text-md w-1/12">{section.name}</div>
-          <div className="w-5/12 text-sm">{section.instructors.join("; ")}</div>
-          <div className="flex w-6/12 flex-col text-sm">
+          <div className="text-md col-span-1 pt-1">{section.name}</div>
+          <div className="col-span-1 text-sm">
+            {section.instructors.join("; ")}
+          </div>
+          <div className="contents text-sm">
             {section.times.map((time) => (
-              <div className="flex" key={timeArrToString([time])}>
-                <div className="w-2/3">{timeArrToString([time])}</div>
-                <div className="w-1/3">
+              <div className="contents" key={timeArrToString([time])}>
+                <div className="col-span-1 col-start-3">
+                  {timeArrToString([time])}
+                </div>
+                <div className="col-span-1">
                   {time.building} {time.room}
                 </div>
               </div>
@@ -70,13 +79,21 @@ const Schedule = ({ scheduleInfo }: { scheduleInfo: Schedule }) => {
       <Lecture lectureInfo={section} sections={[]} key={section.name} />
     ));
   }
-  return <div className="p-2">{scheduleDivs}</div>;
+  return (
+    <div className="grid grid-cols-[auto_auto_auto_auto] items-baseline gap-x-4 overflow-x-auto whitespace-nowrap p-2">
+      {scheduleDivs}
+    </div>
+  );
 };
 
-export const Schedules = ({ scheduleInfos }: { scheduleInfos: Schedule[] }) => {
+export const SchedulesCard = ({
+  scheduleInfos,
+}: {
+  scheduleInfos: Schedule[];
+}) => {
   return (
-    <div className="w-full">
-      <h1 className="text-gray-700 text-lg">Schedules</h1>
+    <Card>
+      <Card.Header>Schedules</Card.Header>
       <Tab.Group>
         <Tab.List className="bg-gray-50 mt-2 space-x-1 overflow-x-auto whitespace-nowrap rounded p-2">
           {scheduleInfos.map((scheduleInfo) => {
@@ -102,6 +119,6 @@ export const Schedules = ({ scheduleInfos }: { scheduleInfos: Schedule[] }) => {
           ))}
         </Tab.Panels>
       </Tab.Group>
-    </div>
+    </Card>
   );
 };

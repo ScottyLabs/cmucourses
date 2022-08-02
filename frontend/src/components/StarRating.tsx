@@ -1,4 +1,4 @@
-import {useAppSelector} from "../app/hooks";
+import { useAppSelector } from "../app/hooks";
 import React from "react";
 import StarRatings from "react-star-ratings";
 import resolveConfig from "tailwindcss/resolveConfig";

@@ -31,7 +31,7 @@ export default class MyDocument extends Document {
             content="width=device-width, user-scalable=no"
           />
         </Head>
-        <body className="bg-gray-50 min-h-full">
+        <body className="bg-gray-50 min-h-screen">
           <Main />
           <NextScript />
         </body>

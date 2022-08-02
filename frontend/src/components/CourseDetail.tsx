@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { compareSessions, filterSessions } from "../app/utils";
-import { FCECard } from "./FCEDetail";
 import CourseCard from "./CourseCard";
-import { Schedules } from "./Schedules";
 import { Course, Schedule } from "../app/types";
 import { fetchFCEInfosByCourse } from "../app/api/fce";
+import { SchedulesCard } from "./SchedulesCard";
+import { FCECard } from "./FCECard";
 
 type Props = {
   info: Course;
@@ -30,11 +30,7 @@ const CourseDetail = ({ info, schedules }: Props) => {
     <div className="m-auto space-y-4 p-6">
       <CourseCard info={info} showFCEs={false} showCourseInfo={true} />
       {fces && <FCECard fces={fces} />}
-      {schedules && (
-        <div className="bg-white border-gray-100 rounded border p-6">
-          <Schedules scheduleInfos={sortedSchedules} />
-        </div>
-      )}
+      {schedules && <SchedulesCard scheduleInfos={sortedSchedules} />}
     </div>
   );
 };
