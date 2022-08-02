@@ -44,7 +44,7 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
         <div className="col-span-5 col-start-1 row-span-1 row-start-1 md:col-span-6">
           <Link href={`/course/${info.courseID}`}>
             <div className="text-gray-800 cursor-pointer text-lg">
-              <span className="mr-2 whitespace-nowrap font-semibold">
+              <span className="mr-2 inline-block whitespace-nowrap font-semibold">
                 {info.courseID}
               </span>
               <span className="leading-3">{info.name}</span>
