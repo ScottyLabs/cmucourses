@@ -1,5 +1,6 @@
 import { singleToArray, standardizeID } from "../util.js";
 import { Course, Schedule } from "../models/course.js";
+import { FCE } from "../models/fce.js";
 
 const projection = { _id: false, __v: false };
 const MAX_LIMIT = 10;

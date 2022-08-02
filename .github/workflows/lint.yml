@@ -6,15 +6,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
+      - name: Install dependencies (Frontend)
         working-directory: ./frontend
         run: npm i
         shell: bash
-      - name: Check TypeScript
+      - name: Check TypeScript (Frontend)
         working-directory: ./frontend
         run: npx tsc --noEmit
         shell: bash
-      - name: Run ESLint
+      - name: Run ESLint (Frontend)
         working-directory: ./frontend
+        run: npm run lint
+        shell: bash
+      - name: Install dependencies (Backend)
+        working-directory: ./backend
+        run: npm i
+        shell: bash
+      - name: Run ESLint (Backend)
+        working-directory: ./backend
         run: npm run lint
         shell: bash
