@@ -69,7 +69,7 @@ const DepartmentFilter = () => {
             )}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <SelectorIcon className="h-5 w-5 stroke-gray-500" />
+            <SelectorIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
           </span>
         </Listbox.Button>
         <div className="bg-white absolute mt-1 w-full rounded shadow-lg">
@@ -94,7 +94,7 @@ const DepartmentFilter = () => {
                       </span>
                       <span
                         className={classNames(
-                          "ml-1",
+                          "text-gray-700 ml-1",
                           selected ? "font-semibold" : "font-normal"
                         )}
                       >
