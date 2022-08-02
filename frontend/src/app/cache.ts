@@ -1,6 +1,6 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {RootState} from "./store";
-import {Course, FCE, Schedule} from "./types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "./store";
+import { Course, FCE, Schedule } from "./types";
 import {
   fetchAllCourses,
   fetchCourseInfo,
@@ -8,7 +8,7 @@ import {
   fetchCourseInfosByPage,
   FetchCourseInfosByPageResult,
 } from "./api/course";
-import {fetchFCEInfosByCourse, fetchFCEInfosByInstructor} from "./api/fce";
+import { fetchFCEInfosByCourse, fetchFCEInfosByInstructor } from "./api/fce";
 
 /**
  * This cache lasts for the duration of the user session

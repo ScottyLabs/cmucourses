@@ -57,7 +57,7 @@ const HeaderItem = ({
 export let passlink: Passlink;
 export let loginHandler: () => void = undefined;
 
-export default function Header({ activePage }): ReactElement {
+export default function Header(): ReactElement {
   const dispatch = useAppDispatch();
 
   const token = useAppSelector((state) => state.user.token);

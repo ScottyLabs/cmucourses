@@ -3,7 +3,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 
 import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../tailwind.config.js";
-import {useAppSelector} from "../app/hooks";
+import { useAppSelector } from "../app/hooks";
 
 /* eslint-disable-next-line */
 const fullConfig: any = resolveConfig(tailwindConfig);
