@@ -16,12 +16,3 @@ export const FCEDetail = ({ fces }: { fces: FCE[] }) => {
     />
   );
 };
-
-export const FCECard = ({ fces }: { fces: FCE[] }) => {
-  return (
-    <div className="bg-white border-gray-100 rounded border p-6">
-      <h1 className="text-gray-700 text-lg">FCE Browser</h1>
-      <FCEDetail fces={fces} />
-    </div>
-  );
-};
