@@ -137,8 +137,8 @@ const CourseCombobox = ({
       <div>
         <label {...getLabelProps()} />
       </div>
-      <div className="mt-2 flex flex-col items-baseline space-y-2 md:mt-0 md:space-y-0">
-        <div className="flex w-full overflow-x-auto">
+      <div className="mt-2 flex flex-col items-baseline space-y-2 overflow-x-hidden md:mt-0 md:flex-row md:space-y-0">
+        <div className="flex w-full max-w-full overflow-x-auto md:w-auto md:flex-none">
           {selectedItems.map((selectedItem, index) => (
             <div
               key={`selected-item-${index}`}
@@ -243,7 +243,7 @@ const ScheduleSearch = () => {
 
   return (
     <div className="mb-6">
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-y-2">
         {active !== null && (
           <div className="flex items-center">
             <PencilSquareIcon className="mr-2 h-4 w-4" />
