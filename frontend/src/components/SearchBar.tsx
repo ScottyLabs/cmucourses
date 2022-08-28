@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
-import { SearchIcon, XIcon } from "@heroicons/react/solid";
+import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { userSlice } from "../app/user";
 import { getCourseIDs } from "../app/utils";
 import { cacheSlice } from "../app/cache";
@@ -23,7 +23,7 @@ const AppliedFiltersPill = ({
     >
       <span>{children}</span>
       {onDelete && (
-        <XIcon
+        <XMarkIcon
           className="ml-2 h-3 w-3 cursor-pointer"
           onClick={() => {
             onDelete();
@@ -120,7 +120,7 @@ const SearchBar = () => {
     <>
       <div className="text-gray-500 relative flex border-b border-b-gray-500 dark:text-zinc-300 dark:border-b-zinc-400">
         <span className="absolute inset-y-0 left-0 flex items-center">
-          <SearchIcon className="h-5 w-5" />
+          <MagnifyingGlassIcon className="h-5 w-5" />
         </span>
         <input
           autoFocus

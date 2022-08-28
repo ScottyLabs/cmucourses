@@ -1,5 +1,5 @@
 import React from "react";
-import { StarIcon as OutlineStar } from "@heroicons/react/outline";
+import { StarIcon as OutlineStar } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { userSlice } from "../app/user";
 
@@ -20,9 +20,9 @@ const BookmarkButton = ({ courseID }: Props) => {
   return (
     <div onClick={bookmarkCourse} className="cursor-pointer">
       {bookmarked ? (
-        <OutlineStar className="h-6 w-6 fill-yellow-500 stroke-yellow-500 stroke-[1.5] dark:stroke-yellow-500" />
+        <OutlineStar className="h-6 w-6 fill-yellow-500 stroke-yellow-500 dark:stroke-yellow-500" />
       ) : (
-        <OutlineStar className="h-6 w-6 fill-transparent stroke-gray-300 stroke-[1.5] dark:stroke-zinc-400" />
+        <OutlineStar className="h-6 w-6 fill-transparent stroke-gray-300 dark:stroke-zinc-400" />
       )}
     </div>
   );

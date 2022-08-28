@@ -1,9 +1,9 @@
 import {
-  AnnotationIcon,
+  ChatBubbleBottomCenterTextIcon,
   ClockIcon,
-  SearchIcon,
+  MagnifyingGlassIcon,
   StarIcon,
-} from "@heroicons/react/outline";
+} from "@heroicons/react/24/outline";
 import React from "react";
 import Link from "next/link";
 
@@ -26,7 +26,7 @@ const SideNavItem = ({
     <div className="group flex cursor-pointer flex-col items-center lg:flex-row">
       <div className="flex">
         <Icon
-          className={`h-7 w-7 stroke-[1.5] group-hover:stroke-blue-500 group-hover:dark:stroke-blue-500 lg:h-6 lg:w-6 ${
+          className={`h-7 w-7 group-hover:stroke-blue-500 group-hover:dark:stroke-blue-500 lg:h-6 lg:w-6 ${
             active
               ? "stroke-blue-600 dark:stroke-blue-400"
               : "stroke-gray-500 dark:stroke-zinc-400"
@@ -56,7 +56,7 @@ export const SideNav = ({ activePage }) => {
   return (
     <div className="bg-white border-gray-100 flex flex-row items-center justify-between gap-y-10 border-r border-b px-6 py-6 md:flex-col md:justify-start lg:items-start lg:gap-y-6 lg:pr-10 lg:pl-6">
       <SideNavItem
-        icon={SearchIcon}
+        icon={MagnifyingGlassIcon}
         text="Search"
         link="/"
         active={activePage === "search"}
@@ -74,7 +74,7 @@ export const SideNav = ({ activePage }) => {
         active={activePage === "schedules"}
       />
       <SideNavItem
-        icon={AnnotationIcon}
+        icon={ChatBubbleBottomCenterTextIcon}
         text="Feedback"
         link="https://forms.gle/6vPTN6Eyqd1w7pqJA"
         newTab
