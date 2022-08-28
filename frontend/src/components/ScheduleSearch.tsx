@@ -104,7 +104,7 @@ const CourseCombobox = ({
         case useCombobox.stateChangeTypes.ItemClick:
           return {
             ...changes,
-            isOpen: true, // keep the menu open after selection.
+            isOpen: false,
           };
       }
       return changes;
@@ -137,8 +137,8 @@ const CourseCombobox = ({
       <div>
         <label {...getLabelProps()} />
       </div>
-      <div className="mt-2 flex flex-col items-baseline space-y-2 md:mt-0 md:flex-row md:space-y-0">
-        <div className="flex">
+      <div className="mt-2 flex flex-col items-baseline space-y-2 md:mt-0 md:space-y-0">
+        <div className="flex w-full overflow-x-auto">
           {selectedItems.map((selectedItem, index) => (
             <div
               key={`selected-item-${index}`}
@@ -185,7 +185,7 @@ const CourseCombobox = ({
                 <>
                   <li
                     key="total-size"
-                    style={{ height: rowVirtualizer.totalSize }}
+                    style={{ height: rowVirtualizer.totalSize, width: "100%" }}
                   />
                   {rowVirtualizer.virtualItems.map((virtualRow) => {
                     const course = filteredCourses[virtualRow.index];
@@ -195,7 +195,7 @@ const CourseCombobox = ({
                         className={
                           (highlightedIndex === virtualRow.index
                             ? "bg-gray-100"
-                            : "") + " table cursor-pointer pl-7"
+                            : "") + " cursor-pointer pl-7"
                         }
                         {...getItemProps({
                           index: virtualRow.index,
@@ -215,11 +215,13 @@ const CourseCombobox = ({
                           },
                         })}
                       >
-                        <span className="inline-block table-cell h-full align-middle">
-                          <span className="inline-block w-16 font-semibold">
+                        <span className="inline-block flex h-full w-full items-center">
+                          <span className="inline-block w-16 flex-none font-semibold">
                             {course.courseID}
                           </span>
-                          <span className="ml-2">{course.name}</span>
+                          <span className="ml-2 inline-block min-w-0 overflow-hidden text-ellipsis whitespace-nowrap">
+                            {course.name}
+                          </span>
                         </span>
                       </li>
                     );

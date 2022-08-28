@@ -77,44 +77,50 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
           </div>
         </div>
       </div>
-      <table className="mt-3 w-full table-auto">
-        <thead>
-          <tr className="text-left">
-            <th />
-            <th className="font-semibold">Course ID</th>
-            <th className="font-semibold">Course Name</th>
-            <th className="font-semibold">Units</th>
-            <th className="font-semibold">Workload</th>
-          </tr>
-        </thead>
-        <tbody className="text-gray-700">
-          {scheduledResults &&
-            scheduledResults.map((result) => {
-              return (
-                <tr key={result.courseID}>
-                  <td>
-                    <input
-                      type="checkbox"
-                      className="mr-2"
-                      checked={selected.includes(result.courseID)}
-                      onChange={(e) =>
-                        selectCourse(e.target.checked, result.courseID)
-                      }
-                    />
-                  </td>
-                  <td>{result.courseID}</td>
-                  <td>{result.name}</td>
-                  <td>{displayUnits(result.units)}</td>
-                  <td>
-                    {result.courseID in aggregatedDataByCourseID
-                      ? aggregatedDataByCourseID[result.courseID].workload
-                      : "NA"}
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
+      <div className="mt-3 w-full overflow-x-auto">
+        <table className="w-full min-w-fit table-auto overflow-x-scroll">
+          <thead>
+            <tr className="text-left">
+              <th />
+              <th className="whitespace-nowrap pr-4 font-semibold">
+                Course ID
+              </th>
+              <th className="whitespace-nowrap pr-4 font-semibold">
+                Course Name
+              </th>
+              <th className="whitespace-nowrap pr-4 font-semibold">Units</th>
+              <th className="whitespace-nowrap pr-4 font-semibold">Workload</th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-700">
+            {scheduledResults &&
+              scheduledResults.map((result) => {
+                return (
+                  <tr key={result.courseID}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        className="mr-2"
+                        checked={selected.includes(result.courseID)}
+                        onChange={(e) =>
+                          selectCourse(e.target.checked, result.courseID)
+                        }
+                      />
+                    </td>
+                    <td>{result.courseID}</td>
+                    <td className="whitespace-nowrap pr-4">{result.name}</td>
+                    <td>{displayUnits(result.units)}</td>
+                    <td>
+                      {result.courseID in aggregatedDataByCourseID
+                        ? aggregatedDataByCourseID[result.courseID].workload
+                        : "NA"}
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
       <div className="text-gray-500 mt-2 text-sm">
         {message === "" ? "" : `*${message}`}
       </div>
