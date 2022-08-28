@@ -1,8 +1,8 @@
 import React from "react";
-import { ClipboardCopyIcon, ShareIcon } from "@heroicons/react/solid";
+import { ClipboardIcon, ShareIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { FlushedButton } from "./Buttons";
-import { XIcon } from "@heroicons/react/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
 import { userSchedulesSlice } from "../app/userSchedules";
 import { showToast } from "./Toast";
 
@@ -28,7 +28,7 @@ const ScheduleSelection = ({
       <div className="bg-gray-50 mt-1 mb-1 rounded p-2 text-sm">
         <div className="flex justify-between">
           <div>{name}</div>
-          <XIcon
+          <XMarkIcon
             className="h-4 w-4 cursor-pointer"
             onClick={() =>
               dispatch(userSchedulesSlice.actions.deleteSchedule(id))
@@ -50,12 +50,12 @@ const ScheduleSelection = ({
                 void navigator.clipboard.writeText(shareableLink).then(() =>
                   showToast({
                     message: "Copied link.",
-                    icon: ClipboardCopyIcon,
+                    icon: ClipboardIcon,
                   })
                 );
               }}
             >
-              <ClipboardCopyIcon className="h-4 w-4 flex-none" />
+              <ClipboardIcon className="h-4 w-4 flex-none" />
               <div className="ml-1">Copy</div>
             </button>
           </div>
@@ -74,7 +74,7 @@ const ScheduleSelection = ({
         }
       >
         <div>{name}</div>
-        <XIcon
+        <XMarkIcon
           className="h-4 w-4 cursor-pointer"
           onClick={(e) => {
             dispatch(userSchedulesSlice.actions.deleteSchedule(id));

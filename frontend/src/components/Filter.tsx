@@ -5,8 +5,8 @@ import { filtersSlice } from "../app/filters";
 import { DEPARTMENTS } from "../app/constants";
 import { Listbox } from "@headlessui/react";
 import { classNames, getDepartmentByName } from "../app/utils";
-import { XIcon } from "@heroicons/react/solid";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
+import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { CheckIcon } from "@heroicons/react/20/solid";
 import * as Slider from "@radix-ui/react-slider";
 
 const DepartmentFilter = () => {
@@ -56,7 +56,7 @@ const DepartmentFilter = () => {
                   className="text-blue-800 bg-blue-50 flex items-center gap-1 rounded px-2 py-0.5"
                 >
                   <span>{getDepartmentByName(department).shortName}</span>
-                  <XIcon
+                  <XMarkIcon
                     className="h-3 w-3 cursor-pointer"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -69,7 +69,7 @@ const DepartmentFilter = () => {
             )}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <SelectorIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
+            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
           </span>
         </Listbox.Button>
         <div className="bg-white absolute mt-1 w-full rounded shadow-lg">

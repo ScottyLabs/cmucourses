@@ -5,7 +5,11 @@ import Image from "next/image";
 import Passlink from "passlink";
 import * as jose from "jose";
 import { userSlice } from "../app/user";
-import { LoginIcon, LogoutIcon, XIcon } from "@heroicons/react/solid";
+import {
+  ArrowLeftOnRectangleIcon,
+  ArrowRightOnRectangleIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/solid";
 import DarkModeButton from "./DarkModeButton";
 import nightwind from "nightwind/helper";
 import { showToast } from "./Toast";
@@ -95,7 +99,7 @@ export default function Header(): ReactElement {
         dispatch(userSlice.actions.logOut());
         showToast({
           message: "Login expired, please log in again.",
-          icon: XIcon,
+          icon: XMarkIcon,
         });
         return;
       } else {
@@ -126,7 +130,7 @@ export default function Header(): ReactElement {
             dispatch(userSlice.actions.logOut());
           }}
         >
-          <HeaderItemIconText icon={LogoutIcon} text="Log Out" />
+          <HeaderItemIconText icon={ArrowLeftOnRectangleIcon} text="Log Out" />
         </div>
       </>
     );
@@ -136,7 +140,10 @@ export default function Header(): ReactElement {
         {loading && <p>Loading...</p>}
         {!loading && passlink && loginHandler && (
           <div onClick={loginHandler}>
-            <HeaderItemIconText icon={LoginIcon} text="Log In" />
+            <HeaderItemIconText
+              icon={ArrowRightOnRectangleIcon}
+              text="Log In"
+            />
           </div>
         )}
       </>
@@ -156,7 +163,7 @@ export default function Header(): ReactElement {
               alt="favicon"
             />
             <span className="ml-2">
-              ScottyLabs Course Tool <sup>β</sup>
+              CMU Courses <sup>β</sup>
             </span>
           </div>
         </Link>

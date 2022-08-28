@@ -4,7 +4,7 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronUpIcon,
-} from "@heroicons/react/solid";
+} from "@heroicons/react/20/solid";
 import { FlushedButton } from "./Buttons";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { uiSlice } from "../app/ui";
