@@ -12,7 +12,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>ScottyLabs Course Tool Beta</title>
+        <title>CMU Courses</title>
       </Head>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>

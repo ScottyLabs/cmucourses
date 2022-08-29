@@ -50,12 +50,12 @@ export const LoginModal = () => {
                     as="h3"
                     className="text-gray-900 text-lg font-medium leading-6"
                   >
-                    ScottyLabs Course Tool Beta
+                    CMU Courses
                   </Dialog.Title>
                   <div className="mt-1">
                     <p className="text-gray-400 text-sm">
-                      This is in beta, so expect things to break and change.
-                      Find out more about ScottyLabs{" "}
+                      CMU Courses is built and maintained by ScottyLabs. Find
+                      out more about us{" "}
                       <Link href={"https://www.scottylabs.org"}>here</Link>.
                       Your feedback is appreciated.
                     </p>
