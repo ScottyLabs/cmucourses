@@ -4,9 +4,8 @@ CMU Courses (AKA ScottyLabs Course Tool) is a web application designed to aid st
 browsing courses, including information about course evaluations and schedules. It is actively maintained
 by [ScottyLabs](https://scottylabs.org).
 
-This is the second version of the Course Tool. The old version is currently deployed at [cmucourses.com](cmucourses.com)
-. The second version is a rewrite of the frontend and backend, with the inclusion of new features (currently a
-work-in-progress) such as:
+This is the second iteration of the Course Tool. The second version is a rewrite of the frontend and backend, with the
+inclusion of new features (currently a work-in-progress) such as:
 
 - Search
 - Filters
