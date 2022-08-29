@@ -162,9 +162,7 @@ export default function Header(): ReactElement {
               height={30}
               alt="favicon"
             />
-            <span className="ml-2">
-              CMU Courses <sup>β</sup>
-            </span>
+            <span className="ml-2">CMU Courses</span>
           </div>
         </Link>
       </div>
