@@ -137,12 +137,12 @@ const CourseCombobox = ({
       <div>
         <label {...getLabelProps()} />
       </div>
-      <div className="mt-2 flex flex-col items-baseline space-y-2 overflow-x-hidden md:mt-0 md:flex-row md:space-y-0">
+      <div className="relative mt-2 flex flex-col items-baseline space-y-2 md:mt-0 md:flex-row md:space-y-0">
         <div className="flex w-full max-w-full overflow-x-auto md:w-auto md:flex-none">
           {selectedItems.map((selectedItem, index) => (
             <div
               key={`selected-item-${index}`}
-              className={`text-blue-800 bg-blue-50 mr-2 rounded px-2 py-1 ${
+              className={`text-blue-800 bg-blue-50 mr-2 whitespace-nowrap rounded px-2 py-1 ${
                 activeIndex === index ? "border-blue-800" : "border-blue-50"
               } border-2`}
               {...getSelectedItemProps({ selectedItem, index })}
