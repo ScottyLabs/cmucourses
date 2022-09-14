@@ -13,7 +13,7 @@ const Link = ({
 } & React.HTMLAttributes<HTMLSpanElement>) => {
   const content = (
     <span
-      className="cursor-pointer underline decoration-gray-200 hover:no-underline"
+      className="cursor-pointer underline decoration-gray-200 hover:no-underline dark:decoration-zinc-700"
       {...props}
     >
       {children}
