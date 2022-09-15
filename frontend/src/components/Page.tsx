@@ -48,7 +48,7 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
       <footer className="min-h-28 text-gray-500 bg-gray-50 border-gray-100 z-50 border-t p-8 text-sm">
         <div className="mx-auto max-w-4xl">
           <p>
-            Designed, built and maintained by{" "}
+            Designed, developed and maintained with ❤️ by{" "}
             <Link href="https://scottylabs.org">ScottyLabs</Link>.
           </p>
           <p>
