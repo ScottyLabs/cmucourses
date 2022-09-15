@@ -6,15 +6,15 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { uiSlice } from "../app/ui";
 import { Toaster } from "react-hot-toast";
 import { SideNav } from "./SideNav";
+import Link from "./Link";
 
 type Props = {
   sidebar?: React.ReactNode;
   content: React.ReactNode;
-  footer?: React.ReactNode;
   activePage?: string;
 };
 
-export const Page = ({ sidebar, content, footer, activePage }: Props) => {
+export const Page = ({ sidebar, content, activePage }: Props) => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const modalShown = useAppSelector(
     (state) => state.ui.session.loginModalShown
@@ -45,7 +45,22 @@ export const Page = ({ sidebar, content, footer, activePage }: Props) => {
           {content}
         </div>
       </main>
-      {footer && <footer>{footer}</footer>}
+      <footer className="min-h-28 text-gray-500 bg-gray-50 border-gray-100 z-50 border-t p-8 text-sm">
+        <div className="mx-auto max-w-4xl">
+          <p>
+            Designed, developed and maintained with ❤️ by{" "}
+            <Link href="https://scottylabs.org">ScottyLabs</Link>.
+          </p>
+          <p>
+            Want to help us make CMU Courses better? Join us at ScottyLabs or
+            make a pull request on our{" "}
+            <Link href="https://github.com/ScottyLabs/course-tool">
+              GitHub repository
+            </Link>
+            .
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
