@@ -3,6 +3,7 @@ import React from "react";
 import { Tab } from "@headlessui/react";
 import { Lecture, Schedule, Section } from "../app/types";
 import { Card } from "./Card";
+import Link from "next/link";
 
 const Lecture = ({
   lectureInfo,
@@ -18,7 +19,9 @@ const Lecture = ({
           {lectureInfo.name}
         </div>
         <div className="col-span-1 text-sm">
-          {lectureInfo.instructors.join("; ")}
+          {lectureInfo.instructors.map(instructorName => (
+            <Link href={`/instructor/${instructorName.toUpperCase()}`}>{instructorName + "; "}</Link>
+          ))}
         </div>
         <div className="contents flex-col text-sm">
           {lectureInfo.times.map((time) => (
@@ -41,7 +44,9 @@ const Lecture = ({
         >
           <div className="text-md col-span-1 pt-1">{section.name}</div>
           <div className="col-span-1 text-sm">
-            {section.instructors.join("; ")}
+            {section.instructors.map(instructorName => (
+              <Link href={`/instructor/${instructorName.toUpperCase()}`}>{instructorName + "; "}</Link>
+            ))}
           </div>
           <div className="contents text-sm">
             {section.times.map((time) => (
