@@ -8,9 +8,12 @@ import ScheduleSearch from "../components/ScheduleSearch";
 import ScheduleData from "../components/ScheduleData";
 import { selectCoursesInActiveSchedule } from "../app/userSchedules";
 import { Page } from "../components/Page";
+import Loading from "../components/Loading";
 
 const SchedulePage: NextPage = () => {
   const scheduled = useAppSelector(selectCoursesInActiveSchedule);
+
+  console.log(scheduled.length);
 
   return (
     <Page
@@ -22,9 +25,13 @@ const SchedulePage: NextPage = () => {
             <ScheduleData scheduled={scheduled} />
           </Topbar>
           <CourseList courseIDs={scheduled}>
-            <div className="text-gray-400 mt-6 text-center">
-              Nothing in your schedule yet!
-            </div>
+            {scheduled.length ? (
+              <Loading />
+            ) : (
+              <div className="text-gray-400 mt-6 text-center">
+                Nothing in your schedule yet!
+              </div>
+            )}
           </CourseList>
         </>
       }
