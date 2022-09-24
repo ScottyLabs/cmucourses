@@ -5,8 +5,9 @@ module.exports = (phase, defaultConfig) =>
   withTM({
     env: {
       backendUrl:
-        phase === PHASE_DEVELOPMENT_SERVER
+        process.env.BACKEND_URL ||
+        (phase === PHASE_DEVELOPMENT_SERVER
           ? "http://localhost:3000"
-          : "https://course-tool-backend-2kh6wuzobq-uc.a.run.app",
+          : "https://course-tool-backend-2kh6wuzobq-uc.a.run.app"),
     },
   });
