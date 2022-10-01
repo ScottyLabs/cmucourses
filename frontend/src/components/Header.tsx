@@ -167,6 +167,13 @@ export default function Header(): ReactElement {
         </Link>
       </div>
       <div className="text-gray-600 flex flex-row items-center justify-between gap-x-2">
+          <button type="button"
+            onClick={(e) => {
+            e.preventDefault();
+            window.open("https://github.com/ScottyLabs/course-tool");
+            }}>
+              Github
+            </button>
         <DarkModeButton />
         <HeaderItem>{logInButton}</HeaderItem>
       </div>
