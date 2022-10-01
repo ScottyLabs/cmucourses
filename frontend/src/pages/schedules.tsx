@@ -13,8 +13,6 @@ import Loading from "../components/Loading";
 const SchedulePage: NextPage = () => {
   const scheduled = useAppSelector(selectCoursesInActiveSchedule);
 
-  console.log(scheduled.length);
-
   return (
     <Page
       activePage={"schedules"}
@@ -25,9 +23,11 @@ const SchedulePage: NextPage = () => {
             <ScheduleData scheduled={scheduled} />
           </Topbar>
           <CourseList courseIDs={scheduled}>
-            {scheduled.length ? (
+            {/* This are the elements to show when we have no results to show. */}
+            {scheduled.length ? ( // We have things in our schedule, but have no results => still loading
               <Loading />
             ) : (
+              // We haven't added anything to the schedule yet
               <div className="text-gray-400 mt-6 text-center">
                 Nothing in your schedule yet!
               </div>
