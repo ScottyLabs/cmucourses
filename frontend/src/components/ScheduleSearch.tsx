@@ -49,6 +49,7 @@ const CourseCombobox = ({
     return allCourses.filter(
       (course) =>
         (course.courseID.includes(inputValue) ||
+          course.courseID.replaceAll('-', '').includes(inputValue) ||
           course.name.toLowerCase().includes(inputValue)) &&
         selectedItems.map(({ courseID }) => courseID).indexOf(course.courseID) <
           0
