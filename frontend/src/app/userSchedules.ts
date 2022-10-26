@@ -100,6 +100,7 @@ export const userSchedulesSlice = createSlice({
         courses: action.payload,
         id: newId,
       };
+      state.active = newId;
     },
     deleteSchedule: (state, action: PayloadAction<string>) => {
       delete state.saved[action.payload];
