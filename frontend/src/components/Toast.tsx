@@ -39,4 +39,5 @@ export const Toast = (t: ToastType, { message, title, icon }: Props) => {
 export const showToast = ({ message, title, icon }: Props) =>
   toast.custom((t) => Toast(t, { message, title, icon }), {
     duration: 3000,
+    position: "top-center",
   });

@@ -119,21 +119,21 @@ module.exports = {
       },
     },
     animation: {
-      enter: "fadeInRight 300ms ease-out",
-      leave: "fadeOutLeft 300ms ease-in forwards",
+      enter: "fadeInTop 300ms ease-out",
+      leave: "fadeOutBottom 300ms ease-in forwards",
     },
     keyframes: {
-      fadeInRight: {
+      fadeInTop: {
         "0%": {
           opacity: "0",
-          transform: "translate(2rem)",
+          transform: "translateY(2rem)",
         },
         "100%": {
           opacity: "1",
-          transform: "translate(0)",
+          transform: "translateY(0)",
         },
       },
-      fadeOutLeft: {
+      fadeOutBottom: {
         "0%": {
           opacity: "1",
         },
