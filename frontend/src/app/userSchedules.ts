@@ -103,14 +103,14 @@ export const userSchedulesSlice = createSlice({
       state.active = newId;
     },
     deleteSchedule: (state, action: PayloadAction<string>) => {
+      const oldIndex = Object.keys(state.saved).indexOf(action.payload);
       delete state.saved[action.payload];
       if (state.active === action.payload) {
-        // TODO: make this more intuitive - pick nearest ID?
         const scheduleIDs = Object.keys(state.saved);
         if (scheduleIDs.length === 0) {
           state.active = null;
         } else {
-          state.active = scheduleIDs[0];
+          state.active = scheduleIDs[oldIndex <= 0 ? 0 : oldIndex - 1];
         }
       }
     },
