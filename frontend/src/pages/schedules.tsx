@@ -8,6 +8,7 @@ import ScheduleSearch from "../components/ScheduleSearch";
 import ScheduleData from "../components/ScheduleData";
 import { selectCoursesInActiveSchedule } from "../app/userSchedules";
 import { Page } from "../components/Page";
+import Loading from "../components/Loading";
 
 const SchedulePage: NextPage = () => {
   const scheduled = useAppSelector(selectCoursesInActiveSchedule);
@@ -22,9 +23,15 @@ const SchedulePage: NextPage = () => {
             <ScheduleData scheduled={scheduled} />
           </Topbar>
           <CourseList courseIDs={scheduled}>
-            <div className="text-gray-400 mt-6 text-center">
-              Nothing in your schedule yet!
-            </div>
+            {/* This are the elements to show when we have no results to show. */}
+            {scheduled.length ? ( // We have things in our schedule, but have no results => still loading
+              <Loading />
+            ) : (
+              // We haven't added anything to the schedule yet
+              <div className="text-gray-400 mt-6 text-center">
+                Nothing in your schedule yet!
+              </div>
+            )}
           </CourseList>
         </>
       }
