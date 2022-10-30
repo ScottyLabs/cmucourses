@@ -4,6 +4,9 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { userSlice } from "../app/user";
 import { Semester } from "../app/types";
 
+const numeric = /\d/;
+const numSemsDispatchableRegex = /\d+/g;
+
 const Aggregate = () => {
   const dispatch = useAppDispatch();
 
@@ -18,6 +21,38 @@ const Aggregate = () => {
     (state) => state.user.fceAggregation.numSemesters
   );
 
+  const [numSemsField, setNumSemsField] = React.useState<number | undefined>(
+    undefined
+  );
+
+  React.useEffect(() => {
+    setNumSemsField(numSemesters);
+  }, [numSemesters]);
+
+  const handleNumSemsFieldKeyDown: React.KeyboardEventHandler<
+    HTMLInputElement
+  > = (e) => {
+    if (!numeric.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  const handleNumSemsFieldChange: React.ChangeEventHandler<HTMLInputElement> = (
+    e
+  ) => {
+    if (numSemsDispatchableRegex.test(e.target.value)) {
+      setNumSemesters(parseInt(e.target.value));
+    } else if (e.target.value === "") {
+      setNumSemsField(undefined);
+    }
+  };
+
+  const handleNumSemsFieldBlur: React.FocusEventHandler<
+    HTMLInputElement
+  > = () => {
+    if (numSemsField === undefined) setNumSemsField(numSemesters);
+  };
+
   return (
     <div>
       <div className="text-lg">Aggregate FCEs</div>
@@ -28,11 +63,11 @@ const Aggregate = () => {
           </div>
           <input
             type="number"
-            value={numSemesters}
+            value={numSemsField === undefined ? "" : numSemsField}
             className="border-gray-200 min-w-0 flex-auto rounded border px-2 py-1 text-sm bg-transparent"
-            onChange={(e) => {
-              setNumSemesters(parseInt(e.target.value));
-            }}
+            onChange={handleNumSemsFieldChange}
+            onBlur={handleNumSemsFieldBlur}
+            onKeyPress={handleNumSemsFieldKeyDown}
           />
         </div>
         <div className="flex flex-row justify-between text-sm">
