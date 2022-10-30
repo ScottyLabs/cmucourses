@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useVirtual } from "react-virtual";
 import {
   useCombobox,
@@ -32,8 +32,20 @@ const CourseCombobox = ({
   const listRef = useRef();
   const dispatch = useAppDispatch();
 
-  const allCourses = useAppSelector((state) => state.cache.allCourses);
   const activeSchedule = useAppSelector(selectCoursesInActiveSchedule);
+
+  const allCourses = useAppSelector((state) => state.cache.allCourses);
+
+  // allow searching for course IDs without the hyphen
+  const allCoursesSearchable = useMemo(
+    () =>
+      allCourses.map((course) => ({
+        courseID: course.courseID,
+        courseIDDehyphenated: course.courseID.replace("-", ""),
+        name: course.name,
+      })),
+    [allCourses]
+  );
 
   useEffect(() => {
     void dispatch(fetchAllCourses());
@@ -46,9 +58,10 @@ const CourseCombobox = ({
   }, [activeSchedule]);
 
   function getCourses() {
-    return allCourses.filter(
+    return allCoursesSearchable.filter(
       (course) =>
         (course.courseID.includes(inputValue) ||
+          course.courseIDDehyphenated.includes(inputValue) ||
           course.name.toLowerCase().includes(inputValue)) &&
         selectedItems.map(({ courseID }) => courseID).indexOf(course.courseID) <
           0
