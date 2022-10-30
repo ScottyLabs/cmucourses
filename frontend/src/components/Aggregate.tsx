@@ -21,14 +21,17 @@ const Aggregate = () => {
     (state) => state.user.fceAggregation.numSemesters
   );
 
+  // Auxiliary local state required to handle the case when the field is (temporarily) blank
   const [numSemsField, setNumSemsField] = React.useState<number | undefined>(
     undefined
   );
 
+  // To update the global state
   React.useEffect(() => {
     setNumSemsField(numSemesters);
   }, [numSemesters]);
 
+  /* Needed to prevent non-numeric input from being entered by the user. */
   const handleNumSemsFieldKeyDown: React.KeyboardEventHandler<
     HTMLInputElement
   > = (e) => {
@@ -47,6 +50,7 @@ const Aggregate = () => {
     }
   };
 
+  // Restore the last valid value if the field is left blank and unfocused
   const handleNumSemsFieldBlur: React.FocusEventHandler<
     HTMLInputElement
   > = () => {
