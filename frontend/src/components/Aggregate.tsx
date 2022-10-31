@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { userSlice } from "../app/user";
 import { Semester } from "../app/types";
 
-const numeric = /\d/;
+const numericRegex = /\d/;
 const numSemsDispatchableRegex = /\d+/g;
 
 const Aggregate = () => {
