@@ -23,6 +23,8 @@ type selectedItem = {
   name: string;
 };
 
+const unhyphenatedCourseCodeRegex = /(\d{2})(\d{1,3})/g;
+
 const CourseCombobox = ({
   onSelectedItemsChange,
 }: {
@@ -46,9 +48,13 @@ const CourseCombobox = ({
   }, [activeSchedule]);
 
   function getCourses() {
+    // hyphenates 3 to 5 digit numbers, e.g. 152 -> 15-2, 1521 -> 15-21, 15213 -> 15-213
+    // otherwise, input value remains the same
+    const hyphenated = inputValue.replace(unhyphenatedCourseCodeRegex, "$1-$2");
     return allCourses.filter(
       (course) =>
         (course.courseID.includes(inputValue) ||
+          course.courseID.includes(hyphenated) ||
           course.name.toLowerCase().includes(inputValue)) &&
         selectedItems.map(({ courseID }) => courseID).indexOf(course.courseID) <
           0
