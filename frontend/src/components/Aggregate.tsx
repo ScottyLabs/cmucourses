@@ -26,17 +26,24 @@ const NumericInput = (props: NumericInputProps) => {
       setIsBlank(false);
       onChange(parseInt(e.target.value));
     } else if (e.target.value === "") {
-      // note: this also happens when there is non-numeric input!
+      // note: if we were to not handleKeyPress, handleChange would also be
+      // called when the user enters some non-numeric input, with
+      // e.target.value === ""
+
       // limitation of input[type=number]
       setIsBlank(true);
     }
   };
 
+  // only allow field to be temporarily blank
+  // on unfocus, reset to last valid value
   const handleBlur: React.FocusEventHandler<HTMLInputElement> = (e) => {
     if (isBlank) setIsBlank(false);
     if (onBlur) onBlur(e);
   };
 
+  // this is only called when a key that creates a character is pressed (for
+  // example symbols and alphabets; NOT backspace, arrow keys, Alt/Ctrl etc)
   const handleKeyPress: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
     if (!numericRegex.test(e.key)) e.preventDefault();
   };
