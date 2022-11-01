@@ -21,7 +21,7 @@ export const getCourses = (req, res) => {
   const courseIDs = singleToArray(req.query.courseID).map(standardizeID);
 
   const options = { populate: [] };
-  if ("schedulesAvailable" in req.query && req.query.schedulesAvailable) {
+  if ("schedules" in req.query && req.query.schedules) {
     options.populate.push({
       path: "schedules",
       model: Schedule,
@@ -90,17 +90,13 @@ export const getFilteredCourses = (req, res) => {
   if ("page" in req.query) options.page = req.query.page;
 
   if ("schedules" in req.query && req.query.schedules)
-    options.populate.push({
-      path: "schedules",
-      model: Schedule,
-      select: "-_id",
-    });
-
-  if ("schedulesAvailable" in req.query && req.query.schedulesAvailable)
-    options.populate.push({
-      path: "schedules",
-      model: Schedule,
-      select: "year semester session -_id",
+    pipeline.push({
+      $lookup: {
+        from: "schedules",
+        localField: "courseID",
+        foreignField: "courseID",
+        as: "schedules",
+      },
     });
 
   if (req.method === "POST") {
