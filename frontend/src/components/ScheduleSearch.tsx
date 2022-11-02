@@ -53,8 +53,7 @@ const CourseCombobox = ({
     const hyphenated = inputValue.replace(unhyphenatedCourseCodeRegex, "$1-$2");
     return allCourses.filter(
       (course) =>
-        (course.courseID.includes(inputValue) ||
-          course.courseID.includes(hyphenated) ||
+        (course.courseID.includes(hyphenated) ||
           course.name.toLowerCase().includes(inputValue)) &&
         selectedItems.map(({ courseID }) => courseID).indexOf(course.courseID) <
           0
