@@ -18,6 +18,7 @@ const DepartmentFilter = () => {
 
   const setDepartments = (departments: string[]) => {
     dispatch(filtersSlice.actions.updateDepartments(departments));
+    dispatch(filtersSlice.actions.updateDepartmentsActive(true));
     throttledFilter();
   };
 
@@ -164,6 +165,7 @@ const UnitsFilter = () => {
                     value as [number, number]
                   )
                 );
+                dispatch(filtersSlice.actions.updateUnitsActive(true));
                 if (active) throttledFilter();
               }}
             />
