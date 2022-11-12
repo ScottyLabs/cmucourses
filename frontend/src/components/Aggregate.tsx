@@ -5,7 +5,7 @@ import { userSlice } from "../app/user";
 import { Semester } from "../app/types";
 
 const numericRegex = /\d/;
-const numericNonemptyRegex = /\d+/g;
+const numericNonemptyRegex = /^\d+$/;
 
 interface NumericInputProps
   extends Omit<
@@ -32,6 +32,8 @@ const NumericInput = (props: NumericInputProps) => {
 
       // limitation of input[type=number]
       setIsBlank(true);
+    } else {
+      console.log("weird edge case");
     }
   };
 
@@ -45,6 +47,7 @@ const NumericInput = (props: NumericInputProps) => {
   // this is only called when a key that creates a character is pressed (for
   // example symbols and alphabets; NOT backspace, arrow keys, Alt/Ctrl etc)
   const handleKeyPress: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+    console.log("test");
     if (!numericRegex.test(e.key)) e.preventDefault();
   };
 
