@@ -62,8 +62,6 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
       );
   };
 
-  console.log(aggregatedSelectedData);
-
   return (
     <>
       <div className="flex items-end justify-between">
