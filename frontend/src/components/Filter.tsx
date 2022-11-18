@@ -180,31 +180,10 @@ const UnitsFilter = () => {
 };
 
 const Filter = () => {
-  const dispatch = useAppDispatch();
-
-  const exactMatchesOnly = useAppSelector(
-    (state) => state.filters.exactMatchesOnly
-  );
-
   return (
     <div>
       <div className="mb-3 text-lg">Filter by</div>
       <div className="space-y-4 text-sm">
-        <div>
-          <input
-            type="checkbox"
-            className="mr-2"
-            checked={exactMatchesOnly}
-            onChange={(e) => {
-              dispatch(
-                filtersSlice.actions.updateExactMatchesOnly(e.target.checked)
-              );
-              throttledFilter();
-            }}
-          />
-          <span>Show Exact ID Matches Only</span>
-        </div>
-
         <DepartmentFilter />
         <UnitsFilter />
       </div>
