@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SEMESTERS_COUNTED } from "../app/constants";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { userSlice } from "../app/user";

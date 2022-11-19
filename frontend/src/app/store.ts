@@ -81,11 +81,9 @@ export const persistor = persistStore(store);
 const updateFilter = () => {
   setTimeout(() => {
     const state = store.getState();
-    if (!state.filters.exactMatchesOnly) {
-      void store.dispatch(fetchCourseInfosByPage(1));
-    }
+    void store.dispatch(fetchCourseInfosByPage(1));
 
-    if (state.cache.exactResultsCourses || state.filters.exactMatchesOnly) {
+    if (state.cache.exactResultsCourses) {
       void store.dispatch(fetchCourseInfos(state.cache.exactResultsCourses));
     }
   }, 0);

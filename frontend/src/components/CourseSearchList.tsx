@@ -16,18 +16,13 @@ const CoursePage = () => {
   const exactResultsCourses = useAppSelector(
     (state) => state.cache.exactResultsCourses
   );
-  const exactMatchesOnly = useAppSelector(
-    (state) => state.filters.exactMatchesOnly
-  );
 
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   const coursesToShow: string[] = useMemo(() => {
-    if (exactMatchesOnly) {
-      return exactResultsCourses;
-    } else if (page === 1 && exactResultsCourses.length > 0) {
+    if (page === 1 && exactResultsCourses.length > 0) {
       return [
         ...exactResultsCourses,
         ...pageCourses.filter(
@@ -37,7 +32,7 @@ const CoursePage = () => {
     } else {
       return pageCourses;
     }
-  }, [exactMatchesOnly, exactResultsCourses, pageCourses, page]);
+  }, [exactResultsCourses, pageCourses, page]);
 
   const results = useAppSelector(selectCourseResults(coursesToShow));
 
@@ -67,10 +62,6 @@ const CourseSearchList = () => {
   const curPage = useAppSelector((state) => state.cache.page);
 
   const loading = useAppSelector((state) => state.cache.coursesLoading);
-  const exactMatchesOnly = useAppSelector(
-    (state) => state.filters.exactMatchesOnly
-  );
-
   const dispatch = useAppDispatch();
 
   const handlePageClick = (page: number) => {
@@ -84,15 +75,13 @@ const CourseSearchList = () => {
       ) : (
         <>
           <CoursePage />
-          {!exactMatchesOnly && (
-            <div className="mx-auto my-6">
-              <Pagination
-                currentPage={curPage - 1}
-                setCurrentPage={handlePageClick}
-                totalPages={pages}
-              />
-            </div>
-          )}
+          <div className="mx-auto my-6">
+            <Pagination
+              currentPage={curPage - 1}
+              setCurrentPage={handlePageClick}
+              totalPages={pages}
+            />
+          </div>
         </>
       )}
     </div>
