@@ -4,7 +4,6 @@ import { standardizeIdsInString } from "./utils";
 
 export interface FiltersState {
   search: string;
-  exactMatchesOnly: boolean;
   departments: {
     active: boolean;
     names: string[];
@@ -22,7 +21,6 @@ export interface FiltersState {
 
 const initialState: FiltersState = {
   search: "",
-  exactMatchesOnly: false,
   departments: {
     active: false,
     names: [],
@@ -42,9 +40,6 @@ export const filtersSlice = createSlice({
   name: "filters",
   initialState,
   reducers: {
-    updateExactMatchesOnly: (state, action: PayloadAction<boolean>) => {
-      state.exactMatchesOnly = action.payload;
-    },
     updateSearch: (state, action: PayloadAction<string>) => {
       state.search = standardizeIdsInString(action.payload);
     },

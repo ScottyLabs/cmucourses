@@ -23,7 +23,7 @@ type selectedItem = {
   name: string;
 };
 
-const unhyphenatedCourseCodeRegex = /(\d{2})(\d{1,3})/g;
+const unhyphenatedCourseCodeRegex = /^(\d{2})(\d{1,3})/g;
 
 const CourseCombobox = ({
   onSelectedItemsChange,

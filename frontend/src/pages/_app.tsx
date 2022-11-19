@@ -13,6 +13,14 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <title>CMU Courses</title>
+        <meta
+          name="description"
+          content="CMU Courses brings together course information, schedules and FCE data to help you plan your semesters."
+        />
+        <meta
+          name="keywords"
+          content="ScottyLabs, CMU, Carnegie Mellon, Courses, Course Tool, CMU Courses, FCEs, Ratings, Schedules, Scheduling"
+        />
       </Head>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
