@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Session } from "./types";
 import { standardizeIdsInString } from "./utils";
 
 export interface FiltersState {
@@ -13,6 +14,10 @@ export interface FiltersState {
     min: number;
     max: number;
   };
+  semesters: {
+    active: boolean;
+    sessions: Session[];
+  };
 }
 
 const initialState: FiltersState = {
@@ -26,6 +31,10 @@ const initialState: FiltersState = {
     active: false,
     min: 0,
     max: 24,
+  },
+  semesters: {
+    active: false,
+    sessions: [],
   },
 };
 
@@ -49,6 +58,21 @@ export const filtersSlice = createSlice({
     },
     updateDepartments: (state, action: PayloadAction<string[]>) => {
       state.departments.names = action.payload;
+    },
+    updateSemestersActive: (state, action: PayloadAction<boolean>) => {
+      state.semesters.active = action.payload;
+    },
+    deleteSemester: (state, action: PayloadAction<Session>) => {
+      state.semesters.sessions = state.semesters.sessions.filter(
+        (session) =>
+          !(
+            session.year === action.payload.year &&
+            session.semester === action.payload.semester
+          )
+      );
+    },
+    updateSemesters: (state, action: PayloadAction<Session[]>) => {
+      state.semesters.sessions = action.payload;
     },
     updateUnitsActive: (state, action: PayloadAction<boolean>) => {
       state.units.active = action.payload;
