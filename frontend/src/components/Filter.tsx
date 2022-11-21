@@ -205,13 +205,14 @@ const SemestersOfferedFilter = () => {
     (state) => state.filters.semesters
   );
 
-  const deleteSession = (session: Session) => {
-    dispatch(filtersSlice.actions.deleteSemester(session));
+  const setSessions = (semesters: Session[]) => {
+    dispatch(filtersSlice.actions.updateSemesters(semesters));
+    dispatch(filtersSlice.actions.updateSemestersActive());
     throttledFilter();
   };
 
-  const setSessions = (semesters: Session[]) => {
-    dispatch(filtersSlice.actions.updateSemesters(semesters));
+  const deleteSession = (session: Session) => {
+    dispatch(filtersSlice.actions.deleteSemester(session));
     throttledFilter();
   };
 
