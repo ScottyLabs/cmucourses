@@ -1,24 +1,19 @@
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { throttledFilter } from "../app/store";
-import { filtersSlice } from "../app/filters";
-import { DEPARTMENTS } from "../app/constants";
-import { Listbox } from "@headlessui/react";
-import {
-  classNames,
-  getDepartmentByName,
-  sessionToShortString,
-  sessionToString,
-} from "../app/utils";
-import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { CheckIcon } from "@heroicons/react/20/solid";
+import React, {useEffect} from "react";
+import {useAppDispatch, useAppSelector} from "../app/hooks";
+import {throttledFilter} from "../app/store";
+import {filtersSlice} from "../app/filters";
+import {DEPARTMENTS} from "../app/constants";
+import {Listbox} from "@headlessui/react";
+import {classNames, getDepartmentByName, sessionToShortString, sessionToString,} from "../app/utils";
+import {ChevronUpDownIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import {CheckIcon} from "@heroicons/react/20/solid";
 import * as Slider from "@radix-ui/react-slider";
-import { Session } from "../app/types";
+import {Session} from "../app/types";
 
 const DepartmentFilter = () => {
   const dispatch = useAppDispatch();
 
-  const { active, names } = useAppSelector(
+  const {active, names} = useAppSelector(
     (state) => state.filters.departments
   );
 
@@ -52,7 +47,8 @@ const DepartmentFilter = () => {
           </div>
           Department
         </Listbox.Label>
-        <Listbox.Button className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+        <Listbox.Button
+          className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
           <span className="block flex flex-wrap gap-1">
             {names.length === 0 ? (
               <span className="p-0.5">None</span>
@@ -76,23 +72,24 @@ const DepartmentFilter = () => {
             )}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
+            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400"/>
           </span>
         </Listbox.Button>
         <div className="bg-white absolute mt-1 w-full rounded shadow-lg">
-          <Listbox.Options className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
-            {DEPARTMENTS.map(({ name, prefix }) => (
+          <Listbox.Options
+            className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
+            {DEPARTMENTS.map(({name, prefix}) => (
               <Listbox.Option
                 key={name}
                 value={name}
-                className={({ active }) => {
+                className={({active}) => {
                   return classNames(
                     "relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none ",
                     active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
                   );
                 }}
               >
-                {({ selected }) => (
+                {({selected}) => (
                   <>
                     <span className={"block truncate"}>
                       <span className="inline-block w-12">
@@ -110,7 +107,7 @@ const DepartmentFilter = () => {
                     </span>
                     {selected && (
                       <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-                        <CheckIcon className="h-5 w-5" />
+                        <CheckIcon className="h-5 w-5"/>
                       </span>
                     )}
                   </>
@@ -126,7 +123,7 @@ const DepartmentFilter = () => {
 
 const UnitsFilter = () => {
   const dispatch = useAppDispatch();
-  const { active, min, max } = useAppSelector((state) => state.filters.units);
+  const {active, min, max} = useAppSelector((state) => state.filters.units);
 
   const [value, setValue] = React.useState([0, 24]);
   const [init, setInit] = React.useState(false);
@@ -159,7 +156,7 @@ const UnitsFilter = () => {
           className="relative flex h-6 w-full select-none items-center"
         >
           <Slider.Track className="bg-gray-100 relative h-0.5 flex-grow outline-none">
-            <Slider.Range className="bg-blue-500 absolute h-full rounded-full outline-none" />
+            <Slider.Range className="bg-blue-500 absolute h-full rounded-full outline-none"/>
           </Slider.Track>
           {[1, 2].map((i) => (
             <Slider.Thumb
@@ -186,28 +183,28 @@ const UnitsFilter = () => {
 };
 
 const SESSIONS: Session[] = [
-  { year: "2023", semester: "spring" },
-  { year: "2022", semester: "fall" },
-  { year: "2022", semester: "summer" },
-  { year: "2022", semester: "spring" },
-  { year: "2021", semester: "fall" },
-  { year: "2021", semester: "summer" },
-  { year: "2021", semester: "spring" },
-  { year: "2020", semester: "fall" },
-  { year: "2020", semester: "summer" },
-  { year: "2020", semester: "spring" },
+  {year: "2023", semester: "spring"},
+  {year: "2022", semester: "fall"},
+  {year: "2022", semester: "summer"},
+  {year: "2022", semester: "spring"},
+  {year: "2021", semester: "fall"},
+  {year: "2021", semester: "summer"},
+  {year: "2021", semester: "spring"},
+  {year: "2020", semester: "fall"},
+  {year: "2020", semester: "summer"},
+  {year: "2020", semester: "spring"},
 ];
 
 const SemestersOfferedFilter = () => {
   const dispatch = useAppDispatch();
 
-  const { active, sessions } = useAppSelector(
+  const {active, sessions} = useAppSelector(
     (state) => state.filters.semesters
   );
 
   const setSessions = (semesters: Session[]) => {
     dispatch(filtersSlice.actions.updateSemesters(semesters));
-    dispatch(filtersSlice.actions.updateSemestersActive());
+    dispatch(filtersSlice.actions.updateSemestersActive(true));
     throttledFilter();
   };
 
@@ -235,7 +232,8 @@ const SemestersOfferedFilter = () => {
           </div>
           Offered in
         </Listbox.Label>
-        <Listbox.Button className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+        <Listbox.Button
+          className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
           <span className="block flex flex-wrap gap-1">
             {sessions.length === 0 ? (
               <span className="p-0.5">None</span>
@@ -259,23 +257,24 @@ const SemestersOfferedFilter = () => {
             )}
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
+            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400"/>
           </span>
         </Listbox.Button>
         <div className="bg-white absolute mt-1 w-full rounded shadow-lg">
-          <Listbox.Options className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
+          <Listbox.Options
+            className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
             {SESSIONS.map((session) => (
               <Listbox.Option
                 key={sessionToShortString(session)}
                 value={session}
-                className={({ active }) => {
+                className={({active}) => {
                   return classNames(
                     "relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none ",
                     active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
                   );
                 }}
               >
-                {({ selected }) => (
+                {({selected}) => (
                   <>
                     <span className={"block truncate"}>
                       <span
@@ -289,7 +288,7 @@ const SemestersOfferedFilter = () => {
                     </span>
                     {selected && (
                       <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-                        <CheckIcon className="h-5 w-5" />
+                        <CheckIcon className="h-5 w-5"/>
                       </span>
                     )}
                   </>
@@ -308,9 +307,9 @@ const Filter = () => {
     <div>
       <div className="mb-3 text-lg">Filter by</div>
       <div className="space-y-4 text-sm">
-        <DepartmentFilter />
-        <UnitsFilter />
-        <SemestersOfferedFilter />
+        <DepartmentFilter/>
+        <UnitsFilter/>
+        <SemestersOfferedFilter/>
       </div>
     </div>
   );
