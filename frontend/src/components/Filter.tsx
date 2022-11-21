@@ -196,21 +196,6 @@ const SESSIONS: Session[] = [
   { year: "2020", semester: "fall" },
   { year: "2020", semester: "summer" },
   { year: "2020", semester: "spring" },
-  { year: "2019", semester: "fall" },
-  { year: "2019", semester: "summer" },
-  { year: "2019", semester: "spring" },
-  { year: "2018", semester: "fall" },
-  { year: "2018", semester: "summer" },
-  { year: "2018", semester: "spring" },
-  { year: "2017", semester: "fall" },
-  { year: "2017", semester: "summer" },
-  { year: "2017", semester: "spring" },
-  { year: "2016", semester: "fall" },
-  { year: "2016", semester: "summer" },
-  { year: "2016", semester: "spring" },
-  { year: "2015", semester: "fall" },
-  { year: "2015", semester: "summer" },
-  { year: "2015", semester: "spring" },
 ];
 
 const SemestersOfferedFilter = () => {
