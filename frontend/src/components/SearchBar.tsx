@@ -3,7 +3,11 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { throttledFilter } from "../app/store";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { userSlice } from "../app/user";
-import { getCourseIDs } from "../app/utils";
+import {
+  getCourseIDs,
+  sessionToShortString,
+  sessionToString,
+} from "../app/utils";
 import { cacheSlice } from "../app/cache";
 import { filtersSlice } from "../app/filters";
 
@@ -68,6 +72,22 @@ const AppliedFilters = () => {
         {filter.units.min}-{filter.units.max} Units
       </AppliedFiltersPill>
     );
+  }
+
+  if (filter.semesters.active) {
+    filter.semesters.sessions.forEach((session) => {
+      badges.push(
+        <AppliedFiltersPill
+          className="text-yellow-800 bg-yellow-50"
+          onDelete={() => {
+            dispatch(filtersSlice.actions.deleteSemester(session));
+          }}
+          key={`session-${sessionToShortString(session)}`}
+        >
+          {sessionToString(session)}
+        </AppliedFiltersPill>
+      );
+    });
   }
 
   return (

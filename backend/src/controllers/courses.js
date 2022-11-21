@@ -99,6 +99,29 @@ export const getFilteredCourses = (req, res) => {
       },
     });
 
+  if ("session" in req.query) {
+    const sessions = singleToArray(req.query.session).flatMap(
+      (serializedSession) => {
+        try {
+          const session = JSON.parse(serializedSession);
+          return [{ year: parseInt(session.year), semester: session.semester }];
+        } catch (e) {
+          // SyntaxError
+          return [];
+        }
+      }
+    );
+    pipeline.push({
+      $match: {
+        schedules: {
+          $elemMatch: {
+            $or: sessions,
+          },
+        },
+      },
+    });
+  }
+
   if (req.method === "POST") {
     if ("fces" in req.query && req.query.fces) {
       options.populate.push({

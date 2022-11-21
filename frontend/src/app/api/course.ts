@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Course } from "../types";
+import { Course, Session } from "../types";
 import { RootState } from "../store";
 
 export const fetchCourseInfos = createAsyncThunk<
@@ -78,6 +78,12 @@ export const fetchCourseInfosByPage = createAsyncThunk<
   if (state.filters.units.active) {
     params.append("unitsMin", state.filters.units.min.toString());
     params.append("unitsMax", state.filters.units.max.toString());
+  }
+
+  if (state.filters.semesters.active) {
+    state.filters.semesters.sessions.forEach((s: Session) =>
+      params.append("session", JSON.stringify(s))
+    );
   }
 
   if (state.user.loggedIn) {
