@@ -243,7 +243,7 @@ const SemestersOfferedFilter = () => {
               sessions.map((session) => (
                 <span
                   key={sessionToShortString(session)}
-                  className="text-blue-800 bg-blue-50 flex items-center gap-1 rounded px-2 py-0.5"
+                  className="text-yellow-800 bg-yellow-50 flex items-center gap-1 rounded px-2 py-0.5"
                 >
                   <span>{sessionToString(session)}</span>
                   <XMarkIcon
