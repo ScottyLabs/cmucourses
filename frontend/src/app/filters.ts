@@ -90,6 +90,9 @@ export const filtersSlice = createSlice({
     updateLevelsBitfield: (state, action: PayloadAction<number>) => {
       state.levels.bitfield = action.payload;
     },
+    deleteLevel: (state, action: PayloadAction<number>) => {
+      state.levels.bitfield &= ~action.payload;
+    },
   },
 });
 

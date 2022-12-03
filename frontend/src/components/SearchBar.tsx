@@ -10,6 +10,7 @@ import {
 } from "../app/utils";
 import { cacheSlice } from "../app/cache";
 import { filtersSlice } from "../app/filters";
+import { getPillboxes } from "./filters/LevelFilter";
 
 const AppliedFiltersPill = ({
   className,
@@ -88,6 +89,22 @@ const AppliedFilters = () => {
         </AppliedFiltersPill>
       );
     });
+
+    if (filter.levels.active) {
+      getPillboxes(filter.levels.bitfield).forEach(({ mask, content }) => {
+        badges.push(
+          <AppliedFiltersPill
+            className="text-red-800 bg-red-50"
+            onDelete={() => {
+              dispatch(filtersSlice.actions.deleteLevel(mask));
+            }}
+            key={`session-${mask}`}
+          >
+            {content}
+          </AppliedFiltersPill>
+        );
+      });
+    }
   }
 
   return (

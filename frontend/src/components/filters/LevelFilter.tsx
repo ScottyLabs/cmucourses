@@ -10,29 +10,29 @@ import { classNames } from "../../app/utils";
 const levelOptions = [
   {
     value: [1, 2, 3, 4],
-    element: "Undergraduate",
+    content: "Undergraduate",
     heading: true,
   },
   {
     value: [1, 2],
-    element: "1XX - 2XX",
+    content: "1XX - 2XX",
   },
   {
     value: [3, 4],
-    element: "3XX - 4XX",
+    content: "3XX - 4XX",
   },
   {
     value: [5, 6, 7, 8, 9],
-    element: "Graduate",
+    content: "Graduate",
     heading: true,
   },
   {
     value: [5, 6],
-    element: "5XX - 6XX",
+    content: "5XX - 6XX",
   },
   {
     value: [7, 8, 9],
-    element: "7XX - 9XX",
+    content: "7XX - 9XX",
   },
 ];
 
@@ -85,6 +85,17 @@ const LevelOption = (props: LevelOptionProps) => {
   );
 };
 
+export const getPillboxes = (bitfield: number) => {
+  const pillboxes: { mask: number; content: React.ReactNode }[] = [];
+  levelOptionsAugmented.forEach(({ mask, content }) => {
+    if ((bitfield & mask) === mask) {
+      pillboxes.push({ mask, content });
+      bitfield &= ~mask;
+    }
+  });
+  return pillboxes;
+};
+
 const LevelFilter = () => {
   const dispatch = useAppDispatch();
 
@@ -95,7 +106,7 @@ const LevelFilter = () => {
   );
 
   const removeMask = (mask: number) => {
-    dispatch(filtersSlice.actions.updateLevelsBitfield(bitfield & ~mask));
+    dispatch(filtersSlice.actions.deleteLevel(mask));
     throttledFilter();
   };
 
@@ -103,25 +114,17 @@ const LevelFilter = () => {
     if (levels.length > listboxValue.length) {
       // we added a new level
       const delta = levels.filter((mask) => !listboxValue.includes(mask))[0];
+      dispatch(filtersSlice.actions.updateLevelsActive(true));
       dispatch(filtersSlice.actions.updateLevelsBitfield(bitfield | delta));
+      throttledFilter();
     } else {
       // we removed a level
       const delta = listboxValue.filter((mask) => !levels.includes(mask))[0];
-      dispatch(filtersSlice.actions.updateLevelsBitfield(bitfield & ~delta));
+      removeMask(delta);
     }
-    throttledFilter();
   };
 
-  const pillboxes = ((value) => {
-    const pillboxes: { mask: number; element: React.ReactNode }[] = [];
-    levelOptionsAugmented.forEach(({ mask, element }) => {
-      if ((value & mask) === mask) {
-        pillboxes.push({ mask, element });
-        value = value & ~mask;
-      }
-    });
-    return pillboxes;
-  })(bitfield);
+  const pillboxes = getPillboxes(bitfield);
 
   return (
     <div className="relative mt-1">
@@ -147,12 +150,12 @@ const LevelFilter = () => {
             {pillboxes.length === 0 ? (
               <span className="p-0.5">None</span>
             ) : (
-              pillboxes.map(({ mask, element }) => (
+              pillboxes.map(({ mask, content }) => (
                 <span
                   key={mask}
                   className="text-red-800 bg-red-50 flex items-center gap-1 rounded px-2 py-0.5"
                 >
-                  <span>{element}</span>
+                  <span>{content}</span>
                   <XMarkIcon
                     className="h-3 w-3 cursor-pointer"
                     onClick={(e) => {
@@ -171,14 +174,14 @@ const LevelFilter = () => {
         </Listbox.Button>
         <div className="bg-white absolute mt-1 w-full rounded shadow-lg">
           <Listbox.Options className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
-            {levelOptionsAugmented.map(({ mask, element, heading }, index) => (
+            {levelOptionsAugmented.map(({ mask, content, heading }, index) => (
               <LevelOption
                 key={index}
                 heading={heading}
                 mask={mask}
                 selectionBitfield={bitfield}
               >
-                {element}
+                {content}
               </LevelOption>
             ))}
           </Listbox.Options>
