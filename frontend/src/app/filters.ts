@@ -17,6 +17,10 @@ export interface FiltersState {
     active: boolean;
     sessions: Session[];
   };
+  levels: {
+    active: boolean;
+    bitfield: number;
+  };
 }
 
 const initialState: FiltersState = {
@@ -33,6 +37,10 @@ const initialState: FiltersState = {
   semesters: {
     active: false,
     sessions: [],
+  },
+  levels: {
+    active: false,
+    bitfield: 0,
   },
 };
 
@@ -75,6 +83,12 @@ export const filtersSlice = createSlice({
     updateUnitsRange: (state, action: PayloadAction<[number, number]>) => {
       state.units.min = action.payload[0];
       state.units.max = action.payload[1];
+    },
+    updateLevelsActive: (state, action: PayloadAction<boolean>) => {
+      state.levels.active = action.payload;
+    },
+    updateLevelsBitfield: (state, action: PayloadAction<number>) => {
+      state.levels.bitfield = action.payload;
     },
   },
 });
