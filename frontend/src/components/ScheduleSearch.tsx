@@ -142,7 +142,7 @@ const CourseCombobox = ({
       <div>
         <label {...getLabelProps()} />
       </div>
-      <div className="relative mt-2 flex flex-col items-baseline space-y-2 md:mt-0 md:flex-row md:space-y-0">
+      <div className="relative mt-2 flex flex-col items-baseline space-y-2 md:mt-0 md:flex-row md:flex-wrap md:space-y-0">
         <div className="flex w-full max-w-full overflow-x-auto md:w-auto md:flex-none">
           {selectedItems.map((selectedItem, index) => (
             <div
@@ -165,7 +165,7 @@ const CourseCombobox = ({
             </div>
           ))}
         </div>
-        <div {...getComboboxProps()} className="w-full flex-1 flex-wrap">
+        <div {...getComboboxProps()} className="w-full flex-1">
           <div className="relative flex w-full border-b border-b-gray-300">
             <span className="absolute inset-y-0 left-0 flex items-center">
               <MagnifyingGlassIcon className="h-5 w-5" />
