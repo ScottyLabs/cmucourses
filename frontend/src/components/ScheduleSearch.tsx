@@ -165,7 +165,7 @@ const CourseCombobox = ({
             </div>
           ))}
         </div>
-        <div {...getComboboxProps()} className="w-full flex-1">
+        <div {...getComboboxProps()} className="w-full flex-1 flex-wrap">
           <div className="relative flex w-full border-b border-b-gray-300">
             <span className="absolute inset-y-0 left-0 flex items-center">
               <MagnifyingGlassIcon className="h-5 w-5" />
