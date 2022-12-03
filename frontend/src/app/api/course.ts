@@ -86,6 +86,10 @@ export const fetchCourseInfosByPage = createAsyncThunk<
     );
   }
 
+  if (state.filters.levels.active) {
+    params.append("levels", state.filters.levels.bitfield.toString());
+  }
+
   if (state.user.loggedIn) {
     return (
       await fetch(url + params.toString(), {

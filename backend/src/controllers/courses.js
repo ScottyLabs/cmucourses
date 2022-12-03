@@ -99,6 +99,21 @@ export const getFilteredCourses = (req, res) => {
       },
     });
 
+  if ("levels" in req.query) {
+    const bitfield = parseInt(req.query.levels);
+    if (!Number.isNaN(bitfield)) {
+      let levelRange = "";
+      for (let i = 1; i <= 9; i++) {
+        if (bitfield & (1 << i)) levelRange += i.toString();
+      }
+      pipeline.push({
+        $match: {
+          courseID: { $regex: `\\d\\d-[${levelRange}]\\d\\d` },
+        },
+      });
+    }
+  }
+
   if ("session" in req.query) {
     const sessions = singleToArray(req.query.session).flatMap(
       (serializedSession) => {
