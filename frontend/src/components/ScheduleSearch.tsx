@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useVirtual } from "react-virtual";
+import { useVirtualizer } from '@tanstack/react-virtual'
 import {
   useCombobox,
   UseComboboxGetInputPropsOptions,
@@ -75,9 +75,9 @@ const CourseCombobox = ({
   });
 
   const filteredCourses = getCourses();
-  const rowVirtualizer = useVirtual({
-    size: filteredCourses.length,
-    parentRef: listRef,
+  const rowVirtualizer = useVirtualizer({
+    count: filteredCourses.length,
+    getScrollElement: () => listRef.current,
     estimateSize: useCallback(() => 40, []),
   });
 
@@ -190,9 +190,9 @@ const CourseCombobox = ({
                 <>
                   <li
                     key="total-size"
-                    style={{ height: rowVirtualizer.totalSize, width: "100%" }}
+                    style={{ height: rowVirtualizer.getTotalSize (), width: "100%" }}
                   />
-                  {rowVirtualizer.virtualItems.map((virtualRow) => {
+                  {rowVirtualizer.getVirtualItems ().map((virtualRow) => {
                     const course = filteredCourses[virtualRow.index];
                     return (
                       <li
