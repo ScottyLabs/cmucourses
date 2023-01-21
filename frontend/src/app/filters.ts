@@ -19,7 +19,7 @@ export interface FiltersState {
   };
   levels: {
     active: boolean;
-    bitfield: number;
+    selected: boolean[]; // selected[i] <=> show i00 level
   };
 }
 
@@ -40,7 +40,18 @@ const initialState: FiltersState = {
   },
   levels: {
     active: false,
-    bitfield: 0,
+    selected: [
+      false, // 000
+      false, // 100
+      false, // 200
+      false, // 300
+      false, // 400
+      false, // 500
+      false, // 600
+      false, // 700
+      false, // 800
+      false, // 900
+    ],
   },
 };
 
@@ -87,11 +98,13 @@ export const filtersSlice = createSlice({
     updateLevelsActive: (state, action: PayloadAction<boolean>) => {
       state.levels.active = action.payload;
     },
-    updateLevelsBitfield: (state, action: PayloadAction<number>) => {
-      state.levels.bitfield = action.payload;
+    updateLevelsSelection: (state, action: PayloadAction<boolean[]>) => {
+      state.levels.selected = action.payload;
     },
-    deleteLevel: (state, action: PayloadAction<number>) => {
-      state.levels.bitfield &= ~action.payload;
+    deleteLevel: (state, action: PayloadAction<number[]>) => {
+      for (const index of action.payload) {
+        state.levels.selected[index] = false;
+      }
     },
   },
 });

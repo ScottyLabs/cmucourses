@@ -91,14 +91,14 @@ const AppliedFilters = () => {
     });
 
     if (filter.levels.active) {
-      getPillboxes(filter.levels.bitfield).forEach(({ mask, content }) => {
+      getPillboxes(filter.levels.selected).forEach(({ levels, content }) => {
         badges.push(
           <AppliedFiltersPill
             className="text-red-800 bg-red-50"
             onDelete={() => {
-              dispatch(filtersSlice.actions.deleteLevel(mask));
+              dispatch(filtersSlice.actions.deleteLevel(levels));
             }}
-            key={`session-${mask}`}
+            key={`session-${levels}`}
           >
             {content}
           </AppliedFiltersPill>

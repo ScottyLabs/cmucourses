@@ -36,25 +36,23 @@ const levelOptions = [
   },
 ];
 
-const levelOptionsAugmented = levelOptions.map((option) => {
-  let mask = 0;
-  option.value.forEach((val) => (mask |= 1 << val));
-  return { ...option, mask };
-});
-
 interface LevelOptionProps {
   children: React.ReactNode;
   heading?: boolean;
-  mask: number;
-  selectionBitfield: number;
+  indices: number[];
+  selection: boolean[];
+}
+
+function matches(indices: number[], selection: boolean[]): boolean {
+  return indices.every((index) => selection[index]);
 }
 
 const LevelOption = (props: LevelOptionProps) => {
-  const { mask, children, heading, selectionBitfield } = props;
+  const { children, heading, indices, selection } = props;
 
   return (
     <Listbox.Option
-      value={mask}
+      value={indices}
       className={({ active }) => {
         return classNames(
           "relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none ",
@@ -72,7 +70,7 @@ const LevelOption = (props: LevelOptionProps) => {
               <CheckIcon className="h-5 w-5" />
             </span>
           )}
-          {selectionBitfield & mask && !selected ? (
+          {matches(indices, selection) && !selected ? (
             <span className="absolute inset-y-0 right-0 flex items-center pr-4">
               <MinusIcon className="h-5 w-5" />
             </span>
@@ -85,12 +83,15 @@ const LevelOption = (props: LevelOptionProps) => {
   );
 };
 
-export const getPillboxes = (bitfield: number) => {
-  const pillboxes: { mask: number; content: React.ReactNode }[] = [];
-  levelOptionsAugmented.forEach(({ mask, content }) => {
-    if ((bitfield & mask) === mask) {
-      pillboxes.push({ mask, content });
-      bitfield &= ~mask;
+export const getPillboxes = (selection: boolean[]) => {
+  const pillboxes: { levels: number[]; content: React.ReactNode }[] = [];
+  const selectedLevels = [...selection];
+  levelOptions.forEach(({ value, content }) => {
+    if (matches(value, selectedLevels)) {
+      pillboxes.push({ levels: value, content });
+      for (const index of value) {
+        selectedLevels[index] = false;
+      }
     }
   });
   return pillboxes;
@@ -99,36 +100,45 @@ export const getPillboxes = (bitfield: number) => {
 const LevelFilter = () => {
   const dispatch = useAppDispatch();
 
-  const { active, bitfield } = useAppSelector((state) => state.filters.levels);
+  const { active, selected } = useAppSelector((state) => state.filters.levels);
 
-  const listboxValue = levelOptionsAugmented.flatMap(({ mask }) =>
-    (mask & bitfield) === mask ? [mask] : []
+  const listboxValue = levelOptions.flatMap(({ value: optionLevels }) =>
+    matches(optionLevels, selected) ? [optionLevels] : []
   );
 
-  const removeMask = (mask: number) => {
-    dispatch(filtersSlice.actions.deleteLevel(mask));
+  const removeLevel = (levels: number[]) => {
+    dispatch(filtersSlice.actions.deleteLevel(levels));
     throttledFilter();
   };
 
-  const setLevels = (levels: number[]) => {
-    if (levels.length > listboxValue.length) {
+  const updateListboxValue = (newListboxValue: number[][]) => {
+    if (newListboxValue.length > listboxValue.length) {
       // we added a new level
-      const delta = levels.filter((mask) => !listboxValue.includes(mask))[0];
+      // make a copy of the old levels boolean array
+      const newLevels = [...selected];
+
+      // find the newly added level
+      const delta = newListboxValue.filter((x) => !listboxValue.includes(x))[0];
+      for (const idx of delta) {
+        newLevels[idx] = true; // update boolean array
+      }
+
       dispatch(filtersSlice.actions.updateLevelsActive(true));
-      dispatch(filtersSlice.actions.updateLevelsBitfield(bitfield | delta));
+      dispatch(filtersSlice.actions.updateLevelsSelection(newLevels));
       throttledFilter();
     } else {
       // we removed a level
-      const delta = listboxValue.filter((mask) => !levels.includes(mask))[0];
-      removeMask(delta);
+      // find the removed level
+      const delta = listboxValue.filter((x) => !newListboxValue.includes(x))[0];
+      removeLevel(delta);
     }
   };
 
-  const pillboxes = getPillboxes(bitfield);
+  const pillboxes = getPillboxes(selected);
 
   return (
     <div className="relative mt-1">
-      <Listbox value={listboxValue} onChange={setLevels} multiple>
+      <Listbox value={listboxValue} onChange={updateListboxValue} multiple>
         <Listbox.Label className="flex">
           <div>
             <input
@@ -150,9 +160,9 @@ const LevelFilter = () => {
             {pillboxes.length === 0 ? (
               <span className="p-0.5">None</span>
             ) : (
-              pillboxes.map(({ mask, content }) => (
+              pillboxes.map(({ levels, content }) => (
                 <span
-                  key={mask}
+                  key={levels.toString()}
                   className="text-red-800 bg-red-50 flex items-center gap-1 rounded px-2 py-0.5"
                 >
                   <span>{content}</span>
@@ -161,7 +171,7 @@ const LevelFilter = () => {
                     onClick={(e) => {
                       e.stopPropagation();
                       e.preventDefault();
-                      removeMask(mask);
+                      removeLevel(levels);
                     }}
                   />
                 </span>
@@ -174,12 +184,12 @@ const LevelFilter = () => {
         </Listbox.Button>
         <div className="bg-white absolute mt-1 w-full rounded shadow-lg">
           <Listbox.Options className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
-            {levelOptionsAugmented.map(({ mask, content, heading }, index) => (
+            {levelOptions.map(({ content, heading, value }, index) => (
               <LevelOption
                 key={index}
                 heading={heading}
-                mask={mask}
-                selectionBitfield={bitfield}
+                indices={value}
+                selection={selected}
               >
                 {content}
               </LevelOption>
