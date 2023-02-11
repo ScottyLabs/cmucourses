@@ -7,6 +7,20 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { throttledFilter } from "../../app/store";
 import { classNames } from "../../app/utils";
 
+const LevelRange = (start, end) => (
+  <>
+    <span className="inline-block">
+      {start}
+      <span className="opacity-50">XX</span>
+    </span>
+    <span className="mx-1">-</span>
+    <span className="inline-block">
+      {end}
+      <span className="opacity-50">XX</span>
+    </span>
+  </>
+);
+
 const levelOptions = [
   {
     value: [0, 1, 2, 3, 4],
@@ -15,11 +29,11 @@ const levelOptions = [
   },
   {
     value: [0, 1, 2],
-    content: "0XX - 2XX",
+    content: LevelRange(0, 2),
   },
   {
     value: [3, 4],
-    content: "3XX - 4XX",
+    content: LevelRange(3, 4),
   },
   {
     value: [5, 6, 7, 8, 9],
@@ -28,11 +42,11 @@ const levelOptions = [
   },
   {
     value: [5, 6],
-    content: "5XX - 6XX",
+    content: LevelRange(5, 6),
   },
   {
     value: [7, 8, 9],
-    content: "7XX - 9XX",
+    content: LevelRange(7, 9),
   },
 ];
 
@@ -53,16 +67,16 @@ const LevelOption = (props: LevelOptionProps) => {
   return (
     <Listbox.Option
       value={indices}
-      className={({ active }) => {
-        return classNames(
-          "relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none ",
-          active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
-        );
-      }}
+      className="relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none"
     >
       {({ selected }) => (
         <>
-          <span className={`block truncate ${heading ? "" : "pl-6"}`}>
+          <span
+            className={classNames(
+              `block truncate ${heading ? "" : "pl-6"}`,
+              selected ? "font-semibold" : "font-normal"
+            )}
+          >
             {children}
           </span>
           {selected && (
