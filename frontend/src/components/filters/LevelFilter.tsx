@@ -9,13 +9,13 @@ import { classNames } from "../../app/utils";
 
 const levelOptions = [
   {
-    value: [1, 2, 3, 4],
+    value: [0, 1, 2, 3, 4],
     content: "Undergraduate",
     heading: true,
   },
   {
-    value: [1, 2],
-    content: "1XX - 2XX",
+    value: [0, 1, 2],
+    content: "0XX - 2XX",
   },
   {
     value: [3, 4],
