@@ -92,7 +92,7 @@ export const fetchCourseInfosByPage = createAsyncThunk<
       if (elem) value += index.toString();
     });
 
-    params.append("levels", value);
+    if (value) params.append("levels", value);
   }
 
   if (state.user.loggedIn) {
