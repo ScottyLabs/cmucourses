@@ -78,12 +78,7 @@ const DepartmentFilter = () => {
               <Listbox.Option
                 key={name}
                 value={name}
-                className={({ active }) => {
-                  return classNames(
-                    "relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none ",
-                    active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
-                  );
-                }}
+                className="relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none "
               >
                 {({ selected }) => (
                   <>

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useVirtualizer } from '@tanstack/react-virtual'
+import { useVirtualizer } from "@tanstack/react-virtual";
 import {
   useCombobox,
   UseComboboxGetInputPropsOptions,
@@ -190,9 +190,12 @@ const CourseCombobox = ({
                 <>
                   <li
                     key="total-size"
-                    style={{ height: rowVirtualizer.getTotalSize (), width: "100%" }}
+                    style={{
+                      height: rowVirtualizer.getTotalSize(),
+                      width: "100%",
+                    }}
                   />
-                  {rowVirtualizer.getVirtualItems ().map((virtualRow) => {
+                  {rowVirtualizer.getVirtualItems().map((virtualRow) => {
                     const course = filteredCourses[virtualRow.index];
                     return (
                       <li
