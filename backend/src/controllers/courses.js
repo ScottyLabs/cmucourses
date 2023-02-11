@@ -99,6 +99,15 @@ export const getFilteredCourses = (req, res) => {
       },
     });
 
+  if ("levels" in req.query && req.query.levels.length > 0) {
+    const levelRange = req.query.levels;
+    pipeline.push({
+      $match: {
+        courseID: { $regex: `\\d\\d-[${levelRange}]\\d\\d` },
+      },
+    });
+  }
+
   if ("session" in req.query) {
     const sessions = singleToArray(req.query.session).flatMap(
       (serializedSession) => {
