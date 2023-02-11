@@ -98,7 +98,7 @@ const AppliedFilters = () => {
             onDelete={() => {
               dispatch(filtersSlice.actions.deleteLevel(levels));
             }}
-            key={`session-${levels}`}
+            key={`session-${levels.toString()}`}
           >
             {content}
           </AppliedFiltersPill>
