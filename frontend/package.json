@@ -11,8 +11,11 @@
     "doppler-install": "(curl -Ls https://cli.doppler.com/install.sh || wget -qO- https://cli.doppler.com/install.sh) | sh -s -- --no-install --no-package-manager"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@headlessui/react": "^1.6.4",
     "@heroicons/react": "^2.0.8",
+    "@mui/material": "^5.11.8",
     "@radix-ui/react-slider": "^1.0.0",
     "@reduxjs/toolkit": "^1.3.6",
     "@tanstack/react-table": "^8.1.4",

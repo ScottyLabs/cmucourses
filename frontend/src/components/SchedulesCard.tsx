@@ -3,6 +3,8 @@ import React from "react";
 import { Tab } from "@headlessui/react";
 import { Lecture, Schedule, Section } from "../app/types";
 import { Card } from "./Card";
+import { Tooltip, Button } from '@mui/material';
+
 
 const Lecture = ({
   lectureInfo,
@@ -26,9 +28,11 @@ const Lecture = ({
               <div className="col-span-1 col-start-3">
                 {timeArrToString([time])}
               </div>
-              <div className="col-span-1">
-                {time.building} {time.room}
-              </div>
+              <Tooltip title={time.building} arrow>
+                <div className="col-span-1">
+                  {time.building} {time.room}
+                </div>
+              </Tooltip>
             </div>
           ))}
         </div>
@@ -49,9 +53,11 @@ const Lecture = ({
                 <div className="col-span-1 col-start-3">
                   {timeArrToString([time])}
                 </div>
-                <div className="col-span-1">
-                  {time.building} {time.room}
-                </div>
+                <Tooltip title={time.building} arrow>
+                  <div className="col-span-1">
+                    {time.building} {time.room}
+                  </div>
+                </Tooltip>
               </div>
             ))}
           </div>
