@@ -1,5 +1,5 @@
 import { FCE } from "../models/fce.js";
-import { standardizeID, singleToArray } from "../util.js";
+import { standardizeID, singleToArray } from "../util.ts";
 
 const projection = { _id: false, __v: false };
 

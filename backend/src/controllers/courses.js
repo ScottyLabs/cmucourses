@@ -1,4 +1,4 @@
-import { singleToArray, standardizeID } from "../util.js";
+import { singleToArray, standardizeID } from "../util.ts";
 import { Course, Schedule } from "../models/course.js";
 import { FCE } from "../models/fce.js";
 
