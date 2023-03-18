@@ -2,7 +2,13 @@
   "compilerOptions": {
     "outDir": "./build",
     "allowJs": true,
-    "target": "es5"
+    "target": "esnext",
+    "esModuleInterop": true,
+    "moduleResolution": "node"
   },
-  "include": ["./src/**/*"]
+  "include": ["./src/**/*"],
+  "module": "esnext",
+  "ts-node": {
+    "esm": true
+  }
 }

@@ -2,10 +2,10 @@
   "name": "course-tool-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/app.js",
   "scripts": {
     "start": "npm run serve",
-    "dev": "dotenv -e .env nodemon ./src/app.js",
+    "dev": "dotenv -e .env nodemon --loader ts-node/esm ./src/app.js",
     "serve": "node src/app.js",
     "format": "prettier --write . --ignore-path .gitignore",
     "lint": "./node_modules/.bin/eslint ./src/**"
@@ -35,7 +35,7 @@
     "nodemon": "^2.0.15",
     "prettier": "2.8.4",
     "prisma": "^4.11.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.2"
-  },
-  "type": "module"
+  }
 }
