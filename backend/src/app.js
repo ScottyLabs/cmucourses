@@ -8,7 +8,7 @@ import {
   getCourses,
   getAllCourses,
   getFilteredCourses,
-} from "./controllers/courses.js";
+} from "./controllers/courses.ts";
 import { getFCEs } from "./controllers/fces.js";
 
 KeyStore.readKey(process.env.LOGIN_API_KEY);
