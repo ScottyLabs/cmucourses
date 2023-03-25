@@ -1,14 +1,9 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import { KeyStore, generateSigningRequestHandler } from "passlink-server";
-import { isUser } from "./controllers/user.js";
-import {
-  getCourseByID,
-  getCourses,
-  getAllCourses,
-  getFilteredCourses,
-} from "./controllers/courses.ts";
+import { generateSigningRequestHandler, KeyStore } from "passlink-server";
+import { isUser } from "./controllers/user.ts";
+import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "./controllers/courses.ts";
 import { getFCEs } from "./controllers/fces.js";
 
 KeyStore.readKey(process.env.LOGIN_API_KEY);

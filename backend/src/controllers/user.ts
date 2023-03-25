@@ -1,6 +1,7 @@
 import * as jose from "jose";
 import axios from "axios";
 import cron from "node-cron";
+import { NextFunction, Request, Response } from "express";
 
 let JWT_PUBKEY;
 
@@ -15,7 +16,7 @@ if (!JWT_PUBKEY) getLoginKey();
 
 cron.schedule("0 0 * * *", getLoginKey);
 
-const verifyUserToken = async (token) => {
+const verifyUserToken = async (token: string) => {
   if (!JWT_PUBKEY) await getLoginKey();
 
   const { payload } = await jose.jwtVerify(token, JWT_PUBKEY, {
@@ -32,8 +33,12 @@ const verifyUserToken = async (token) => {
   }
 };
 
-export const isUser = async (req, res, next) => {
-  let token = req.body.token;
+export const isUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const token: string = req.body.token;
   if (process.env.AUTH_ENABLED !== "true") return next();
 
   verifyUserToken(token)
