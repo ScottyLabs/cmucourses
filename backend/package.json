@@ -8,7 +8,9 @@
     "dev": "dotenv -e .env nodemon --loader ts-node/esm ./src/app.js",
     "serve": "node src/app.js",
     "format": "prettier --write . --ignore-path .gitignore",
-    "lint": "./node_modules/.bin/eslint ./src/**"
+    "lint": "./node_modules/.bin/eslint ./src/**",
+    "db_validate": "doppler run -- prisma format",
+    "migrate": "doppler run -- prisma db push"
   },
   "author": "",
   "license": "ISC",
@@ -28,6 +30,8 @@
     "@babel/core": "^7.17.9",
     "@babel/node": "^7.16.8",
     "@babel/preset-env": "^7.16.11",
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.15.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "eslint": "^8.36.0",
