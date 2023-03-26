@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGODB_URI")
+}
+
+type ProfessorsCourses {
+  courseID         String
+  overallRating    Float
+  semesters        ProfessorsCoursesSemesters[]
+  summerHrsPerWeek Float?
+  teachingRating   Float
+  yearHrsPerWeek   Float?
+}
+
+type ProfessorsCoursesSemesters {
+  semester String
+  year     String
+}
+
+type SchedulesLectures {
+  id          String                   @map("_id") @db.ObjectId
+  instructors String[]
+  location    String?
+  name        String
+  times       SchedulesLecturesTimes[]
+}
+
+type SchedulesLecturesTimes {
+  id       String  @map("_id") @db.ObjectId
+  begin    String
+  building String?
+  days     Int[]
+  end      String
+  room     String?
+}
+
+type SchedulesSections {
+  id          String                   @map("_id") @db.ObjectId
+  instructors String[]
+  lecture     String?
+  location    String?
+  name        String
+  times       SchedulesSectionsTimes[]
+}
+
+type SchedulesSectionsTimes {
+  id       String  @map("_id") @db.ObjectId
+  begin    String
+  building String?
+  days     Int[]
+  end      String
+  room     String?
+}
+
+model courses {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  v            Int?        @map("__v")
+  coreqs       String[]
+  courseID     String      @unique
+  crosslisted  String[]
+  department   String
+  desc         String
+  name         String
+  prereqString String
+  prereqs      String[]
+  units        String
+  schedules    schedules[]
+
+  @@index([name], map: "name")
+}
+
+model fces {
+  id                  String  @id @default(auto()) @map("_id") @db.ObjectId
+  v                   Int     @map("__v")
+  andrewID            String?
+  college             String
+  courseID            String
+  courseName          String
+  department          String
+  hrsPerWeek          Float
+  instructor          String
+  level               String
+  location            String?
+  numRespondents      Int
+  possibleRespondents Int
+  rating              Float[]
+  responseRate        String
+  semester            String
+  year                String
+
+  @@index([instructor], map: "instructor")
+  @@index([courseID], map: "courseID_1_autocreated")
+}
+
+model professors {
+  id                 String              @id @default(auto()) @map("_id") @db.ObjectId
+  andrewID           String?
+  courses            ProfessorsCourses[]
+  departments        String[]
+  interestInLearning Float
+  name               String
+  providesFeedback   Float
+  respectForStudents Float
+}
+
+model schedules {
+  id       String              @id @default(auto()) @map("_id") @db.ObjectId
+  v        Int?                @map("__v")
+  courseID String
+  lectures SchedulesLectures[]
+  sections SchedulesSections[]
+  semester String
+  session  String?
+  year     Int
+  course   courses             @relation(fields: [courseID], references: [courseID])
+
+  @@index([courseID], map: "courseID")
+}

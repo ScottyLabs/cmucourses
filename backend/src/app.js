@@ -44,6 +44,10 @@ app.route("/courses/search/").post(isUser, getFilteredCourses);
 
 app.route("/fces").post(isUser, getFCEs);
 
+app.use((err, req, res, next) => {
+  res.status(500).json(err);
+});
+
 app.listen(port, () =>
   console.log(`Course Tool backend listening on port ${port}.`)
 );

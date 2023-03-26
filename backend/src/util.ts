@@ -1,14 +1,13 @@
 export const standardizeID = (id: string): string => {
   if (!id.includes("-") && id.length >= 5) {
-    let newString = id.slice(0, 2) + "-" + id.slice(2);
-    return newString;
+    return id.slice(0, 2) + "-" + id.slice(2);
   }
   return id;
 };
 
-function singleToArray<T>(param: T): T[];
-function singleToArray<T>(param: T[]): T[];
-function singleToArray<T>(param: T | T[]): T[] {
+export function singleToArray<T>(param: T): T[];
+export function singleToArray<T>(param: T[]): T[];
+export function singleToArray<T>(param: T | T[]): T[] {
   if (param instanceof Array) {
     return param;
   } else {
@@ -16,4 +15,10 @@ function singleToArray<T>(param: T | T[]): T[] {
   }
 }
 
-export { singleToArray };
+export type BoolLiteral = "true" | "false";
+
+export function fromBoolLiteral(literal?: BoolLiteral): boolean {
+  return literal === "true";
+}
+
+export type Empty = Record<string, never>;
