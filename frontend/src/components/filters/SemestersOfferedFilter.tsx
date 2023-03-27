@@ -13,6 +13,8 @@ import {
 } from "../../app/utils";
 
 const SESSIONS: Session[] = [
+  { year: "2023", semester: "fall" },
+  { year: "2023", semester: "summer" },
   { year: "2023", semester: "spring" },
   { year: "2022", semester: "fall" },
   { year: "2022", semester: "summer" },
@@ -21,8 +23,6 @@ const SESSIONS: Session[] = [
   { year: "2021", semester: "summer" },
   { year: "2021", semester: "spring" },
   { year: "2020", semester: "fall" },
-  { year: "2020", semester: "summer" },
-  { year: "2020", semester: "spring" },
 ];
 
 const SemestersOfferedFilter = () => {
