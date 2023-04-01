@@ -1,33 +1,22 @@
-import { Empty, singleToArray, standardizeID } from "../util.mjs";
+import { ElemType, exclude, PrismaReturn, singleToArray, standardizeID } from "../util.mjs";
 import { RequestHandler } from "express";
 import prisma from "../models/prisma.mjs";
-import { Prisma } from "@prisma/client";
 
-const select: Required<Prisma.fcesSelect> = {
-  id: false,
-  v: false,
-  andrewID: true,
-  college: true,
-  courseID: true,
-  courseName: true,
-  department: true,
-  hrsPerWeek: true,
-  instructor: true,
-  level: true,
-  location: true,
-  numRespondents: true,
-  possibleRespondents: true,
-  rating: true,
-  responseRate: true,
-  semester: true,
-  year: true
-};
+type fce = ElemType<PrismaReturn<typeof prisma.fces.findMany>>;
 
-export type GetFCEsQuery = { courseID: string | string[] } | { instructor: string };
+export interface GetFces {
+  params: unknown;
+  resBody: Omit<fce, "id" | "v">[];
+  reqBody: unknown;
+  query: { courseID: string | string[] } | { instructor: string };
+}
 
-export type GetFCEsResBody = Awaited<ReturnType<typeof prisma.fces.findMany>>;
-
-export const getFCEs: RequestHandler<Empty, GetFCEsResBody, Empty, GetFCEsQuery> = async (req, res, next) => {
+export const getFCEs: RequestHandler<
+  GetFces["params"],
+  GetFces["resBody"],
+  GetFces["reqBody"],
+  GetFces["query"]
+> = async (req, res, next) => {
   if ("courseID" in req.query) {
     const courseIDs = singleToArray(req.query.courseID).map(standardizeID);
 
@@ -35,10 +24,13 @@ export const getFCEs: RequestHandler<Empty, GetFCEsResBody, Empty, GetFCEsQuery>
       const results = await prisma.fces.findMany({
         where: {
           courseID: { in: courseIDs }
-        },
-        select
+        }
       });
-      res.json(results);
+
+      const projectedResults =
+        results.map((courseFce) => exclude(courseFce, "id", "v"));
+
+      res.json(projectedResults);
     } catch (e) {
       next(e);
     }
@@ -48,10 +40,13 @@ export const getFCEs: RequestHandler<Empty, GetFCEsResBody, Empty, GetFCEsQuery>
       const results = await prisma.fces.findMany({
         where: {
           instructor
-        },
-        select
+        }
       });
-      res.json(results);
+
+      const projectedResults =
+        results.map((courseFce) => exclude(courseFce, "id", "v"));
+
+      res.json(projectedResults);
     } catch (e) {
       next(e);
     }

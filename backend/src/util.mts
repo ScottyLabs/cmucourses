@@ -21,4 +21,14 @@ export function fromBoolLiteral(literal?: BoolLiteral): boolean {
   return literal === "true";
 }
 
-export type Empty = Record<string, unknown>;
+export function exclude<T, K extends keyof T>(t: T, ...keys: K[]): Omit<T, K> {
+  for (let key of keys)
+    delete t[key];
+  return t;
+}
+
+export type PrismaReturn<PrismaFnType extends (...args: any) => any> =
+  Awaited<ReturnType<PrismaFnType>>;
+
+export type ElemType<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;

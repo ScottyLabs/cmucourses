@@ -22,7 +22,7 @@ cron.schedule("0 0 * * *", fetchLoginKey);
 
 const verifyUserToken = async (token: string) => {
   const { payload } = await jose.jwtVerify(token, await getLoginKey(), {
-    algorithms: ["RS256"],
+    algorithms: ["RS256"]
   });
 
   if (!payload) {
@@ -34,7 +34,7 @@ const verifyUserToken = async (token: string) => {
 
 export type IsUserReqBody<T> = T & { token: string };
 
-export async function isUser<P, ResBody, ReqBody, ReqQuery, Locals extends Record<string, unknown>>(
+export function isUser<P, ResBody, ReqBody, ReqQuery, Locals extends Record<string, unknown>>(
   req: Request<P, ResBody, IsUserReqBody<ReqBody>, ReqQuery, Locals>,
   res: Response<ResBody, Locals>,
   next: NextFunction

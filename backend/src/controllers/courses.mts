@@ -1,4 +1,4 @@
-import { BoolLiteral, fromBoolLiteral, SingleOrArray, singleToArray, standardizeID } from "../util.mjs";
+import { BoolLiteral, fromBoolLiteral, PrismaReturn, SingleOrArray, singleToArray, standardizeID } from "../util.mjs";
 import { Course } from "../models/course.js";
 import { FCE } from "../models/fce.js";
 import { RequestHandler } from "express";
@@ -15,7 +15,7 @@ export interface GetCourseById {
   query: {
     schedules?: BoolLiteral;
   };
-  resBody: Awaited<ReturnType<typeof prisma.courses.findFirstOrThrow>>;
+  resBody: PrismaReturn<typeof prisma.courses.findFirstOrThrow>;
   reqBody: unknown;
 }
 
@@ -44,7 +44,7 @@ export const getCourseByID: RequestHandler<
 
 export interface GetCourses {
   params: unknown;
-  resBody: Awaited<ReturnType<typeof prisma.courses.findMany>>;
+  resBody: PrismaReturn<typeof prisma.courses.findMany>;
   reqBody: unknown;
   query: {
     courseID: SingleOrArray<string>;
@@ -231,7 +231,7 @@ const getAllCoursesDbQuery = {
 
 export interface GetAllCourses {
   params: unknown;
-  resBody: Awaited<ReturnType<typeof prisma.courses.findMany<typeof getAllCoursesDbQuery>>>;
+  resBody: PrismaReturn<typeof prisma.courses.findMany<typeof getAllCoursesDbQuery>>;
   reqBody: unknown;
   query: unknown;
 }
