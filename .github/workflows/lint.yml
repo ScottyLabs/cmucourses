@@ -26,3 +26,7 @@ jobs:
         working-directory: ./backend
         run: npm run lint
         shell: bash
+      - name: Check TypeScript (Backend)
+        working-directory: ./backend
+        run: npx tsc --noEmit
+        shell: bash
