@@ -5,8 +5,6 @@ export const standardizeID = (id: string): string => {
   return id;
 };
 
-export function singleToArray<T>(param: T): T[];
-export function singleToArray<T>(param: T[]): T[];
 export function singleToArray<T>(param: T | T[]): T[] {
   if (param instanceof Array) {
     return param;

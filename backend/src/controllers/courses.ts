@@ -36,35 +36,19 @@ export const getCourseByID:
     } catch (e) {
       next(e);
     }
-    /*
-     const options: any = {};
-     if ("schedules" in req.query && req.query.schedules)
-       options.populate = [{ path: "schedules", model: Schedule }];
-
-     Course.findOne({ courseID: id }, projection, options)
-       .then((result) => res.json(result))
-       .catch((err) => res.status(500).send(err));
-     */
   };
 
 export type GetCoursesResBody =
   Awaited<ReturnType<typeof prisma.courses.findMany>>
 
 export interface GetCoursesQuery {
-  courseID: string;
+  courseID: string | string[];
   schedules: BoolLiteral;
 }
 
 export const getCourses:
   RequestHandler<Empty, GetCoursesResBody, Empty, GetCoursesQuery> =
   async (req, res, next) => {
-    /*if (!("courseID" in req.query)) {
-      res.status(400).send({
-        detail: "Missing courseID query param",
-      });
-      return;
-    }*/
-
     const courseIDs = singleToArray(req.query.courseID).map(standardizeID);
 
     try {
@@ -87,20 +71,6 @@ export const getCourses:
     } catch (e) {
       next(e);
     }
-    /*
-    const options: any = { populate: [] };
-    if ("schedules" in req.query && req.query.schedules) {
-      options.populate.push({
-        path: "schedules",
-        model: Schedule,
-        select: "year semester session _id",
-      });
-    }
-
-    Course.find({ courseID: { $in: courseIDs } }, projection, options)
-      .then((result) => res.json(result))
-      .catch((err) => res.status(500).send(err));
-     */
   };
 
 export const getFilteredCourses = (req, res, next) => {
@@ -222,7 +192,7 @@ const allCoursesEntry = {
   lastCached: null,
 };
 
-const getAllCoursesQuery = {
+const getAllCoursesDbQuery = {
   select: {
     courseID: true,
     name: true,
@@ -231,7 +201,7 @@ const getAllCoursesQuery = {
 };
 
 export type GetAllCoursesResBody =
-  Awaited<ReturnType<typeof prisma.courses.findMany<typeof getAllCoursesQuery>>>;
+  Awaited<ReturnType<typeof prisma.courses.findMany<typeof getAllCoursesDbQuery>>>;
 
 export const getAllCourses:
   RequestHandler<Empty, GetAllCoursesResBody, Empty, Empty>
@@ -241,7 +211,7 @@ export const getAllCourses:
     new Date().valueOf() - allCoursesEntry.lastCached > 1000 * 60 * 60 * 24
     ) {
       try {
-        const courses = await prisma.courses.findMany(getAllCoursesQuery);
+        const courses = await prisma.courses.findMany(getAllCoursesDbQuery);
 
         allCoursesEntry.lastCached = new Date();
         allCoursesEntry.allCourses = courses;
