@@ -57,7 +57,7 @@ export interface GetCoursesQuery {
 
 export const getCourses:
   RequestHandler<Empty, GetCoursesResBody, Empty, GetCoursesQuery> =
-  async (req, res) => {
+  async (req, res, next) => {
     /*if (!("courseID" in req.query)) {
       res.status(400).send({
         detail: "Missing courseID query param",
@@ -67,22 +67,26 @@ export const getCourses:
 
     const courseIDs = singleToArray(req.query.courseID).map(standardizeID);
 
-    const courses = await prisma.courses.findMany({
-      where: {
-        courseID: { in: courseIDs },
-      },
-      include: {
-        schedules: fromBoolLiteral(req.query.schedules) && {
-          select: {
-            id: true,
-            year: true,
-            semester: true,
-            session: true,
+    try {
+      const courses = await prisma.courses.findMany({
+        where: {
+          courseID: { in: courseIDs },
+        },
+        include: {
+          schedules: fromBoolLiteral(req.query.schedules) && {
+            select: {
+              id: true,
+              year: true,
+              semester: true,
+              session: true,
+            },
           },
         },
-      },
-    });
-    res.json(courses);
+      });
+      res.json(courses);
+    } catch (e) {
+      next(e);
+    }
     /*
     const options: any = { populate: [] };
     if ("schedules" in req.query && req.query.schedules) {
@@ -99,7 +103,7 @@ export const getCourses:
      */
   };
 
-export const getFilteredCourses = (req, res) => {
+export const getFilteredCourses = (req, res, next) => {
   const matchQuery = {};
   const options: any = {
     projection: { ...projection },
@@ -206,10 +210,10 @@ export const getFilteredCourses = (req, res) => {
     }
   }
 
-  const aggregate = Course.aggregate(pipeline);
-  // Course.aggregatePaginate(aggregate, options)
-  //   .then((result) => res.json(result))
-  //   .catch((err) => res.status(500).send(err));
+  Course.aggregate(pipeline).option(options).then(
+    (result) => res.json(result),
+    next,
+  );
 };
 
 // TODO: use a better caching system
@@ -218,25 +222,34 @@ const allCoursesEntry = {
   lastCached: null,
 };
 
-const allCoursesBody: Pick<> = {};
+const getAllCoursesQuery = {
+  select: {
+    courseID: true,
+    name: true,
+    id: true,
+  },
+};
 
 export type GetAllCoursesResBody =
-  Awaited<ReturnType<typeof prisma.courses.findMany<>>>
+  Awaited<ReturnType<typeof prisma.courses.findMany<typeof getAllCoursesQuery>>>;
 
 export const getAllCourses:
-  RequestHandler<Empty, unknown, Empty, Empty>
+  RequestHandler<Empty, GetAllCoursesResBody, Empty, Empty>
   = async (req, res, next) => {
     if (
       allCoursesEntry.lastCached === null ||
     new Date().valueOf() - allCoursesEntry.lastCached > 1000 * 60 * 60 * 24
     ) {
-      Course.find({}, "courseID name -_id")
-        .then((result) => {
-          allCoursesEntry.lastCached = new Date();
-          allCoursesEntry.allCourses = result;
-          res.json(result);
-        })
-        .catch((err) => res.status(500).send(err));
+      try {
+        const courses = await prisma.courses.findMany(getAllCoursesQuery);
+
+        allCoursesEntry.lastCached = new Date();
+        allCoursesEntry.allCourses = courses;
+
+        res.json(courses);
+      } catch (e) {
+        next(e);
+      }
     } else {
       res.json(allCoursesEntry.allCourses);
     }
