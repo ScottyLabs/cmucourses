@@ -5,7 +5,9 @@ export const standardizeID = (id: string): string => {
   return id;
 };
 
-export function singleToArray<T>(param: T | T[]): T[] {
+export type SingleOrArray<T> = T | T[];
+
+export function singleToArray<T>(param: SingleOrArray<T>): T[] {
   if (param instanceof Array) {
     return param;
   } else {
@@ -19,4 +21,4 @@ export function fromBoolLiteral(literal?: BoolLiteral): boolean {
   return literal === "true";
 }
 
-export type Empty = Record<string, never>;
+export type Empty = Record<string, unknown>;

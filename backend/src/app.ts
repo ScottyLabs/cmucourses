@@ -1,18 +1,22 @@
-import express from "express";
+import express, { ErrorRequestHandler } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import { generateSigningRequestHandler, KeyStore } from "passlink-server";
-import { isUser } from "./controllers/user.ts";
-import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "./controllers/courses.ts";
-import { getFCEs } from "./controllers/fces.js";
+import { isUser } from "./controllers/user.mjs";
+import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "./controllers/courses.mjs";
+import { getFCEs } from "./controllers/fces.mjs";
 
+// because there is a bug in the typing for passlink
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 KeyStore.readKey(process.env.LOGIN_API_KEY);
 
 const app = express();
 const signingRequestHandler = generateSigningRequestHandler(
   {
+    redirectUrl: "",
     restrictDomain: true,
-    applicationId: process.env.LOGIN_API_ID,
+    applicationId: process.env.LOGIN_API_ID ?? "",
   },
   KeyStore.getSecretKey(),
   true
@@ -44,10 +48,12 @@ app.route("/courses/search/").post(isUser, getFilteredCourses);
 
 app.route("/fces").post(isUser, getFCEs);
 
-app.use((err, req, res, next) => {
+// the next parameter is needed!
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   res.status(500).json(err);
-});
+};
 
-app.listen(port, () =>
-  console.log(`Course Tool backend listening on port ${port}.`)
-);
+app.use(errorHandler);
+
+app.listen(port, () => console.log(`Course Tool backend listening on port ${port}.`));
