@@ -1,9 +1,8 @@
 import { BoolLiteral, fromBoolLiteral, PrismaReturn, SingleOrArray, singleToArray, standardizeID } from "../util.mjs";
-import { Course } from "../models/course.js";
-import { FCE } from "../models/fce.js";
 import { RequestHandler } from "express";
 import prisma from "../models/prisma.mjs";
-import { AggregateOptions, AnyObject, PipelineStage } from "mongoose";
+import { AggregateOptions, AnyObject } from "mongoose";
+import { Prisma } from "@prisma/client";
 
 const projection = { _id: false, __v: false };
 const MAX_LIMIT = 10;
@@ -84,14 +83,15 @@ export const getCourses: RequestHandler<
 
 export interface GetFilteredCourses {
   params: unknown;
-  resBody: unknown; // TODO
+  resBody: unknown;
   reqBody: unknown;
   query: {
+    page?: string;
+    pageSize?: string;
     department?: SingleOrArray<string>;
     keywords?: string;
     unitsMin?: string;
     unitsMax?: string;
-    page?: string;
     schedules?: BoolLiteral;
     levels?: string;
     session?: SingleOrArray<string>;
@@ -104,8 +104,10 @@ export const getFilteredCourses: RequestHandler<
   GetFilteredCourses["resBody"],
   GetFilteredCourses["reqBody"],
   GetFilteredCourses["query"]
-> = (req, res, next) => {
-  const matchQuery: AnyObject = {};
+> = async (req, res, next) => {
+  // raw query, because prisma doesn't support full-text search for mongodb yet
+
+  const queryFilter: AnyObject = {};
   const options: AggregateOptions = {
     projection: { ...projection },
     limit: MAX_LIMIT,
@@ -113,23 +115,24 @@ export const getFilteredCourses: RequestHandler<
   };
 
   if (req.query.department !== undefined) {
-    matchQuery["department"] = { $in: singleToArray(req.query.department) };
+    queryFilter["department"] = { $in: singleToArray(req.query.department) };
   }
 
   if (req.query.keywords !== undefined) {
-    matchQuery["$text"] = { $search: req.query.keywords };
+    queryFilter["$text"] = { $search: req.query.keywords };
     options.projection.score = { $meta: "textScore" };
     options.sort = { score: { $meta: "textScore" } };
   }
 
-  const pipeline: PipelineStage[] = [];
-  pipeline.push({ $match: matchQuery });
+  const pipeline: Prisma.InputJsonValue[] = [];
+  pipeline.push({ $match: queryFilter });
 
-  const hasUnitsFilter =
-    (req.query.unitsMin !== undefined && parseInt(req.query.unitsMin)) ||
-    (req.query.unitsMax !== undefined && parseInt(req.query.unitsMax));
+  const unitsMin =
+    req.query.unitsMin === undefined ? undefined : parseInt(req.query.unitsMin);
+  const unitsMax =
+    req.query.unitsMax === undefined ? undefined : parseInt(req.query.unitsMax);
 
-  if (hasUnitsFilter) {
+  if (unitsMin !== undefined || unitsMax !== undefined) {
     pipeline.push({
       $addFields: {
         unitsDecimal: {
@@ -143,18 +146,14 @@ export const getFilteredCourses: RequestHandler<
       }
     });
 
-    const unitsQuery: AnyObject = {};
-    unitsQuery["unitsDecimal"] = {};
-
-    if (req.query.unitsMin !== undefined) {
-      unitsQuery["unitsDecimal"].$gte = parseInt(req.query.unitsMin) || 0;
-    }
-
-    if (req.query.unitsMax !== undefined) {
-      unitsQuery["unitsDecimal"].$lte = parseInt(req.query.unitsMax) || 100;
-    }
-
-    pipeline.push({ $match: unitsQuery });
+    pipeline.push({
+      $match: {
+        unitsDecimal: {
+          $gte: unitsMin,
+          $lte: unitsMax
+        }
+      }
+    });
   }
 
   if (req.query.page !== undefined) options.page = req.query.page;
@@ -201,17 +200,23 @@ export const getFilteredCourses: RequestHandler<
 
   if (req.method === "POST") {
     if (fromBoolLiteral(req.query.fces)) {
-      options.populate.push({
-        path: "fces",
-        model: FCE,
-        select: "-_id"
+      pipeline.push({
+        $lookup: {
+          from: "fces",
+          localField: "courseID",
+          foreignField: "courseID",
+          as: "fces"
+        }
       });
     }
   }
 
-  Course.aggregate(pipeline)
-    .option(options)
-    .then((result) => res.json(result), next);
+  try {
+    const results = await prisma.courses.aggregateRaw({ pipeline, options });
+    res.json(results);
+  } catch (e) {
+    next(e);
+  }
 };
 
 // TODO: use a better caching system
