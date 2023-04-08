@@ -1,7 +1,14 @@
-import { BoolLiteral, fromBoolLiteral, PrismaReturn, SingleOrArray, singleToArray, standardizeID } from "../util.mjs";
+import {
+  BoolLiteral,
+  fromBoolLiteral,
+  parseOptionalInt,
+  PrismaReturn,
+  SingleOrArray,
+  singleToArray,
+  standardizeID
+} from "../util.mjs";
 import { RequestHandler } from "express";
 import prisma from "../models/prisma.mjs";
-import { AggregateOptions, AnyObject } from "mongoose";
 import { Prisma } from "@prisma/client";
 
 const projection = { _id: false, __v: false };
@@ -107,11 +114,13 @@ export const getFilteredCourses: RequestHandler<
 > = async (req, res, next) => {
   // raw query, because prisma doesn't support full-text search for mongodb yet
 
-  const queryFilter: AnyObject = {};
-  const options: AggregateOptions = {
-    projection: { ...projection },
+  const queryFilter: Record<string, unknown> = {};
+  const options = {
+    projection: { ...projection } as unknown,
     limit: MAX_LIMIT,
-    populate: []
+    populate: [],
+    sort: {},
+    page: undefined as string | undefined
   };
 
   if (req.query.department !== undefined) {
@@ -120,12 +129,13 @@ export const getFilteredCourses: RequestHandler<
 
   if (req.query.keywords !== undefined) {
     queryFilter["$text"] = { $search: req.query.keywords };
+    // @ts-ignore
     options.projection.score = { $meta: "textScore" };
     options.sort = { score: { $meta: "textScore" } };
   }
 
   const pipeline: Prisma.InputJsonValue[] = [];
-  pipeline.push({ $match: queryFilter });
+  pipeline.push({ $match: queryFilter } as Prisma.InputJsonValue);
 
   const unitsMin =
     req.query.unitsMin === undefined ? undefined : parseInt(req.query.unitsMin);
@@ -155,8 +165,6 @@ export const getFilteredCourses: RequestHandler<
       }
     });
   }
-
-  if (req.query.page !== undefined) options.page = req.query.page;
 
   if (fromBoolLiteral(req.query.schedules))
     pipeline.push({
@@ -198,22 +206,60 @@ export const getFilteredCourses: RequestHandler<
     });
   }
 
-  if (req.method === "POST") {
-    if (fromBoolLiteral(req.query.fces)) {
-      pipeline.push({
-        $lookup: {
-          from: "fces",
-          localField: "courseID",
-          foreignField: "courseID",
-          as: "fces"
-        }
-      });
+  try {
+    const aggregateOptions = options as Prisma.InputJsonValue;
+
+    const page = parseOptionalInt(req.query.page, 1);
+    const pageSize = parseOptionalInt(req.query.pageSize, MAX_LIMIT);
+
+    const countResults = await prisma.courses.aggregateRaw({
+      pipeline: [...pipeline, { $count: "count" }],
+      options: aggregateOptions
+    }) as { [0]: { count: number } };
+    const totalDocs = countResults[0].count;
+    const totalPages = Math.ceil(totalDocs / pageSize);
+
+    pipeline.push({
+      $skip: (page - 1) * pageSize
+    }, {
+      $limit: pageSize
+    });
+
+    if (req.method === "POST") {
+      if (fromBoolLiteral(req.query.fces)) {
+        pipeline.push({
+          $lookup: {
+            from: "fces",
+            localField: "courseID",
+            foreignField: "courseID",
+            as: "fces"
+          }
+        });
+      }
     }
+
+    const docs = await prisma.courses.aggregateRaw({
+      pipeline,
+      options: aggregateOptions
+    });
+
+    res.json({
+      totalDocs,
+      totalPages,
+      page,
+      docs
+    });
+  } catch (e) {
+    next(e);
   }
 
+
+  const aggregateArgs = {
+    pipeline,
+    options
+  } as Prisma.coursesAggregateRawArgs;
+
   try {
-    const results = await prisma.courses.aggregateRaw({ pipeline, options });
-    res.json(results);
   } catch (e) {
     next(e);
   }

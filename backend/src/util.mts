@@ -27,6 +27,15 @@ export function exclude<T, K extends keyof T>(t: T, ...keys: K[]): Omit<T, K> {
   return t;
 }
 
+export function parseOptionalInt(s: string | undefined, defaultVal: number): number {
+  if (s === undefined)
+    return defaultVal;
+  const num = parseInt(s);
+  if (Number.isNaN(num))
+    throw new Error("Invalid number " + s);
+  return num;
+}
+
 export type PrismaReturn<PrismaFnType extends (...args: any) => any> =
   Awaited<ReturnType<PrismaFnType>>;
 
