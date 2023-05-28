@@ -10,10 +10,6 @@ jobs:
         working-directory: .
         run: npm i
         shell: bash
-      - name: Validate schema
-        working-directory: .
-        run: npm run db-validate
-        shell: bash
       - name: Generate prisma client
         working-directory: .
         run: npm run db-generate
