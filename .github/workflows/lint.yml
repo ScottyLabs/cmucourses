@@ -6,8 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies (Frontend)
-        working-directory: ./frontend
+      - name: Install dependencies
+        working-directory: .
         run: npm i
         shell: bash
       - name: Check TypeScript (Frontend)
@@ -17,10 +17,6 @@ jobs:
       - name: Run ESLint (Frontend)
         working-directory: ./frontend
         run: npm run lint
-        shell: bash
-      - name: Install dependencies (Backend)
-        working-directory: ./backend
-        run: npm i
         shell: bash
       - name: Run ESLint (Backend)
         working-directory: ./backend
