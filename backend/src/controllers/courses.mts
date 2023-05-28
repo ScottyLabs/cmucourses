@@ -129,6 +129,7 @@ export const getFilteredCourses: RequestHandler<
 
   if (req.query.keywords !== undefined) {
     queryFilter["$text"] = { $search: req.query.keywords };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     options.projection.score = { $meta: "textScore" };
     options.sort = { score: { $meta: "textScore" } };
@@ -249,17 +250,6 @@ export const getFilteredCourses: RequestHandler<
       page,
       docs
     });
-  } catch (e) {
-    next(e);
-  }
-
-
-  const aggregateArgs = {
-    pipeline,
-    options
-  } as Prisma.coursesAggregateRawArgs;
-
-  try {
   } catch (e) {
     next(e);
   }

@@ -22,7 +22,7 @@ export function fromBoolLiteral(literal?: BoolLiteral): boolean {
 }
 
 export function exclude<T, K extends keyof T>(t: T, ...keys: K[]): Omit<T, K> {
-  for (let key of keys)
+  for (const key of keys)
     delete t[key];
   return t;
 }
