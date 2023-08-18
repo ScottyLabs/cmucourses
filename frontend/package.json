@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "dev": "doppler run -- next -p 3010",
+    "dev": "next dev",
     "build": "next build",
-    "start": "doppler run -- next start -p 3010",
+    "start": "next start",
     "type-check": "tsc",
     "test": "jest",
     "lint": "next lint",
