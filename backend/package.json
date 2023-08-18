@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "doppler run -- npm run serve",
-    "dev": "doppler run -- nodemon ./src/app.js",
+    "start": "npm run serve",
+    "dev": "dotenv -e .env nodemon ./src/app.js",
     "serve": "node src/app.js",
     "format": "prettier --write . --ignore-path .gitignore",
     "lint": "./node_modules/.bin/eslint ./src/**"
