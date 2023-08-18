@@ -27,7 +27,9 @@ const port = process.env.PORT || 3000;
 const database = process.env.MONGODB_URI || "mongodb://localhost:27017";
 
 mongoose.Promise = global.Promise;
-mongoose.connect(database);
+mongoose.connect(database, {
+  dbName: "course-api",
+});
 
 app.use(cors());
 
