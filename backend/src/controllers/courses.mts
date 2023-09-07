@@ -5,7 +5,7 @@ import {
   PrismaReturn,
   SingleOrArray,
   singleToArray,
-  standardizeID
+  standardizeID,
 } from "../util.mjs";
 import { RequestHandler } from "express";
 import prisma from "../models/prisma.mjs";
@@ -35,11 +35,11 @@ export const getCourseByID: RequestHandler<
   try {
     const course = await prisma.courses.findFirstOrThrow({
       where: {
-        courseID: id
+        courseID: id,
       },
       include: {
-        schedules: fromBoolLiteral(req.query.schedules)
-      }
+        schedules: fromBoolLiteral(req.query.schedules),
+      },
     });
 
     res.json(course);
@@ -69,7 +69,7 @@ export const getCourses: RequestHandler<
   try {
     const courses = await prisma.courses.findMany({
       where: {
-        courseID: { in: courseIDs }
+        courseID: { in: courseIDs },
       },
       include: {
         schedules: fromBoolLiteral(req.query.schedules) && {
@@ -77,10 +77,10 @@ export const getCourses: RequestHandler<
             id: true,
             year: true,
             semester: true,
-            session: true
-          }
-        }
-      }
+            session: true,
+          },
+        },
+      },
     });
     res.json(courses);
   } catch (e) {
@@ -120,7 +120,7 @@ export const getFilteredCourses: RequestHandler<
     limit: MAX_LIMIT,
     populate: [],
     sort: {},
-    page: undefined as string | undefined
+    page: undefined as string | undefined,
   };
 
   if (req.query.department !== undefined) {
@@ -151,19 +151,19 @@ export const getFilteredCourses: RequestHandler<
             input: "$units",
             to: "decimal",
             onError: null,
-            onNull: null
-          }
-        }
-      }
+            onNull: null,
+          },
+        },
+      },
     });
 
     pipeline.push({
       $match: {
         unitsDecimal: {
           $gte: unitsMin,
-          $lte: unitsMax
-        }
-      }
+          $lte: unitsMax,
+        },
+      },
     });
   }
 
@@ -173,16 +173,16 @@ export const getFilteredCourses: RequestHandler<
         from: "schedules",
         localField: "courseID",
         foreignField: "courseID",
-        as: "schedules"
-      }
+        as: "schedules",
+      },
     });
 
   if (req.query.levels !== undefined && req.query.levels.length > 0) {
     const levelRange = req.query.levels;
     pipeline.push({
       $match: {
-        courseID: { $regex: `\\d\\d-[${levelRange}]\\d\\d` }
-      }
+        courseID: { $regex: `\\d\\d-[${levelRange}]\\d\\d` },
+      },
     });
   }
 
@@ -200,10 +200,10 @@ export const getFilteredCourses: RequestHandler<
       $match: {
         schedules: {
           $elemMatch: {
-            $or: sessions
-          }
-        }
-      }
+            $or: sessions,
+          },
+        },
+      },
     });
   }
 
@@ -215,15 +215,15 @@ export const getFilteredCourses: RequestHandler<
 
     const countResults = await prisma.courses.aggregateRaw({
       pipeline: [...pipeline, { $count: "count" }],
-      options: aggregateOptions
-    }) as { [0]: { count: number } };
-    const totalDocs = countResults[0].count;
+      options: aggregateOptions,
+    }) as { [0]: undefined | { count: number } };
+    const totalDocs = countResults[0]?.count ?? 0;
     const totalPages = Math.ceil(totalDocs / pageSize);
 
     pipeline.push({
-      $skip: (page - 1) * pageSize
+      $skip: (page - 1) * pageSize,
     }, {
-      $limit: pageSize
+      $limit: pageSize,
     });
 
     if (req.method === "POST") {
@@ -233,22 +233,22 @@ export const getFilteredCourses: RequestHandler<
             from: "fces",
             localField: "courseID",
             foreignField: "courseID",
-            as: "fces"
-          }
+            as: "fces",
+          },
         });
       }
     }
 
     const docs = await prisma.courses.aggregateRaw({
       pipeline,
-      options: aggregateOptions
+      options: aggregateOptions,
     });
 
     res.json({
       totalDocs,
       totalPages,
       page,
-      docs
+      docs,
     });
   } catch (e) {
     next(e);
@@ -259,15 +259,15 @@ export const getFilteredCourses: RequestHandler<
 
 const allCoursesEntry = {
   allCourses: [] as GetAllCourses["resBody"],
-  lastCached: new Date(1970)
+  lastCached: new Date(1970),
 };
 
 const getAllCoursesDbQuery = {
   select: {
     courseID: true,
     name: true,
-    id: true
-  }
+    id: true,
+  },
 };
 
 export interface GetAllCourses {

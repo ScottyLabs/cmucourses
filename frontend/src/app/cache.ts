@@ -65,18 +65,18 @@ export const selectFCEResultsForCourses =
 
 export const selectFCEResultsForCourse =
   (courseID: string) =>
-  (state: RootState): FCE[] | undefined =>
-    state.cache.fces[courseID];
+    (state: RootState): FCE[] | undefined =>
+      state.cache.fces[courseID];
 
 export const selectScheduleForCourse =
   (courseID: string) =>
-  (state: RootState): Schedule[] | undefined =>
-    state.cache.scheduleResults[courseID];
+    (state: RootState): Schedule[] | undefined =>
+      state.cache.scheduleResults[courseID];
 
 export const selectFCEResultsForInstructor =
   (name: string) =>
-  (state: RootState): FCE[] | undefined =>
-    state.cache.instructorResults[name];
+    (state: RootState): FCE[] | undefined =>
+      state.cache.instructorResults[name];
 
 export const cacheSlice = createSlice({
   name: "cache",
@@ -112,7 +112,7 @@ export const cacheSlice = createSlice({
           }
 
           state.coursesLoading = false;
-        }
+        },
       );
 
     builder
@@ -126,7 +126,7 @@ export const cacheSlice = createSlice({
             state.courseResults[result.courseID] = result;
           }
           state.coursesLoading = false;
-        }
+        },
       );
 
     builder
@@ -143,7 +143,7 @@ export const cacheSlice = createSlice({
             state.scheduleResults[action.payload.courseID] =
               action.payload.schedules;
           }
-        }
+        },
       );
 
     builder
@@ -169,7 +169,7 @@ export const cacheSlice = createSlice({
           for (const fce of action.payload) {
             state.fces[fce.courseID].push(fce);
           }
-        }
+        },
       );
 
     builder.addCase(fetchAllCourses.fulfilled, (state, action) => {
