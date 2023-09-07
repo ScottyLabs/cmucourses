@@ -1,3 +1,5 @@
+import "dotenv/config";
+import morgan from "morgan";
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import { generateSigningRequestHandler, KeyStore } from "passlink-server";
@@ -18,7 +20,7 @@ const signingRequestHandler = generateSigningRequestHandler(
     applicationId: process.env.LOGIN_API_ID ?? "",
   },
   KeyStore.getSecretKey(),
-  true
+  true,
 );
 
 const port = process.env.PORT || 3000;
@@ -27,6 +29,7 @@ app.use(cors());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan("dev"));
 
 app.get("/signingrequest", (req, res) => {
   signingRequestHandler(req, res);
