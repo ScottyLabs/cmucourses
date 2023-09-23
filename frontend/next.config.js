@@ -1,3 +1,4 @@
+require("dotenv").config({ path: "../.env" });
 const withTM = require("next-transpile-modules")(["passlink"]);
 const { PHASE_DEVELOPMENT_SERVER } = require("next/constants");
 

@@ -1,0 +1,15 @@
+{
+  "extends": "ts-node/node16/tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./build",
+    "allowJs": true,
+    "target": "es6",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "module": "esnext",
+  },
+  "ts-node": {
+    "esm": true,
+  },
+  "include": ["./src/**/*"]
+}

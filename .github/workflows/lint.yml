@@ -6,9 +6,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies (Frontend)
-        working-directory: ./frontend
+      - name: Install dependencies
+        working-directory: .
         run: npm i
+        shell: bash
+      - name: Generate prisma client
+        working-directory: .
+        run: npm run db-generate
         shell: bash
       - name: Check TypeScript (Frontend)
         working-directory: ./frontend
@@ -18,11 +22,11 @@ jobs:
         working-directory: ./frontend
         run: npm run lint
         shell: bash
-      - name: Install dependencies (Backend)
-        working-directory: ./backend
-        run: npm i
-        shell: bash
       - name: Run ESLint (Backend)
         working-directory: ./backend
         run: npm run lint
+        shell: bash
+      - name: Check TypeScript (Backend)
+        working-directory: ./backend
+        run: npx tsc --noEmit
         shell: bash

@@ -2,11 +2,13 @@
   "name": "course-tool-backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/app.ts",
+  "type": "module",
   "scripts": {
     "start": "npm run serve",
-    "dev": "dotenv -e .env nodemon ./src/app.js",
-    "serve": "node src/app.js",
+    "dev": "nodemon -r dotenv/config src/app.ts dotenv_config_path=../.env",
+    "build": "tsc",
+    "serve": "node build/app.js",
     "format": "prettier --write . --ignore-path .gitignore",
     "lint": "./node_modules/.bin/eslint ./src/**"
   },
@@ -17,18 +19,18 @@
     "cors": "^2.8.5",
     "express": "^4.18.0",
     "jose": "^4.8.1",
-    "mongoose": "^6.3.1",
-    "mongoose-aggregate-paginate-v2": "^1.0.6",
+    "morgan": "^1.10.0",
     "node-cron": "^3.0.0",
     "passlink-server": "^1.1.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.9",
-    "@babel/node": "^7.16.8",
-    "@babel/preset-env": "^7.16.11",
-    "eslint": "^8.21.0",
-    "nodemon": "^2.0.15"
-  },
-  "type": "module"
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/morgan": "^1.9.5",
+    "@types/node": "^18.15.3",
+    "@types/node-cron": "^3.0.7",
+    "eslint-config-prettier": "^8.7.0",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.9.1"
+  }
 }
