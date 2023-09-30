@@ -10,9 +10,10 @@ import Loading from "./Loading";
 interface Props {
   courseIDs: string[];
   children: React.ReactNode;
+  numSaved?: number;
 }
 
-const CourseList = ({ courseIDs, children }: Props) => {
+const CourseList = ({ courseIDs, children, numSaved}: Props) => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const dispatch = useAppDispatch();
 
@@ -29,6 +30,13 @@ const CourseList = ({ courseIDs, children }: Props) => {
     <div className="py-6 px-2 md:px-6">
       {results.length > 0 ? (
         <div className="space-y-4">
+          {numSaved === undefined ? (
+              <div></div>
+           ) : (
+             <div className="text-gray-400 mt-6 text-center">
+                 Total Courses Saved: {results.length}
+               </div>
+           )}
           {/* We found less courses than what we search for, so put a Loading indicator */}
           {courseIDs.length > results.length && <Loading />}
           {results.map((course) => (
