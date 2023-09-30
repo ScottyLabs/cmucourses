@@ -13,11 +13,14 @@ const SavedPage: NextPage = () => {
       activePage="saved"
       sidebar={<Aggregate />}
       content={
+        <div>
+        <h1 style={{marginLeft: "30px", marginTop: "20px", color: "green"}}>number of saved courses: {saved.length}</h1>
         <CourseList courseIDs={saved}>
           <div className="text-gray-400 mt-6 text-center">
             Nothing saved yet!
           </div>
         </CourseList>
+        </div>
       }
     />
   );
