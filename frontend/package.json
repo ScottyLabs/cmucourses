@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3010",
+    "dev": "next dev -p 3011",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
