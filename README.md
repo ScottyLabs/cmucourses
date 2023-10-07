@@ -1,3 +1,5 @@
+test change
+
 # CMU Courses
 
 CMU Courses (AKA ScottyLabs Course Tool) is a web application designed to aid students at Carnegie Mellon University in
