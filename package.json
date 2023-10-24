@@ -4,7 +4,7 @@
     "db-generate": "prisma generate --schema=./db/schema.prisma",
     "db-migrate": "doppler run -- prisma db push --schema=./db/schema.prisma",
     "postinstall": "cd backend && npm install && cd ../frontend && npm install",
-    "build:backend": "cd backend && npm run build",
+    "build:backend": "npm run db-generate && cd backend && npm run build",
     "start:backend": "cd backend && npm start",
     "bootcamp-setup": "cp .env.template .env"
   },
