@@ -17,7 +17,7 @@ development, so expect large changes to the codebase and features to be unstable
 
 ## Getting Started
 
-To get started, run `npm install` in both the `frontend` and `backend` folders.
+To get started, run `npm install` in the root, `frontend` and `backend` directories.
 
 Also, we use [Doppler](https://www.doppler.com) to populate the environment with the necessary secrets to access the
 database. Follow the instructions [here](https://docs.doppler.com/docs/install-cli) to install the Doppler CLI.
@@ -26,6 +26,14 @@ Run `doppler setup` in the parent folder to set this up.
 ### Frontend
 
 To run the frontend in development mode:
+
+Create a `.env` file in the `frontend` directory using `.env.template` as a template. You can do this by running
+
+```shell
+cp .env.template frontend/.env
+```
+
+Then run the following to start the frontend.
 
 ```shell
 cd frontend
