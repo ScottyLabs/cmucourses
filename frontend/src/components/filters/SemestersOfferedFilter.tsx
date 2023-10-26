@@ -13,7 +13,6 @@ import {
 } from "../../app/utils";
 
 const SESSIONS: Session[] = [
-  { year: "2024", semester: "spring" },
   { year: "2023", semester: "fall" },
   { year: "2023", semester: "summer" },
   { year: "2023", semester: "spring" },
