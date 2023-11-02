@@ -17,11 +17,7 @@ development, so expect large changes to the codebase and features to be unstable
 
 ## Getting Started
 
-To get started, run `npm install` in both the `frontend` and `backend` folders.
-
-Also, we use [Doppler](https://www.doppler.com) to populate the environment with the necessary secrets to access the
-database. Follow the instructions [here](https://docs.doppler.com/docs/install-cli) to install the Doppler CLI.
-Run `doppler setup` in the parent folder to set this up.
+To get started, run `npm install && npm run db-generate` in the root folder, and obtain a copy of the `.env` file. (You can use `.env.template` as a reference.)
 
 ### Frontend
 
