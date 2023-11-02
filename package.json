@@ -1,8 +1,8 @@
 {
   "scripts": {
-    "db-validate": "doppler run -- prisma format --schema=./db/schema.prisma",
+    "db-validate": "prisma format --schema=./db/schema.prisma",
     "db-generate": "prisma generate --schema=./db/schema.prisma",
-    "db-migrate": "doppler run -- prisma db push --schema=./db/schema.prisma",
+    "db-migrate": "prisma db push --schema=./db/schema.prisma",
     "postinstall": "cd backend && npm install && cd ../frontend && npm install",
     "build:backend": "npm run db-generate && cd backend && npm run build",
     "start:backend": "cd backend && npm start",

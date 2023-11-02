@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextIndex"]
 }
 
 datasource db {
@@ -70,7 +71,8 @@ model courses {
   units        String
   schedules    schedules[]
 
-  @@index([name], map: "name")
+  @@index([name], map: "name_1")
+  @@fulltext([department, desc, prereqString, units], map: "text")
 }
 
 model fces {
@@ -105,18 +107,21 @@ model professors {
   name               String
   providesFeedback   Float
   respectForStudents Float
+
+  @@fulltext([name], map: "name_text")
 }
 
 model schedules {
-  id       String              @id @default(auto()) @map("_id") @db.ObjectId
-  v        Int?                @map("__v")
-  courseID String
-  lectures SchedulesLectures[]
-  sections SchedulesSections[]
-  semester String
-  session  String?
-  year     Int
-  course   courses             @relation(fields: [courseID], references: [courseID])
+  id        String              @id @default(auto()) @map("_id") @db.ObjectId
+  v         Int?                @map("__v")
+  courseID  String
+  lectures  SchedulesLectures[]
+  sections  SchedulesSections[]
+  semester  String
+  session   String?
+  year      Int
+  courses   courses?            @relation(fields: [coursesId], references: [id])
+  coursesId String?             @db.ObjectId
 
-  @@index([courseID], map: "courseID")
+  @@index([courseID], map: "courseID_1")
 }
