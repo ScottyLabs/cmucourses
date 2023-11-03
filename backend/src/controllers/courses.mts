@@ -106,6 +106,11 @@ export interface GetFilteredCourses {
   };
 }
 
+export interface GetFilteredCoursesResult {
+  metadata: { totalDocs: number; }[];
+  data: unknown[];
+}
+
 export const getFilteredCourses: RequestHandler<
   GetFilteredCourses["params"],
   GetFilteredCourses["resBody"],
@@ -114,29 +119,28 @@ export const getFilteredCourses: RequestHandler<
 > = async (req, res, next) => {
   // raw query, because prisma doesn't support full-text search for mongodb yet
 
-  const queryFilter: Record<string, unknown> = {};
-  const options = {
-    projection: { ...projection } as unknown,
-    limit: MAX_LIMIT,
-    populate: [],
-    sort: {},
-    page: undefined as string | undefined,
-  };
+  const pipeline: Prisma.InputJsonValue[] = [];
 
-  if (req.query.department !== undefined) {
-    queryFilter["department"] = { $in: singleToArray(req.query.department) };
-  }
+  const matchStage: Record<string, unknown> = {};
+  const sortKeys: [string, unknown][] = [];
+  const addedFields: Record<string, unknown> = {};
 
   if (req.query.keywords !== undefined) {
-    queryFilter["$text"] = { $search: req.query.keywords };
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    options.projection.score = { $meta: "textScore" };
-    options.sort = { score: { $meta: "textScore" } };
+    matchStage.$text = { $search: req.query.keywords };
+    sortKeys.push(["score", { $meta: "textScore" }]);
+    addedFields.relevance = { $meta: "textScore" };
   }
 
-  const pipeline: Prisma.InputJsonValue[] = [];
-  pipeline.push({ $match: queryFilter } as Prisma.InputJsonValue);
+  if (req.query.department !== undefined) {
+    matchStage.department = { $in: singleToArray(req.query.department) };
+  }
+
+  if (req.query.levels !== undefined && req.query.levels.length > 0) {
+    const levelRange = req.query.levels;
+    matchStage.courseID = { $regex: `\\d\\d-[${levelRange}]\\d\\d` };
+  }
+
+  pipeline.push({ $match: matchStage } as Prisma.InputJsonValue);
 
   const unitsMin =
     req.query.unitsMin === undefined ? undefined : parseInt(req.query.unitsMin);
@@ -177,15 +181,6 @@ export const getFilteredCourses: RequestHandler<
       },
     });
 
-  if (req.query.levels !== undefined && req.query.levels.length > 0) {
-    const levelRange = req.query.levels;
-    pipeline.push({
-      $match: {
-        courseID: { $regex: `\\d\\d-[${levelRange}]\\d\\d` },
-      },
-    });
-  }
-
   if (req.query.session !== undefined) {
     const sessions = singleToArray(req.query.session).flatMap((serializedSession) => {
       try {
@@ -207,52 +202,41 @@ export const getFilteredCourses: RequestHandler<
     });
   }
 
-  try {
-    const aggregateOptions = options as Prisma.InputJsonValue;
+  pipeline.push({ $addFields: addedFields as Prisma.InputJsonValue });
+  pipeline.push({ $project: projection as Prisma.InputJsonValue });
 
-    const page = parseOptionalInt(req.query.page, 1);
-    const pageSize = parseOptionalInt(req.query.pageSize, MAX_LIMIT);
-
-    const countResults = await prisma.courses.aggregateRaw({
-      pipeline: [...pipeline, { $count: "count" }],
-      options: aggregateOptions,
-    }) as { [0]: undefined | { count: number } };
-    const totalDocs = countResults[0]?.count ?? 0;
-    const totalPages = Math.ceil(totalDocs / pageSize);
-
-    pipeline.push({
-      $skip: (page - 1) * pageSize,
-    }, {
-      $limit: pageSize,
-    });
-
-    if (req.method === "POST") {
-      if (fromBoolLiteral(req.query.fces)) {
-        pipeline.push({
-          $lookup: {
-            from: "fces",
-            localField: "courseID",
-            foreignField: "courseID",
-            as: "fces",
-          },
-        });
-      }
+  if (sortKeys.length > 0) {
+    const sortOptions: Record<string, unknown> = {};
+    for (const [key, option] of sortKeys) {
+      sortOptions[key] = option;
     }
 
-    const docs = await prisma.courses.aggregateRaw({
-      pipeline,
-      options: aggregateOptions,
-    });
+    pipeline.push({ $sort: sortOptions as Prisma.InputJsonValue });
+  }
 
+  const page = parseOptionalInt(req.query.page, 1);
+  const pageSize = Math.min(parseOptionalInt(req.query.pageSize, MAX_LIMIT), MAX_LIMIT);
+
+  pipeline.push({
+    $facet: {
+      metadata: [{ $count: "totalDocs" }],
+      data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize }],
+    },
+  });
+
+  try {
+    const result = ((await prisma.courses.aggregateRaw({ pipeline }))[0] as unknown) as GetFilteredCoursesResult;
+    const { totalDocs } = result.metadata[0];
     res.json({
       totalDocs,
-      totalPages,
+      totalPages: Math.ceil(totalDocs / pageSize),
       page,
-      docs,
+      docs: result.data,
     });
   } catch (e) {
     next(e);
   }
+
 };
 
 // TODO: use a better caching system
