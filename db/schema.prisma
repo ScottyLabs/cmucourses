@@ -71,8 +71,7 @@ model courses {
   units        String
   schedules    schedules[]
 
-  @@index([name], map: "name_1")
-  @@fulltext([department, desc, prereqString, units], map: "text")
+  @@fulltext([name, department, desc, prereqString], map: "text")
 }
 
 model fces {
@@ -112,16 +111,15 @@ model professors {
 }
 
 model schedules {
-  id        String              @id @default(auto()) @map("_id") @db.ObjectId
-  v         Int?                @map("__v")
-  courseID  String
-  lectures  SchedulesLectures[]
-  sections  SchedulesSections[]
-  semester  String
-  session   String?
-  year      Int
-  courses   courses?            @relation(fields: [coursesId], references: [id])
-  coursesId String?             @db.ObjectId
+  id       String              @id @default(auto()) @map("_id") @db.ObjectId
+  v        Int?                @map("__v")
+  courseID String
+  lectures SchedulesLectures[]
+  sections SchedulesSections[]
+  semester String
+  session  String?
+  year     Int
+  courses  courses             @relation(fields: [courseID], references: [courseID])
 
   @@index([courseID], map: "courseID_1")
 }
