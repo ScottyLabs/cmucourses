@@ -107,7 +107,7 @@ export interface GetFilteredCourses {
 }
 
 export interface GetFilteredCoursesResult {
-  metadata: { totalDocs: number; }[];
+  metadata: { totalDocs: number }[];
   data: unknown[];
 }
 
@@ -142,10 +142,8 @@ export const getFilteredCourses: RequestHandler<
 
   pipeline.push({ $match: matchStage } as Prisma.InputJsonValue);
 
-  const unitsMin =
-    req.query.unitsMin === undefined ? undefined : parseInt(req.query.unitsMin);
-  const unitsMax =
-    req.query.unitsMax === undefined ? undefined : parseInt(req.query.unitsMax);
+  const unitsMin = req.query.unitsMin === undefined ? undefined : parseInt(req.query.unitsMin);
+  const unitsMax = req.query.unitsMax === undefined ? undefined : parseInt(req.query.unitsMax);
 
   if (unitsMin !== undefined || unitsMax !== undefined) {
     pipeline.push({
@@ -225,8 +223,9 @@ export const getFilteredCourses: RequestHandler<
   });
 
   try {
-    const result = ((await prisma.courses.aggregateRaw({ pipeline }))[0] as unknown) as GetFilteredCoursesResult;
-    const { totalDocs } = result.metadata[0];
+    const result = (await prisma.courses.aggregateRaw({ pipeline }))[0] as unknown as GetFilteredCoursesResult;
+    const { totalDocs } = result.metadata.length ? result.metadata[0] : { totalDocs: 0 };
+
     res.json({
       totalDocs,
       totalPages: Math.ceil(totalDocs / pageSize),
@@ -236,7 +235,6 @@ export const getFilteredCourses: RequestHandler<
   } catch (e) {
     next(e);
   }
-
 };
 
 // TODO: use a better caching system
