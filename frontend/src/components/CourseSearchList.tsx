@@ -23,12 +23,19 @@ const CoursePage = () => {
 
   const coursesToShow: string[] = useMemo(() => {
     if (page === 1 && exactResultsCourses.length > 0) {
-      return [
-        ...exactResultsCourses,
-        ...pageCourses.filter(
-          (courseID) => !exactResultsCourses.includes(courseID)
-        ),
-      ];
+      const filteredCourses = pageCourses.filter(
+        (courseID) => !exactResultsCourses.includes(courseID)
+      );
+
+      if(pageCourses.includes(exactResultsCourses[0])) {
+        return [...exactResultsCourses, ...filteredCourses];
+      } else {
+        return pageCourses;
+      }
+      
+      return filteredCourses.length > 0
+        ? [...exactResultsCourses, ...filteredCourses]
+        : exactResultsCourses;
     } else {
       return pageCourses;
     }
