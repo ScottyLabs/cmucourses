@@ -33,9 +33,6 @@ const CoursePage = () => {
         return pageCourses;
       }
       
-      return filteredCourses.length > 0
-        ? [...exactResultsCourses, ...filteredCourses]
-        : exactResultsCourses;
     } else {
       return pageCourses;
     }
