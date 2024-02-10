@@ -7,6 +7,8 @@ export interface FiltersState {
   departments: {
     active: boolean;
     names: string[];
+    query: string;
+    searchOn: boolean;
   };
   units: {
     active: boolean;
@@ -28,6 +30,8 @@ const initialState: FiltersState = {
   departments: {
     active: false,
     names: [],
+    query: "",
+    searchOn: false,
   },
   units: {
     active: false,
@@ -72,6 +76,12 @@ export const filtersSlice = createSlice({
     },
     updateDepartments: (state, action: PayloadAction<string[]>) => {
       state.departments.names = action.payload;
+    },
+    updateDepartmentsQuery: (state, action: PayloadAction<string>) => {
+      state.departments.query = action.payload;
+    },
+    updateDepartmentsSearchOn: (state, action: PayloadAction<boolean>) => {
+      state.departments.searchOn = action.payload;
     },
     updateSemestersActive: (state, action: PayloadAction<boolean>) => {
       state.semesters.active = action.payload;
