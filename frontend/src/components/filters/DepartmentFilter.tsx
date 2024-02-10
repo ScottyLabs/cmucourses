@@ -55,7 +55,7 @@ const DepartmentFilter = () => {
         </Combobox.Label>
         <Combobox.Button
           className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-          <span className="block flex flex-wrap gap-1">
+          <span className="flex flex-wrap gap-1">
             {names.length === 0 ? (
               !searchOn && <span className="p-0.5">None</span>
             ) : (
@@ -77,7 +77,7 @@ const DepartmentFilter = () => {
               ))
             )}
             <Combobox.Input
-              className="shadow-xs bg-white rounded py-0.5 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5"
+              className="shadow-xs bg-white rounded py-0.5 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5 flex"
               onFocus={() => dispatch(filtersSlice.actions.updateDepartmentsSearchOn(true))}
               onBlur={() => dispatch(filtersSlice.actions.updateDepartmentsSearchOn(false))}
               onChange={(e) => dispatch(filtersSlice.actions.updateDepartmentsQuery(e.target.value))}
