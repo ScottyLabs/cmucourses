@@ -11,7 +11,7 @@ import { DEPARTMENTS } from "../../app/constants";
 const DepartmentFilter = () => {
   const dispatch = useAppDispatch();
 
-  const { active, names, query, searchOn } = useAppSelector(
+  const { active, names, query } = useAppSelector(
     (state) => state.filters.departments
   );
 
