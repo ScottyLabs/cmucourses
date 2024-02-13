@@ -78,9 +78,12 @@ const DepartmentFilter = () => {
             )}
             <Combobox.Input
               className="shadow-xs bg-white rounded py-0.5 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5 flex"
-              onFocus={() => dispatch(filtersSlice.actions.updateDepartmentsSearchOn(true))}
-              onBlur={() => dispatch(filtersSlice.actions.updateDepartmentsSearchOn(false))}
               onChange={(e) => dispatch(filtersSlice.actions.updateDepartmentsQuery(e.target.value))}
+              onKeyDown={(e) => {
+                if (e.key === "Backspace" && query.length === 0 && names.length > 0) {
+                  deleteDepartment(names[names.length - 1]);
+                }
+              }}
             />
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
