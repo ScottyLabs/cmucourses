@@ -7,8 +7,6 @@ import { throttledFilter } from "../../app/store";
 import { Combobox } from "@headlessui/react";
 import { classNames, getDepartmentByName } from "../../app/utils";
 import { DEPARTMENTS } from "../../app/constants";
-import {Simulate} from "react-dom/test-utils";
-import click = Simulate.click;
 
 const DepartmentFilter = () => {
   const dispatch = useAppDispatch();
