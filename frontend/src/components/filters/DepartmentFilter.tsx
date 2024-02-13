@@ -7,6 +7,8 @@ import { throttledFilter } from "../../app/store";
 import { Combobox } from "@headlessui/react";
 import { classNames, getDepartmentByName } from "../../app/utils";
 import { DEPARTMENTS } from "../../app/constants";
+import {Simulate} from "react-dom/test-utils";
+import click = Simulate.click;
 
 const DepartmentFilter = () => {
   const dispatch = useAppDispatch();
@@ -82,6 +84,13 @@ const DepartmentFilter = () => {
               onKeyDown={(e) => {
                 if (e.key === "Backspace" && query.length === 0 && names.length > 0) {
                   deleteDepartment(names[names.length - 1]);
+                } else if (e.key === " ") {
+                  dispatch(filtersSlice.actions.updateDepartmentsQuery(query + " science"));
+                }
+              }}
+              onKeyUp={(e) => {
+                if (e.key === " ") {
+                  e.preventDefault();
                 }
               }}
             />
