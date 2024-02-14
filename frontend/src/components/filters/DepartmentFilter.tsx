@@ -84,6 +84,11 @@ const DepartmentFilter = () => {
                   deleteDepartment(names[names.length - 1]);
                 } else if (e.key === " ") {
                   dispatch(filtersSlice.actions.updateDepartmentsQuery(query + " science"));
+                } else if (e.key === "Tab") {
+                  let department = DEPARTMENTS.filter(searchDepartments)[0].name;
+                  if (!names.includes(department)) {
+                    setDepartments(names.concat([department]));
+                  }
                 }
               }}
               onKeyUp={(e) => {
