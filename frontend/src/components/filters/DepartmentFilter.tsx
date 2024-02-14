@@ -79,19 +79,19 @@ const DepartmentFilter = () => {
             <Combobox.Input
               className="shadow-xs bg-white rounded py-0.5 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5 flex"
               onChange={(e) => dispatch(filtersSlice.actions.updateDepartmentsQuery(e.target.value))}
-              onKeyDown={(e) => {
+              onKeyDown={(e : React.KeyboardEvent) => {
                 if (e.key === "Backspace" && query.length === 0 && names.length > 0) {
                   deleteDepartment(names[names.length - 1]);
                 } else if (e.key === " ") {
                   dispatch(filtersSlice.actions.updateDepartmentsQuery(query + " science"));
                 } else if (e.key === "Tab") {
-                  let department = DEPARTMENTS.filter(searchDepartments)[0].name;
+                  const department = DEPARTMENTS.filter(searchDepartments)[0].name;
                   if (!names.includes(department)) {
                     setDepartments(names.concat([department]));
                   }
                 }
               }}
-              onKeyUp={(e) => {
+              onKeyUp={(e : React.KeyboardEvent) => {
                 if (e.key === " ") {
                   e.preventDefault();
                 }
