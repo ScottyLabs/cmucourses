@@ -7,11 +7,12 @@ import {selectProfessors} from "../app/cache";
 
 const ProfessorSearch = () => {
   const dispatch = useAppDispatch();
+  const page = useAppSelector((state) => state.cache.professorPage);
   const search = useAppSelector((state) => state.professors.search);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(professorsSlice.actions.updateSearch(e.target.value));
-    dispatch(cacheSlice.actions.setProfessorPage(1));
+    if (page !== 1) dispatch(cacheSlice.actions.setProfessorPage(1));
   };
 
   const results = useAppSelector(selectProfessors(search));
