@@ -4,14 +4,14 @@ import { CheckIcon } from "@heroicons/react/20/solid";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { filtersSlice } from "../../app/filters";
 import { throttledFilter } from "../../app/store";
-import { Listbox } from "@headlessui/react";
+import { Combobox } from "@headlessui/react";
 import { classNames, getDepartmentByName } from "../../app/utils";
 import { DEPARTMENTS } from "../../app/constants";
 
 const DepartmentFilter = () => {
   const dispatch = useAppDispatch();
 
-  const { active, names } = useAppSelector(
+  const { active, names, query } = useAppSelector(
     (state) => state.filters.departments
   );
 
@@ -26,10 +26,18 @@ const DepartmentFilter = () => {
     throttledFilter();
   };
 
+  const searchDepartments = (department: { name: string, shortName: string, prefix: string }) => {
+    const searchTerm = query.toLowerCase();
+
+    return department.name.toLowerCase().includes(searchTerm) ||
+      department.shortName.toLowerCase().includes(searchTerm) ||
+      department.prefix.toLowerCase().includes(searchTerm);
+  }
+
   return (
     <div className="relative mt-1">
-      <Listbox value={names} onChange={setDepartments} multiple>
-        <Listbox.Label className="flex">
+      <Combobox value={names} onChange={setDepartments} multiple>
+        <Combobox.Label className="flex">
           <div>
             <input
               type="checkbox"
@@ -44,11 +52,12 @@ const DepartmentFilter = () => {
             />
           </div>
           Department
-        </Listbox.Label>
-        <Listbox.Button className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-          <span className="block flex flex-wrap gap-1">
+        </Combobox.Label>
+        <Combobox.Button
+          className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+          <span className="flex flex-wrap gap-1">
             {names.length === 0 ? (
-              <span className="p-0.5">None</span>
+              query.length === 0 && <span className="p-0.5">None</span>
             ) : (
               names.map((department) => (
                 <span
@@ -67,15 +76,38 @@ const DepartmentFilter = () => {
                 </span>
               ))
             )}
+            <Combobox.Input
+              className="shadow-xs bg-white rounded py-0.5 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5 flex"
+              onChange={(e) => dispatch(filtersSlice.actions.updateDepartmentsQuery(e.target.value))}
+              onKeyDown={(e : React.KeyboardEvent) => {
+                if (e.key === "Backspace" && query.length === 0 && names.length > 0) {
+                  deleteDepartment(names[names.length - 1]);
+                } else if (e.key === " ") {
+                  dispatch(filtersSlice.actions.updateDepartmentsQuery(query + " science"));
+                } else if (e.key === "Tab") {
+                  const department = DEPARTMENTS.filter(searchDepartments)[0].name;
+                  if (!names.includes(department)) {
+                    setDepartments(names.concat([department]));
+                  }
+                }
+              }}
+              onKeyUp={(e : React.KeyboardEvent) => {
+                if (e.key === " ") {
+                  e.preventDefault();
+                }
+              }}
+            />
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
             <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
           </span>
-        </Listbox.Button>
+        </Combobox.Button>
         <div className="bg-white absolute mt-1 w-full rounded shadow-lg">
-          <Listbox.Options className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
-            {DEPARTMENTS.map(({ name, prefix }) => (
-              <Listbox.Option
+          <Combobox.Options
+            className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5"
+          >
+            {DEPARTMENTS.filter(searchDepartments).map(({ name, prefix }) => (
+              <Combobox.Option
                 key={name}
                 value={name}
                 className="relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none "
@@ -103,11 +135,11 @@ const DepartmentFilter = () => {
                     )}
                   </>
                 )}
-              </Listbox.Option>
+              </Combobox.Option>
             ))}
-          </Listbox.Options>
+          </Combobox.Options>
         </div>
-      </Listbox>
+      </Combobox>
     </div>
   );
 };
