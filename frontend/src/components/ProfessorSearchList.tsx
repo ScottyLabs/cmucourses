@@ -20,6 +20,7 @@ const ProfessorSearchList = () => {
   const pages = Math.ceil(results.length / RESULTS_PER_PAGE);
   const curPage = useAppSelector((state) => state.cache.professorPage);
   const loading = useAppSelector((state) => state.cache.professorsLoading);
+  const typing = useAppSelector((state) => state.professors.typing);
 
   const handlePageClick = (page: number) => {
     dispatch(cacheSlice.actions.setProfessorPage(page + 1));
@@ -27,7 +28,7 @@ const ProfessorSearchList = () => {
 
   return (
     <div className="p-6">
-      {loading ? (
+      {loading || typing ? (
         <Loading />
       ) : (
         <>

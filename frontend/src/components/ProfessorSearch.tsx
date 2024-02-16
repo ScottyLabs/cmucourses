@@ -15,6 +15,10 @@ const ProfessorSearch = () => {
     if (page !== 1) dispatch(cacheSlice.actions.setProfessorPage(1));
   };
 
+  const updateTyping = (e: React.KeyboardEvent<HTMLInputElement>, typing: boolean) => {
+    if (e.key === "Backspace") dispatch(professorsSlice.actions.updateTyping(typing));
+  }
+
   const results = useAppSelector(selectProfessors(search));
   const numResults = results.length;
 
@@ -30,6 +34,8 @@ const ProfessorSearch = () => {
           type="search"
           value={search}
           onChange={onChange}
+          onKeyDown={(e) => {updateTyping(e, true)}}
+          onKeyUp={(e) => {updateTyping(e, false)}}
           placeholder="Search professors by name..."
         />
       </div>
