@@ -6,6 +6,8 @@ import InstructorDetail from "./InstructorDetail";
 import { fetchAllProfessors } from "../app/api/professors";
 import { selectProfessors, cacheSlice } from "../app/cache";
 
+const RESULTS_PER_PAGE = 5;
+
 const ProfessorSearchList = () => {
   const dispatch = useAppDispatch();
 
@@ -15,7 +17,7 @@ const ProfessorSearchList = () => {
 
   const search = useAppSelector((state) => state.professors.search);
   const results = useAppSelector(selectProfessors(search));
-  const pages = Math.ceil(results.length / 10)
+  const pages = Math.ceil(results.length / RESULTS_PER_PAGE);
   const curPage = useAppSelector((state) => state.cache.professorPage);
   const loading = useAppSelector((state) => state.cache.professorsLoading);
 
@@ -32,7 +34,7 @@ const ProfessorSearchList = () => {
           <div className="space-y-4">
             {results &&
               results
-                .slice(curPage * 10 - 10, curPage * 10)
+                .slice(curPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE, curPage * RESULTS_PER_PAGE)
                 .map((professor) => (
                   <InstructorDetail name={professor.name} key={professor.name}/>
                 ))}
