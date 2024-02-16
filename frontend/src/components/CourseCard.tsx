@@ -106,7 +106,7 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
           </div>
         )}
       </div>
-      {showFCEs && fces && <FCEDetail fces={fces} />}
+      {showFCEs && <FCEDetail fces={fces} />}
     </Card>
   );
 };

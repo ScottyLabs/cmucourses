@@ -15,6 +15,7 @@ import { FCE } from "../app/types";
 import { sessionToString } from "../app/utils";
 import { StarRating } from "./StarRating";
 import Link from "./Link";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 const columns: ColumnDef<FCEDetailRow>[] = [
   {
@@ -141,7 +142,20 @@ export const FCETable = ({
   }
 
   if (!fces || aggregateData.fcesCounted == 0) {
-    return <></>;
+    return (
+      <div className="group flex flex-row items-center mt-2">
+      <div className="flex">
+        <ExclamationTriangleIcon
+          className={`h-5 w-5 stroke-gray-500 dark:stroke-zinc-400`}
+        />
+      </div>
+      <div
+        className={`text-gray-600 text-sm ml-2 lg:text-md`}
+      >
+        {"No FCEs available for the selected settings"}
+      </div>
+    </div>
+    );
   }
 
   return (
