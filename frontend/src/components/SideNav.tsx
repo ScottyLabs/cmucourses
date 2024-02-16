@@ -3,6 +3,7 @@ import {
   ClockIcon,
   MagnifyingGlassIcon,
   StarIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import React from "react";
 import Link from "next/link";
@@ -79,6 +80,12 @@ export const SideNav = ({ activePage }) => {
         link="https://forms.gle/6vPTN6Eyqd1w7pqJA"
         newTab
         active={false}
+      />
+      <SideNavItem
+        icon={UserCircleIcon}
+        text="Professors"
+        link="/professors"
+        active={activePage === "professors"}
       />
     </div>
   );

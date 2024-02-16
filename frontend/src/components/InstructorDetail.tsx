@@ -16,7 +16,6 @@ const InstructorDetail = ({ name }: Props) => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   const fces = useAppSelector(selectFCEResultsForInstructor(name));
-  console.log(fces);
 
   useEffect(() => {
     if (name) void dispatch(fetchFCEInfosByInstructor(name));

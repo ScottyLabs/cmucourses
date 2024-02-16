@@ -9,6 +9,7 @@ import {
   UserSchedulesState,
 } from "./userSchedules";
 import { reducer as uiReducer, UIState } from "./ui";
+import { reducer as professorsReducer, ProfessorsState } from "./professors";
 import debounce from "lodash/debounce";
 import {
   FLUSH,
@@ -61,6 +62,15 @@ const reducers = combineReducers({
       blacklist: ["session"],
     },
     uiReducer
+  ),
+  professors: persistReducer<ProfessorsState>(
+    {
+      key: "professors",
+      version: 1,
+      storage,
+      stateReconciler: autoMergeLevel2,
+    },
+    professorsReducer
   ),
 });
 

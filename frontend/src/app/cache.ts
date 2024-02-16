@@ -9,6 +9,7 @@ import {
   FetchCourseInfosByPageResult,
 } from "./api/course";
 import { fetchFCEInfosByCourse, fetchFCEInfosByInstructor } from "./api/fce";
+import { fetchAllProfessors } from "./api/professors";
 
 /**
  * This cache lasts for the duration of the user session
@@ -29,6 +30,9 @@ interface CacheState {
   coursesLoading: boolean;
   exactResultsCourses: string[];
   allCourses: { courseID: string; name: string }[];
+  allProfessors: { name: string }[];
+  professorsLoading: boolean;
+  professorPage: number;
 }
 
 const initialState: CacheState = {
@@ -45,6 +49,9 @@ const initialState: CacheState = {
   coursesLoading: false,
   exactResultsCourses: [],
   allCourses: [],
+  allProfessors: [],
+  professorsLoading: false,
+  professorPage: 1,
 };
 
 export const selectCourseResults =
@@ -78,6 +85,11 @@ export const selectFCEResultsForInstructor =
     (state: RootState): FCE[] | undefined =>
       state.cache.instructorResults[name];
 
+export const selectProfessors = (search: string) => (state: RootState) =>
+  state.cache.allProfessors.filter((prof) =>
+    prof.name.toLowerCase().includes(search.toLowerCase())
+  );
+
 export const cacheSlice = createSlice({
   name: "cache",
   initialState,
@@ -91,6 +103,9 @@ export const cacheSlice = createSlice({
     },
     setCoursesLoading: (state, action: PayloadAction<boolean>) => {
       state.coursesLoading = action.payload;
+    },
+    setProfessorPage: (state, action: PayloadAction<number>) => {
+      state.professorPage = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -186,6 +201,15 @@ export const cacheSlice = createSlice({
         if (!action.payload[0]) return;
 
         state.instructorResults[action.meta.arg] = action.payload;
+      });
+
+    builder
+      .addCase(fetchAllProfessors.pending, (state) => {
+        state.professorsLoading = true;
+      })
+      .addCase(fetchAllProfessors.fulfilled, (state, action) => {
+        state.professorsLoading = false;
+        if (action.payload) state.allProfessors = action.payload;
       });
   },
 });
