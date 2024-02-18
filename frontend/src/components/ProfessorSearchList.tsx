@@ -6,7 +6,7 @@ import InstructorDetail from "./InstructorDetail";
 import { fetchAllProfessors } from "../app/api/professors";
 import { selectProfessors, cacheSlice } from "../app/cache";
 
-const RESULTS_PER_PAGE = 5;
+const RESULTS_PER_PAGE = 10;
 
 const ProfessorSearchList = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +20,6 @@ const ProfessorSearchList = () => {
   const pages = Math.ceil(results.length / RESULTS_PER_PAGE);
   const curPage = useAppSelector((state) => state.cache.professorPage);
   const loading = useAppSelector((state) => state.cache.professorsLoading);
-  const typing = useAppSelector((state) => state.professors.typing);
 
   const handlePageClick = (page: number) => {
     dispatch(cacheSlice.actions.setProfessorPage(page + 1));
@@ -28,7 +27,7 @@ const ProfessorSearchList = () => {
 
   return (
     <div className="p-6">
-      {loading || typing ? (
+      {loading ? (
         <Loading />
       ) : (
         <>

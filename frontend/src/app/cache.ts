@@ -107,6 +107,9 @@ export const cacheSlice = createSlice({
     setProfessorPage: (state, action: PayloadAction<number>) => {
       state.professorPage = action.payload;
     },
+    setProfessorsLoading: (state, action: PayloadAction<boolean>) => {
+      state.professorsLoading = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder

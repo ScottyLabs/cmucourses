@@ -106,6 +106,17 @@ export const throttledFilter = () => {
   debouncedFilter();
 };
 
+const debouncedProfessorFilter = debounce(() => {
+  setTimeout(() => {
+    void store.dispatch(cacheSlice.actions.setProfessorsLoading(false));
+  }, 0);
+}, 300);
+
+export const throttledProfessorFilter = () => {
+  void store.dispatch(cacheSlice.actions.setProfessorsLoading(true));
+  debouncedProfessorFilter();
+}
+
 export type AppState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;

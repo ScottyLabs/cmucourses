@@ -3,7 +3,8 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { professorsSlice } from "../app/professors";
 import { cacheSlice } from "../app/cache";
-import {selectProfessors} from "../app/cache";
+import { selectProfessors } from "../app/cache";
+import { throttledProfessorFilter } from "../app/store";
 
 const ProfessorSearch = () => {
   const dispatch = useAppDispatch();
@@ -13,11 +14,8 @@ const ProfessorSearch = () => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(professorsSlice.actions.updateSearch(e.target.value));
     if (page !== 1) dispatch(cacheSlice.actions.setProfessorPage(1));
+    throttledProfessorFilter();
   };
-
-  const updateTyping = (e: React.KeyboardEvent<HTMLInputElement>, typing: boolean) => {
-    if (e.key === "Backspace") dispatch(professorsSlice.actions.updateTyping(typing));
-  }
 
   const results = useAppSelector(selectProfessors(search));
   const numResults = results.length;
@@ -34,8 +32,6 @@ const ProfessorSearch = () => {
           type="search"
           value={search}
           onChange={onChange}
-          onKeyDown={(e) => {updateTyping(e, true)}}
-          onKeyUp={(e) => {updateTyping(e, false)}}
           placeholder="Search professors by name..."
         />
       </div>
