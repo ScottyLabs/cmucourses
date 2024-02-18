@@ -36,7 +36,7 @@ const ProfessorSearchList = () => {
               results
                 .slice(curPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE, curPage * RESULTS_PER_PAGE)
                 .map((professor) => (
-                  <InstructorDetail name={professor.name} key={professor.name}/>
+                  <InstructorDetail name={professor.name} key={professor.name} showLoading={false}/>
                 ))}
           </div>
           <div className="mx-auto my-6">

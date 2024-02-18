@@ -10,7 +10,7 @@ const InstructorPage: NextPage = () => {
   const name = router.query.name as string;
 
   return (
-    <Page content={<InstructorDetail name={name} />} sidebar={<Aggregate />} />
+    <Page content={<InstructorDetail name={name} showLoading={true} />} sidebar={<Aggregate />} />
   );
 };
 

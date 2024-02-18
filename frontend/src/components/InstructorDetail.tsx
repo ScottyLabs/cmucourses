@@ -9,9 +9,10 @@ import { Card } from "./Card";
 
 type Props = {
   name: string;
+  showLoading: boolean;
 };
 
-const InstructorDetail = ({ name }: Props) => {
+const InstructorDetail = ({ name, showLoading }: Props) => {
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
@@ -25,7 +26,7 @@ const InstructorDetail = ({ name }: Props) => {
 
   if (!fces) {
     return (
-      <div className="m-auto space-y-4 p-6">
+      <div className={showLoading ? "m-auto space-y-4 p-6" : "m-auto space-y-4 p-6 hidden"}>
         <Loading />
       </div>
     );
