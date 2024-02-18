@@ -1,12 +1,12 @@
 import React from "react";
 import { FCE } from "../app/types";
 import { FCETable } from "./FCETable";
+import { AggregateFCEsOptions } from "../app/fce";
 
-export const InstructorFCEDetail = ({ fces }: { fces: FCE[] }) => {
-  const aggregationOptions = {
-    numSemesters: 10,
-    counted: { spring: true, summer: true, fall: true },
-  };
+export const InstructorFCEDetail = ({ fces, aggregationOptions }: {
+  fces: FCE[],
+  aggregationOptions: AggregateFCEsOptions
+}) => {
 
   return (
     <FCETable

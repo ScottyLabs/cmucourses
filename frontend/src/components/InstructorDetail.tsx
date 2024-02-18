@@ -17,6 +17,8 @@ const InstructorDetail = ({ name }: Props) => {
 
   const fces = useAppSelector(selectFCEResultsForInstructor(name));
 
+  const aggregationOptions = useAppSelector((state) => state.user.fceAggregation);
+
   useEffect(() => {
     if (name) void dispatch(fetchFCEInfosByInstructor(name));
   }, [dispatch, loggedIn, name]);
@@ -41,7 +43,7 @@ const InstructorDetail = ({ name }: Props) => {
           {/* TODO: Add more information about instructor using Directory API */}
         </div>
         <div>
-          <InstructorFCEDetail fces={fces} />
+          <InstructorFCEDetail fces={fces} aggregationOptions={aggregationOptions} />
         </div>
       </Card>
     </div>

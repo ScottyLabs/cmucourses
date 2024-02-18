@@ -4,15 +4,14 @@ import ProfessorSearch from "../components/ProfessorSearch";
 import ProfessorSearchList from "../components/ProfessorSearchList";
 import React from "react";
 import { Page } from "../components/Page";
+import Aggregate from "../components/Aggregate";
 
 const ProfessorsPage: NextPage = () => {
   return (
     <Page
       sidebar={
         <>
-          <b>Work in progress</b>
-          {/*<Filter />*/}
-          {/*<Aggregate />*/}
+          <Aggregate />
         </>
       }
       content={
