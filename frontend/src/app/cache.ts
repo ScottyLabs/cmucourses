@@ -34,6 +34,7 @@ interface CacheState {
   allInstructors: { name: string }[];
   instructorsLoading: boolean;
   instructorPage: number;
+  selectedInstructors: { name: string }[];
 }
 
 const initialState: CacheState = {
@@ -53,6 +54,7 @@ const initialState: CacheState = {
   allInstructors: [],
   instructorsLoading: false,
   instructorPage: 1,
+  selectedInstructors: [],
 };
 
 export const selectCourseResults =
@@ -86,20 +88,6 @@ export const selectFCEResultsForInstructor =
     (state: RootState): FCE[] | undefined =>
       state.cache.instructorResults[name];
 
-export const selectInstructors = (search: string) => (state: RootState) => {
-  if (!search) return state.cache.allInstructors;
-
-  const options = {
-    keys: ['name'],
-    includeScore: true,
-  };
-
-  const fuse = new Fuse(state.cache.allInstructors, options);
-  const result = fuse.search(search);
-
-  return result.map(({ item }) => item);
-};
-
 export const cacheSlice = createSlice({
   name: "cache",
   initialState,
@@ -120,6 +108,21 @@ export const cacheSlice = createSlice({
     setInstructorsLoading: (state, action: PayloadAction<boolean>) => {
       state.instructorsLoading = action.payload;
     },
+    selectInstructors: (state, action: PayloadAction<string>) => {
+      const search = action.payload
+      if (!search) {
+        state.selectedInstructors = state.allInstructors;
+        return;
+      }
+
+      const options = {
+        keys: ['name'],
+        includeScore: true,
+      };
+
+      const fuse = new Fuse(state.allInstructors, options);
+      state.selectedInstructors = fuse.search(search).map(({item}) => item);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -222,7 +225,10 @@ export const cacheSlice = createSlice({
       })
       .addCase(fetchAllInstructors.fulfilled, (state, action) => {
         state.instructorsLoading = false;
-        if (action.payload) state.allInstructors = action.payload;
+        if (action.payload) {
+          state.allInstructors = action.payload;
+          state.selectedInstructors = action.payload;
+        }
       });
   },
 });

@@ -4,7 +4,7 @@ import { Pagination } from "./Pagination";
 import React, { useEffect } from "react";
 import InstructorDetail from "./InstructorDetail";
 import { fetchAllInstructors } from "../app/api/instructors";
-import { selectInstructors, cacheSlice } from "../app/cache";
+import { cacheSlice } from "../app/cache";
 
 const RESULTS_PER_PAGE = 10;
 
@@ -15,8 +15,7 @@ const InstructorSearchList = () => {
     void dispatch(fetchAllInstructors());
   }, [dispatch]);
 
-  const search = useAppSelector((state) => state.instructors.search);
-  const results = useAppSelector(selectInstructors(search));
+  const results = useAppSelector((state) => state.cache.selectedInstructors);
   const pages = Math.ceil(results.length / RESULTS_PER_PAGE);
   const curPage = useAppSelector((state) => state.cache.instructorPage);
   const loading = useAppSelector((state) => state.cache.instructorsLoading);

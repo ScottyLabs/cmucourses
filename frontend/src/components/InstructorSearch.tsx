@@ -3,7 +3,6 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { instructorsSlice } from "../app/instructors";
 import { cacheSlice } from "../app/cache";
-import { selectInstructors } from "../app/cache";
 import { throttledInstructorFilter } from "../app/store";
 
 const InstructorSearch = () => {
@@ -17,7 +16,7 @@ const InstructorSearch = () => {
     throttledInstructorFilter();
   };
 
-  const results = useAppSelector(selectInstructors(search));
+  const results = useAppSelector((state) => state.cache.selectedInstructors);
   const numResults = results.length;
 
   return (

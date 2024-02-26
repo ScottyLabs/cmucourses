@@ -108,6 +108,8 @@ export const throttledFilter = () => {
 
 const debouncedInstructorFilter = debounce(() => {
   setTimeout(() => {
+    const state = store.getState();
+    void store.dispatch(cacheSlice.actions.selectInstructors(state.instructors.search));
     void store.dispatch(cacheSlice.actions.setInstructorsLoading(false));
   }, 0);
 }, 300);
