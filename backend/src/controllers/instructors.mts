@@ -20,7 +20,7 @@ export const getInstructors: RequestHandler<
   GetInstructors["resBody"],
   GetInstructors["reqBody"],
   GetInstructors["query"]
-> = async (req, res, next) => {
+> = async (_, res, next) => {
   try {
     const instructors = await prisma.professors.findMany(getAllInstructorsDbQuery);
     instructors.sort((a, b) => a.name.localeCompare(b.name));
