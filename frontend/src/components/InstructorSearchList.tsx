@@ -13,7 +13,7 @@ const InstructorSearchList = () => {
 
   useEffect(() => {
     void dispatch(fetchAllInstructors());
-  }, []);
+  }, [dispatch]);
 
   const search = useAppSelector((state) => state.instructors.search);
   const results = useAppSelector(selectInstructors(search));
