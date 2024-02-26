@@ -10,6 +10,7 @@ import {
 } from "./api/course";
 import { fetchFCEInfosByCourse, fetchFCEInfosByInstructor } from "./api/fce";
 import { fetchAllInstructors } from "./api/instructors";
+import Fuse from "fuse.js";
 
 /**
  * This cache lasts for the duration of the user session
@@ -85,10 +86,19 @@ export const selectFCEResultsForInstructor =
     (state: RootState): FCE[] | undefined =>
       state.cache.instructorResults[name];
 
-export const selectInstructors = (search: string) => (state: RootState) =>
-  state.cache.allInstructors.filter((instructor) =>
-    instructor.name.toLowerCase().includes(search.toLowerCase())
-  );
+export const selectInstructors = (search: string) => (state: RootState) => {
+  if (!search) return state.cache.allInstructors;
+
+  const options = {
+    keys: ['name'],
+    includeScore: true,
+  };
+
+  const fuse = new Fuse(state.cache.allInstructors, options);
+  const result = fuse.search(search);
+
+  return result.map(({ item }) => item);
+};
 
 export const cacheSlice = createSlice({
   name: "cache",
