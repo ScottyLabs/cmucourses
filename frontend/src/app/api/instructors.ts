@@ -1,17 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
-type FetchAllProfessorsType = { name: string }[];
+type FetchAllInstructorsType = { name: string }[];
 
-export const fetchAllProfessors = createAsyncThunk<
-  FetchAllProfessorsType,
+export const fetchAllInstructors = createAsyncThunk<
+  FetchAllInstructorsType,
   void,
   { state: RootState }
->("fetchAllProfessors", async (_, thunkAPI) => {
-  const url = `${process.env.backendUrl}/professors`;
+>("fetchAllInstructors", async (_, thunkAPI) => {
+  const url = `${process.env.backendUrl}/instructors`;
   const state = thunkAPI.getState();
 
-  if (state.cache.allProfessors.length > 0) return;
+  if (state.cache.allInstructors.length > 0) return;
 
   return (
     await fetch(url, {

@@ -6,7 +6,7 @@ import { generateSigningRequestHandler, KeyStore } from "passlink-server";
 import { isUser } from "./controllers/user.mjs";
 import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "./controllers/courses.mjs";
 import { getFCEs } from "./controllers/fces.mjs";
-import { getProfessors } from "./controllers/professors.mjs";
+import { getInstructors } from "./controllers/instructors.mjs";
 
 // because there is a bug in the typing for passlink
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -45,7 +45,7 @@ app.route("/courses/search/").post(isUser, getFilteredCourses);
 
 app.route("/fces").post(isUser, getFCEs);
 
-app.route("/professors").get(getProfessors);
+app.route("/instructors").get(getInstructors);
 
 // the next parameter is needed!
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

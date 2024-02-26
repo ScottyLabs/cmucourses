@@ -9,7 +9,7 @@ import {
   FetchCourseInfosByPageResult,
 } from "./api/course";
 import { fetchFCEInfosByCourse, fetchFCEInfosByInstructor } from "./api/fce";
-import { fetchAllProfessors } from "./api/professors";
+import { fetchAllInstructors } from "./api/instructors";
 
 /**
  * This cache lasts for the duration of the user session
@@ -30,9 +30,9 @@ interface CacheState {
   coursesLoading: boolean;
   exactResultsCourses: string[];
   allCourses: { courseID: string; name: string }[];
-  allProfessors: { name: string }[];
-  professorsLoading: boolean;
-  professorPage: number;
+  allInstructors: { name: string }[];
+  instructorsLoading: boolean;
+  instructorPage: number;
 }
 
 const initialState: CacheState = {
@@ -49,9 +49,9 @@ const initialState: CacheState = {
   coursesLoading: false,
   exactResultsCourses: [],
   allCourses: [],
-  allProfessors: [],
-  professorsLoading: false,
-  professorPage: 1,
+  allInstructors: [],
+  instructorsLoading: false,
+  instructorPage: 1,
 };
 
 export const selectCourseResults =
@@ -85,9 +85,9 @@ export const selectFCEResultsForInstructor =
     (state: RootState): FCE[] | undefined =>
       state.cache.instructorResults[name];
 
-export const selectProfessors = (search: string) => (state: RootState) =>
-  state.cache.allProfessors.filter((prof) =>
-    prof.name.toLowerCase().includes(search.toLowerCase())
+export const selectInstructors = (search: string) => (state: RootState) =>
+  state.cache.allInstructors.filter((instructor) =>
+    instructor.name.toLowerCase().includes(search.toLowerCase())
   );
 
 export const cacheSlice = createSlice({
@@ -104,11 +104,11 @@ export const cacheSlice = createSlice({
     setCoursesLoading: (state, action: PayloadAction<boolean>) => {
       state.coursesLoading = action.payload;
     },
-    setProfessorPage: (state, action: PayloadAction<number>) => {
-      state.professorPage = action.payload;
+    setInstructorPage: (state, action: PayloadAction<number>) => {
+      state.instructorPage = action.payload;
     },
-    setProfessorsLoading: (state, action: PayloadAction<boolean>) => {
-      state.professorsLoading = action.payload;
+    setInstructorsLoading: (state, action: PayloadAction<boolean>) => {
+      state.instructorsLoading = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -207,12 +207,12 @@ export const cacheSlice = createSlice({
       });
 
     builder
-      .addCase(fetchAllProfessors.pending, (state) => {
-        state.professorsLoading = true;
+      .addCase(fetchAllInstructors.pending, (state) => {
+        state.instructorsLoading = true;
       })
-      .addCase(fetchAllProfessors.fulfilled, (state, action) => {
-        state.professorsLoading = false;
-        if (action.payload) state.allProfessors = action.payload;
+      .addCase(fetchAllInstructors.fulfilled, (state, action) => {
+        state.instructorsLoading = false;
+        if (action.payload) state.allInstructors = action.payload;
       });
   },
 });

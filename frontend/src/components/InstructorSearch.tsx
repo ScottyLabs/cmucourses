@@ -1,23 +1,23 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { professorsSlice } from "../app/professors";
+import { instructorsSlice } from "../app/instructors";
 import { cacheSlice } from "../app/cache";
-import { selectProfessors } from "../app/cache";
-import { throttledProfessorFilter } from "../app/store";
+import { selectInstructors } from "../app/cache";
+import { throttledInstructorFilter } from "../app/store";
 
-const ProfessorSearch = () => {
+const InstructorSearch = () => {
   const dispatch = useAppDispatch();
-  const page = useAppSelector((state) => state.cache.professorPage);
-  const search = useAppSelector((state) => state.professors.search);
+  const page = useAppSelector((state) => state.cache.instructorPage);
+  const search = useAppSelector((state) => state.instructors.search);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(professorsSlice.actions.updateSearch(e.target.value));
-    if (page !== 1) dispatch(cacheSlice.actions.setProfessorPage(1));
-    throttledProfessorFilter();
+    dispatch(instructorsSlice.actions.updateSearch(e.target.value));
+    if (page !== 1) dispatch(cacheSlice.actions.setInstructorPage(1));
+    throttledInstructorFilter();
   };
 
-  const results = useAppSelector(selectProfessors(search));
+  const results = useAppSelector(selectInstructors(search));
   const numResults = results.length;
 
   return (
@@ -32,7 +32,7 @@ const ProfessorSearch = () => {
           type="search"
           value={search}
           onChange={onChange}
-          placeholder="Search professors by name..."
+          placeholder="Search instructors by name..."
         />
       </div>
       <div className="flex justify-between">
@@ -42,4 +42,4 @@ const ProfessorSearch = () => {
   );
 };
 
-export default ProfessorSearch;
+export default InstructorSearch;

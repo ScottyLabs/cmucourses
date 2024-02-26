@@ -83,9 +83,9 @@ export const SideNav = ({ activePage }) => {
       />
       <SideNavItem
         icon={UserCircleIcon}
-        text="Professors"
-        link="/professors"
-        active={activePage === "professors"}
+        text="Instructors"
+        link="/instructors"
+        active={activePage === "instructors"}
       />
     </div>
   );

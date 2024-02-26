@@ -3,26 +3,26 @@ import Loading from "./Loading";
 import { Pagination } from "./Pagination";
 import React, { useEffect } from "react";
 import InstructorDetail from "./InstructorDetail";
-import { fetchAllProfessors } from "../app/api/professors";
-import { selectProfessors, cacheSlice } from "../app/cache";
+import { fetchAllInstructors } from "../app/api/instructors";
+import { selectInstructors, cacheSlice } from "../app/cache";
 
 const RESULTS_PER_PAGE = 10;
 
-const ProfessorSearchList = () => {
+const InstructorSearchList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    void dispatch(fetchAllProfessors());
+    void dispatch(fetchAllInstructors());
   }, []);
 
-  const search = useAppSelector((state) => state.professors.search);
-  const results = useAppSelector(selectProfessors(search));
+  const search = useAppSelector((state) => state.instructors.search);
+  const results = useAppSelector(selectInstructors(search));
   const pages = Math.ceil(results.length / RESULTS_PER_PAGE);
-  const curPage = useAppSelector((state) => state.cache.professorPage);
-  const loading = useAppSelector((state) => state.cache.professorsLoading);
+  const curPage = useAppSelector((state) => state.cache.instructorPage);
+  const loading = useAppSelector((state) => state.cache.instructorsLoading);
 
   const handlePageClick = (page: number) => {
-    dispatch(cacheSlice.actions.setProfessorPage(page + 1));
+    dispatch(cacheSlice.actions.setInstructorPage(page + 1));
   };
 
   return (
@@ -35,8 +35,8 @@ const ProfessorSearchList = () => {
             {results &&
               results
                 .slice(curPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE, curPage * RESULTS_PER_PAGE)
-                .map((professor) => (
-                  <InstructorDetail name={professor.name} key={professor.name} showLoading={false}/>
+                .map((instructor) => (
+                  <InstructorDetail name={instructor.name} key={instructor.name} showLoading={false}/>
                 ))}
           </div>
           <div className="mx-auto my-6">
@@ -52,4 +52,4 @@ const ProfessorSearchList = () => {
   );
 };
 
-export default ProfessorSearchList;
+export default InstructorSearchList;

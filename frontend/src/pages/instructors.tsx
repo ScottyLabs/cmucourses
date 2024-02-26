@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import Topbar from "../components/Topbar";
-import ProfessorSearch from "../components/ProfessorSearch";
-import ProfessorSearchList from "../components/ProfessorSearchList";
+import InstructorSearch from "../components/InstructorSearch";
+import InstructorSearchList from "../components/InstructorSearchList";
 import React from "react";
 import { Page } from "../components/Page";
 import Aggregate from "../components/Aggregate";
 
-const ProfessorsPage: NextPage = () => {
+const InstructorsPage: NextPage = () => {
   return (
     <Page
       sidebar={
@@ -17,14 +17,14 @@ const ProfessorsPage: NextPage = () => {
       content={
         <>
           <Topbar>
-            <ProfessorSearch />
+            <InstructorSearch />
           </Topbar>
-          <ProfessorSearchList />
+          <InstructorSearchList />
         </>
       }
-      activePage="professors"
+      activePage="instructors"
     />
   );
 };
 
-export default ProfessorsPage;
+export default InstructorsPage;

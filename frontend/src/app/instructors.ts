@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface ProfessorsState {
+export interface InstructorsState {
   search: string;
 }
 
-const initialState: ProfessorsState = {
+const initialState: InstructorsState = {
   search: "",
 };
 
-export const professorsSlice = createSlice({
-  name: "professors",
+export const instructorsSlice = createSlice({
+  name: "instructors",
   initialState,
   reducers: {
     updateSearch: (state, action: PayloadAction<string>) => {
@@ -18,4 +18,4 @@ export const professorsSlice = createSlice({
   },
 });
 
-export const reducer = professorsSlice.reducer;
+export const reducer = instructorsSlice.reducer;
