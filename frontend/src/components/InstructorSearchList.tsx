@@ -35,7 +35,7 @@ const InstructorSearchList = () => {
               results
                 .slice(curPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE, curPage * RESULTS_PER_PAGE)
                 .map((instructor) => (
-                  <InstructorDetail name={instructor.name} key={instructor.name} showLoading={false}/>
+                  <InstructorDetail name={instructor.instructor} key={instructor.instructor} showLoading={false}/>
                 ))}
           </div>
           <div className="mx-auto my-6">

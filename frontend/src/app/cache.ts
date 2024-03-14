@@ -31,10 +31,10 @@ interface CacheState {
   coursesLoading: boolean;
   exactResultsCourses: string[];
   allCourses: { courseID: string; name: string }[];
-  allInstructors: { name: string }[];
+  allInstructors: { instructor: string }[];
   instructorsLoading: boolean;
   instructorPage: number;
-  selectedInstructors: { name: string }[];
+  selectedInstructors: { instructor: string }[];
 }
 
 const initialState: CacheState = {
@@ -116,7 +116,7 @@ export const cacheSlice = createSlice({
       }
 
       const options = {
-        keys: ['name'],
+        keys: ['instructor'],
         includeScore: true,
       };
 
