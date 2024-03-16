@@ -10,7 +10,7 @@ import {
 } from "./api/course";
 import { fetchFCEInfosByCourse, fetchFCEInfosByInstructor } from "./api/fce";
 import { fetchAllInstructors } from "./api/instructors";
-import Fuse from "fuse.js";
+import Fuse, { FuseIndex } from "fuse.js";
 
 /**
  * This cache lasts for the duration of the user session
@@ -32,7 +32,7 @@ interface CacheState {
   exactResultsCourses: string[];
   allCourses: { courseID: string; name: string }[];
   allInstructors: { instructor: string }[];
-  allInstructorsFuse: Fuse<{ instructor: string }>;
+  fuseIndex: { [key: string]: any };
   instructorsLoading: boolean;
   instructorPage: number;
   selectedInstructors: { instructor: string }[];
@@ -53,7 +53,7 @@ const initialState: CacheState = {
   exactResultsCourses: [],
   allCourses: [],
   allInstructors: [],
-  allInstructorsFuse: new Fuse([], {keys: ['instructor'], includeScore: true}),
+  fuseIndex: null,
   instructorsLoading: false,
   instructorPage: 1,
   selectedInstructors: [],
@@ -116,8 +116,9 @@ export const cacheSlice = createSlice({
         state.selectedInstructors = state.allInstructors;
         return;
       }
-
-      state.selectedInstructors = state.allInstructorsFuse.search(search).map(({item}) => item);
+      const fuseIndex : FuseIndex<{ instructor: string }> = Fuse.parseIndex(state.fuseIndex);
+      const fuse = new Fuse(state.allInstructors, {}, fuseIndex);
+      state.selectedInstructors = fuse.search(search).map(({item}) => item);
     }
   },
   extraReducers: (builder) => {
@@ -223,13 +224,7 @@ export const cacheSlice = createSlice({
         state.instructorsLoading = false;
         if (action.payload) {
           state.allInstructors = action.payload;
-
-          const options = {
-            keys: ['instructor'],
-            includeScore: true,
-          };
-          state.allInstructorsFuse =  new Fuse(state.allInstructors, options);
-
+          state.fuseIndex = Fuse.createIndex(["instructor"], action.payload).toJSON();
           state.selectedInstructors = action.payload;
         }
       });
