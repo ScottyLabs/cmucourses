@@ -32,6 +32,7 @@ interface CacheState {
   exactResultsCourses: string[];
   allCourses: { courseID: string; name: string }[];
   allInstructors: { instructor: string }[];
+  allInstructorsFuse: Fuse<{ instructor: string }>;
   instructorsLoading: boolean;
   instructorPage: number;
   selectedInstructors: { instructor: string }[];
@@ -52,6 +53,7 @@ const initialState: CacheState = {
   exactResultsCourses: [],
   allCourses: [],
   allInstructors: [],
+  allInstructorsFuse: new Fuse([], {keys: ['instructor'], includeScore: true}),
   instructorsLoading: false,
   instructorPage: 1,
   selectedInstructors: [],
@@ -115,13 +117,7 @@ export const cacheSlice = createSlice({
         return;
       }
 
-      const options = {
-        keys: ['instructor'],
-        includeScore: true,
-      };
-
-      const fuse = new Fuse(state.allInstructors, options);
-      state.selectedInstructors = fuse.search(search).map(({item}) => item);
+      state.selectedInstructors = state.allInstructorsFuse.search(search).map(({item}) => item);
     }
   },
   extraReducers: (builder) => {
@@ -227,6 +223,13 @@ export const cacheSlice = createSlice({
         state.instructorsLoading = false;
         if (action.payload) {
           state.allInstructors = action.payload;
+
+          const options = {
+            keys: ['instructor'],
+            includeScore: true,
+          };
+          state.allInstructorsFuse =  new Fuse(state.allInstructors, options);
+
           state.selectedInstructors = action.payload;
         }
       });
