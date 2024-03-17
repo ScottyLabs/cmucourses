@@ -53,7 +53,7 @@ const initialState: CacheState = {
   exactResultsCourses: [],
   allCourses: [],
   allInstructors: [],
-  fuseIndex: null,
+  fuseIndex: {},
   instructorsLoading: false,
   instructorPage: 1,
   selectedInstructors: [],
