@@ -9,6 +9,7 @@ import {
   UserSchedulesState,
 } from "./userSchedules";
 import { reducer as uiReducer, UIState } from "./ui";
+import { reducer as instructorsReducer, InstructorsState } from "./instructors";
 import debounce from "lodash/debounce";
 import {
   FLUSH,
@@ -62,6 +63,15 @@ const reducers = combineReducers({
     },
     uiReducer
   ),
+  instructors: persistReducer<InstructorsState>(
+    {
+      key: "instructors",
+      version: 1,
+      storage,
+      stateReconciler: autoMergeLevel2,
+    },
+    instructorsReducer
+  ),
 });
 
 export const store = configureStore({
@@ -95,6 +105,19 @@ export const throttledFilter = () => {
   void store.dispatch(cacheSlice.actions.setCoursesLoading(true));
   debouncedFilter();
 };
+
+const debouncedInstructorFilter = debounce(() => {
+  setTimeout(() => {
+    const state = store.getState();
+    void store.dispatch(cacheSlice.actions.selectInstructors(state.instructors.search));
+    void store.dispatch(cacheSlice.actions.setInstructorsLoading(false));
+  }, 0);
+}, 300);
+
+export const throttledInstructorFilter = () => {
+  void store.dispatch(cacheSlice.actions.setInstructorsLoading(true));
+  debouncedInstructorFilter();
+}
 
 export type AppState = ReturnType<typeof store.getState>;
 

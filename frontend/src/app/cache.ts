@@ -9,6 +9,8 @@ import {
   FetchCourseInfosByPageResult,
 } from "./api/course";
 import { fetchFCEInfosByCourse, fetchFCEInfosByInstructor } from "./api/fce";
+import { fetchAllInstructors } from "./api/instructors";
+import Fuse, { FuseIndex } from "fuse.js";
 
 /**
  * This cache lasts for the duration of the user session
@@ -29,6 +31,11 @@ interface CacheState {
   coursesLoading: boolean;
   exactResultsCourses: string[];
   allCourses: { courseID: string; name: string }[];
+  allInstructors: { instructor: string }[];
+  fuseIndex: { [key: string]: any };
+  instructorsLoading: boolean;
+  instructorPage: number;
+  selectedInstructors: { instructor: string }[];
 }
 
 const initialState: CacheState = {
@@ -45,6 +52,11 @@ const initialState: CacheState = {
   coursesLoading: false,
   exactResultsCourses: [],
   allCourses: [],
+  allInstructors: [],
+  fuseIndex: {},
+  instructorsLoading: false,
+  instructorPage: 1,
+  selectedInstructors: [],
 };
 
 export const selectCourseResults =
@@ -92,6 +104,22 @@ export const cacheSlice = createSlice({
     setCoursesLoading: (state, action: PayloadAction<boolean>) => {
       state.coursesLoading = action.payload;
     },
+    setInstructorPage: (state, action: PayloadAction<number>) => {
+      state.instructorPage = action.payload;
+    },
+    setInstructorsLoading: (state, action: PayloadAction<boolean>) => {
+      state.instructorsLoading = action.payload;
+    },
+    selectInstructors: (state, action: PayloadAction<string>) => {
+      const search = action.payload
+      if (!search) {
+        state.selectedInstructors = state.allInstructors;
+        return;
+      }
+      const fuseIndex : FuseIndex<{ instructor: string }> = Fuse.parseIndex(state.fuseIndex);
+      const fuse = new Fuse(state.allInstructors, {}, fuseIndex);
+      state.selectedInstructors = fuse.search(search).map(({item}) => item);
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -186,6 +214,19 @@ export const cacheSlice = createSlice({
         if (!action.payload[0]) return;
 
         state.instructorResults[action.meta.arg] = action.payload;
+      });
+
+    builder
+      .addCase(fetchAllInstructors.pending, (state) => {
+        state.instructorsLoading = true;
+      })
+      .addCase(fetchAllInstructors.fulfilled, (state, action) => {
+        state.instructorsLoading = false;
+        if (action.payload) {
+          state.allInstructors = action.payload;
+          state.fuseIndex = Fuse.createIndex(["instructor"], action.payload).toJSON();
+          state.selectedInstructors = action.payload;
+        }
       });
   },
 });
