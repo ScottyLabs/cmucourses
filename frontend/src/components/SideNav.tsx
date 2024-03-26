@@ -75,17 +75,17 @@ export const SideNav = ({ activePage }) => {
         active={activePage === "schedules"}
       />
       <SideNavItem
+        icon={UserCircleIcon}
+        text="Instructors"
+        link="/instructors"
+        active={activePage === "instructors"}
+      />
+      <SideNavItem
         icon={ChatBubbleBottomCenterTextIcon}
         text="Feedback"
         link="https://forms.gle/6vPTN6Eyqd1w7pqJA"
         newTab
         active={false}
-      />
-      <SideNavItem
-        icon={UserCircleIcon}
-        text="Instructors"
-        link="/instructors"
-        active={activePage === "instructors"}
       />
     </div>
   );
