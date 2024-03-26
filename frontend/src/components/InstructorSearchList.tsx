@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import InstructorDetail from "./InstructorDetail";
 import { fetchAllInstructors } from "../app/api/instructors";
 import { cacheSlice } from "../app/cache";
+import { userSlice } from "../app/user";
 
 const RESULTS_PER_PAGE = 10;
 
@@ -19,6 +20,8 @@ const InstructorSearchList = () => {
   const pages = Math.ceil(results.length / RESULTS_PER_PAGE);
   const curPage = useAppSelector((state) => state.cache.instructorPage);
   const loading = useAppSelector((state) => state.cache.instructorsLoading);
+
+  dispatch(userSlice.actions.resetFilters()); // Not ideal
 
   const handlePageClick = (page: number) => {
     dispatch(cacheSlice.actions.setInstructorPage(page + 1));
