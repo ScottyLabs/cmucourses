@@ -3,6 +3,19 @@ import React from "react";
 import { Tab } from "@headlessui/react";
 import { Lecture, Schedule, Section } from "../app/types";
 import { Card } from "./Card";
+import Link from "./Link";
+import { useAppSelector } from "../app/hooks";
+
+const getInstructors = (instructors: string[]) => {
+  return (
+    <>
+      {instructors.map((instructor, index) => {
+        if (index === instructors.length - 1) return <Link href={`/instructor/${instructor.toUpperCase()}`}>{instructor}</Link>
+        return <><Link href={`/instructor/${instructor.toUpperCase()}`}>{instructor}</Link>; </>
+      })}
+    </>
+  )
+}
 
 const Lecture = ({
   lectureInfo,
@@ -18,7 +31,7 @@ const Lecture = ({
           {lectureInfo.name}
         </div>
         <div className="col-span-1 text-sm">
-          {lectureInfo.instructors.join("; ")}
+          {getInstructors(lectureInfo.instructors)}
         </div>
         <div className="contents flex-col text-sm">
           {lectureInfo.times.map((time) => (
