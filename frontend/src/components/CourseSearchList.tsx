@@ -19,6 +19,7 @@ const CoursePage = () => {
 
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
+  const showSchedules = useAppSelector((state) => state.user.showSchedules);
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   const coursesToShow: string[] = useMemo(() => {
@@ -54,6 +55,7 @@ const CoursePage = () => {
             key={course.courseID}
             showFCEs={showFCEs}
             showCourseInfo={showCourseInfos}
+            showSchedules={showSchedules}
           />
         ))}
     </div>
