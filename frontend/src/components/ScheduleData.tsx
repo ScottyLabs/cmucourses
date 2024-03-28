@@ -72,6 +72,10 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
               {roundTo(aggregatedSelectedData.workload, 2)} hrs/week
               {message === "" ? "" : "*"}
             </span>
+            <span className="ml-4">
+              {scheduledResults.reduce((acc, curr) => acc + parseInt(curr.units), 0)} units
+              {message === "" ? "" : "*"}
+            </span>
           </div>
         </div>
       </div>
