@@ -7,6 +7,9 @@ import {
   selectSelectedCoursesInActiveSchedule,
   userSchedulesSlice,
 } from "../app/userSchedules";
+import { FlushedButton } from "./Buttons";
+import { uiSlice } from "../app/ui";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 
 type ScheduleDataProps = {
   scheduled: string[];
@@ -62,6 +65,8 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
       );
   };
 
+  const open = useAppSelector((state) => state.ui.schedulesTopbarOpen);
+
   return (
     <>
       <div className="flex items-end justify-between">
@@ -69,29 +74,39 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
           <div className="text-a-600 text-lg">
             Total Workload{" "}
             <span className="ml-4">
-              {roundTo(aggregatedSelectedData.workload, 2)} hrs/week
+              {scheduledResults.reduce((acc, curr) => acc + parseInt(curr.units), 0)} units,
               {message === "" ? "" : "*"}
             </span>
             <span className="ml-4">
-              {scheduledResults.reduce((acc, curr) => acc + parseInt(curr.units), 0)} units
+              {roundTo(aggregatedSelectedData.workload, 2)} hrs/week
               {message === "" ? "" : "*"}
             </span>
+            <button className="absolute right-3 z-40 md:right-2">
+              <FlushedButton
+                onClick={() => dispatch(uiSlice.actions.toggleSchedulesTopbarOpen())}
+              >
+                <div className="hidden items-center md:flex">
+                  <div className="mr-1">Hide</div>
+                  {(open ? <ChevronDownIcon className="h-5 w-5" /> : <ChevronUpIcon className="h-5 w-5" />)}
+                </div>
+              </FlushedButton>
+            </button>
           </div>
         </div>
       </div>
-      <div className="mt-3 w-full overflow-x-auto">
+      {(open && <div className="mt-3 w-full overflow-x-auto">
         <table className="w-full min-w-fit table-auto overflow-x-scroll">
           <thead>
-            <tr className="text-left">
-              <th />
-              <th className="whitespace-nowrap pr-4 font-semibold">
-                Course ID
-              </th>
-              <th className="whitespace-nowrap pr-4 font-semibold">
-                Course Name
-              </th>
-              <th className="whitespace-nowrap pr-4 font-semibold">Units</th>
-              <th className="whitespace-nowrap pr-4 font-semibold">Workload</th>
+          <tr className="text-left">
+            <th />
+            <th className="whitespace-nowrap pr-4 font-semibold">
+              Course ID
+            </th>
+            <th className="whitespace-nowrap pr-4 font-semibold">
+              Course Name
+            </th>
+            <th className="whitespace-nowrap pr-4 font-semibold">Units</th>
+            <th className="whitespace-nowrap pr-4 font-semibold">Workload</th>
             </tr>
           </thead>
           <tbody className="text-gray-700">
@@ -122,7 +137,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
               })}
           </tbody>
         </table>
-      </div>
+      </div>)}
       <div className="text-gray-500 mt-2 text-sm">
         {message === "" ? "" : `*${message}`}
       </div>
