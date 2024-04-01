@@ -72,14 +72,7 @@ export const getCourses: RequestHandler<
         courseID: { in: courseIDs },
       },
       include: {
-        schedules: fromBoolLiteral(req.query.schedules) && {
-          select: {
-            id: true,
-            year: true,
-            semester: true,
-            session: true,
-          },
-        },
+        schedules: fromBoolLiteral(req.query.schedules)
       },
     });
     res.json(courses);
