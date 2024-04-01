@@ -209,3 +209,7 @@ export function toNameCase(name: string): string {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   return namecase(name) as string;
 }
+
+export function getUnique<T>(arr: T[]): T[] {
+  return Array.from(new Set(arr));
+}

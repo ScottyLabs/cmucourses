@@ -7,6 +7,7 @@ export interface UserState {
   bookmarked: string[];
   showFCEs: boolean;
   showCourseInfos: boolean;
+  showSchedules: boolean;
   loggedIn: boolean;
   fceAggregation: {
     numSemesters: number;
@@ -15,6 +16,11 @@ export interface UserState {
       summer: boolean;
       fall: boolean;
     };
+    filters: {
+      type: string;
+      courses: string[];
+      instructors: string[];
+    }
   };
   token: string;
 }
@@ -23,6 +29,7 @@ const initialState: UserState = {
   bookmarked: [],
   showFCEs: false,
   showCourseInfos: true,
+  showSchedules: false,
   loggedIn: false,
   fceAggregation: {
     numSemesters: 2,
@@ -30,6 +37,11 @@ const initialState: UserState = {
       spring: true,
       summer: false,
       fall: true,
+    },
+    filters: {
+      type: "",
+      courses: [],
+      instructors: [],
     },
   },
   token: null,
@@ -54,6 +66,9 @@ export const userSlice = createSlice({
     showCourseInfos: (state, action: PayloadAction<boolean>) => {
       state.showCourseInfos = action.payload;
     },
+    showSchedules: (state, action: PayloadAction<boolean>) => {
+      state.showSchedules = action.payload;
+    },
     logIn: (state) => {
       state.loggedIn = true;
     },
@@ -77,6 +92,16 @@ export const userSlice = createSlice({
     setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
     },
+    setFilters: (state, action: PayloadAction<UserState["fceAggregation"]["filters"]>) => {
+      state.fceAggregation.filters = action.payload;
+    },
+    resetFilters: (state) => {
+      state.fceAggregation.filters = {
+        type: "",
+        courses: [],
+        instructors: [],
+      };
+    }
   },
 });
 

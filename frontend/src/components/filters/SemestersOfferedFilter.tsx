@@ -13,6 +13,7 @@ import {
 } from "../../app/utils";
 
 const SESSIONS: Session[] = [
+  { year: "2024", semester: "fall" },
   { year: "2024", semester: "spring" },
   { year: "2023", semester: "fall" },
   { year: "2023", semester: "summer" },
@@ -64,7 +65,7 @@ const SemestersOfferedFilter = () => {
           Offered in
         </Listbox.Label>
         <Listbox.Button className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
-          <span className="block flex flex-wrap gap-1">
+          <span className="block flex-wrap gap-1">
             {sessions.length === 0 ? (
               <span className="p-0.5">None</span>
             ) : (

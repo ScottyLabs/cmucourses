@@ -6,6 +6,7 @@ import Loading from "./Loading";
 import { fetchCourseInfosByPage } from "../app/api/course";
 import { fetchFCEInfosByCourse } from "../app/api/fce";
 import { Pagination } from "./Pagination";
+import { userSlice } from "../app/user";
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ const CoursePage = () => {
 
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
+  const showSchedules = useAppSelector((state) => state.user.showSchedules);
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   const coursesToShow: string[] = useMemo(() => {
@@ -54,6 +56,7 @@ const CoursePage = () => {
             key={course.courseID}
             showFCEs={showFCEs}
             showCourseInfo={showCourseInfos}
+            showSchedules={showSchedules}
           />
         ))}
     </div>
@@ -66,6 +69,8 @@ const CourseSearchList = () => {
 
   const loading = useAppSelector((state) => state.cache.coursesLoading);
   const dispatch = useAppDispatch();
+
+  dispatch(userSlice.actions.resetFilters()); // Not ideal
 
   const handlePageClick = (page: number) => {
     void dispatch(fetchCourseInfosByPage(page + 1));

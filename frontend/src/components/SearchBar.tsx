@@ -142,6 +142,7 @@ const SearchBar = () => {
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
+  const showSchedules = useAppSelector((state) => state.user.showSchedules);
 
   const setShowFCEs = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showFCEs(e.target.checked));
@@ -149,6 +150,10 @@ const SearchBar = () => {
 
   const setShowCourseInfos = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showCourseInfos(e.target.checked));
+  };
+
+  const setShowSchedules = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(userSlice.actions.showSchedules(e.target.checked));
   };
 
   const numResults = useAppSelector((state) => state.cache.totalDocs);
@@ -182,7 +187,7 @@ const SearchBar = () => {
             />
             <span>FCEs</span>
           </div>
-          <div>
+          <div className="mr-6">
             <input
               type="checkbox"
               className="mr-2"
@@ -190,6 +195,15 @@ const SearchBar = () => {
               checked={showCourseInfos}
             />
             <span>Course Info</span>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              className="mr-2"
+              onChange={setShowSchedules}
+              checked={showSchedules}
+            />
+            <span>Schedules</span>
           </div>
         </div>
       </div>
