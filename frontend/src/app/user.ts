@@ -7,6 +7,7 @@ export interface UserState {
   bookmarked: string[];
   showFCEs: boolean;
   showCourseInfos: boolean;
+  showSchedules: boolean;
   loggedIn: boolean;
   fceAggregation: {
     numSemesters: number;
@@ -28,6 +29,7 @@ const initialState: UserState = {
   bookmarked: [],
   showFCEs: false,
   showCourseInfos: true,
+  showSchedules: false,
   loggedIn: false,
   fceAggregation: {
     numSemesters: 2,
@@ -63,6 +65,9 @@ export const userSlice = createSlice({
     },
     showCourseInfos: (state, action: PayloadAction<boolean>) => {
       state.showCourseInfos = action.payload;
+    },
+    showSchedules: (state, action: PayloadAction<boolean>) => {
+      state.showSchedules = action.payload;
     },
     logIn: (state) => {
       state.loggedIn = true;

@@ -14,14 +14,16 @@ import Link from "next/link";
 import { selectFCEResultsForCourse } from "../app/cache";
 import { FCEDetail } from "./FCEDetail";
 import { Card } from "./Card";
+import { SchedulesDetail } from "./SchedulesDetail";
 
 interface Props {
   info: Course;
   showFCEs: boolean;
   showCourseInfo?: boolean;
+  showSchedules?: boolean;
 }
 
-const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
+const CourseCard = ({ info, showFCEs, showCourseInfo, showSchedules }: Props) => {
   const sortedSchedules = filterSessions(info.schedules || []).sort(
     compareSessions
   );
@@ -106,7 +108,10 @@ const CourseCard = ({ info, showFCEs, showCourseInfo }: Props) => {
           </div>
         )}
       </div>
-      {showFCEs && fces && <FCEDetail fces={fces} />}
+      <div className="m-auto space-y-4">
+        {showFCEs && fces && <FCEDetail fces={fces} />}
+        {showSchedules && sortedSchedules && <SchedulesDetail scheduleInfos={sortedSchedules}/>}
+      </div>
     </Card>
   );
 };
