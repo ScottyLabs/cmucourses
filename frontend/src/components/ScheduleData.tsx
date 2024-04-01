@@ -74,7 +74,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
           <div className="text-a-600 text-lg">
             Total Workload{" "}
             <span className="ml-4">
-              {scheduledResults.reduce((acc, curr) => acc + parseInt(curr.units), 0)} units,
+              {scheduledResults.reduce((acc, curr) => acc + parseFloat(curr.units), 0)} units,
               {message === "" ? "" : "*"}
             </span>
             <span className="ml-4">
