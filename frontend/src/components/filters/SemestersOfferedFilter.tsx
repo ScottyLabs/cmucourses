@@ -14,6 +14,7 @@ import {
 
 const SESSIONS: Session[] = [
   { year: "2024", semester: "fall" },
+  { year: "2024", semester: "summer" },
   { year: "2024", semester: "spring" },
   { year: "2023", semester: "fall" },
   { year: "2023", semester: "summer" },
