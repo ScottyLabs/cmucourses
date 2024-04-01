@@ -28,6 +28,8 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
     selectFCEResultsForCourses(scheduled || [])
   );
 
+  const open = useAppSelector((state) => state.ui.schedulesTopbarOpen);
+
   if (!loggedIn) {
     return (
       <div className="bg-white text-gray-700 z-10">
@@ -64,8 +66,6 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
         userSchedulesSlice.actions.deselectCourseInActiveSchedule(courseID)
       );
   };
-
-  const open = useAppSelector((state) => state.ui.schedulesTopbarOpen);
 
   return (
     <>
