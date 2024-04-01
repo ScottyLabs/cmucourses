@@ -8,6 +8,7 @@ import Loading from "../../components/Loading";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { Page } from "../../components/Page";
 import { fetchCourseInfo } from "../../app/api/course";
+import InstructorFilter from "../../components/filters/InstructorFilter";
 
 const CourseDetailPage: NextPage = () => {
   const router = useRouter();
@@ -31,7 +32,16 @@ const CourseDetailPage: NextPage = () => {
     content = <CourseDetail info={info} schedules={schedules} />;
   }
 
-  return <Page content={content} sidebar={<Aggregate />} />;
+  return (
+    <Page
+      content={content}
+      sidebar={
+        <>
+          <Aggregate />
+          <InstructorFilter courseID={courseID} />
+        </>}
+    />
+  );
 };
 
 export default CourseDetailPage;

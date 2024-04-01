@@ -6,6 +6,7 @@ import Loading from "./Loading";
 import { InstructorFCEDetail } from "./InstructorFCEDetail";
 import { toNameCase } from "../app/utils";
 import { Card } from "./Card";
+import Link from "next/link";
 
 type Props = {
   name: string;
@@ -38,9 +39,11 @@ const InstructorDetail = ({ name, showLoading }: Props) => {
     <div className="m-auto space-y-4 p-6">
       <Card>
         <div>
-          <div className="text-md text-gray-800 font-semibold">
-            {toNameCase(name)}
-          </div>
+          <Link href={`/instructor/${name}`}>
+            <div className="text-md text-gray-800 font-semibold">
+              {toNameCase(name)}
+            </div>
+          </Link>
           {/* TODO: Add more information about instructor using Directory API */}
         </div>
         <div>

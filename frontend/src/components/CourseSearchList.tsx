@@ -6,6 +6,7 @@ import Loading from "./Loading";
 import { fetchCourseInfosByPage } from "../app/api/course";
 import { fetchFCEInfosByCourse } from "../app/api/fce";
 import { Pagination } from "./Pagination";
+import { userSlice } from "../app/user";
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
@@ -66,6 +67,8 @@ const CourseSearchList = () => {
 
   const loading = useAppSelector((state) => state.cache.coursesLoading);
   const dispatch = useAppDispatch();
+
+  dispatch(userSlice.actions.resetFilters()); // Not ideal
 
   const handlePageClick = (page: number) => {
     void dispatch(fetchCourseInfosByPage(page + 1));

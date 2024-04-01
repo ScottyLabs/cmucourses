@@ -49,7 +49,11 @@ export interface AggregateFCEsOptions {
     summer: boolean;
     fall: boolean;
   };
-  courses?: string[];
+  filters: {
+    type: string;
+    courses: string[];
+    instructors: string[];
+  }
   numSemesters: number;
 }
 
@@ -66,9 +70,15 @@ export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
     result.push(fce);
   }
 
-  if (options.courses) {
+  if (options.filters.type === "courses" && options.filters.courses) {
     result = result.filter(({ courseID }) =>
-      options.courses.includes(courseID)
+      options.filters.courses.includes(courseID)
+    );
+  }
+
+  if (options.filters.type === "instructors" && options.filters.instructors) {
+    result = result.filter(({ instructor }) =>
+      options.filters.instructors.includes(instructor)
     );
   }
 
@@ -101,7 +111,7 @@ export const aggregateCourses = (
     }));
 
   const coursesWithoutFilteredFCEs = aggregatedFCEs
-    .filter(({ courseID, aggregateData }) => aggregateData.fcesCounted === 0)
+    .filter(({ aggregateData }) => aggregateData.fcesCounted === 0)
     .map(({ courseID }) => courseID);
 
   if (coursesWithoutFilteredFCEs.length > 0) {
