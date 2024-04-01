@@ -7,6 +7,7 @@ export interface UIState {
     loginModalShown: boolean;
     loginModalOpen: boolean;
   };
+  schedulesTopbarOpen: boolean;
 }
 
 const initialState: UIState = {
@@ -16,6 +17,7 @@ const initialState: UIState = {
     loginModalShown: false,
     loginModalOpen: false,
   },
+  schedulesTopbarOpen: false,
 };
 
 export const uiSlice = createSlice({
@@ -34,6 +36,9 @@ export const uiSlice = createSlice({
     closeLoginModal: (state) => {
       state.session.loginModalShown = true;
       state.session.loginModalOpen = false;
+    },
+    toggleSchedulesTopbarOpen: (state) => {
+      state.schedulesTopbarOpen = !state.schedulesTopbarOpen;
     },
   },
 });

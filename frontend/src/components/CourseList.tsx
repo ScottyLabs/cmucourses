@@ -37,6 +37,7 @@ const CourseList = ({ courseIDs, children }: Props) => {
               key={course.courseID}
               showFCEs={true}
               showCourseInfo={true}
+              showSchedules={true}
             />
           ))}
         </div>
