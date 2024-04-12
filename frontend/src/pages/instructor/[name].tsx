@@ -6,13 +6,21 @@ import InstructorDetail from "../../components/InstructorDetail";
 import Aggregate from "../../components/Aggregate";
 import CourseFilter from "../../components/filters/CourseFilter";
 
+const PaddedInstructorDetail = (name : string) =>{
+  return (
+    <div className="m-auto space-y-4 p-6">
+      <InstructorDetail name={name} showLoading={true} />
+    </div>
+  )
+}
+
 const InstructorPage: NextPage = () => {
   const router = useRouter();
   const name = router.query.name as string;
 
   return (
     <Page
-      content={<InstructorDetail name={name} showLoading={true} />}
+      content={PaddedInstructorDetail(name)}
       sidebar={
         <>
           <Aggregate />

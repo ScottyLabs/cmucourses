@@ -36,7 +36,6 @@ const InstructorDetail = ({ name, showLoading }: Props) => {
   // const coursesTaught = new Set(fces.map(({ courseID }) => courseID));
 
   return (
-    <div className="m-auto space-y-4 p-6">
       <Card>
         <div>
           <Link href={`/instructor/${name}`}>
@@ -50,7 +49,6 @@ const InstructorDetail = ({ name, showLoading }: Props) => {
           <InstructorFCEDetail fces={fces} aggregationOptions={aggregationOptions} />
         </div>
       </Card>
-    </div>
   );
 };
 
