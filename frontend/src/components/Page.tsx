@@ -7,6 +7,8 @@ import { uiSlice } from "../app/ui";
 import { Toaster } from "react-hot-toast";
 import { SideNav } from "./SideNav";
 import Link from "./Link";
+import { useAuth } from "@clerk/nextjs"
+import { userSlice } from "../app/user";
 
 type Props = {
   sidebar?: React.ReactNode;
@@ -21,9 +23,26 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
   );
   const dispatch = useAppDispatch();
 
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
+
+  useEffect(() => {
+    if (isLoaded && userId && sessionId) {
+      dispatch(userSlice.actions.logIn());
+      getToken().then((token) => {
+        if (token) {
+          dispatch(userSlice.actions.setToken(token));
+        }
+      }).catch(() => {userSlice.actions.logOut()});
+    } else {
+      dispatch(userSlice.actions.logOut());
+    }
+  }, [isLoaded, userId, sessionId, getToken, dispatch]);
+
   useEffect(() => {
     if (!loggedIn && !modalShown) {
       dispatch(uiSlice.actions.openLoginModal());
+    } else if (loggedIn) {
+      dispatch(uiSlice.actions.closeLoginModal());
     }
   }, [dispatch, loggedIn, modalShown]);
 
@@ -39,7 +58,7 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
         {sidebar && <Sidebar>{sidebar}</Sidebar>}
         <div
           className={`flex-1 overflow-y-auto md:h-full ${
-            !sidebar && "max-w-7xl"
+            !sidebar ? "max-w-7xl" : ""
           }`}
         >
           {content}

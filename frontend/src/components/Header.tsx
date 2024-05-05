@@ -1,158 +1,41 @@
-import React, { ReactElement, useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import React, { ReactElement, useEffect } from "react";
+import { useAppSelector } from "../app/hooks";
 import Link from "next/link";
 import Image from "next/image";
-import Passlink from "passlink";
-import * as jose from "jose";
-import { userSlice } from "../app/user";
-import {
-  ArrowLeftOnRectangleIcon,
-  ArrowRightOnRectangleIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/solid";
+import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon } from "@heroicons/react/24/solid";
 import DarkModeButton from "./DarkModeButton";
 import nightwind from "nightwind/helper";
-import { showToast } from "./Toast";
+import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/nextjs";
 
-const HeaderItemIconText = ({
-  icon,
-  text,
-  href,
-}: {
-  icon: React.ComponentType<{ className: string }>;
-  text: string;
-  href?: string;
-}) => {
-  const Icon = icon;
-  const content = (
-    <span className="flex cursor-pointer flex-row items-center">
-      <Icon className="mr-1 inline h-4 w-4" />{" "}
-      <div className="mt-0 hidden text-base md:block">{text}</div>
-    </span>
-  );
-
-  if (href) {
-    return <Link href={href}>{content}</Link>;
-  }
-
-  return content;
-};
-
-const HeaderItem = ({
-  children,
-  disableHover = false,
-  active = false,
-}: {
-  children: React.ReactNode;
-  disableHover?: boolean;
-  active?: boolean;
-}) => {
+const LogInButton = () => {
   return (
     <div
-      className={`cursor-pointer rounded p-2 px-2 py-1 ${
-        !disableHover && "hover:bg-gray-100"
-      } ${active && "bg-gray-100"}`}
+      className={`cursor-pointer rounded p-2 px-2 py-1 hover:bg-gray-100 `}
     >
-      {children}
+      <span className="flex cursor-pointer flex-row items-center">
+      <SignedOut>
+        <ArrowRightOnRectangleIcon className="mr-1 inline h-4 w-4" />{" "}
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <ArrowLeftOnRectangleIcon className="mr-1 inline h-4 w-4" />{" "}
+        <SignOutButton />
+      </SignedIn>
+    </span>
     </div>
   );
 };
 
-export let passlink: Passlink;
-export let loginHandler: () => void = undefined;
-
 export default function Header(): ReactElement {
-  const dispatch = useAppDispatch();
-
-  const token = useAppSelector((state) => state.user.token);
-  const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState<jose.JWTPayload>(null);
-
-  if (window !== undefined) {
-    passlink = new Passlink(window);
-    loginHandler = passlink.generateloginHandler(
-      `${process.env.backendUrl}/signingrequest`,
-      () => {
-        setLoading(true);
-      },
-      () => {
-        setLoading(false);
-      },
-      () => {
-        setLoading(false);
-      },
-      () => {
-        setLoading(false);
-      },
-      (data: string) => {
-        setLoading(false);
-        dispatch(userSlice.actions.setToken(data));
-      }
-    );
-  }
-
-  useEffect(() => {
-    try {
-      const userDecode = jose.decodeJwt(token);
-      if (Date.now().valueOf() / 1000 > userDecode.exp) {
-        setUser(null);
-        dispatch(userSlice.actions.logOut());
-        showToast({
-          message: "Login expired, please log in again.",
-          icon: XMarkIcon,
-        });
-        return;
-      } else {
-        setUser(userDecode);
-        dispatch(userSlice.actions.logIn());
-      }
-    } catch {
-      setUser(null);
-      dispatch(userSlice.actions.logOut());
-      return;
-    }
-  }, [dispatch, token]);
-
   const darkMode = useAppSelector((state) => state.ui.darkMode);
   useEffect(() => {
     /* eslint-disable-next-line */
     nightwind.enable(darkMode);
   }, [darkMode]);
 
-  let logInButton: React.ReactNode;
-
-  if (user) {
-    logInButton = (
-      <>
-        <div
-          onClick={() => {
-            setUser(null);
-            dispatch(userSlice.actions.logOut());
-          }}
-        >
-          <HeaderItemIconText icon={ArrowLeftOnRectangleIcon} text="Log Out" />
-        </div>
-      </>
-    );
-  } else {
-    logInButton = (
-      <>
-        {loading && <p>Loading...</p>}
-        {!loading && passlink && loginHandler && (
-          <div onClick={loginHandler}>
-            <HeaderItemIconText
-              icon={ArrowRightOnRectangleIcon}
-              text="Log In"
-            />
-          </div>
-        )}
-      </>
-    );
-  }
-
   return (
     <div className="bg-gray-50 flex h-full flex-row items-center justify-between p-6">
-      <div className="text-gray-800 flex flex-initial cursor-pointer flex-row justify-start font-semibold">
+    <div className="text-gray-800 flex flex-initial cursor-pointer flex-row justify-start font-semibold">
         <Link href="/">
           <div className="flex items-center">
             <Image
@@ -168,7 +51,7 @@ export default function Header(): ReactElement {
       </div>
       <div className="text-gray-600 flex flex-row items-center justify-between gap-x-2">
         <DarkModeButton />
-        <HeaderItem>{logInButton}</HeaderItem>
+        <LogInButton />
       </div>
     </div>
   );

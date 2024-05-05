@@ -1,12 +1,11 @@
 import * as jose from "jose";
-import axios from "axios";
 import cron from "node-cron";
 import { NextFunction, Request, Response } from "express";
 
 let JWT_PUBKEY: jose.KeyLike | undefined;
 
 async function fetchLoginKey() {
-  const pubkey = (await axios.get("https://login.scottylabs.org/login/pubkey")).data;
+  const pubkey = process.env.CLERK_PEM_KEY || "";
 
   JWT_PUBKEY = await jose.importSPKI(pubkey, "RS256");
   return JWT_PUBKEY;
@@ -25,10 +24,16 @@ const verifyUserToken = async (token: string) => {
     algorithms: ["RS256"]
   });
 
+  const currentTime = Math.floor(Date.now() / 1000);
+
   if (!payload) {
     throw "No token present. Did you forget to pass in the token with the API call?";
-  } else if (payload.applicationId !== process.env.LOGIN_API_ID || !payload.email) {
-    throw "Bad token";
+  } else if (payload.exp && payload.exp < currentTime) {
+    throw "Token has expired.";
+  } else if (payload.nbf && payload.nbf > currentTime) {
+    throw "Token is not valid yet.";
+  } else if (payload.azp && payload.azp !== process.env.CLERK_LOGIN_HOST) {
+    throw "Token is not valid for this host.";
   }
 };
 
