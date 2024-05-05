@@ -1,30 +1,18 @@
 import * as jose from "jose";
-import cron from "node-cron";
 import { NextFunction, Request, Response } from "express";
 
-let JWT_PUBKEY: jose.KeyLike | undefined;
-
-async function fetchLoginKey() {
+const verifyUserToken = async (token: string) => {
   const pubkey = process.env.CLERK_PEM_KEY || "";
 
-  JWT_PUBKEY = await jose.importSPKI(pubkey, "RS256");
-  return JWT_PUBKEY;
-}
+  const JWT_PUBKEY = await jose.importSPKI(pubkey, "RS256");
 
-if (!JWT_PUBKEY) fetchLoginKey();
-
-async function getLoginKey(): Promise<jose.KeyLike> {
-  return JWT_PUBKEY ?? (await fetchLoginKey());
-}
-
-cron.schedule("0 0 * * *", fetchLoginKey);
-
-const verifyUserToken = async (token: string) => {
-  const { payload } = await jose.jwtVerify(token, await getLoginKey(), {
+  const { payload } = await jose.jwtVerify(token, JWT_PUBKEY, {
     algorithms: ["RS256"]
   });
 
   const currentTime = Math.floor(Date.now() / 1000);
+  const BACKEND_ENV = process.env.BACKEND_ENV || "dev";
+  const CLERK_LOGIN_HOST = process.env.CLERK_LOGIN_HOST || "http://localhost:3000";
 
   if (!payload) {
     throw "No token present. Did you forget to pass in the token with the API call?";
@@ -32,7 +20,7 @@ const verifyUserToken = async (token: string) => {
     throw "Token has expired.";
   } else if (payload.nbf && payload.nbf > currentTime) {
     throw "Token is not valid yet.";
-  } else if (payload.azp && payload.azp !== process.env.CLERK_LOGIN_HOST) {
+  } else if (BACKEND_ENV === "prod" && payload.azp && payload.azp !== CLERK_LOGIN_HOST) {
     throw "Token is not valid for this host.";
   }
 };
