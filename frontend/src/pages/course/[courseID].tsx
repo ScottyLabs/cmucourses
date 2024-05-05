@@ -29,7 +29,7 @@ const CourseDetailPage: NextPage = () => {
   );
 
   if (info) {
-    content = <CourseDetail info={info} schedules={schedules} />;
+    content = <CourseDetail info={info} schedules={schedules || []} />;
   }
 
   return (

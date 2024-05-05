@@ -31,7 +31,7 @@ const CourseCombobox = ({
   onSelectedItemsChange: (items: string[]) => void;
 }) => {
   const [inputValue, setInputValue] = useState("");
-  const listRef = useRef();
+  const listRef = useRef(null);
   const dispatch = useAppDispatch();
 
   const allCourses = useAppSelector((state) => state.cache.allCourses);
@@ -70,14 +70,14 @@ const CourseCombobox = ({
     selectedItems,
   } = useMultipleSelection<selectedItem>({
     onSelectedItemsChange: ({ selectedItems }) => {
-      onSelectedItemsChange(selectedItems.map(({ courseID }) => courseID));
+      onSelectedItemsChange(selectedItems?.map(({ courseID }) => courseID) || []);
     },
   });
 
   const filteredCourses = getCourses();
   const rowVirtualizer = useVirtualizer({
     count: filteredCourses.length,
-    getScrollElement: () => listRef.current,
+    getScrollElement: () => listRef.current || null,
     estimateSize: useCallback(() => 40, []),
   });
 
@@ -99,9 +99,9 @@ const CourseCombobox = ({
     selectedItem: null,
     inputValue,
     defaultHighlightedIndex: 0,
-    onInputValueChange: ({ inputValue: newValue }) => setInputValue(newValue),
+    onInputValueChange: ({ inputValue: newValue }) => setInputValue(newValue || ""),
     onHighlightedIndexChange: ({ highlightedIndex }) =>
-      rowVirtualizer.scrollToIndex(highlightedIndex),
+      rowVirtualizer.scrollToIndex(highlightedIndex || 0),
     stateReducer: (state, actionAndChanges) => {
       const { changes, type } = actionAndChanges;
       switch (type) {
@@ -117,7 +117,7 @@ const CourseCombobox = ({
     onStateChange: ({ inputValue, type, selectedItem }) => {
       switch (type) {
         case useCombobox.stateChangeTypes.InputChange:
-          setInputValue(inputValue);
+          setInputValue(inputValue || "");
           break;
         case useCombobox.stateChangeTypes.InputKeyDownEnter:
         case useCombobox.stateChangeTypes.ItemClick:

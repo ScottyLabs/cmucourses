@@ -68,7 +68,7 @@ export const sessionToShortString = (sessionInfo: Session | FCE | Schedule) => {
 export const compareSessions = (
   session1: Session | FCE,
   session2: Session | FCE
-) => {
+) : number => {
   if (session1.year != session2.year)
     return session1.year < session2.year ? 1 : -1;
 
@@ -88,11 +88,16 @@ export const compareSessions = (
   }
 
   if (session1.session !== session2.session) {
+    if (!session1.session) return 1;
+    if (!session2.session) return -1;
+
     return sessionNumbers.indexOf(session1.session) <
       sessionNumbers.indexOf(session2.session)
       ? 1
       : -1;
   }
+
+  return 0;
 };
 
 export function filterSessions<T extends Session>(sessions: T[]): T[] {
@@ -175,7 +180,7 @@ export function isExactSearch(search: string): boolean {
 }
 
 export function getCourseIDs(search: string): string[] {
-  return search.match(courseIdRegex);
+  return search.match(courseIdRegex) || [];
 }
 
 export function classNames(...classes) {

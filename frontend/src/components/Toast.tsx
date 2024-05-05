@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const Toast = (t: ToastType, { message, title, icon }: Props) => {
-  const Icon = icon;
+  const Icon = icon || (() => <div />);
 
   return (
     <div

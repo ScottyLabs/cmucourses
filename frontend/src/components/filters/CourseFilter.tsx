@@ -18,11 +18,11 @@ const CourseFilter = ({ name } : Props) => {
 
   const filteredCourses = useAppSelector((state) => state.user.fceAggregation.filters.courses);
   const fces =  useAppSelector(selectFCEResultsForInstructor(name));
-  const courses = getUnique(fces?.map((fce) => fce.courseID).sort());
+  const courses = getUnique(fces?.map((fce) => fce.courseID).sort() || []);
 
   useEffect(() => {
     dispatch(userSlice.actions.setFilters({ type: "courses",
-      courses: getUnique(fces?.map((fce) => fce.courseID).sort()), instructors: [] }));
+      courses: getUnique(fces?.map((fce) => fce.courseID).sort() || []), instructors: [] }));
   }, [fces, dispatch]);
 
   const setCourses = (courses: string[]) => {

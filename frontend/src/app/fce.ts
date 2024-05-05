@@ -94,8 +94,8 @@ export const aggregateCourses = (
   courses: Course[],
   options: AggregateFCEsOptions
 ) => {
-  const messages = [];
-  const unitsMessage = [];
+  const messages : string[] = [];
+  const unitsMessage : string[] = [];
 
   const coursesWithoutFCEs = data
     .filter(({ fces }) => fces === null)
