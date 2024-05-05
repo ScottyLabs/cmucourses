@@ -12,7 +12,7 @@ const verifyUserToken = async (token: string) => {
 
   const currentTime = Math.floor(Date.now() / 1000);
   const BACKEND_ENV = process.env.BACKEND_ENV || "dev";
-  const CLERK_LOGIN_HOST = process.env.CLERK_LOGIN_HOST || "http://localhost:3000";
+  const CLERK_LOGIN_HOST = process.env.CLERK_LOGIN_HOST || "http://localhost:3010";
 
   if (!payload) {
     throw "No token present. Did you forget to pass in the token with the API call?";
