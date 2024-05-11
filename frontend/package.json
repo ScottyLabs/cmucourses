@@ -20,6 +20,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/uuid": "^8.3.4",
     "axios": "^0.24.0",
+    "dotenv": "^16.4.5",
     "downshift": "^6.1.7",
     "fuse.js": "^7.0.0",
     "jose": "^4.8.1",

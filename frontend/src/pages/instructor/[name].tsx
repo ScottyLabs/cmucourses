@@ -6,7 +6,7 @@ import InstructorDetail from "../../components/InstructorDetail";
 import Aggregate from "../../components/Aggregate";
 import CourseFilter from "../../components/filters/CourseFilter";
 
-const PaddedInstructorDetail = (name : string) =>{
+const PaddedInstructorDetail = (name : string) => {
   return (
     <div className="m-auto space-y-4 p-6">
       <InstructorDetail name={name} showLoading={true} />
