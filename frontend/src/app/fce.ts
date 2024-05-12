@@ -1,5 +1,5 @@
 import { FCE } from "./types";
-import { compareSessions, roundTo, sessionToShortString } from "./utils";
+import { compareSessions, roundTo, sessionToShortString, responseRateZero } from "./utils";
 
 export const FCE_RATINGS = [
   "Interest in student learning",
@@ -13,7 +13,9 @@ export const FCE_RATINGS = [
   "Overall course rate",
 ];
 
-export const aggregateFCEs = (fces: FCE[]) => {
+export const aggregateFCEs = (rawFces: FCE[]) => {
+  const fces = rawFces.filter((fce) => !responseRateZero(fce))
+
   const fcesCounted = fces.length;
   const semesters = new Set();
   let workload = 0;
@@ -70,12 +72,14 @@ export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
     result.push(fce);
   }
 
+  // Filter by courses
   if (options.filters.type === "courses" && options.filters.courses) {
     result = result.filter(({ courseID }) =>
       options.filters.courses.includes(courseID)
     );
   }
 
+  // Filter by instructors
   if (options.filters.type === "instructors" && options.filters.instructors) {
     result = result.filter(({ instructor }) =>
       options.filters.instructors.includes(instructor)

@@ -12,7 +12,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import { FCE } from "../app/types";
-import { sessionToString } from "../app/utils";
+import { sessionToString, responseRateZero } from "../app/utils";
 import { StarRating } from "./StarRating";
 import Link from "./Link";
 
@@ -115,12 +115,25 @@ export const FCEDataTable = ({
 type FCEDetailRow = ReturnType<typeof convertFCEData>[0];
 
 const convertFCEData = (fces: FCE[]) => {
-  return fces.map((fce) => ({
-    ...fce,
-    semesterStr: sessionToString(fce),
-    teachingRate: fce.rating[7],
-    courseRate: fce.rating[8],
-  }));
+  return fces.map((fce) => {
+    if (responseRateZero(fce)) { // If response rate is 0, then the no data
+      return {
+        ...fce,
+        responseRate: "0%",
+        semesterStr: sessionToString(fce),
+        teachingRate: "N/A",
+        courseRate: "N/A",
+        hrsPerWeek: "N/A",
+      };
+    }
+    return {
+      ...fce,
+      responseRate: fce.responseRate.slice(-1) === "%" ? fce.responseRate : `${fce.responseRate}%`,
+      semesterStr: sessionToString(fce),
+      teachingRate: fce.rating[7],
+      courseRate: fce.rating[8],
+    };
+  });
 };
 
 export const FCETable = ({
@@ -140,56 +153,60 @@ export const FCETable = ({
     aggregateData = aggregateFCEs(filteredFCEs);
   }
 
-  if (!fces || aggregateData.fcesCounted == 0) {
+  if (!fces || fces.length == 0) {
     return <></>;
   }
 
   return (
     <>
-      <div className="text-md text-gray-700 bg-gray-50 mt-3 rounded p-4">
-        <div className="flex items-baseline">
-          <h2 className="text-md mb-2">Aggregate Data</h2>
-          <div className="ml-2 flex-1 text-sm">
-            (data from {aggregateData.semestersCounted} semesters)
-          </div>
-        </div>
-
-        <div className="mt-2 flex space-x-2">
-          <div className="bg-white w-1/5 flex-1 rounded p-2">
-            <div>
-              <span className="text-xl">{aggregateData.workload}</span>
-              <span className="text-md ml-1 hidden sm:inline">hrs/wk</span>
-            </div>
-            <div className="text-gray-500 text-sm">Workload</div>
-          </div>
-          <div className="bg-white flex-1 rounded p-2">
-            <div className="flex content-end">
-              <div className="hidden lg:block">
-                <StarRating rating={aggregateData.teachingRate} />
+      {
+        aggregateData.fcesCounted !== 0 && (
+          <div className="text-md text-gray-700 bg-gray-50 mt-3 rounded p-4">
+            <div className="flex items-baseline">
+              <h2 className="text-md mb-2">Aggregate Data</h2>
+              <div className="ml-2 flex-1 text-sm">
+                (data from {aggregateData.semestersCounted} semesters)
               </div>
-              <span className="text-xl lg:ml-2">
+            </div>
+
+            <div className="mt-2 flex space-x-2">
+              <div className="bg-white w-1/5 flex-1 rounded p-2">
+                <div>
+                  <span className="text-xl">{aggregateData.workload}</span>
+                  <span className="text-md ml-1 hidden sm:inline">hrs/wk</span>
+                </div>
+                <div className="text-gray-500 text-sm">Workload</div>
+              </div>
+              <div className="bg-white flex-1 rounded p-2">
+                <div className="flex content-end">
+                  <div className="hidden lg:block">
+                    <StarRating rating={aggregateData.teachingRate} />
+                  </div>
+                  <span className="text-xl lg:ml-2">
                 {aggregateData.teachingRate}
               </span>
-            </div>
-            <div className="text-gray-500 text-sm">
-              Teaching <span className="hidden sm:inline">Rate</span>
-            </div>
-          </div>
-          <div className="bg-white flex-1 rounded p-2">
-            <div className="flex content-end">
-              <div className="hidden lg:block">
-                <StarRating rating={aggregateData.courseRate} />
+                </div>
+                <div className="text-gray-500 text-sm">
+                  Teaching <span className="hidden sm:inline">Rate</span>
+                </div>
               </div>
-              <span className="text-xl lg:ml-2">
+              <div className="bg-white flex-1 rounded p-2">
+                <div className="flex content-end">
+                  <div className="hidden lg:block">
+                    <StarRating rating={aggregateData.courseRate} />
+                  </div>
+                  <span className="text-xl lg:ml-2">
                 {aggregateData.courseRate}
               </span>
-            </div>
-            <div className="text-gray-500 text-sm">
-              Course <span className="hidden sm:inline">Rate</span>
+                </div>
+                <div className="text-gray-500 text-sm">
+                  Course <span className="hidden sm:inline">Rate</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        )
+      }
       <div className="bg-gray-50 mt-3 overflow-x-auto rounded p-4">
         <FCEDataTable
           columns={columns}

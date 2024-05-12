@@ -213,3 +213,9 @@ export function toNameCase(name: string): string {
 export function getUnique<T>(arr: T[]): T[] {
   return Array.from(new Set(arr));
 }
+
+export function responseRateZero(fce: FCE): boolean {
+  // Honestly don't know why responseRate is a string in the first place
+  // Just trying to catch the possible reasonable edge cases
+  return ["0", "0.0", "0.00", "0%", "0.0%", "0.00%"].includes(fce.responseRate);
+}
