@@ -1,5 +1,5 @@
-import { FCE } from "./types";
-import { compareSessions, roundTo, sessionToShortString, responseRateZero } from "./utils";
+import { Course, FCE } from "./types";
+import { compareSessions, roundTo, sessionToShortString, responseRateZero, parseUnits, isValidUnits } from "./utils";
 
 export const FCE_RATINGS = [
   "Interest in student learning",
@@ -14,7 +14,7 @@ export const FCE_RATINGS = [
 ];
 
 export const aggregateFCEs = (rawFces: FCE[]) => {
-  const fces = rawFces.filter((fce) => !responseRateZero(fce))
+  const fces = rawFces.filter((fce) => !responseRateZero(fce));
 
   const fcesCounted = fces.length;
   const semesters = new Set();
@@ -55,7 +55,7 @@ export interface AggregateFCEsOptions {
     type: string;
     courses: string[];
     instructors: string[];
-  }
+  };
   numSemesters: number;
 }
 
@@ -75,14 +75,14 @@ export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
   // Filter by courses
   if (options.filters.type === "courses" && options.filters.courses) {
     result = result.filter(({ courseID }) =>
-      options.filters.courses.includes(courseID)
+      options.filters.courses.includes(courseID),
     );
   }
 
   // Filter by instructors
   if (options.filters.type === "instructors" && options.filters.instructors) {
     result = result.filter(({ instructor }) =>
-      options.filters.instructors.includes(instructor)
+      options.filters.instructors.includes(instructor),
     );
   }
 
@@ -91,9 +91,11 @@ export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
 
 export const aggregateCourses = (
   data: { courseID: string; fces: FCE[] }[],
+  courses: Course[],
   options: AggregateFCEsOptions
 ) => {
   const messages = [];
+  const unitsMessage = [];
 
   const coursesWithoutFCEs = data
     .filter(({ fces }) => fces === null)
@@ -103,7 +105,7 @@ export const aggregateCourses = (
     messages.push(
       `There are courses without any FCE data (${coursesWithoutFCEs.join(
         ", "
-      )}).`
+      )}). FCE data is estimated using the number of units.`
     );
   }
 
@@ -133,10 +135,27 @@ export const aggregateCourses = (
       workload += aggregateFCE.aggregateData.workload;
   }
 
+  for (const courseID of coursesWithoutFCEs) {
+    const findCourse = courses.filter((course) => course.courseID === courseID);
+    if (findCourse.length > 0) workload += parseUnits(findCourse[0].units);
+  }
+
+  const totalUnits = courses.reduce((acc, curr) => acc + parseUnits(curr.units) + parseUnits(curr.manualUnits), 0);
+  const varUnits = courses.filter((course) => !isValidUnits(course.units));
+  if (varUnits.length > 0) {
+    unitsMessage.push(
+      `There are courses with variable units (${varUnits
+        .map((course) => course.courseID)
+        .join(", ")}). Input the number of units manually above.`
+    );
+  }
+
   return {
     aggregatedFCEs,
     workload,
-    message: messages.join(" "),
+    totalUnits,
+    fceMessage: messages.join(" "),
+    unitsMessage: unitsMessage.join(" "),
   };
 };
 

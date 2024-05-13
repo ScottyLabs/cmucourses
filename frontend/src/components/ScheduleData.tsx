@@ -1,12 +1,13 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { aggregateCourses, AggregatedFCEs } from "../app/fce";
-import { displayUnits, roundTo } from "../app/utils";
+import { displayUnits, isValidUnits, roundTo } from "../app/utils";
 import { selectCourseResults, selectFCEResultsForCourses } from "../app/cache";
 import {
   selectSelectedCoursesInActiveSchedule,
   userSchedulesSlice,
 } from "../app/userSchedules";
+import { cacheSlice } from "../app/cache";
 import { FlushedButton } from "./Buttons";
 import { uiSlice } from "../app/ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
@@ -46,15 +47,20 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
     selected.includes(courseID)
   );
 
-  const aggregatedData = aggregateCourses(scheduledFCEs, options);
+  const selectedResults = scheduledResults.filter(({ courseID }) =>
+    selected.includes(courseID)
+  );
+
+  const aggregatedData = aggregateCourses(scheduledFCEs, scheduledResults, options);
   const aggregatedDataByCourseID: { [courseID: string]: AggregatedFCEs } = {};
   for (const row of aggregatedData.aggregatedFCEs) {
     if (row.aggregateData !== null)
       aggregatedDataByCourseID[row.courseID] = row.aggregateData;
   }
 
-  const aggregatedSelectedData = aggregateCourses(selectedFCEs, options);
-  const message = aggregatedSelectedData.message;
+  const aggregatedSelectedData = aggregateCourses(selectedFCEs, selectedResults, options);
+  const fceMessage = aggregatedSelectedData.fceMessage;
+  const unitsMessage = aggregatedSelectedData.unitsMessage;
 
   const selectCourse = (value: boolean, courseID: string) => {
     if (value)
@@ -74,12 +80,12 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
           <div className="text-a-600 text-lg">
             Total Workload{" "}
             <span className="ml-4">
-              {scheduledResults.reduce((acc, curr) => acc + parseFloat(curr.units), 0)} units,
-              {message === "" ? "" : "*"}
+              {aggregatedSelectedData.totalUnits} units
+              {unitsMessage === "" ? "" : <sup>+</sup>},
             </span>
             <span className="ml-4">
               {roundTo(aggregatedSelectedData.workload, 2)} hrs/week
-              {message === "" ? "" : "*"}
+              {fceMessage === "" ? "" : "*"}
             </span>
             <button className="absolute right-3 z-40 md:right-2">
               <FlushedButton
@@ -126,7 +132,23 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                     </td>
                     <td>{result.courseID}</td>
                     <td className="whitespace-nowrap pr-4">{result.name}</td>
-                    <td>{displayUnits(result.units)}</td>
+                    <td>
+                      {
+                        !isValidUnits(result.units) ?
+                          <input
+                            className="bg-white w-20"
+                            value={result.manualUnits !== undefined ? displayUnits(result.manualUnits) : displayUnits(result.units)}
+                            onChange={(e) =>
+                              dispatch(cacheSlice.actions.updateUnits({
+                                courseID: result.courseID,
+                                units: e.target.value,
+                              }))
+                            }
+                            placeholder="Units"
+                          /> :
+                          displayUnits(result.units)
+                      }
+                    </td>
                     <td>
                       {result.courseID in aggregatedDataByCourseID
                         ? aggregatedDataByCourseID[result.courseID].workload
@@ -138,8 +160,13 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
           </tbody>
         </table>
       </div>)}
-      <div className="text-gray-500 mt-2 text-sm">
-        {message === "" ? "" : `*${message}`}
+      <div className="text-gray-500 mt-3 text-sm">
+        {unitsMessage === "" ? "" :
+            <div>
+              <sup>+</sup>
+              {unitsMessage}
+            </div>}
+        {fceMessage === "" ? "" : `*${fceMessage}`}
       </div>
     </>
   );

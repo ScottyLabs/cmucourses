@@ -219,3 +219,14 @@ export function responseRateZero(fce: FCE): boolean {
   // Just trying to catch the possible reasonable edge cases
   return ["0", "0.0", "0.00", "0%", "0.0%", "0.00%"].includes(fce.responseRate);
 }
+
+export function isValidUnits(units: string): boolean {
+  const re = /^\d+(\.\d+)?$/;
+  return re.test(units);
+}
+
+export function parseUnits(units: string) : number {
+  if (isValidUnits(units)) {
+    return parseFloat(units);
+  } return 0.0;
+}

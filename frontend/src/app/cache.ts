@@ -119,6 +119,11 @@ export const cacheSlice = createSlice({
       const fuseIndex : FuseIndex<{ instructor: string }> = Fuse.parseIndex(state.fuseIndex);
       const fuse = new Fuse(state.allInstructors, {}, fuseIndex);
       state.selectedInstructors = fuse.search(search).map(({item}) => item);
+    },
+    updateUnits: (state, action: PayloadAction<{units: string, courseID: string}>) => {
+      const units = action.payload.units
+      const courseID = action.payload.courseID
+      state.courseResults[courseID].manualUnits = units
     }
   },
   extraReducers: (builder) => {

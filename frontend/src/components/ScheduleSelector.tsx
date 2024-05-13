@@ -2,7 +2,7 @@ import React from "react";
 import { ClipboardIcon, ShareIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { FlushedButton } from "./Buttons";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { userSchedulesSlice } from "../app/userSchedules";
 import { showToast } from "./Toast";
 
@@ -92,14 +92,16 @@ const ScheduleSelector = () => {
 
   return (
     <div>
-      <div className="mb-2 flex items-baseline gap-3">
+      <div className="mb-2 flex gap-1">
         <div className="text-lg">Schedules</div>
         <FlushedButton
           onClick={() => {
             dispatch(userSchedulesSlice.actions.createEmptySchedule());
           }}
         >
-          Create New
+          <PlusCircleIcon
+            className="h-5 w-5"
+          />
         </FlushedButton>
       </div>
       <div>
