@@ -7,6 +7,7 @@ import {
   selectSelectedCoursesInActiveSchedule,
   userSchedulesSlice,
 } from "../app/userSchedules";
+import { cacheSlice } from "../app/cache";
 import { FlushedButton } from "./Buttons";
 import { uiSlice } from "../app/ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
@@ -131,7 +132,23 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                     </td>
                     <td>{result.courseID}</td>
                     <td className="whitespace-nowrap pr-4">{result.name}</td>
-                    <td>{displayUnits(result.units)}</td>
+                    <td>
+                      {
+                        isNaN(parseFloat(result.units)) ?
+                          <input
+                            className="bg-white w-20"
+                            value={result.manualUnits !== undefined ? displayUnits(result.manualUnits) : displayUnits(result.units)}
+                            onChange={(e) =>
+                              dispatch(cacheSlice.actions.updateUnits({
+                                courseID: result.courseID,
+                                units: e.target.value,
+                              }))
+                            }
+                            placeholder="Units"
+                          /> :
+                          displayUnits(result.units)
+                      }
+                    </td>
                     <td>
                       {result.courseID in aggregatedDataByCourseID
                         ? aggregatedDataByCourseID[result.courseID].workload

@@ -28,6 +28,7 @@ export interface Course {
   desc: string;
   schedules?: Schedule[];
   units: string;
+  manualUnits?: string;
   fces?: FCE[];
 }
 

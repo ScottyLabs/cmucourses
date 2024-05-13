@@ -105,7 +105,7 @@ export const aggregateCourses = (
     messages.push(
       `There are courses without any FCE data (${coursesWithoutFCEs.join(
         ", "
-      )}). We estimate the FCE data by using the number of units.`
+      )}). FCE data is estimated using the number of units.`
     );
   }
 
@@ -140,13 +140,13 @@ export const aggregateCourses = (
     if (findCourse.length > 0) workload += parseUnits(findCourse[0].units);
   }
 
-  const totalUnits = courses.reduce((acc, curr) => acc + parseUnits(curr.units), 0);
+  const totalUnits = courses.reduce((acc, curr) => acc + parseUnits(curr.units) + parseUnits(curr.manualUnits), 0);
   const varUnits = courses.filter((course) => isNaN(parseFloat(course.units)));
   if (varUnits.length > 0) {
     unitsMessage.push(
       `There are courses with variable units (${varUnits
         .map((course) => course.courseID)
-        .join(", ")}).`
+        .join(", ")}). Input the number of units manually above.`
     );
   }
 
