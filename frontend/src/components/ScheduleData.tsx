@@ -145,11 +145,10 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
       </div>)}
       <div className="text-gray-500 mt-3 text-sm">
         {unitsMessage === "" ? "" :
-            <>
+            <div>
               <sup>+</sup>
               {unitsMessage}
-            </>}
-        <br/>
+            </div>}
         {fceMessage === "" ? "" : `*${fceMessage}`}
       </div>
     </>
