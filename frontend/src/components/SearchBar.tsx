@@ -108,11 +108,19 @@ const AppliedFilters = () => {
   }
 
   return (
-    <>
+    <div className="flex justify-between">
       {badges.length > 0 && (
-        <div className="flex flex-wrap gap-x-1 gap-y-1.5">{badges}</div>
+        <>
+          <div className="flex flex-wrap gap-x-1 gap-y-1.5">{badges}</div>
+          <div className="hover:text-blue-500 hover:underline"
+               onClick={() => {
+                 dispatch(filtersSlice.actions.resetFilters());
+               }}>
+            Reset
+          </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 

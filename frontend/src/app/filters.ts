@@ -111,6 +111,12 @@ export const filtersSlice = createSlice({
         state.levels.selected[index] = false;
       }
     },
+    resetFilters: (state) => {
+      state.departments = initialState.departments;
+      state.levels = initialState.levels;
+      state.units = initialState.units;
+      state.semesters = initialState.semesters;
+    },
   },
 });
 
