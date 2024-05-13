@@ -58,7 +58,8 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
   }
 
   const aggregatedSelectedData = aggregateCourses(selectedFCEs, selectedResults, options);
-  const message = aggregatedSelectedData.message;
+  const fceMessage = aggregatedSelectedData.fceMessage;
+  const unitsMessage = aggregatedSelectedData.unitsMessage;
 
   const selectCourse = (value: boolean, courseID: string) => {
     if (value)
@@ -78,11 +79,12 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
           <div className="text-a-600 text-lg">
             Total Workload{" "}
             <span className="ml-4">
-              {aggregatedSelectedData.totalUnits} units,
+              {aggregatedSelectedData.totalUnits} units
+              {unitsMessage === "" ? "" : <sup>+</sup>},
             </span>
             <span className="ml-4">
               {roundTo(aggregatedSelectedData.workload, 2)} hrs/week
-              {message === "" ? "" : "*"}
+              {fceMessage === "" ? "" : "*"}
             </span>
             <button className="absolute right-3 z-40 md:right-2">
               <FlushedButton
@@ -141,8 +143,14 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
           </tbody>
         </table>
       </div>)}
-      <div className="text-gray-500 mt-2 text-sm">
-        {message === "" ? "" : `*${message}`}
+      <div className="text-gray-500 mt-3 text-sm">
+        {unitsMessage === "" ? "" :
+            <>
+              <sup>+</sup>
+              {unitsMessage}
+            </>}
+        <br/>
+        {fceMessage === "" ? "" : `*${fceMessage}`}
       </div>
     </>
   );

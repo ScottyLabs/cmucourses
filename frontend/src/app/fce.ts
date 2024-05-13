@@ -95,6 +95,7 @@ export const aggregateCourses = (
   options: AggregateFCEsOptions
 ) => {
   const messages = [];
+  const unitsMessage = [];
 
   const coursesWithoutFCEs = data
     .filter(({ fces }) => fces === null)
@@ -140,12 +141,21 @@ export const aggregateCourses = (
   }
 
   const totalUnits = courses.reduce((acc, curr) => acc + parseUnits(curr.units), 0);
+  const varUnits = courses.filter((course) => isNaN(parseFloat(course.units)));
+  if (varUnits.length > 0) {
+    unitsMessage.push(
+      `There are courses with variable units (${varUnits
+        .map((course) => course.courseID)
+        .join(", ")}).`
+    );
+  }
 
   return {
     aggregatedFCEs,
     workload,
     totalUnits,
-    message: messages.join(" "),
+    fceMessage: messages.join(" "),
+    unitsMessage: unitsMessage.join(" "),
   };
 };
 
