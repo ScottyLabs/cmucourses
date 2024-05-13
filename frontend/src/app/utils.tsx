@@ -220,8 +220,13 @@ export function responseRateZero(fce: FCE): boolean {
   return ["0", "0.0", "0.00", "0%", "0.0%", "0.00%"].includes(fce.responseRate);
 }
 
+export function isValidUnits(units: string): boolean {
+  const re = /^\d+(\.\d+)?$/;
+  return re.test(units);
+}
+
 export function parseUnits(units: string) : number {
-  if (!isNaN(parseFloat(units))) {
-    return parseFloat(units)
-  } return 0.0
+  if (isValidUnits(units)) {
+    return parseFloat(units);
+  } return 0.0;
 }

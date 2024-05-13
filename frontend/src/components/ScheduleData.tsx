@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { aggregateCourses, AggregatedFCEs } from "../app/fce";
-import { displayUnits, roundTo } from "../app/utils";
+import { displayUnits, isValidUnits, roundTo } from "../app/utils";
 import { selectCourseResults, selectFCEResultsForCourses } from "../app/cache";
 import {
   selectSelectedCoursesInActiveSchedule,
@@ -134,7 +134,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                     <td className="whitespace-nowrap pr-4">{result.name}</td>
                     <td>
                       {
-                        isNaN(parseFloat(result.units)) ?
+                        !isValidUnits(result.units) ?
                           <input
                             className="bg-white w-20"
                             value={result.manualUnits !== undefined ? displayUnits(result.manualUnits) : displayUnits(result.units)}

@@ -1,5 +1,5 @@
 import { Course, FCE } from "./types";
-import { compareSessions, roundTo, sessionToShortString, responseRateZero, parseUnits } from "./utils";
+import { compareSessions, roundTo, sessionToShortString, responseRateZero, parseUnits, isValidUnits } from "./utils";
 
 export const FCE_RATINGS = [
   "Interest in student learning",
@@ -141,7 +141,7 @@ export const aggregateCourses = (
   }
 
   const totalUnits = courses.reduce((acc, curr) => acc + parseUnits(curr.units) + parseUnits(curr.manualUnits), 0);
-  const varUnits = courses.filter((course) => isNaN(parseFloat(course.units)));
+  const varUnits = courses.filter((course) => !isValidUnits(course.units));
   if (varUnits.length > 0) {
     unitsMessage.push(
       `There are courses with variable units (${varUnits
