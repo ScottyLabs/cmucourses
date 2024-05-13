@@ -1,5 +1,5 @@
-import { FCE } from "./types";
-import { compareSessions, roundTo, sessionToShortString, responseRateZero } from "./utils";
+import { Course, FCE } from "./types";
+import { compareSessions, roundTo, sessionToShortString, responseRateZero, parseUnits } from "./utils";
 
 export const FCE_RATINGS = [
   "Interest in student learning",
@@ -14,7 +14,7 @@ export const FCE_RATINGS = [
 ];
 
 export const aggregateFCEs = (rawFces: FCE[]) => {
-  const fces = rawFces.filter((fce) => !responseRateZero(fce))
+  const fces = rawFces.filter((fce) => !responseRateZero(fce));
 
   const fcesCounted = fces.length;
   const semesters = new Set();
@@ -55,7 +55,7 @@ export interface AggregateFCEsOptions {
     type: string;
     courses: string[];
     instructors: string[];
-  }
+  };
   numSemesters: number;
 }
 
@@ -75,14 +75,14 @@ export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
   // Filter by courses
   if (options.filters.type === "courses" && options.filters.courses) {
     result = result.filter(({ courseID }) =>
-      options.filters.courses.includes(courseID)
+      options.filters.courses.includes(courseID),
     );
   }
 
   // Filter by instructors
   if (options.filters.type === "instructors" && options.filters.instructors) {
     result = result.filter(({ instructor }) =>
-      options.filters.instructors.includes(instructor)
+      options.filters.instructors.includes(instructor),
     );
   }
 
@@ -91,6 +91,7 @@ export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
 
 export const aggregateCourses = (
   data: { courseID: string; fces: FCE[] }[],
+  courses: Course[],
   options: AggregateFCEsOptions
 ) => {
   const messages = [];
@@ -103,7 +104,7 @@ export const aggregateCourses = (
     messages.push(
       `There are courses without any FCE data (${coursesWithoutFCEs.join(
         ", "
-      )}).`
+      )}). We estimate the FCE data by using the number of units.`
     );
   }
 
@@ -133,9 +134,17 @@ export const aggregateCourses = (
       workload += aggregateFCE.aggregateData.workload;
   }
 
+  for (const courseID of coursesWithoutFCEs) {
+    const findCourse = courses.filter((course) => course.courseID === courseID);
+    if (findCourse.length > 0) workload += parseUnits(findCourse[0].units);
+  }
+
+  const totalUnits = courses.reduce((acc, curr) => acc + parseUnits(curr.units), 0);
+
   return {
     aggregatedFCEs,
     workload,
+    totalUnits,
     message: messages.join(" "),
   };
 };

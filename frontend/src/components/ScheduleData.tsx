@@ -46,14 +46,18 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
     selected.includes(courseID)
   );
 
-  const aggregatedData = aggregateCourses(scheduledFCEs, options);
+  const selectedResults = scheduledResults.filter(({ courseID }) =>
+    selected.includes(courseID)
+  );
+
+  const aggregatedData = aggregateCourses(scheduledFCEs, scheduledResults, options);
   const aggregatedDataByCourseID: { [courseID: string]: AggregatedFCEs } = {};
   for (const row of aggregatedData.aggregatedFCEs) {
     if (row.aggregateData !== null)
       aggregatedDataByCourseID[row.courseID] = row.aggregateData;
   }
 
-  const aggregatedSelectedData = aggregateCourses(selectedFCEs, options);
+  const aggregatedSelectedData = aggregateCourses(selectedFCEs, selectedResults, options);
   const message = aggregatedSelectedData.message;
 
   const selectCourse = (value: boolean, courseID: string) => {
@@ -74,8 +78,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
           <div className="text-a-600 text-lg">
             Total Workload{" "}
             <span className="ml-4">
-              {scheduledResults.reduce((acc, curr) => acc + parseFloat(curr.units), 0)} units,
-              {message === "" ? "" : "*"}
+              {aggregatedSelectedData.totalUnits} units,
             </span>
             <span className="ml-4">
               {roundTo(aggregatedSelectedData.workload, 2)} hrs/week
