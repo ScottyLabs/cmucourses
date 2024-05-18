@@ -42,7 +42,7 @@ const AppliedFiltersPill = ({
 
 const AppliedFilters = () => {
   const dispatch = useAppDispatch();
-  const badges = [];
+  const badges : JSX.Element[] = [];
   const filter = useAppSelector((state) => state.filters);
 
   if (filter.departments.active) {

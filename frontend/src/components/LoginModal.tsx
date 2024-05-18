@@ -2,8 +2,8 @@ import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { uiSlice } from "../app/ui";
-import { loginHandler } from "./Header";
 import Link from "./Link";
+import { SignInButton } from "@clerk/nextjs";
 
 export const LoginModal = () => {
   const isOpen = useAppSelector((state) => state.ui.session.loginModalOpen);
@@ -76,12 +76,8 @@ export const LoginModal = () => {
                     <button
                       type="button"
                       className="text-blue-900 bg-blue-50 inline-flex justify-center rounded border px-4 py-2 text-sm font-medium border-transparent hover:bg-blue-100"
-                      onClick={() => {
-                        if (loginHandler) loginHandler();
-                        closeModal();
-                      }}
                     >
-                      Log In
+                      <SignInButton />
                     </button>
                   </div>
                 </Dialog.Panel>

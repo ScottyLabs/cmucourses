@@ -20,17 +20,13 @@ const CourseDetail = ({ info, schedules }: Props) => {
     void dispatch(fetchFCEInfosByCourse({ courseIDs: [info.courseID] }));
   }, [dispatch, info.courseID, loggedIn]);
 
-  let sortedSchedules: Schedule[];
-  if (schedules)
-    sortedSchedules = filterSessions([...schedules]).sort(compareSessions);
-
   const fces = useAppSelector((state) => state.cache.fces[info.courseID]);
 
   return (
     <div className="m-auto space-y-4 p-6">
       <CourseCard info={info} showFCEs={false} showCourseInfo={true} />
       {fces && <FCECard fces={fces} />}
-      {schedules && <SchedulesCard scheduleInfos={sortedSchedules} />}
+      {schedules && <SchedulesCard scheduleInfos={filterSessions([...schedules]).sort(compareSessions)} />}
     </div>
   );
 };

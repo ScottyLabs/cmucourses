@@ -50,6 +50,7 @@ export const userSchedulesSlice = createSlice({
       );
     },
     removeCourseFromActiveSchedule: (state, action: PayloadAction<string>) => {
+      if (state.active === null) return;
       state.saved[state.active].courses = removeFromSet(
         state.saved[state.active].courses,
         action.payload
@@ -60,18 +61,21 @@ export const userSchedulesSlice = createSlice({
       );
     },
     selectCourseInActiveSchedule: (state, action: PayloadAction<string>) => {
+      if (state.active === null) return;
       state.saved[state.active].selected = addToSet(
         state.saved[state.active].selected,
         action.payload
       );
     },
     deselectCourseInActiveSchedule: (state, action: PayloadAction<string>) => {
+      if (state.active === null) return;
       state.saved[state.active].selected = removeFromSet(
         state.saved[state.active].selected,
         action.payload
       );
     },
     toggleSelectedInActiveSchedule: (state) => {
+      if (state.active === null) return;
       if (state.saved[state.active].selected.length > 0) {
         state.saved[state.active].selected = [];
       } else {

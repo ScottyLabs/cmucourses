@@ -71,7 +71,7 @@ export const selectCourseResult = (courseID: string) => (state: RootState) =>
 export const selectFCEResultsForCourses =
   (courseIDs: string[]) => (state: RootState) =>
     courseIDs.map((courseID) => {
-      if (!state.cache.fces[courseID]) return { courseID, fces: null };
+      if (!state.cache.fces[courseID]) return { courseID, fces: [] };
       return { courseID, fces: state.cache.fces[courseID] };
     });
 

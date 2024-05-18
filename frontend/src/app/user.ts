@@ -22,7 +22,7 @@ export interface UserState {
       instructors: string[];
     }
   };
-  token: string;
+  token: string | null;
 }
 
 const initialState: UserState = {

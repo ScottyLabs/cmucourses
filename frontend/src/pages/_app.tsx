@@ -8,9 +8,11 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import Head from "next/head";
 
+import { ClerkProvider } from "@clerk/nextjs";
+
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <ClerkProvider>
       <Head>
         <title>CMU Courses</title>
         <meta
@@ -27,6 +29,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </PersistGate>
       </Provider>
-    </>
+    </ClerkProvider>
   );
 }

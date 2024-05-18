@@ -145,7 +145,7 @@ export const FCETable = ({
   columnVisibility: Record<string, boolean>;
   aggregationOptions: AggregateFCEsOptions;
 }) => {
-  let aggregateData: AggregatedFCEs;
+  let aggregateData: AggregatedFCEs | undefined = undefined;
   let filteredFCEs = fces;
 
   if (fces) {
@@ -160,7 +160,7 @@ export const FCETable = ({
   return (
     <>
       {
-        aggregateData.fcesCounted !== 0 && (
+        aggregateData && aggregateData.fcesCounted !== 0 && (
           <div className="text-md text-gray-700 bg-gray-50 mt-3 rounded p-4">
             <div className="flex items-baseline">
               <h2 className="text-md mb-2">Aggregate Data</h2>
@@ -180,7 +180,7 @@ export const FCETable = ({
               <div className="bg-white flex-1 rounded p-2">
                 <div className="flex content-end">
                   <div className="hidden lg:block">
-                    <StarRating rating={aggregateData.teachingRate} />
+                    <StarRating rating={Number(aggregateData.teachingRate)} />
                   </div>
                   <span className="text-xl lg:ml-2">
                 {aggregateData.teachingRate}
@@ -193,7 +193,7 @@ export const FCETable = ({
               <div className="bg-white flex-1 rounded p-2">
                 <div className="flex content-end">
                   <div className="hidden lg:block">
-                    <StarRating rating={aggregateData.courseRate} />
+                    <StarRating rating={Number(aggregateData.courseRate)} />
                   </div>
                   <span className="text-xl lg:ml-2">
                 {aggregateData.courseRate}
