@@ -140,7 +140,7 @@ export const aggregateCourses = (
     if (findCourse.length > 0) workload += parseUnits(findCourse[0].units);
   }
 
-  const totalUnits = courses.reduce((acc, curr) => acc + parseUnits(curr.units) + parseUnits(curr.manualUnits), 0);
+  const totalUnits = courses.reduce((acc, curr) => acc + parseUnits(curr.units) + parseUnits(curr.manualUnits || ""), 0);
   const varUnits = courses.filter((course) => !isValidUnits(course.units));
   if (varUnits.length > 0) {
     unitsMessage.push(
