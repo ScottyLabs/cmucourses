@@ -26,7 +26,7 @@
     "fuse.js": "^7.0.0",
     "jose": "^4.8.1",
     "namecase": "^1.1.2",
-    "next": "^13.0.6",
+    "next": "^14.1.1",
     "nightwind": "github:btwj/nightwind#78a3476",
     "passlink": "^1.1.0",
     "react": "^18.2.0",
