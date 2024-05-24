@@ -27,6 +27,7 @@ const CourseList = ({ courseIDs, children }: Props) => {
 
   return (
     <div className="py-6 px-2 md:px-6">
+    <div className="text-gray-400 mt-3 text-sm" style={{paddingBottom:"1em"}}>{courseIDs.length} Saved Courses </div>
       {results.length > 0 ? (
         <div className="space-y-4">
           {/* We found less courses than what we search for, so put a Loading indicator */}
