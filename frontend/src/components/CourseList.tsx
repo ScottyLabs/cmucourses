@@ -28,19 +28,22 @@ const CourseList = ({ courseIDs, children }: Props) => {
   return (
     <div className="py-6 px-2 md:px-6">
       {results.length > 0 ? (
-        <div className="space-y-4">
-          {/* We found less courses than what we search for, so put a Loading indicator */}
-          {courseIDs.length > results.length && <Loading />}
-          {results.map((course) => (
-            <CourseCard
-              info={course}
-              key={course.courseID}
-              showFCEs={true}
-              showCourseInfo={true}
-              showSchedules={true}
-            />
-          ))}
-        </div>
+        <>
+          <div className="text-gray-400 mt-3 text-sm pb-2">{courseIDs.length} Saved Courses </div>
+          <div className="space-y-4">
+            {/* We found less courses than what we search for, so put a Loading indicator */}
+            {courseIDs.length > results.length && <Loading />}
+            {results.map((course) => (
+              <CourseCard
+                info={course}
+                key={course.courseID}
+                showFCEs={true}
+                showCourseInfo={true}
+                showSchedules={true}
+              />
+            ))}
+          </div>
+        </>
       ) : (
         children
       )}
