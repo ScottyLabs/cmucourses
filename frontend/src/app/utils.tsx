@@ -8,7 +8,7 @@ import namecase from "namecase";
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
 
 export const standardizeId = (id: string) => {
-  if (!id.includes("-") && id.length >= 5) {
+  if (id && !id.includes("-") && id.length >= 5) {
     return id.slice(0, 2) + "-" + id.slice(2);
   }
 
