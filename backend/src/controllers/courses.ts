@@ -217,7 +217,7 @@ export const getFilteredCourses: RequestHandler<
 
   try {
     const result = (await prisma.courses.aggregateRaw({ pipeline }))[0] as unknown as GetFilteredCoursesResult;
-    const { totalDocs } = result.metadata.length ? result.metadata[0] : { totalDocs: 0 };
+    const totalDocs = result.metadata[0]?.totalDocs ?? 0;
 
     res.json({
       totalDocs,
