@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
-import { PrismaReturn } from "../util.mjs";
-import prisma from "../models/prisma.mjs";
+import { PrismaReturn } from "~/util";
+import prisma from "~/models/prisma";
 
 const getAllInstructorsDbQuery = {
   select: {
@@ -29,7 +29,7 @@ export const getInstructors: RequestHandler<
       orderBy: {
         instructor: "asc",
       },
-      distinct: ["instructor"]
+      distinct: ["instructor"],
     });
     res.json(instructors);
   } catch (e) {

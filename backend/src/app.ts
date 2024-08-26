@@ -2,10 +2,10 @@ import "dotenv/config";
 import morgan from "morgan";
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
-import { isUser } from "./controllers/user.mjs";
-import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "./controllers/courses.mjs";
-import { getFCEs } from "./controllers/fces.mjs";
-import { getInstructors } from "./controllers/instructors.mjs";
+import { isUser } from "~/controllers/user.js";
+import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "~/controllers/courses.js";
+import { getFCEs } from "~/controllers/fces.js";
+import { getInstructors } from "~/controllers/instructors.js";
 
 const app = express();
 const port = process.env.PORT || 3000;

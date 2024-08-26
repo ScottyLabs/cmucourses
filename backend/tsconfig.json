@@ -5,11 +5,15 @@
     "allowJs": true,
     "target": "es6",
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Bundler",
     "module": "esnext",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "baseUrl": "."
   },
   "ts-node": {
-    "esm": true,
+    "esm": true
   },
   "include": ["./src/**/*"]
 }

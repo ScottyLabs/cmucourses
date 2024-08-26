@@ -6,9 +6,9 @@ import {
   SingleOrArray,
   singleToArray,
   standardizeID,
-} from "../util.mjs";
+} from "~/util";
 import { RequestHandler } from "express";
-import prisma from "../models/prisma.mjs";
+import prisma from "~/models/prisma";
 import { Prisma } from "@prisma/client";
 
 const projection = { _id: false, __v: false };
@@ -72,7 +72,7 @@ export const getCourses: RequestHandler<
         courseID: { in: courseIDs },
       },
       include: {
-        schedules: fromBoolLiteral(req.query.schedules)
+        schedules: fromBoolLiteral(req.query.schedules),
       },
     });
     res.json(courses);

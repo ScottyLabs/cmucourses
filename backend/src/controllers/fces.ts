@@ -1,6 +1,6 @@
-import { ElemType, exclude, PrismaReturn, singleToArray, standardizeID } from "../util.mjs";
+import { ElemType, exclude, PrismaReturn, singleToArray, standardizeID } from "~/util";
 import { RequestHandler } from "express";
-import prisma from "../models/prisma.mjs";
+import prisma from "~/models/prisma";
 
 type fce = ElemType<PrismaReturn<typeof prisma.fces.findMany>>;
 
@@ -23,12 +23,11 @@ export const getFCEs: RequestHandler<
     try {
       const results = await prisma.fces.findMany({
         where: {
-          courseID: { in: courseIDs }
-        }
+          courseID: { in: courseIDs },
+        },
       });
 
-      const projectedResults =
-        results.map((courseFce) => exclude(courseFce, "id", "v"));
+      const projectedResults = results.map((courseFce) => exclude(courseFce, "id", "v"));
 
       res.json(projectedResults);
     } catch (e) {
@@ -39,12 +38,11 @@ export const getFCEs: RequestHandler<
     try {
       const results = await prisma.fces.findMany({
         where: {
-          instructor
-        }
+          instructor,
+        },
       });
 
-      const projectedResults =
-        results.map((courseFce) => exclude(courseFce, "id", "v"));
+      const projectedResults = results.map((courseFce) => exclude(courseFce, "id", "v"));
 
       res.json(projectedResults);
     } catch (e) {
