@@ -2,7 +2,7 @@
   "name": "@cmucourses/backend",
   "type": "module",
   "scripts": {
-    "start": "bun run start",
+    "start": "bun run ./build/app.js",
     "dev": "dotenv -e ../.env -- bun --watch src/app.ts",
     "build": "bun build ./src/app.ts --target=bun --outdir=build",
     "format": "prettier --write . --ignore-path .gitignore",
