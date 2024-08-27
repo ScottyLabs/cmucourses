@@ -1,9 +1,9 @@
 import React from "react";
-import PulseLoader from "react-spinners/PulseLoader.js";
+import PulseLoader from "react-spinners/PulseLoader";
 
-import resolveConfig from "tailwindcss/resolveConfig.js";
+import resolveConfig from "tailwindcss/resolveConfig";
 import tailwindConfig from "../../tailwind.config.js";
-import { useAppSelector } from "~/app/hooks.js";
+import { useAppSelector } from "~/app/hooks";
 
 /* eslint-disable-next-line */
 const fullConfig: any = resolveConfig(tailwindConfig);

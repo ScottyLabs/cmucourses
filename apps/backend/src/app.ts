@@ -1,10 +1,10 @@
 import morgan from "morgan";
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
-import { isUser } from "~/controllers/user.js";
-import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "~/controllers/courses.js";
-import { getFCEs } from "~/controllers/fces.js";
-import { getInstructors } from "~/controllers/instructors.js";
+import { isUser } from "~/controllers/user";
+import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "~/controllers/courses";
+import { getFCEs } from "~/controllers/fces";
+import { getInstructors } from "~/controllers/instructors";
 
 const app = express();
 const port = process.env.PORT || 3000;
