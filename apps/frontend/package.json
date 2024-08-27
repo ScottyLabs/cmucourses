@@ -1,10 +1,11 @@
 {
   "name": "@cmucourses/frontend",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "nx next:dev -p 3010",
-    "build": "nx next:build",
-    "start": "nx next:start",
+    "dev": "next dev -p 3010",
+    "build": "next build",
+    "start": "next start",
     "type-check": "tsc",
     "test": "jest",
     "lint": "next lint",
@@ -53,13 +54,13 @@
     "autoprefixer": "^10.4.0",
     "eslint-config-next": "^13.0.6",
     "jest": "^27.2.0",
+    "typescript": "^5.5.4",
     "jest-css-modules-transform": "^4.2.0",
     "next-transpile-modules": "^10.0.0",
     "postcss": "^8.4.5",
     "prettier-plugin-tailwindcss": "^0.1.11",
     "tailwindcss": "^3.0.7",
     "ts-jest": "^27.0.5",
-    "ts-node": "^10.2.1",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.0"
   }

@@ -2,19 +2,13 @@
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "db-generate": {
-      "dependsOn": [
-        "^db-generate"
-      ]
+      "dependsOn": ["^db-generate"]
     },
     "dev": {
-      "dependsOn": [
-        "^db-generate"
-      ]
+      "dependsOn": ["^db-generate"]
     },
     "build": {
-      "dependsOn": [
-        "^db-generate"
-      ]
+      "dependsOn": ["^db-generate"]
     },
     "format": {
       "cache": true
@@ -30,15 +24,5 @@
     }
   },
   "defaultBase": "main",
-  "plugins": [
-    {
-      "plugin": "@nx/next/plugin",
-      "options": {
-        "startTargetName": "next:start",
-        "buildTargetName": "next:build",
-        "devTargetName": "next:dev",
-        "serveStaticTargetName": "serve-static"
-      }
-    }
-  ]
+  "plugins": []
 }
