@@ -1,6 +1,0 @@
-{
-  "execMap": {
-    "ts": "node --loader ts-node/esm -r dotenv/config"
-  },
-  "ext": "js,ts,json"
-}

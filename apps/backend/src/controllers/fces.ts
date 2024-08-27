@@ -1,8 +1,8 @@
 import { ElemType, exclude, PrismaReturn, singleToArray, standardizeID } from "~/util";
 import { RequestHandler } from "express";
-import prisma from "~/models/prisma";
+import db from "@cmucourses/db";
 
-type fce = ElemType<PrismaReturn<typeof prisma.fces.findMany>>;
+type fce = ElemType<PrismaReturn<typeof db.fces.findMany>>;
 
 export interface GetFces {
   params: unknown;
@@ -21,7 +21,7 @@ export const getFCEs: RequestHandler<
     const courseIDs = singleToArray(req.query.courseID).map(standardizeID);
 
     try {
-      const results = await prisma.fces.findMany({
+      const results = await db.fces.findMany({
         where: {
           courseID: { in: courseIDs },
         },
@@ -36,7 +36,7 @@ export const getFCEs: RequestHandler<
   } else {
     const instructor = req.query.instructor;
     try {
-      const results = await prisma.fces.findMany({
+      const results = await db.fces.findMany({
         where: {
           instructor,
         },

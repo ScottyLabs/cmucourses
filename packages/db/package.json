@@ -1,0 +1,18 @@
+{
+  "name": "@cmucourses/db",
+  "private": true,
+  "scripts": {
+    "db-validate": "prisma format",
+    "db-generate": "prisma generate",
+    "db-migrate": "prisma db push"
+  },
+  "main": "index.ts",
+  "dependencies": {
+    "@prisma/client": "^5.6.0",
+    "dotenv": "^16.3.1",
+    "typescript": "^5.0.4"
+  },
+  "devDependencies": {
+    "prisma": "^5.6.0"
+  }
+}

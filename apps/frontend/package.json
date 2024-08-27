@@ -1,9 +1,10 @@
 {
+  "name": "@cmucourses/frontend",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 3010",
-    "build": "next build",
-    "start": "next start",
+    "dev": "nx next:dev -p 3010",
+    "build": "nx next:build",
+    "start": "nx next:start",
     "type-check": "tsc",
     "test": "jest",
     "lint": "next lint",

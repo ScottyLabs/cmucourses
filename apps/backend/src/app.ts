@@ -1,4 +1,3 @@
-import "dotenv/config";
 import morgan from "morgan";
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";

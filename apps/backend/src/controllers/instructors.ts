@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { PrismaReturn } from "~/util";
-import prisma from "~/models/prisma";
+import prisma from "@cmucourses/db";
 
 const getAllInstructorsDbQuery = {
   select: {

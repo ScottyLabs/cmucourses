@@ -8,8 +8,7 @@ import {
   standardizeID,
 } from "~/util";
 import { RequestHandler } from "express";
-import prisma from "~/models/prisma";
-import { Prisma } from "@prisma/client";
+import db, { Prisma } from "@cmucourses/db";
 
 const projection = { _id: false, __v: false };
 const MAX_LIMIT = 10;
@@ -21,7 +20,7 @@ export interface GetCourseById {
   query: {
     schedules?: BoolLiteral;
   };
-  resBody: PrismaReturn<typeof prisma.courses.findFirstOrThrow>;
+  resBody: PrismaReturn<typeof db.courses.findFirstOrThrow>;
   reqBody: unknown;
 }
 
@@ -33,7 +32,7 @@ export const getCourseByID: RequestHandler<
 > = async (req, res, next) => {
   const id = standardizeID(req.params.courseID);
   try {
-    const course = await prisma.courses.findFirstOrThrow({
+    const course = await db.courses.findFirstOrThrow({
       where: {
         courseID: id,
       },
@@ -50,7 +49,7 @@ export const getCourseByID: RequestHandler<
 
 export interface GetCourses {
   params: unknown;
-  resBody: PrismaReturn<typeof prisma.courses.findMany>;
+  resBody: PrismaReturn<typeof db.courses.findMany>;
   reqBody: unknown;
   query: {
     courseID: SingleOrArray<string>;
@@ -67,7 +66,7 @@ export const getCourses: RequestHandler<
   const courseIDs = singleToArray(req.query.courseID).map(standardizeID);
 
   try {
-    const courses = await prisma.courses.findMany({
+    const courses = await db.courses.findMany({
       where: {
         courseID: { in: courseIDs },
       },
@@ -216,7 +215,7 @@ export const getFilteredCourses: RequestHandler<
   });
 
   try {
-    const result = (await prisma.courses.aggregateRaw({ pipeline }))[0] as unknown as GetFilteredCoursesResult;
+    const result = (await db.courses.aggregateRaw({ pipeline }))[0] as unknown as GetFilteredCoursesResult;
     const totalDocs = result.metadata[0]?.totalDocs ?? 0;
 
     res.json({
@@ -247,7 +246,7 @@ const getAllCoursesDbQuery = {
 
 export interface GetAllCourses {
   params: unknown;
-  resBody: PrismaReturn<typeof prisma.courses.findMany<typeof getAllCoursesDbQuery>>;
+  resBody: PrismaReturn<typeof db.courses.findMany<typeof getAllCoursesDbQuery>>;
   reqBody: unknown;
   query: unknown;
 }
@@ -260,7 +259,7 @@ export const getAllCourses: RequestHandler<
 > = async (req, res, next) => {
   if (new Date().valueOf() - allCoursesEntry.lastCached.valueOf() > 1000 * 60 * 60 * 24) {
     try {
-      const courses = await prisma.courses.findMany(getAllCoursesDbQuery);
+      const courses = await db.courses.findMany(getAllCoursesDbQuery);
 
       allCoursesEntry.lastCached = new Date();
       allCoursesEntry.allCourses = courses;

@@ -5,3 +5,11 @@
 .netlify
 
 node_modules/
+
+
+.nx/cache
+.nx/workspace-data
+
+# Next.js
+.next
+out

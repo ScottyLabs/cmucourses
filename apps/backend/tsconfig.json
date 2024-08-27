@@ -21,6 +21,9 @@
     "moduleResolution": "Bundler",
     "noEmit": true,
 
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
     "outDir": "./build",
 
     "baseUrl": ".",
