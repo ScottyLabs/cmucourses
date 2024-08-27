@@ -5,7 +5,10 @@
       "dependsOn": ["^db-generate"]
     },
     "dev": {
-      "dependsOn": ["^db-generate"]
+      "dependsOn": ["^db-generate"],
+      "configurations": {
+        "development": {}
+      }
     },
     "build": {
       "dependsOn": ["^db-generate"]

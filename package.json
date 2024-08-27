@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "bun@1.1.22",
   "scripts": {
-    "dev": "nx run-many -t dev --parallel",
+    "dev": "nx run-many -c development -t dev --parallel",
     "build": "nx run-many -t build --parallel",
     "start": "nx run-many -t start --parallel"
   },

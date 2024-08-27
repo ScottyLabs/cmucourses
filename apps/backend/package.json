@@ -3,12 +3,13 @@
   "type": "module",
   "scripts": {
     "start": "bun run ./build/app.js",
-    "dev": "dotenv -e ../.env -- bun --watch src/app.ts",
+    "dev": "bun --watch src/app.ts",
     "build": "bun build ./src/app.ts --target=bun --outdir=build",
     "format": "prettier --write . --ignore-path .gitignore",
     "lint": "./node_modules/.bin/eslint ./src/**"
   },
   "dependencies": {
+    "@clerk/clerk-sdk-node": "^5.0.30",
     "@cmucourses/db": "workspace:*",
     "axios": "^0.27.1",
     "cors": "^2.8.5",

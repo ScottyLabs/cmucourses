@@ -14,7 +14,7 @@ export const fetchFCEInfosByCourse = createAsyncThunk<
   const newIds = courseIDs.filter((id) => !(id in state.cache.fces));
   if (newIds.length === 0) return;
 
-  const url = `${process.env.backendUrl || ""}/fces?`;
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/fces?`;
   const params = new URLSearchParams();
 
   newIds.forEach((courseID) => params.append("courseID", courseID));
@@ -43,7 +43,7 @@ export const fetchFCEInfosByInstructor = createAsyncThunk<
 
   if (instructor in state.cache.instructorResults) return;
 
-  const url = `${process.env.backendUrl || ""}/fces?`;
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/fces?`;
   const params = new URLSearchParams();
   params.append("instructor", instructor);
 

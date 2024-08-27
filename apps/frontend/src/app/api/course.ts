@@ -12,7 +12,7 @@ export const fetchCourseInfos = createAsyncThunk<
   const newIds = ids.filter((id) => !(id in state.cache.courseResults));
   if (newIds.length === 0) return [];
 
-  const url = `${process.env.backendUrl || ""}/courses?`;
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses?`;
   const params = new URLSearchParams(ids.map((id) => ["courseID", id]));
 
   params.set("schedules", "true");
@@ -56,7 +56,7 @@ export const fetchCourseInfosByPage = createAsyncThunk<
 >("fetchCourseInfosByPage", async (page: number, thunkAPI) => {
   const state = thunkAPI.getState();
 
-  const url = `${process.env.backendUrl || ""}/courses/search?`;
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/search?`;
   const params = new URLSearchParams({
     page: `${page}`,
     schedules: "true",
@@ -129,7 +129,7 @@ export const fetchCourseInfo = createAsyncThunk<
     const state = thunkAPI.getState();
     if (courseID in state.cache.courseResults && !schedules) return;
 
-    const url = `${process.env.backendUrl || ""}/course/${courseID}?`;
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/course/${courseID}?`;
     const params = new URLSearchParams({
       schedules: schedules ? "true" : "false",
     });
@@ -145,7 +145,7 @@ export const fetchAllCourses = createAsyncThunk<
   void,
   { state: RootState }
 >("fetchAllCourses", async (_, thunkAPI) => {
-  const url = `${process.env.backendUrl || ""}/courses/all`;
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/all`;
   const state = thunkAPI.getState();
 
   if (state.cache.allCourses.length > 0) return;

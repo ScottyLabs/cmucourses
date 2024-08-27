@@ -8,7 +8,7 @@ export const fetchAllInstructors = createAsyncThunk<
   void,
   { state: RootState }
 >("fetchAllInstructors", async (_, thunkAPI) => {
-  const url = `${process.env.backendUrl || ""}/instructors`;
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/instructors`;
   const state = thunkAPI.getState();
 
   if (state.cache.allInstructors.length > 0) return;
