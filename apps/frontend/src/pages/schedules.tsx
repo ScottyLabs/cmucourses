@@ -1,14 +1,14 @@
 import { NextPage } from "next";
-import Aggregate from "../components/Aggregate";
-import Topbar from "../components/Topbar";
-import { useAppSelector } from "../app/hooks";
-import ScheduleSelector from "../components/ScheduleSelector";
-import CourseList from "../components/CourseList";
-import ScheduleSearch from "../components/ScheduleSearch";
-import ScheduleData from "../components/ScheduleData";
-import { selectCoursesInActiveSchedule } from "../app/userSchedules";
-import { Page } from "../components/Page";
-import Loading from "../components/Loading";
+import Aggregate from "~/components/Aggregate";
+import Topbar from "~/components/Topbar";
+import { useAppSelector } from "~/app/hooks";
+import ScheduleSelector from "~/components/ScheduleSelector";
+import CourseList from "~/components/CourseList";
+import ScheduleSearch from "~/components/ScheduleSearch";
+import ScheduleData from "~/components/ScheduleData";
+import { selectCoursesInActiveSchedule } from "~/app/userSchedules";
+import { Page } from "~/components/Page";
+import Loading from "~/components/Loading";
 
 const SchedulePage: NextPage = () => {
   const scheduled = useAppSelector(selectCoursesInActiveSchedule);
@@ -28,7 +28,7 @@ const SchedulePage: NextPage = () => {
               <Loading />
             ) : (
               // We haven't added anything to the schedule yet
-              <div className="text-gray-400 mt-6 text-center">
+              <div className="mt-6 text-center text-gray-400">
                 Nothing in your schedule yet!
               </div>
             )}

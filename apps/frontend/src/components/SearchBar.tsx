@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { throttledFilter } from "../app/store";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
+import { throttledFilter } from "~/app/store";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
-import { userSlice } from "../app/user";
+import { userSlice } from "~/app/user";
 import {
   getCourseIDs,
   sessionToShortString,
   sessionToString,
-} from "../app/utils";
-import { cacheSlice } from "../app/cache";
-import { filtersSlice } from "../app/filters";
+} from "~/app/utils";
+import { cacheSlice } from "~/app/cache";
+import { filtersSlice } from "~/app/filters";
 import { getPillboxes } from "./filters/LevelFilter";
 
 const AppliedFiltersPill = ({
@@ -42,7 +42,7 @@ const AppliedFiltersPill = ({
 
 const AppliedFilters = () => {
   const dispatch = useAppDispatch();
-  const badges : JSX.Element[] = [];
+  const badges: JSX.Element[] = [];
   const filter = useAppSelector((state) => state.filters);
 
   if (filter.departments.active) {
@@ -112,10 +112,12 @@ const AppliedFilters = () => {
       {badges.length > 0 && (
         <>
           <div className="flex flex-wrap gap-x-1 gap-y-1.5">{badges}</div>
-          <div className="hover:text-blue-500 hover:underline"
-               onClick={() => {
-                 dispatch(filtersSlice.actions.resetFilters());
-               }}>
+          <div
+            className="hover:underline hover:text-blue-500"
+            onClick={() => {
+              dispatch(filtersSlice.actions.resetFilters());
+            }}
+          >
             Reset
           </div>
         </>
@@ -168,7 +170,7 @@ const SearchBar = () => {
 
   return (
     <>
-      <div className="text-gray-500 relative flex border-b border-b-gray-500 dark:text-zinc-300 dark:border-b-zinc-400">
+      <div className="relative flex border-b border-b-gray-500 text-gray-500 dark:border-b-zinc-400 dark:text-zinc-300">
         <span className="absolute inset-y-0 left-0 flex items-center">
           <MagnifyingGlassIcon className="h-5 w-5" />
         </span>
@@ -182,8 +184,8 @@ const SearchBar = () => {
         />
       </div>
       <div className="flex justify-between">
-        <div className="text-gray-400 mt-3 text-sm">{numResults} results</div>
-        <div className="text-gray-500 mt-3 flex justify-end">
+        <div className="mt-3 text-sm text-gray-400">{numResults} results</div>
+        <div className="mt-3 flex justify-end text-gray-500">
           <div className="mr-6 hidden md:block">Show</div>
           <div className="mr-6">
             <input
@@ -215,7 +217,7 @@ const SearchBar = () => {
           </div>
         </div>
       </div>
-      <div className="text-gray-500 mt-2">
+      <div className="mt-2 text-gray-500">
         <AppliedFilters />
       </div>
     </>

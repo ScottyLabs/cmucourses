@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../store";
+import { RootState } from "~/store";
 
 type FetchAllInstructorsType = { instructor: string }[];
 

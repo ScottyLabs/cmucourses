@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { FCE } from "../types";
-import { RootState } from "../store";
+import { FCE } from "~/types";
+import { RootState } from "~/store";
 
 type FCEInfosOptions = { courseIDs: string[] };
 

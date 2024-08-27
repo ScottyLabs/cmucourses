@@ -1,4 +1,4 @@
-import { Course } from "../app/types";
+import { Course } from "~/app/types";
 import {
   approximateHours,
   compareSessions,
@@ -7,11 +7,11 @@ import {
   filterSessions,
   injectLinks,
   sessionToShortString,
-} from "../app/utils";
-import { useAppSelector } from "../app/hooks";
+} from "~/app/utils";
+import { useAppSelector } from "~/app/hooks";
 import BookmarkButton from "./BookmarkButton";
 import Link from "next/link";
-import { selectFCEResultsForCourse } from "../app/cache";
+import { selectFCEResultsForCourse } from "~/app/cache";
 import { FCEDetail } from "./FCEDetail";
 import { Card } from "./Card";
 import { SchedulesDetail } from "./SchedulesDetail";
@@ -23,7 +23,12 @@ interface Props {
   showSchedules?: boolean;
 }
 
-const CourseCard = ({ info, showFCEs, showCourseInfo, showSchedules }: Props) => {
+const CourseCard = ({
+  info,
+  showFCEs,
+  showCourseInfo,
+  showSchedules,
+}: Props) => {
   const sortedSchedules = filterSessions(info.schedules || []).sort(
     compareSessions
   );
@@ -45,20 +50,20 @@ const CourseCard = ({ info, showFCEs, showCourseInfo, showSchedules }: Props) =>
       <div className="grid auto-rows-min grid-cols-8 gap-x-6 gap-y-2">
         <div className="col-span-5 col-start-1 row-span-1 row-start-1 md:col-span-6">
           <Link href={`/course/${info.courseID}`}>
-            <div className="text-gray-800 cursor-pointer text-lg">
+            <div className="cursor-pointer text-lg text-gray-800">
               <span className="mr-2 inline-block whitespace-nowrap font-semibold">
                 {info.courseID}
               </span>
               <span className="leading-3">{info.name}</span>
             </div>
           </Link>
-          <div className="text-gray-500 text-sm">{info.department}</div>
+          <div className="text-sm text-gray-500">{info.department}</div>
         </div>
 
         <div className="col-span-3 md:col-span-2">
           <div className="flex flex-row justify-between">
             <div>
-              <div className="text-gray-700 text-lg">
+              <div className="text-lg text-gray-700">
                 {displayUnits(info.units)} units
               </div>
             </div>
@@ -71,7 +76,7 @@ const CourseCard = ({ info, showFCEs, showCourseInfo, showSchedules }: Props) =>
           )}
         </div>
 
-        <div className="text-gray-700 col-span-full  md:col-span-2 md:col-start-7">
+        <div className="col-span-full text-gray-700  md:col-span-2 md:col-start-7">
           <div className="text-md mb-1 hidden md:block">
             {schedulesAvailableString}
           </div>
@@ -103,14 +108,16 @@ const CourseCard = ({ info, showFCEs, showCourseInfo, showSchedules }: Props) =>
           )}
         </div>
         {showCourseInfo && (
-          <div className="text-gray-600 col-span-full row-span-1 row-start-3 text-sm leading-relaxed md:col-span-6 md:row-start-2">
+          <div className="col-span-full row-span-1 row-start-3 text-sm leading-relaxed text-gray-600 md:col-span-6 md:row-start-2">
             {injectLinks(info.desc)}
           </div>
         )}
       </div>
       <div className="m-auto space-y-4">
         {showFCEs && fces && <FCEDetail fces={fces} />}
-        {showSchedules && sortedSchedules && <SchedulesDetail scheduleInfos={sortedSchedules}/>}
+        {showSchedules && sortedSchedules && (
+          <SchedulesDetail scheduleInfos={sortedSchedules} />
+        )}
       </div>
     </Card>
   );

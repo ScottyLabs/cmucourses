@@ -1,11 +1,11 @@
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import Loading from "./Loading";
 import { Pagination } from "./Pagination";
 import React, { useEffect } from "react";
 import InstructorDetail from "./InstructorDetail";
-import { fetchAllInstructors } from "../app/api/instructors";
-import { cacheSlice } from "../app/cache";
-import { userSlice } from "../app/user";
+import { fetchAllInstructors } from "~/app/api/instructors";
+import { cacheSlice } from "~/app/cache";
+import { userSlice } from "~/app/user";
 
 const RESULTS_PER_PAGE = 10;
 
@@ -36,9 +36,16 @@ const InstructorSearchList = () => {
           <div className="space-y-4">
             {results &&
               results
-                .slice(curPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE, curPage * RESULTS_PER_PAGE)
+                .slice(
+                  curPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE,
+                  curPage * RESULTS_PER_PAGE
+                )
                 .map((instructor) => (
-                  <InstructorDetail name={instructor.instructor} key={instructor.instructor} showLoading={false}/>
+                  <InstructorDetail
+                    name={instructor.instructor}
+                    key={instructor.instructor}
+                    showLoading={false}
+                  />
                 ))}
           </div>
           <div className="mx-auto my-6">

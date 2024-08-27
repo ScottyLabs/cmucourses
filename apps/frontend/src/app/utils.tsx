@@ -1,5 +1,5 @@
 import reactStringReplace from "react-string-replace";
-import Link from "../components/Link";
+import Link from "~/components/Link";
 import { FCE, Schedule, Session, Time } from "./types";
 import { AggregateFCEsOptions, filterFCEs } from "./fce";
 import { DEPARTMENT_MAP_NAME, DEPARTMENT_MAP_SHORTNAME } from "./constants";
@@ -68,7 +68,7 @@ export const sessionToShortString = (sessionInfo: Session | FCE | Schedule) => {
 export const compareSessions = (
   session1: Session | FCE,
   session2: Session | FCE
-) : number => {
+): number => {
   if (session1.year != session2.year)
     return session1.year < session2.year ? 1 : -1;
 
@@ -230,8 +230,9 @@ export function isValidUnits(units: string): boolean {
   return re.test(units);
 }
 
-export function parseUnits(units: string) : number {
+export function parseUnits(units: string): number {
   if (isValidUnits(units)) {
     return parseFloat(units);
-  } return 0.0;
+  }
+  return 0.0;
 }

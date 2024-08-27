@@ -1,9 +1,9 @@
 import React from "react";
 import { ClipboardIcon, ShareIcon } from "@heroicons/react/24/solid";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { FlushedButton } from "./Buttons";
 import { XMarkIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import { userSchedulesSlice } from "../app/userSchedules";
+import { userSchedulesSlice } from "~/app/userSchedules";
 import { showToast } from "./Toast";
 
 type ScheduleSelectionProps = {
@@ -25,7 +25,7 @@ const ScheduleSelection = ({
 
   if (active)
     return (
-      <div className="bg-gray-50 mt-1 mb-1 rounded p-2 text-sm">
+      <div className="mt-1 mb-1 rounded p-2 text-sm bg-gray-50">
         <div className="flex justify-between">
           <div>{name}</div>
           <XMarkIcon
@@ -40,7 +40,7 @@ const ScheduleSelection = ({
             <ShareIcon className="mr-2 h-4 w-4 flex-none" />
             <input
               onFocus={(e) => e.target.select()}
-              className="bg-white min-w-0 flex-1 px-2"
+              className="min-w-0 flex-1 px-2 bg-white"
               value={shareableLink}
               readOnly={true}
             />
@@ -59,7 +59,7 @@ const ScheduleSelection = ({
               <div className="ml-1">Copy</div>
             </button>
           </div>
-          <p className="text-gray-400 mt-1 text-xs">
+          <p className="mt-1 text-xs text-gray-400">
             Use this to share this schedule with others.
           </p>
         </div>
@@ -99,9 +99,7 @@ const ScheduleSelector = () => {
             dispatch(userSchedulesSlice.actions.createEmptySchedule());
           }}
         >
-          <PlusCircleIcon
-            className="h-5 w-5"
-          />
+          <PlusCircleIcon className="h-5 w-5" />
         </FlushedButton>
       </div>
       <div>
@@ -116,7 +114,7 @@ const ScheduleSelector = () => {
             />
           ))
         ) : (
-          <span className="text-gray-400 text-sm">No schedules created.</span>
+          <span className="text-sm text-gray-400">No schedules created.</span>
         )}
       </div>
     </div>

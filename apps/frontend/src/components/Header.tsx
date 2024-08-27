@@ -1,27 +1,33 @@
 import React, { ReactElement, useEffect } from "react";
-import { useAppSelector } from "../app/hooks";
+import { useAppSelector } from "~/app/hooks";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeftOnRectangleIcon, ArrowRightOnRectangleIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowLeftOnRectangleIcon,
+  ArrowRightOnRectangleIcon,
+} from "@heroicons/react/24/solid";
 import DarkModeButton from "./DarkModeButton";
 import nightwind from "nightwind/helper";
-import { SignedIn, SignedOut, SignInButton, SignOutButton } from "@clerk/nextjs";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignOutButton,
+} from "@clerk/nextjs";
 
 const LogInButton = () => {
   return (
-    <div
-      className={`cursor-pointer rounded p-2 px-2 py-1 hover:bg-gray-100 `}
-    >
+    <div className={`cursor-pointer rounded p-2 px-2 py-1 hover:bg-gray-100 `}>
       <span className="flex cursor-pointer flex-row items-center">
-      <SignedOut>
-        <ArrowRightOnRectangleIcon className="mr-1 inline h-4 w-4" />{" "}
-        <SignInButton />
-      </SignedOut>
-      <SignedIn>
-        <ArrowLeftOnRectangleIcon className="mr-1 inline h-4 w-4" />{" "}
-        <SignOutButton />
-      </SignedIn>
-    </span>
+        <SignedOut>
+          <ArrowRightOnRectangleIcon className="mr-1 inline h-4 w-4" />{" "}
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <ArrowLeftOnRectangleIcon className="mr-1 inline h-4 w-4" />{" "}
+          <SignOutButton />
+        </SignedIn>
+      </span>
     </div>
   );
 };
@@ -34,8 +40,8 @@ export default function Header(): ReactElement {
   }, [darkMode]);
 
   return (
-    <div className="bg-gray-50 flex h-full flex-row items-center justify-between p-6">
-    <div className="text-gray-800 flex flex-initial cursor-pointer flex-row justify-start font-semibold">
+    <div className="flex h-full flex-row items-center justify-between p-6 bg-gray-50">
+      <div className="flex flex-initial cursor-pointer flex-row justify-start font-semibold text-gray-800">
         <Link href="/">
           <div className="flex items-center">
             <Image
@@ -49,7 +55,7 @@ export default function Header(): ReactElement {
           </div>
         </Link>
       </div>
-      <div className="text-gray-600 flex flex-row items-center justify-between gap-x-2">
+      <div className="flex flex-row items-center justify-between gap-x-2 text-gray-600">
         <DarkModeButton />
         <LogInButton />
       </div>

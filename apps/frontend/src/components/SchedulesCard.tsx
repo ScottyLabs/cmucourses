@@ -1,5 +1,5 @@
 import React from "react";
-import { Schedule } from "../app/types";
+import { Schedule } from "~/app/types";
 import { Card } from "./Card";
 import { SchedulesDetail } from "./SchedulesDetail";
 
@@ -11,7 +11,7 @@ export const SchedulesCard = ({
   return (
     <Card>
       <Card.Header>Schedules</Card.Header>
-      <SchedulesDetail scheduleInfos={scheduleInfos}/>
+      <SchedulesDetail scheduleInfos={scheduleInfos} />
     </Card>
   );
 };

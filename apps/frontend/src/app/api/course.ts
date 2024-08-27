@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Course, Session } from "../types";
-import { RootState } from "../store";
+import { Course, Session } from "~/types";
+import { RootState } from "~/store";
 
 export const fetchCourseInfos = createAsyncThunk<
   Course[],

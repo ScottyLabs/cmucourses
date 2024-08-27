@@ -2,10 +2,10 @@ import { Listbox } from "@headlessui/react";
 import { CheckIcon, MinusIcon } from "@heroicons/react/20/solid";
 import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React from "react";
-import { filtersSlice } from "../../app/filters";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { throttledFilter } from "../../app/store";
-import { classNames } from "../../app/utils";
+import { filtersSlice } from "~/app/filters";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
+import { throttledFilter } from "~/app/store";
+import { classNames } from "~/app/utils";
 
 const LevelRange = (start, end) => (
   <>
@@ -169,7 +169,7 @@ const LevelFilter = () => {
           </div>
           Course Level
         </Listbox.Label>
-        <Listbox.Button className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+        <Listbox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
           <span className="block flex flex-wrap gap-1">
             {pillboxes.length === 0 ? (
               <span className="p-0.5">None</span>
@@ -177,7 +177,7 @@ const LevelFilter = () => {
               pillboxes.map(({ levels, content }) => (
                 <span
                   key={levels.toString()}
-                  className="text-red-800 bg-red-50 flex items-center gap-1 rounded px-2 py-0.5"
+                  className="flex items-center gap-1 rounded px-2 py-0.5 text-red-800 bg-red-50"
                 >
                   <span>{content}</span>
                   <XMarkIcon
@@ -196,8 +196,8 @@ const LevelFilter = () => {
             <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
           </span>
         </Listbox.Button>
-        <div className="bg-white absolute mt-1 w-full rounded shadow-lg">
-          <Listbox.Options className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
+        <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
+          <Listbox.Options className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
             {levelOptions.map(({ content, heading, value }, index) => (
               <LevelOption
                 key={index}

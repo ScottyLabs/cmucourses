@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { LoginModal } from "./LoginModal";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { uiSlice } from "../app/ui";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
+import { uiSlice } from "~/app/ui";
 import { Toaster } from "react-hot-toast";
 import { SideNav } from "./SideNav";
 import Link from "./Link";
-import { useAuth } from "@clerk/nextjs"
-import { userSlice } from "../app/user";
+import { useAuth } from "@clerk/nextjs";
+import { userSlice } from "~/app/user";
 
 type Props = {
   sidebar?: React.ReactNode;
@@ -28,11 +28,15 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
   useEffect(() => {
     if (isLoaded && userId && sessionId) {
       dispatch(userSlice.actions.logIn());
-      getToken().then((token) => {
-        if (token) {
-          dispatch(userSlice.actions.setToken(token));
-        }
-      }).catch(() => {userSlice.actions.logOut()});
+      getToken()
+        .then((token) => {
+          if (token) {
+            dispatch(userSlice.actions.setToken(token));
+          }
+        })
+        .catch(() => {
+          userSlice.actions.logOut();
+        });
     } else {
       dispatch(userSlice.actions.logOut());
     }
@@ -50,7 +54,7 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
     <div className="accent-blue-600 dark:accent-blue-800">
       <LoginModal />
       <Toaster position="bottom-right" />
-      <header className="bg-gray-50 border-gray-200 fixed inset-x-0 top-0 z-40 h-16 border-b drop-shadow dark:bg-zinc-800">
+      <header className="fixed inset-x-0 top-0 z-40 h-16 border-b drop-shadow bg-gray-50 border-gray-200 dark:bg-zinc-800">
         <Header />
       </header>
       <main className="relative flex min-h-full flex-col pt-16 md:h-screen md:flex-row md:justify-around">
@@ -64,7 +68,7 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
           {content}
         </div>
       </main>
-      <footer className="min-h-28 text-gray-500 bg-gray-50 border-gray-100 z-50 border-t p-8 text-sm">
+      <footer className="min-h-28 z-50 border-t p-8 text-sm text-gray-500 bg-gray-50 border-gray-100">
         <div className="mx-auto max-w-4xl">
           <p>
             Designed, developed and maintained with ❤️ by{" "}

@@ -1,10 +1,10 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import CourseCard from "./CourseCard";
-import { selectCourseResults } from "../app/cache";
+import { selectCourseResults } from "~/app/cache";
 import useDeepCompareEffect from "use-deep-compare-effect";
-import { fetchCourseInfos } from "../app/api/course";
-import { fetchFCEInfosByCourse } from "../app/api/fce";
+import { fetchCourseInfos } from "~/app/api/course";
+import { fetchFCEInfosByCourse } from "~/app/api/fce";
 import Loading from "./Loading";
 
 interface Props {
@@ -29,7 +29,9 @@ const CourseList = ({ courseIDs, children }: Props) => {
     <div className="py-6 px-2 md:px-6">
       {results.length > 0 ? (
         <>
-          <div className="text-gray-400 mt-3 text-sm pb-2">{courseIDs.length} Saved Courses </div>
+          <div className="mt-3 pb-2 text-sm text-gray-400">
+            {courseIDs.length} Saved Courses{" "}
+          </div>
           <div className="space-y-4">
             {/* We found less courses than what we search for, so put a Loading indicator */}
             {courseIDs.length > results.length && <Loading />}

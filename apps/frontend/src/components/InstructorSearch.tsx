@@ -1,9 +1,9 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { instructorsSlice } from "../app/instructors";
-import { cacheSlice } from "../app/cache";
-import { throttledInstructorFilter } from "../app/store";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
+import { instructorsSlice } from "~/app/instructors";
+import { cacheSlice } from "~/app/cache";
+import { throttledInstructorFilter } from "~/app/store";
 
 const InstructorSearch = () => {
   const dispatch = useAppDispatch();
@@ -35,7 +35,7 @@ const InstructorSearch = () => {
         />
       </div>
       <div className="flex justify-between">
-        <div className="text-gray-400 mt-3 text-sm">{numResults} results</div>
+        <div className="mt-3 text-sm text-gray-400">{numResults} results</div>
       </div>
     </>
   );

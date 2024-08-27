@@ -1,7 +1,7 @@
 import React from "react";
 import { StarIcon as OutlineStar } from "@heroicons/react/24/outline";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { userSlice } from "../app/user";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
+import { userSlice } from "~/app/user";
 
 interface Props {
   courseID: string;

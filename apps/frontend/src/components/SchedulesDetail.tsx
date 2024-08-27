@@ -1,19 +1,31 @@
-import { sessionToString, timeArrToString } from "../app/utils";
+import { sessionToString, timeArrToString } from "~/app/utils";
 import React from "react";
 import { Tab } from "@headlessui/react";
-import { Lecture, Schedule, Section } from "../app/types";
+import { Lecture, Schedule, Section } from "~/app/types";
 import Link from "./Link";
 
 const getInstructors = (instructors: string[]) => {
   return (
     <>
       {instructors.map((instructor, index) => {
-        if (index === instructors.length - 1) return <Link href={`/instructor/${instructor.toUpperCase()}`}>{instructor}</Link>
-        return <><Link href={`/instructor/${instructor.toUpperCase()}`}>{instructor}</Link>; </>
+        if (index === instructors.length - 1)
+          return (
+            <Link href={`/instructor/${instructor.toUpperCase()}`}>
+              {instructor}
+            </Link>
+          );
+        return (
+          <>
+            <Link href={`/instructor/${instructor.toUpperCase()}`}>
+              {instructor}
+            </Link>
+            ;{" "}
+          </>
+        );
       })}
     </>
-  )
-}
+  );
+};
 
 const Lecture = ({
   lectureInfo,
@@ -24,7 +36,7 @@ const Lecture = ({
 }) => {
   return (
     <>
-      <div className="text-gray-700 contents rounded hover:bg-gray-50">
+      <div className="contents rounded text-gray-700 hover:bg-gray-50">
         <div className="text-md col-span-1 pt-2 font-bold">
           {lectureInfo.name}
         </div>
@@ -47,7 +59,7 @@ const Lecture = ({
 
       {sections.map((section) => (
         <div
-          className="text-gray-600 contents hover:bg-gray-50"
+          className="contents text-gray-600 hover:bg-gray-50"
           key={section.name}
         >
           <div className="text-md col-span-1 pt-1">{section.name}</div>
@@ -104,14 +116,14 @@ export const SchedulesDetail = ({
 }) => {
   return (
     <Tab.Group>
-      <Tab.List className="bg-gray-50 mt-2 space-x-1 overflow-x-auto whitespace-nowrap rounded p-2">
+      <Tab.List className="mt-2 space-x-1 overflow-x-auto whitespace-nowrap rounded p-2 bg-gray-50">
         {scheduleInfos.map((scheduleInfo) => {
           const label = sessionToString(scheduleInfo);
           return (
             <Tab
               key={label}
               className={({ selected }) =>
-                "text-gray-800 inline-block rounded px-2 py-1 text-sm hover:bg-white " +
+                "inline-block rounded px-2 py-1 text-sm text-gray-800 hover:bg-white " +
                 (selected ? "bg-white" : "")
               }
             >

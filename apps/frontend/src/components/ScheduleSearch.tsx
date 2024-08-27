@@ -9,14 +9,14 @@ import {
   MagnifyingGlassIcon,
   PencilSquareIcon,
 } from "@heroicons/react/24/solid";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import useDeepCompareEffect from "use-deep-compare-effect";
 import {
   selectCoursesInActiveSchedule,
   userSchedulesSlice,
-} from "../app/userSchedules";
-import { fetchAllCourses, fetchCourseInfos } from "../app/api/course";
-import { fetchFCEInfosByCourse } from "../app/api/fce";
+} from "~/app/userSchedules";
+import { fetchAllCourses, fetchCourseInfos } from "~/app/api/course";
+import { fetchFCEInfosByCourse } from "~/app/api/fce";
 
 type selectedItem = {
   courseID: string;
@@ -70,7 +70,9 @@ const CourseCombobox = ({
     selectedItems,
   } = useMultipleSelection<selectedItem>({
     onSelectedItemsChange: ({ selectedItems }) => {
-      onSelectedItemsChange(selectedItems?.map(({ courseID }) => courseID) || []);
+      onSelectedItemsChange(
+        selectedItems?.map(({ courseID }) => courseID) || []
+      );
     },
   });
 
@@ -99,7 +101,8 @@ const CourseCombobox = ({
     selectedItem: null,
     inputValue,
     defaultHighlightedIndex: 0,
-    onInputValueChange: ({ inputValue: newValue }) => setInputValue(newValue || ""),
+    onInputValueChange: ({ inputValue: newValue }) =>
+      setInputValue(newValue || ""),
     onHighlightedIndexChange: ({ highlightedIndex }) =>
       rowVirtualizer.scrollToIndex(highlightedIndex || 0),
     stateReducer: (state, actionAndChanges) => {
@@ -147,7 +150,7 @@ const CourseCombobox = ({
           {selectedItems.map((selectedItem, index) => (
             <div
               key={`selected-item-${index}`}
-              className={`text-blue-800 bg-blue-50 mr-2 whitespace-nowrap rounded px-2 py-1 ${
+              className={`mr-2 whitespace-nowrap rounded px-2 py-1 text-blue-800 bg-blue-50 ${
                 activeIndex === index ? "border-blue-800" : "border-blue-50"
               } border-2`}
               {...getSelectedItemProps({ selectedItem, index })}
@@ -171,7 +174,7 @@ const CourseCombobox = ({
               <MagnifyingGlassIcon className="h-5 w-5" />
             </span>
             <input
-              className="text-gray-500 min-w-0 flex-1 py-2 pl-7 text-xl bg-transparent focus:outline-none"
+              className="min-w-0 flex-1 py-2 pl-7 text-xl bg-transparent text-gray-500 focus:outline-none"
               type="search"
               {...getInputProps(
                 getDropdownProps({
@@ -184,7 +187,7 @@ const CourseCombobox = ({
               {...getMenuProps({
                 ref: listRef,
               })}
-              className="bg-white absolute left-0 right-0 top-full z-50 max-h-96 overflow-y-scroll drop-shadow"
+              className="absolute left-0 right-0 top-full z-50 max-h-96 overflow-y-scroll drop-shadow bg-white"
             >
               {isOpen && (
                 <>

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { SEMESTERS_COUNTED } from "../app/constants";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { userSlice } from "../app/user";
-import { Semester } from "../app/types";
+import { SEMESTERS_COUNTED } from "~/app/constants";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
+import { userSlice } from "~/app/user";
+import { Semester } from "~/app/types";
 
 const numericRegex = /\d/;
 const numericNonemptyRegex = /^\d+$/;
@@ -86,7 +86,7 @@ const Aggregate = () => {
           </div>
           <NumericInput
             value={numSemesters}
-            className="border-gray-200 min-w-0 flex-auto rounded border px-2 py-1 text-sm bg-transparent"
+            className="min-w-0 flex-auto rounded border px-2 py-1 text-sm bg-transparent border-gray-200"
             onChange={setNumSemesters}
           />
         </div>

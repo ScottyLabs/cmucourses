@@ -1,15 +1,15 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { aggregateCourses, AggregatedFCEs } from "../app/fce";
-import { displayUnits, isValidUnits, roundTo } from "../app/utils";
-import { selectCourseResults, selectFCEResultsForCourses } from "../app/cache";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
+import { aggregateCourses, AggregatedFCEs } from "~/app/fce";
+import { displayUnits, isValidUnits, roundTo } from "~/app/utils";
+import { selectCourseResults, selectFCEResultsForCourses } from "~/app/cache";
 import {
   selectSelectedCoursesInActiveSchedule,
   userSchedulesSlice,
-} from "../app/userSchedules";
-import { cacheSlice } from "../app/cache";
+} from "~/app/userSchedules";
+import { cacheSlice } from "~/app/cache";
 import { FlushedButton } from "./Buttons";
-import { uiSlice } from "../app/ui";
+import { uiSlice } from "~/app/ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 
 type ScheduleDataProps = {
@@ -33,7 +33,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
 
   if (!loggedIn) {
     return (
-      <div className="bg-white text-gray-700 z-10">
+      <div className="z-10 bg-white text-gray-700">
         <p>Log in to view FCE results.</p>
       </div>
     );
@@ -51,14 +51,22 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
     selected.includes(courseID)
   );
 
-  const aggregatedData = aggregateCourses(scheduledFCEs, scheduledResults, options);
+  const aggregatedData = aggregateCourses(
+    scheduledFCEs,
+    scheduledResults,
+    options
+  );
   const aggregatedDataByCourseID: { [courseID: string]: AggregatedFCEs } = {};
   for (const row of aggregatedData.aggregatedFCEs) {
     if (row.aggregateData !== null)
       aggregatedDataByCourseID[row.courseID] = row.aggregateData;
   }
 
-  const aggregatedSelectedData = aggregateCourses(selectedFCEs, selectedResults, options);
+  const aggregatedSelectedData = aggregateCourses(
+    selectedFCEs,
+    selectedResults,
+    options
+  );
   const fceMessage = aggregatedSelectedData.fceMessage;
   const unitsMessage = aggregatedSelectedData.unitsMessage;
 
@@ -89,83 +97,102 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
             </span>
             <button className="absolute right-3 z-40 md:right-2">
               <FlushedButton
-                onClick={() => dispatch(uiSlice.actions.toggleSchedulesTopbarOpen())}
+                onClick={() =>
+                  dispatch(uiSlice.actions.toggleSchedulesTopbarOpen())
+                }
               >
                 <div className="hidden items-center md:flex">
                   <div className="mr-1">Hide</div>
-                  {(open ? <ChevronDownIcon className="h-5 w-5" /> : <ChevronUpIcon className="h-5 w-5" />)}
+                  {open ? (
+                    <ChevronDownIcon className="h-5 w-5" />
+                  ) : (
+                    <ChevronUpIcon className="h-5 w-5" />
+                  )}
                 </div>
               </FlushedButton>
             </button>
           </div>
         </div>
       </div>
-      {(open && <div className="mt-3 w-full overflow-x-auto">
-        <table className="w-full min-w-fit table-auto overflow-x-scroll">
-          <thead>
-          <tr className="text-left">
-            <th />
-            <th className="whitespace-nowrap pr-4 font-semibold">
-              Course ID
-            </th>
-            <th className="whitespace-nowrap pr-4 font-semibold">
-              Course Name
-            </th>
-            <th className="whitespace-nowrap pr-4 font-semibold">Units</th>
-            <th className="whitespace-nowrap pr-4 font-semibold">Workload</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-700">
-            {scheduledResults &&
-              scheduledResults.map((result) => {
-                return (
-                  <tr key={result.courseID}>
-                    <td>
-                      <input
-                        type="checkbox"
-                        className="mr-2"
-                        checked={selected.includes(result.courseID)}
-                        onChange={(e) =>
-                          selectCourse(e.target.checked, result.courseID)
-                        }
-                      />
-                    </td>
-                    <td>{result.courseID}</td>
-                    <td className="whitespace-nowrap pr-4">{result.name}</td>
-                    <td>
-                      {
-                        !isValidUnits(result.units) ?
+      {open && (
+        <div className="mt-3 w-full overflow-x-auto">
+          <table className="w-full min-w-fit table-auto overflow-x-scroll">
+            <thead>
+              <tr className="text-left">
+                <th />
+                <th className="whitespace-nowrap pr-4 font-semibold">
+                  Course ID
+                </th>
+                <th className="whitespace-nowrap pr-4 font-semibold">
+                  Course Name
+                </th>
+                <th className="whitespace-nowrap pr-4 font-semibold">Units</th>
+                <th className="whitespace-nowrap pr-4 font-semibold">
+                  Workload
+                </th>
+              </tr>
+            </thead>
+            <tbody className="text-gray-700">
+              {scheduledResults &&
+                scheduledResults.map((result) => {
+                  return (
+                    <tr key={result.courseID}>
+                      <td>
+                        <input
+                          type="checkbox"
+                          className="mr-2"
+                          checked={selected.includes(result.courseID)}
+                          onChange={(e) =>
+                            selectCourse(e.target.checked, result.courseID)
+                          }
+                        />
+                      </td>
+                      <td>{result.courseID}</td>
+                      <td className="whitespace-nowrap pr-4">{result.name}</td>
+                      <td>
+                        {!isValidUnits(result.units) ? (
                           <input
-                            className="bg-white w-20"
-                            value={result.manualUnits !== undefined ? displayUnits(result.manualUnits) : displayUnits(result.units)}
+                            className="w-20 bg-white"
+                            value={
+                              result.manualUnits !== undefined
+                                ? displayUnits(result.manualUnits)
+                                : displayUnits(result.units)
+                            }
                             onChange={(e) =>
-                              dispatch(cacheSlice.actions.updateUnits({
-                                courseID: result.courseID,
-                                units: e.target.value,
-                              }))
+                              dispatch(
+                                cacheSlice.actions.updateUnits({
+                                  courseID: result.courseID,
+                                  units: e.target.value,
+                                })
+                              )
                             }
                             placeholder="Units"
-                          /> :
+                          />
+                        ) : (
                           displayUnits(result.units)
-                      }
-                    </td>
-                    <td>
-                      {result.courseID in aggregatedDataByCourseID
-                        ? aggregatedDataByCourseID[result.courseID].workload
-                        : "NA"}
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
-      </div>)}
-      <div className="text-gray-500 mt-3 text-sm">
-        {unitsMessage === "" ? "" :
-            <div>
-              <sup>+</sup>
-              {unitsMessage}
-            </div>}
+                        )}
+                      </td>
+                      <td>
+                        {result.courseID in aggregatedDataByCourseID
+                          ? aggregatedDataByCourseID[result.courseID].workload
+                          : "NA"}
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
+        </div>
+      )}
+      <div className="mt-3 text-sm text-gray-500">
+        {unitsMessage === "" ? (
+          ""
+        ) : (
+          <div>
+            <sup>+</sup>
+            {unitsMessage}
+          </div>
+        )}
         {fceMessage === "" ? "" : `*${fceMessage}`}
       </div>
     </>

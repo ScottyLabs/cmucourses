@@ -1,4 +1,4 @@
-import { FCE } from "../app/types";
+import { FCE } from "~/app/types";
 import { Card } from "./Card";
 import React from "react";
 import { FCEDetail } from "./FCEDetail";

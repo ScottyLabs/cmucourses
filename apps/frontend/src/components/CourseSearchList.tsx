@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import CourseCard from "./CourseCard";
-import { selectCourseResults } from "../app/cache";
+import { selectCourseResults } from "~/app/cache";
 import Loading from "./Loading";
-import { fetchCourseInfosByPage } from "../app/api/course";
-import { fetchFCEInfosByCourse } from "../app/api/fce";
+import { fetchCourseInfosByPage } from "~/app/api/course";
+import { fetchFCEInfosByCourse } from "~/app/api/fce";
 import { Pagination } from "./Pagination";
-import { userSlice } from "../app/user";
+import { userSlice } from "~/app/user";
 
 const CoursePage = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +25,7 @@ const CoursePage = () => {
 
   const coursesToShow: string[] = useMemo(() => {
     if (page === 1 && exactResultsCourses.length > 0) {
-      if(pageCourses.includes(exactResultsCourses[0])) {
+      if (pageCourses.includes(exactResultsCourses[0])) {
         const filteredCourses = pageCourses.filter(
           (courseID) => !exactResultsCourses.includes(courseID)
         );
@@ -33,7 +33,6 @@ const CoursePage = () => {
       } else {
         return pageCourses;
       }
-      
     } else {
       return pageCourses;
     }
