@@ -31,7 +31,6 @@ curl -fsSL https://bun.sh/install | bash
 source /home/codespace/.bashrc
 bun install
 bun run dev
-
 ```
 
 Create a .env file in your root directory, and add the following line to the file:
