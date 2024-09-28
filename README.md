@@ -16,43 +16,31 @@ This new version is currently deployed at [cmucourses.com](https://cmucourses.co
 development, so expect large changes to the codebase and features to be unstable.
 
 ## Getting Started
+To get started, create a codespace from the github repository, then open it in VScode.
 
-To get started, run `npm install && npm run db-generate` in the root folder, and obtain a copy of the `.env` file. (You can use `.env.template` as a reference.)
+Navigate to the terminal and install bun by running the following commands: 
 
-### Frontend
 
-To run the frontend in development mode:
+curl -fsSL https://bun.sh/install | bash
+source /home/codespace/.bashrc
+bun install
+bun run dev
 
-```shell
-cd frontend
-npm run dev
-```
 
-This runs the frontend at `http://localhost:3010`. It also watches for changes and reloads when a file is saved.
+Create a .env file in your root directory, and add the following line to the file:
+NEXT_PUBLIC_BACKEND_URL="http://localhost:3000"
 
-To build and deploy the frontend, instead run:
 
-```shell
-npm run build
-npm run start
-```
+If course descriptions are not loading, set the public backend url to the local address of the 3000 port. (Make sure that the URL does not have the trailing backslash.)
 
-### Backend
 
-To run the backend in development mode:
+Ensure both 3000 and 3010 ports are set to public visibility.
 
-```shell
-cd backend
-npm run dev
-```
 
-The backend should now be serving requests at `http://localhost:3000`.
+### Running local build
 
-To deploy the backend, run
 
-```shell
-npm run start
-```
+Preview the local version of the code by right clicking on the 3010 port and view CMUcourses on your browser. 
 
 ### Scrapers
 
