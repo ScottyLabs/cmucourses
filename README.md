@@ -20,12 +20,12 @@ To get started, create a codespace from the github repository, then open it in V
 
 Navigate to the terminal and install bun by running the following commands: 
 
-
+```
 curl -fsSL https://bun.sh/install | bash
 source /home/codespace/.bashrc
 bun install
 bun run dev
-
+```
 
 Create a .env file in your root directory, and add the following line to the file:
 NEXT_PUBLIC_BACKEND_URL="http://localhost:3000"
