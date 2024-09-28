@@ -21,18 +21,18 @@ development, so expect large changes to the codebase and features to be unstable
 
 
 ## Getting Started
-
-
 To get started, create a codespace from the github repository, then open it in VScode.
+
 
 Navigate to the terminal and install bun by running the following commands: 
 
-
+```
 curl -fsSL https://bun.sh/install | bash
 source /home/codespace/.bashrc
 bun install
 bun run dev
 
+```
 
 Create a .env file in your root directory, and add the following line to the file:
 NEXT_PUBLIC_BACKEND_URL="http://localhost:3000"
@@ -48,8 +48,6 @@ Ensure both 3000 and 3010 ports are set to public visibility.
 
 
 Preview the local version of the code by right clicking on the 3010 port and view CMUcourses on your browser. 
-
-
 
 
 ### Scrapers
