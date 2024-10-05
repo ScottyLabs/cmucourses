@@ -19,7 +19,9 @@
     "morgan": "^1.10.0",
     "node": "^22.7.0",
     "node-cron": "^3.0.0",
-    "passlink-server": "^1.1.0"
+    "passlink-server": "^1.1.0",
+    "redis": "^4.7.0",
+    "redis-om": "^0.4.6"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",

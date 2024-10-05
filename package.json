@@ -8,16 +8,23 @@
     "start": "nx run-many -t start --parallel"
   },
   "devDependencies": {
+    "@eslint/js": "^9.9.1",
     "@nx/next": "19.6.3",
+    "@types/bun": "latest",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
-    "eslint-config-prettier": "^8.8.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-next": "^0.0.0",
     "nx": "19.6.3",
     "prettier": "^2.8.7",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.8.0"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {},
+  "module": "index.ts",
+  "type": "module"
 }
