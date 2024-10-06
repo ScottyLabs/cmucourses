@@ -160,7 +160,7 @@ const SearchBar = () => {
   useEffect(() => {
     if (showAllRef.current) {
       if (loggedIn) {
-        if ((showFCEs && showCourseInfos && showSchedules)) {
+        if (showFCEs && showCourseInfos && showSchedules) {
           showAllRef.current.indeterminate = false;
           showAllRef.current.checked = true;
         } else if (!(showFCEs || showCourseInfos || showSchedules)) {
@@ -169,8 +169,7 @@ const SearchBar = () => {
         } else
           showAllRef.current.indeterminate = true;
       } else {
-        console.log(showFCEs, showCourseInfos, showSchedules);
-        if ((showCourseInfos && showSchedules)) {
+        if (showCourseInfos && showSchedules) {
           showAllRef.current.indeterminate = false;
           showAllRef.current.checked = true;
         } else if (!(showCourseInfos || showSchedules)) {
@@ -196,7 +195,7 @@ const SearchBar = () => {
 
   const setShowAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showAll(e.target.checked));
-    if (loggedIn) {dispatch(userSlice.actions.showFCEs(e.target.checked));}
+    if (loggedIn) dispatch(userSlice.actions.showFCEs(e.target.checked));
     dispatch(userSlice.actions.showCourseInfos(e.target.checked));
     dispatch(userSlice.actions.showSchedules(e.target.checked));
   };
