@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { throttledFilter } from "~/app/store";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
@@ -154,6 +154,33 @@ const SearchBar = () => {
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const showSchedules = useAppSelector((state) => state.user.showSchedules);
 
+  const showAll = useAppSelector((state) => state.user.showAll);
+
+  const showAllRef = useRef<any>(null);
+  useEffect(() => {
+    if (showAllRef.current) {
+      if (loggedIn) {
+        if (showFCEs && showCourseInfos && showSchedules) {
+          showAllRef.current.indeterminate = false;
+          showAllRef.current.checked = true;
+        } else if (!(showFCEs || showCourseInfos || showSchedules)) {
+          showAllRef.current.indeterminate = false;
+          showAllRef.current.checked = false;
+        } else
+          showAllRef.current.indeterminate = true;
+      } else {
+        if (showCourseInfos && showSchedules) {
+          showAllRef.current.indeterminate = false;
+          showAllRef.current.checked = true;
+        } else if (!(showCourseInfos || showSchedules)) {
+          showAllRef.current.indeterminate = false;
+          showAllRef.current.checked = false;
+        } else
+          showAllRef.current.indeterminate = true;
+      }
+    }
+  }, [showAllRef, showAllRef.current, showFCEs, showCourseInfos, showSchedules]);
+
   const setShowFCEs = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showFCEs(e.target.checked));
   };
@@ -163,6 +190,13 @@ const SearchBar = () => {
   };
 
   const setShowSchedules = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(userSlice.actions.showSchedules(e.target.checked));
+  };
+
+  const setShowAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(userSlice.actions.showAll(e.target.checked));
+    if (loggedIn) dispatch(userSlice.actions.showFCEs(e.target.checked));
+    dispatch(userSlice.actions.showCourseInfos(e.target.checked));
     dispatch(userSlice.actions.showSchedules(e.target.checked));
   };
 
@@ -187,6 +221,17 @@ const SearchBar = () => {
         <div className="mt-3 text-sm text-gray-400">{numResults} results</div>
         <div className="mt-3 flex justify-end text-gray-500">
           <div className="mr-6 hidden md:block">Show</div>
+          <div className="mr-6">
+            <input
+              id="selectAll"
+              type="checkbox"
+              className="mr-2"
+              onChange={setShowAll}
+              checked={showAll}
+              ref = {showAllRef}
+            />
+            <span>All</span>
+          </div>
           <div className="mr-6">
             <input
               type="checkbox"
