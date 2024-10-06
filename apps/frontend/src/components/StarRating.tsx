@@ -19,7 +19,7 @@ export const StarRating = ({ rating }: { rating: number }) => {
       starEmptyColor={
         darkMode
         ? 'zinc-300'
-        : 'gray-500'
+        : 'gray-300'
       }
     />
   );
