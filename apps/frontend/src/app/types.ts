@@ -82,6 +82,7 @@ export interface Gened {
   responseRate?: string | undefined;
   name?: string | undefined;
   units?: string | undefined;
+  tags?: string[] | undefined;
   fces: FCE[];
 }
 
