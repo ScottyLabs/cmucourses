@@ -197,7 +197,7 @@ const GenedsViewer = () => {
             Loading...
           </div>
         ) : (
-          <div className="pt-4">
+          <div className="pt-4 overflow-x-auto">
             <GenedsDataTable
               data={data}
             />
