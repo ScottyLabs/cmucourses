@@ -83,10 +83,9 @@ export const GenedsDataTable = ({
                 key={header.id}
                 onClick={header.column.getToggleSortingHandler()}
               >
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext()
-                )}
+                {header.column.getIsSorted() ?
+                  <b> {flexRender(header.column.columnDef.header, header.getContext())} </b> :
+                  flexRender(header.column.columnDef.header, header.getContext())}
                 {{
                   asc: " ⏶",
                   desc: " ⏷",
