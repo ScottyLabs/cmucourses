@@ -55,8 +55,8 @@ const GenedsViewer = () => {
   }, [geneds, geneds.map, selectedTags]);
 
   return (
-    <div className="mx-4 my-6">
-      <div className="my-4 relative">
+    <div className="px-3 mx-2 py-2 my-4 bg-white rounded">
+      <div className="relative">
         <Combobox value={selectedSchool} onChange={setSelectedSchool}>
           <Combobox.Label className="flex">
             School
