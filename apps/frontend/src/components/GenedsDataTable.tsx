@@ -8,9 +8,9 @@ import {
   SortingState,
 } from "@tanstack/react-table";
 import Link from "./Link";
-import { aggregateFCEs } from "~/app/fce";
+import { Gened } from "~/app/types";
 
-const columns: ColumnDef<FCEDetailRow>[] = [
+const columns: ColumnDef<Gened>[] = [
   {
     header: "Course",
     accessorKey: "courseID",
@@ -56,7 +56,7 @@ const columns: ColumnDef<FCEDetailRow>[] = [
 export const GenedsDataTable = ({
   data,
 }: {
-  data: FCEDetailRow[];
+  data: Gened[];
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -112,5 +112,3 @@ export const GenedsDataTable = ({
     </table>
   );
 };
-
-type FCEDetailRow = ReturnType<typeof aggregateFCEs>;
