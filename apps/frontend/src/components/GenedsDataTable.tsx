@@ -66,6 +66,7 @@ export const GenedsDataTable = ({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onSortingChange: setSorting,
+    sortDescFirst: false,
     state: {
       sorting,
     },

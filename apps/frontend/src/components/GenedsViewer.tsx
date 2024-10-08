@@ -52,7 +52,7 @@ const GenedsViewer = () => {
       setData(mappedGeneds);
       setTags([...new Set(geneds.map(gened => gened.tags).flat().filter((tag) => tag !== undefined))]);
     }
-  }, [geneds, selectedTags]);
+  }, [geneds, geneds.map, selectedTags]);
 
   return (
     <div className="mx-4 my-6">
