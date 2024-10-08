@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { Course, FCE, Schedule } from "./types";
+import { Course, FCE, Schedule, Gened } from "./types";
 import {
   fetchAllCourses,
   fetchCourseInfo,
@@ -11,6 +11,7 @@ import {
 import { fetchFCEInfosByCourse, fetchFCEInfosByInstructor } from "./api/fce";
 import { fetchAllInstructors } from "./api/instructors";
 import Fuse, { FuseIndex } from "fuse.js";
+import { fetchGenedsBySchool } from "./api/geneds";
 
 /**
  * This cache lasts for the duration of the user session
@@ -36,6 +37,7 @@ interface CacheState {
   instructorsLoading: boolean;
   instructorPage: number;
   selectedInstructors: { instructor: string }[];
+  geneds: Gened[];
 }
 
 const initialState: CacheState = {
@@ -57,6 +59,7 @@ const initialState: CacheState = {
   instructorsLoading: false,
   instructorPage: 1,
   selectedInstructors: [],
+  geneds: [],
 };
 
 export const selectCourseResults =
@@ -231,6 +234,13 @@ export const cacheSlice = createSlice({
           state.allInstructors = action.payload;
           state.fuseIndex = Fuse.createIndex(["instructor"], action.payload).toJSON();
           state.selectedInstructors = action.payload;
+        }
+      });
+
+    builder
+      .addCase(fetchGenedsBySchool.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.geneds = action.payload;
         }
       });
   },

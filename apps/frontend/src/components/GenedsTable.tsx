@@ -21,11 +21,11 @@ const columns: ColumnDef<FCEDetailRow>[] = [
   },
   {
     header: "Course Name",
-    accessorKey: "courseName",
+    accessorKey: "name",
   },
   {
     header: "Last Instructor",
-    accessorKey: "instructor",
+    accessorKey: "lastInstructor",
     cell: (info) => {
       const instructor = info.getValue() as string;
       return <Link href={`/instructor/${instructor}`}>{instructor}</Link>;

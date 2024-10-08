@@ -5,6 +5,7 @@ import { isUser } from "~/controllers/user";
 import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "~/controllers/courses";
 import { getFCEs } from "~/controllers/fces";
 import { getInstructors } from "~/controllers/instructors";
+import { getGeneds } from "~/controllers/geneds";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -25,6 +26,10 @@ app.route("/courses/search/").post(isUser, getFilteredCourses);
 app.route("/fces").post(isUser, getFCEs);
 
 app.route("/instructors").get(getInstructors);
+
+app.route("/geneds").get(getGeneds);
+app.route("/geneds").post(isUser, getGeneds);
+
 
 // the next parameter is needed!
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
