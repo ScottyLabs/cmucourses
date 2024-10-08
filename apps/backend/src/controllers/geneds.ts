@@ -15,6 +15,7 @@ type GenedsInfo = {
   responseRate?: string | undefined;
   name?: string | undefined;
   units?: string | undefined;
+  tags?: string[] | undefined;
   fces: Omit<fce, "id" | "v">[];
 }[];
 
@@ -35,18 +36,22 @@ export const getGeneds: RequestHandler<
 > = async (req, res, next) => {
   try {
     if ("school" in req.query) {
-      console.log(req.query.school);
       const school = req.query.school
       const geneds = await prisma.geneds.findMany({
         select: {
           courseID: true,
+          tags: true,
         },
         where: {
           school
         }
       });
 
-      const courseIDs = geneds.map((gened) => gened.courseID);
+      const proccesedGeneds = Object.fromEntries(
+        geneds.map((gened) => [gened.courseID, gened])
+      );
+      const courseIDs = Object.keys(proccesedGeneds);
+
 
       const courses = await prisma.courses.findMany({
         select: {
@@ -61,6 +66,10 @@ export const getGeneds: RequestHandler<
         }
       });
 
+      const processedCourses = Object.fromEntries(
+        courses.map((course) => [course.courseID, course])
+      );
+
       const fces = await prisma.fces.findMany({
         where: {
           courseID: {
@@ -71,9 +80,10 @@ export const getGeneds: RequestHandler<
 
       const results = [];
       for (const courseID of courseIDs) {
-        const course = courses.find((course) => course.courseID === courseID);
+        const course = processedCourses[courseID];
         const fce = fces.filter((fce) => fce.courseID === courseID);
-        results.push({ ...course, fces: fce });
+        const tags = proccesedGeneds[courseID]?.tags;
+        results.push({ ...course, tags, fces: fce });
       }
 
       res.json(results);

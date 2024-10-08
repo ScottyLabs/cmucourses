@@ -47,6 +47,10 @@ const columns: ColumnDef<FCEDetailRow>[] = [
     header: "Course Rate",
     accessorKey: "courseRate",
   },
+  {
+    header: "Tags",
+    accessorKey: "tags",
+  }
 ];
 
 export const GenedsTable = ({
