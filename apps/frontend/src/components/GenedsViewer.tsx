@@ -56,8 +56,8 @@ const GenedsViewer = () => {
   }, [geneds, geneds.map, selectedTags]);
 
   return (
-    <div className="px-3 mx-2 py-2 my-4 bg-white rounded">
-      <div className="relative">
+    <div className="p-3 m-2 bg-white rounded">
+      <div className="relative m-2">
         <Combobox value={selectedSchool} onChange={(payload) => dispatch(userSlice.actions.setSelectedSchool(payload))}>
           <Combobox.Label className="flex">
             School
@@ -196,7 +196,7 @@ const GenedsViewer = () => {
             Loading...
           </div>
         ) : (
-          <div className="pt-4 overflow-x-auto">
+          <div className="p-2 mt-4 ml-2 mr-2 overflow-x-auto bg-gray-50 rounded-md">
             <GenedsDataTable
               data={data}
             />
