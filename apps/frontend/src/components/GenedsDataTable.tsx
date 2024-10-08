@@ -53,7 +53,7 @@ const columns: ColumnDef<FCEDetailRow>[] = [
   }
 ];
 
-export const GenedsTable = ({
+export const GenedsDataTable = ({
   data,
 }: {
   data: FCEDetailRow[];
