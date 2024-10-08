@@ -86,7 +86,7 @@ const GenedsViewer = () => {
           </div>
         </Combobox>
         <Combobox value={selectedTags} onChange={setSelectedTags} multiple>
-          <Combobox.Label className="flex">
+          <Combobox.Label className="flex pt-2">
             Tags
           </Combobox.Label>
 
@@ -182,9 +182,11 @@ const GenedsViewer = () => {
             Loading...
           </div>
         ) : (
-          <GenedsDataTable
-            data={data}
-          />
+          <div className="pt-4">
+            <GenedsDataTable
+              data={data}
+            />
+          </div>
         )
       }
     </div>
