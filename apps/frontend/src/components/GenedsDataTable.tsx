@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import Link from "./Link";
 import { Gened } from "~/app/types";
+import { Tooltip } from "react-tooltip";
 
 const columns: ColumnDef<Gened>[] = [
   {
@@ -16,12 +17,38 @@ const columns: ColumnDef<Gened>[] = [
     accessorKey: "courseID",
     cell: (info) => {
       const courseID = info.getValue() as string;
-      return <Link href={`/course/${courseID}`}>{courseID}</Link>;
+      return (
+        <>
+          <Link href={`/course/${courseID}`} data-tooltip-id={courseID} >
+            {courseID}
+          </Link>
+          <Tooltip id={courseID} className="max-w-sm z-40">
+            <div className="flex flex-col">
+              <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
+            </div>
+          </Tooltip>
+        </>
+      )
     },
   },
   {
     header: "Course Name",
     accessorKey: "name",
+    cell: (info) => {
+      const name = info.getValue() as string;
+      return (
+        <>
+          <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={name} >
+            {name}
+          </Link>
+          <Tooltip id={name} className="max-w-sm z-40">
+            <div className="flex flex-col">
+              <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
+            </div>
+          </Tooltip>
+        </>
+      )
+    },
   },
   {
     header: "Last Instructor",

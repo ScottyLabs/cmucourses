@@ -38,6 +38,7 @@
     "react-spinners": "^0.13.7",
     "react-star-ratings": "^2.3.0",
     "react-string-replace": "^0.4.4",
+    "react-tooltip": "^5.28.0",
     "redux-persist": "^6.0.0",
     "use-deep-compare-effect": "^1.8.1",
     "uuid": "^8.3.2"

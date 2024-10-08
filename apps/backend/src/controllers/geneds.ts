@@ -15,6 +15,7 @@ type GenedsInfo = {
   responseRate?: string | undefined;
   name?: string | undefined;
   units?: string | undefined;
+  desc?: string | undefined;
   tags?: string[] | undefined;
   fces: Omit<fce, "id" | "v">[];
 }[];
@@ -58,6 +59,7 @@ export const getGeneds: RequestHandler<
           courseID: true,
           name: true,
           units: true,
+          desc: true,
         },
         where: {
           courseID: {
