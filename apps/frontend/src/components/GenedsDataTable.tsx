@@ -11,6 +11,15 @@ import Link from "./Link";
 import { Gened } from "~/app/types";
 import { Tooltip } from "react-tooltip";
 
+const defaultValue = (info) => {
+  const val = info.getValue() as string;
+  if (val) {
+    return <p className="text-center">{val}</p>;
+  } else {
+    return <p className="text-center">-</p>
+  }
+}
+
 const columns: ColumnDef<Gened>[] = [
   {
     header: "Course",
@@ -55,24 +64,32 @@ const columns: ColumnDef<Gened>[] = [
     accessorKey: "lastInstructor",
     cell: (info) => {
       const instructor = info.getValue() as string;
-      return <Link href={`/instructor/${instructor}`}>{instructor}</Link>;
+      if (instructor) {
+        return <Link href={`/instructor/${instructor}`}>{instructor}</Link>;
+      } else {
+        return <p className="text-center">-</p>
+      }
     },
   },
   {
     header: "Units",
     accessorKey: "units",
+    cell: defaultValue,
   },
   {
     header: "Workload",
     accessorKey: "workload",
+    cell: defaultValue,
   },
   {
     header: "Teaching",
     accessorKey: "teachingRate",
+    cell: defaultValue,
   },
   {
     header: "Course Rate",
     accessorKey: "courseRate",
+    cell: defaultValue,
   },
   {
     header: "Tags",
