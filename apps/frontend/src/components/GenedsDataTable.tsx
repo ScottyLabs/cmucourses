@@ -48,7 +48,7 @@ const columns: ColumnDef<Gened>[] = [
       return (
         <>
           <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={name} >
-            {name}
+            <span className="text-wrap">{name}</span>
           </Link>
           <Tooltip id={name} className="max-w-sm z-40">
             <div className="flex flex-col">
