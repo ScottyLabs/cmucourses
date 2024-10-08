@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getSortedRowModel,
+  SortingState,
 } from "@tanstack/react-table";
 import Link from "./Link";
 import { aggregateFCEs } from "~/app/fce";
@@ -52,10 +54,17 @@ export const GenedsTable = ({
 }: {
   data: FCEDetailRow[];
 }) => {
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     columns,
     data,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    state: {
+      sorting,
+    },
   });
 
   return (
@@ -67,11 +76,16 @@ export const GenedsTable = ({
               <th
                 className="whitespace-nowrap px-2 text-left text-sm font-semibold text-gray-700"
                 key={header.id}
+                onClick={header.column.getToggleSortingHandler()}
               >
                 {flexRender(
                   header.column.columnDef.header,
                   header.getContext()
                 )}
+                {{
+                  asc: " ⏶",
+                  desc: " ⏷",
+                }[header.column.getIsSorted() as string] ?? null}
               </th>
             ))}
           </tr>
