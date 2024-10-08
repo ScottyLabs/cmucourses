@@ -7,25 +7,26 @@ import { GenedsDataTable } from "~/components/GenedsDataTable";
 import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Gened } from "~/app/types";
 import { classNames } from "~/app/utils";
-import {CheckIcon} from "@heroicons/react/20/solid";
-import {SignInButton} from "@clerk/nextjs";
+import { CheckIcon } from "@heroicons/react/20/solid";
+import { SignInButton } from "@clerk/nextjs";
+import { userSlice } from "~/app/user";
 
-const schools = ["SCS", "CIT", "MCS", "Dietrich"];
+const schools = ["SCS"];
 
 const GenedsViewer = () => {
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const geneds = useAppSelector((state) => state.cache.geneds);
+  const selectedSchool = useAppSelector((state) => state.user.selectedSchool);
+  const selectedTags = useAppSelector((state) => state.user.selectedTags);
   const aggregationOptions = useAppSelector((state) => state.user.fceAggregation);
 
   const [tagQuery, setTagQuery] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [selectedSchool, setSelectedSchool] = useState(schools[0]);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [data, setData] = useState<Gened[]>([]);
 
   const deleteTag = (tagToDelete: string) => {
-    setSelectedTags(selectedTags.filter((tag) => tag !== tagToDelete));
+    dispatch(userSlice.actions.setSelectedTags(selectedTags.filter((tag) => tag !== tagToDelete)));
   };
 
   useEffect(() => {
@@ -58,7 +59,7 @@ const GenedsViewer = () => {
   return (
     <div className="px-3 mx-2 py-2 my-4 bg-white rounded">
       <div className="relative">
-        <Combobox value={selectedSchool} onChange={setSelectedSchool}>
+        <Combobox value={selectedSchool} onChange={(payload) => dispatch(userSlice.actions.setSelectedSchool(payload))}>
           <Combobox.Label className="flex">
             School
           </Combobox.Label>
@@ -86,7 +87,7 @@ const GenedsViewer = () => {
             </Combobox.Options>
           </div>
         </Combobox>
-        <Combobox value={selectedTags} onChange={setSelectedTags} multiple>
+        <Combobox value={selectedTags} onChange={(payload) => dispatch(userSlice.actions.setSelectedTags(payload))} multiple>
           <Combobox.Label className="flex pt-2">
             Tags
           </Combobox.Label>
@@ -127,7 +128,7 @@ const GenedsViewer = () => {
                     const tagToAdd =
                       tags.filter((tag) => tag.includes(tagQuery))[0];
                     if (tagToAdd && !selectedTags.includes(tagToAdd)) {
-                      setSelectedTags(selectedTags.concat([tagToAdd]));
+                      dispatch(userSlice.actions.setSelectedTags(selectedTags.concat([tagToAdd])));
                     }
                   }
                 }}
@@ -146,7 +147,7 @@ const GenedsViewer = () => {
           <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
             <Combobox.Options
               className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
-              {tags.map((tag) => (
+              {tags.filter((tag) => tag.toLowerCase().includes(tagQuery.toLowerCase())).map((tag) => (
                 <Combobox.Option
                   key={tag}
                   value={tag}
