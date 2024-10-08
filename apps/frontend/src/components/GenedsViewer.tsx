@@ -48,7 +48,7 @@ const GenedsViewer = () => {
       })
       if (selectedTags.length > 0) {
         mappedGeneds = mappedGeneds.filter((gened) =>
-          selectedTags.every((tag) => gened.tags?.includes(tag))
+          selectedTags.some((tag) => gened.tags?.includes(tag))
         );
       }
       setData(mappedGeneds);
