@@ -12,43 +12,31 @@ const schools = ["SCS", "CIT", "MCS", "Dietrich"];
 const GenedsViewer = () => {
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
-
   const geneds = useAppSelector((state) => state.cache.geneds);
+  const aggregationOptions = useAppSelector((state) => state.user.fceAggregation);
 
   const [selectedSchool, setSelectedSchool] = useState(schools[0]);
-  const [query, setQuery] = useState("");
-
-  const filteredSchools =
-    query === ""
-      ? schools
-      : schools.filter((school) =>
-        school.toLowerCase().includes(query.toLowerCase())
-      );
+  const [data, setData] = useState<Gened[]>([]);
 
   useEffect(() => {
     if (selectedSchool)
       void dispatch(fetchGenedsBySchool(selectedSchool));
   }, [dispatch, loggedIn, selectedSchool]);
 
-  const aggregationOptions = useAppSelector(
-    (state) => state.user.fceAggregation
-  );
-
-  let data: Gened[];
-  try {
-    data = geneds.map(gened => {
-      const lastInstructor = gened.fces[0]?.instructor;
-      const filtered = filterFCEs(gened.fces, aggregationOptions);
-      const aggregated = aggregateFCEs(filtered);
-      return {
-        ...gened,
-        ...aggregated,
-        lastInstructor
-      };
-    });
-  } catch (e) {
-    data = [];
-  }
+  useEffect(() => {
+    if (geneds) {
+      setData(geneds.map(gened => {
+        const lastInstructor = gened.fces[0]?.instructor;
+        const filtered = filterFCEs(gened.fces, aggregationOptions);
+        const aggregated = aggregateFCEs(filtered);
+        return {
+          ...gened,
+          ...aggregated,
+          lastInstructor
+        };
+      }));
+    }
+  }, [geneds]);
 
   return (
     <div className="mx-4 my-6">
@@ -66,7 +54,7 @@ const GenedsViewer = () => {
           <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
             <Combobox.Options
               className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
-              {filteredSchools.map((school) => (
+              {schools.map((school) => (
                 <Combobox.Option
                   key={school}
                   value={school}
