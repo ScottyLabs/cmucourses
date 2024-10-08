@@ -10,8 +10,7 @@ import { classNames } from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { SignInButton } from "@clerk/nextjs";
 import { userSlice } from "~/app/user";
-
-const schools = ["SCS"];
+import { GENED_SCHOOLS } from "~/app/constants";
 
 const GenedsViewer = () => {
   const dispatch = useAppDispatch();
@@ -75,7 +74,7 @@ const GenedsViewer = () => {
           <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
             <Combobox.Options
               className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
-              {schools.map((school) => (
+              {GENED_SCHOOLS.map((school) => (
                 <Combobox.Option
                   key={school}
                   value={school}

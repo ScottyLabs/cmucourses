@@ -125,3 +125,5 @@ export const DEPARTMENT_MAP_SHORTNAME: { [name: string]: Department } =
     map[obj.shortName] = obj;
     return map;
   }, {});
+
+export const GENED_SCHOOLS = ["SCS"];
