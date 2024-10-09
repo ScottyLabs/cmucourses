@@ -30,7 +30,6 @@ app.route("/instructors").get(getInstructors);
 app.route("/geneds").get(getGeneds);
 app.route("/geneds").post(isUser, getGeneds);
 
-
 // the next parameter is needed!
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
