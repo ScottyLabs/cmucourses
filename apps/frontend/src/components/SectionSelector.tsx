@@ -189,7 +189,7 @@ const SectionSelector = ({ courseIDs }: Props) => {
             const courseID = course.courseID;
 
             return (
-              <div key={courseID} className="relative mb-4 p-3 rounded-md border border-black" style={{backgroundColor: selectedSessions[courseID].Color}}>
+              <div key={courseID} className="relative mb-4 p-3 rounded-md border border-black" style={{backgroundColor: selectedSessions[courseID]?.Color || ""}}>
                 <div className="text-md">{courseID}</div>
                 {schedule?.lectures && getTimes(courseID, "Lecture", schedule.lectures, selectedSessions, dispatch)}
                 {schedule?.sections && getTimes(courseID, "Section", schedule.sections, selectedSessions, dispatch)}

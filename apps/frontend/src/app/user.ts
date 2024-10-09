@@ -25,7 +25,12 @@ export interface UserState {
   selectedSchool: string;
   selectedTags: string[];
   selectedSemester: string;
-  selectedSessions: {};
+  selectedSessions: {
+    [courseID: string]: {
+      [sessionType: string]: string;
+      Color: string;
+    };
+  };
   scheduleView: string;
 }
 
