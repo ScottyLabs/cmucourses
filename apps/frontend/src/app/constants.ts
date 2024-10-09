@@ -129,5 +129,5 @@ export const DEPARTMENT_MAP_SHORTNAME: { [name: string]: Department } =
 export const GENED_SCHOOLS = ["SCS"];
 
 export const GENED_SOURCES = {
-  SCS: "http://coursecatalog.web.cmu.edu/schools-colleges/schoolofcomputerscience",
+  SCS: "http://coursecatalog.web.cmu.edu/schools-colleges/schoolofcomputerscience/#genedtextcontainer",
 };
