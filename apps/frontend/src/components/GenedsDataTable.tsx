@@ -97,6 +97,16 @@ const columns: ColumnDef<Gened>[] = [
   {
     header: "Tags",
     accessorKey: "tags",
+    cell: (info) => {
+      const tags = info.getValue() as string[];
+      if (tags) {
+        return (
+            <div className="text-wrap text">{tags.join(", ")}</div>
+          )
+      } else {
+        return <p>-</p>
+      }
+    },
   }
 ];
 
