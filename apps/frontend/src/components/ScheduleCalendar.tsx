@@ -76,7 +76,7 @@ class CustomToolbar extends Toolbar {
 
 const getTime = (day: number, time: string) => {
   let [hour, minute] = time.split(":");
-  if (hour && time.slice(-2) === "PM") {
+  if (hour && time.slice(-2) === "PM" && time.slice(0, 2) !== "12") {
     hour = (parseInt(hour) + 12).toString();
   }
   return new Date(2024, 8, 29 + day, parseInt(hour || "0"), parseInt(minute || "0"));
@@ -98,7 +98,6 @@ const getTimes = (courseID: string, sessionType: string, sessionTimes) => {
         end: getTime(day, sessionTime.end || ""),
       });
     }
-
   }
   return times;
 }
@@ -128,7 +127,7 @@ const getEvents = (CourseDetails: Course[], selectedSemester: string, selectedSe
     }
   }).filter(x => x !== undefined);
 
-events = events.concat(selectedLectures.flatMap(lecture => getTimes(lecture.courseID, lecture.name || "Lecture", lecture.times)));
+  events = events.concat(selectedLectures.flatMap(lecture => getTimes(lecture.courseID, lecture.name || "Lecture", lecture.times)));
 
   const selectedSections = filteredCourses.flatMap(course => {
     const section = course.schedules?.find(sched => sessionToString(sched) === selectedSemester)
@@ -140,6 +139,8 @@ events = events.concat(selectedLectures.flatMap(lecture => getTimes(lecture.cour
   }).filter(x => x !== undefined);
 
   events = events.concat(selectedSections.flatMap(section => getTimes(section.courseID, `Section ${section.name || ""}`, section.times)));
+
+  console.log(events)
 
   return events;
 }
