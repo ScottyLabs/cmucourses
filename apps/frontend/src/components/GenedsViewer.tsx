@@ -192,6 +192,9 @@ const GenedsViewer = () => {
           form in the sidebar!
         </span>
       </div>
+      <div className="px-3 pt-2 text-gray-600">
+        <b>{data.length}</b> geneds found
+      </div>
       {
         !loggedIn && (
           <div className="flex justify-center">
