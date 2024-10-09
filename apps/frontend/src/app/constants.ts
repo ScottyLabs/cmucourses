@@ -126,8 +126,11 @@ export const DEPARTMENT_MAP_SHORTNAME: { [name: string]: Department } =
     return map;
   }, {});
 
-export const GENED_SCHOOLS = ["SCS"];
+export const GENED_SCHOOLS = ["SCS", "CIT", "MCS", "Dietrich"];
 
 export const GENED_SOURCES = {
   SCS: "http://coursecatalog.web.cmu.edu/schools-colleges/schoolofcomputerscience/#genedtextcontainer",
+  CIT: "https://engineering.cmu.edu/education/undergraduate-studies/curriculum/general-education/index.html",
+  MCS: "http://coursecatalog.web.cmu.edu/schools-colleges/melloncollegeofscience/#generaleducationrequirementstextcontainer",
+  Dietrich: "https://www.cmu.edu/dietrich/gened/fall-2021-and-beyond/course-options/index.html",
 };
