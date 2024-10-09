@@ -139,3 +139,15 @@ export const STALE_TIME = 1000 * 60 * 60 * 24; // 1 day
 
 export const CAL_VIEW = "cal";
 export const SCHED_VIEW = "sched";
+const CALENDAR_COLORS = [
+  "#FFB3BA", // Light Red
+  "#FFDFBA", // Light Orange
+  "#FFFFBA", // Light Yellow
+  "#BAFFC9", // Light Green
+  "#BAE1FF", // Light Blue
+  "#D4BAFF", // Light Purple
+  "#FFC4E1", // Light Pink
+  "#C4E1FF", // Light Sky Blue
+  "#E1FFC4", // Light Lime
+  "#FFF4BA"  // Light Cream
+];export const GET_CALENDAR_COLOR = (i: number) => CALENDAR_COLORS[i % CALENDAR_COLORS.length] || "";

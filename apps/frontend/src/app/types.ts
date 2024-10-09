@@ -32,17 +32,19 @@ export interface Course {
   fces?: FCE[];
 }
 
+export interface Time {
+  days: number[];
+  begin: string;
+  end: string;
+  building: string;
+  room: string;
+}
+
 interface Lesson {
   instructors: string[];
   name: string;
   location: string;
-  times: {
-    days: number[];
-    begin: string;
-    end: string;
-    building: string;
-    room: string;
-  }[];
+  times: Time[];
 }
 
 export type Lecture = Lesson;

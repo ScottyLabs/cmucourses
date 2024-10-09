@@ -7,6 +7,7 @@ import { CheckIcon } from "@heroicons/react/20/solid";
 import {selectCourseResults} from "~/app/cache";
 import { Lecture, Section } from "~/app/types";
 import { userSlice } from "~/app/user";
+import {GET_CALENDAR_COLOR} from "~/app/constants";
 
 interface Props {
   courseIDs: string[];
@@ -35,7 +36,7 @@ const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | S
         {sessionType}
       </Listbox.Label>
       <Listbox.Button
-        className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
+        className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-black sm:text-sm sm:leading-5">
             <span className="flex flex-wrap gap-1">
               {selectedSession.length === 0 ? (
                 <span className="p-0.5">Select Lecture</span>
@@ -116,8 +117,8 @@ const SectionSelector = ({ courseIDs }: Props) => {
         <Listbox value={selectedSemester} onChange={(payload) => {
             dispatch(userSlice.actions.setSelectedSemester(payload));
             const courseIDs = CourseDetails.filter((course) => course.schedules?.some(sched => sessionToString(sched) === payload)).map(course => course.courseID);
-            dispatch(userSlice.actions.setSelectedSessions(courseIDs.reduce((acc: courseSessions, courseID) => {
-              acc[courseID] = {Lecture: "", Section: ""};
+            dispatch(userSlice.actions.setSelectedSessions(courseIDs.reduce((acc: courseSessions, courseID, i: number) => {
+              acc[courseID] = {Lecture: "", Section: "", Color: GET_CALENDAR_COLOR(i)};
               return acc;
             }, {})));
           }}>
@@ -187,11 +188,8 @@ const SectionSelector = ({ courseIDs }: Props) => {
             const schedule = course.schedules?.find(sched => sessionToString(sched) === selectedSemester);
             const courseID = course.courseID;
 
-            console.log("Schedule", schedule)
-            console.log("Lectures", schedule?.lectures)
-
             return (
-              <div key={courseID} className="relative mb-4">
+              <div key={courseID} className="relative mb-4 p-3 rounded-md border border-black" style={{backgroundColor: selectedSessions[courseID].Color}}>
                 <div className="text-md">{courseID}</div>
                 {schedule?.lectures && getTimes(courseID, "Lecture", schedule.lectures, selectedSessions, dispatch)}
                 {schedule?.sections && getTimes(courseID, "Section", schedule.sections, selectedSessions, dispatch)}
