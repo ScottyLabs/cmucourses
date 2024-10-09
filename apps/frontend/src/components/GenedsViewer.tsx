@@ -36,13 +36,16 @@ const GenedsViewer = () => {
   useEffect(() => {
     if (geneds && geneds.map) {
       let mappedGeneds = geneds.map(gened => {
-        const lastInstructor = gened.fces[0]?.instructor;
+        const instructor = gened.fces[0]?.instructor;
+
+        if (instructor === "SIRBU, MARVIN") console.log(gened)
+
         const filtered = filterFCEs(gened.fces, aggregationOptions);
         const aggregated = aggregateFCEs(filtered);
         return {
           ...gened,
           ...aggregated,
-          lastInstructor
+          instructor
         };
       })
       if (selectedTags.length > 0) {

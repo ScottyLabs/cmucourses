@@ -11,7 +11,7 @@ import Link from "./Link";
 import { Gened } from "~/app/types";
 import { Tooltip } from "react-tooltip";
 
-const defaultValue = (info) => {
+const defaultValue = (info: any) => {
   const val = info.getValue() as string;
   if (val) {
     return <p className="text-center">{val}</p>;
@@ -45,29 +45,32 @@ const columns: ColumnDef<Gened>[] = [
     accessorKey: "name",
     cell: (info) => {
       const name = info.getValue() as string;
-      return (
-        <>
-          <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={name} >
-            <span className="text-wrap">{name}</span>
-          </Link>
-          <Tooltip id={name} className="max-w-sm z-40">
-            <div className="flex flex-col">
-              <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
-            </div>
-          </Tooltip>
-        </>
-      )
+      if (name) {
+        return (
+          <>
+            <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={name} >
+              <span className="text-wrap">{name}</span>
+            </Link>
+            <Tooltip id={name} className="max-w-sm z-40">
+              <div className="flex flex-col">
+                <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
+              </div>
+            </Tooltip>
+          </>
+        )
+      }
+      return <p>-</p>
     },
   },
   {
     header: "Last Instructor",
-    accessorKey: "lastInstructor",
+    accessorKey: "instructor",
     cell: (info) => {
       const instructor = info.getValue() as string;
       if (instructor) {
         return <Link href={`/instructor/${instructor}`}>{instructor}</Link>;
       } else {
-        return <p className="text-center">-</p>
+        return <p>-</p>
       }
     },
   },

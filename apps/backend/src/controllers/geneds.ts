@@ -90,7 +90,7 @@ export const getGeneds: RequestHandler<
         const course = processedCourses[courseID];
         const fce = fces ? fces.filter((fce) => fce.courseID === courseID) : [];
         const tags = proccesedGeneds[courseID]?.tags;
-        results.push({ ...course, tags, fces: fce });
+        results.push({ ...course, tags, fces: fce, courseID });
       }
 
       res.json(results);
