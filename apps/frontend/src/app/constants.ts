@@ -136,3 +136,6 @@ export const GENED_SOURCES = {
 };
 
 export const STALE_TIME = 1000 * 60 * 60 * 24; // 1 day
+
+export const CAL_VIEW = "cal";
+export const SCHED_VIEW = "sched";
