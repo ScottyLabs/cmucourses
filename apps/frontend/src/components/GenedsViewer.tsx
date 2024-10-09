@@ -10,7 +10,8 @@ import { classNames } from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { SignInButton } from "@clerk/nextjs";
 import { userSlice } from "~/app/user";
-import { GENED_SCHOOLS } from "~/app/constants";
+import { GENED_SCHOOLS, GENED_SOURCES } from "~/app/constants";
+import Link from "~/components/Link";
 
 const GenedsViewer = () => {
   const dispatch = useAppDispatch();
@@ -180,6 +181,17 @@ const GenedsViewer = () => {
           </div>
         </Combobox>
       </div>
+      <div className="px-3">
+        <span className="text-center text-gray-400">
+          Note: this list of geneds for {selectedSchool} is based off the list {" "}
+          <Link className="text-blue-600 hover:text-blue-800"
+            href={GENED_SOURCES[selectedSchool as keyof typeof GENED_SOURCES]}>
+            here
+          </Link>.
+          If there is anything missing, or if you would like a similar list for your school, do fill in the feedback
+          form in the sidebar!
+        </span>
+      </div>
       {
         !loggedIn && (
           <div className="flex justify-center">
@@ -195,7 +207,7 @@ const GenedsViewer = () => {
       }
       {
         data.length === 0 ? (
-          <div className="text-center text-gray-500 dark:text-zinc-400">
+          <div className="py-4 text-center text-gray-500 dark:text-zinc-400">
             Loading...
           </div>
         ) : (
