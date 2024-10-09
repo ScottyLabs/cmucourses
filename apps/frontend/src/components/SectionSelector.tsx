@@ -181,7 +181,7 @@ const SectionSelector = ({ courseIDs }: Props) => {
           </div>
         </Listbox>
       </div>
-      <div className="">
+      <div className="overflow-y-auto h-72 my-4">
         {
           CourseDetails.filter((course) => course.schedules?.some(sched => sessionToString(sched) === selectedSemester)).map((course) => {
             const schedule = course.schedules?.find(sched => sessionToString(sched) === selectedSemester);
@@ -191,7 +191,7 @@ const SectionSelector = ({ courseIDs }: Props) => {
             console.log("Lectures", schedule?.lectures)
 
             return (
-              <div key={courseID} className="relative my-4">
+              <div key={courseID} className="relative mb-4">
                 <div className="text-md">{courseID}</div>
                 {schedule?.lectures && getTimes(courseID, "Lecture", schedule.lectures, selectedSessions, dispatch)}
                 {schedule?.sections && getTimes(courseID, "Section", schedule.sections, selectedSessions, dispatch)}
