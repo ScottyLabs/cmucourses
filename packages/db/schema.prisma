@@ -123,3 +123,11 @@ model schedules {
 
   @@index([courseID], map: "courseID_1")
 }
+
+model geneds {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  v        Int      @map("__v")
+  courseID String
+  school   String
+  tags     String[]
+}

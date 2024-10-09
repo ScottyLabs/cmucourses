@@ -4,6 +4,7 @@ import {
   MagnifyingGlassIcon,
   StarIcon,
   UserCircleIcon,
+  BookOpenIcon
 } from "@heroicons/react/24/outline";
 import React from "react";
 import Link from "next/link";
@@ -79,6 +80,12 @@ export const SideNav = ({ activePage }) => {
         text="Instructors"
         link="/instructors"
         active={activePage === "instructors"}
+      />
+      <SideNavItem
+        icon={BookOpenIcon}
+        text="Geneds"
+        link="/geneds"
+        active={activePage === "geneds"}
       />
       <SideNavItem
         icon={ChatBubbleBottomCenterTextIcon}

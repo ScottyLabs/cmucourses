@@ -71,3 +71,19 @@ export interface FCE extends Session {
   rating: number[];
   responseRate: string;
 }
+
+export interface Gened {
+  courseID?: string | undefined;
+  hrsPerWeek?: number | undefined;
+  instructor?: string | undefined;
+  numRespondents?: number | undefined;
+  possibleRespondents?: number | undefined;
+  rating?: number[] | undefined;
+  responseRate?: string | undefined;
+  name?: string | undefined;
+  units?: string | undefined;
+  desc?: string | undefined;
+  tags?: string[] | undefined;
+  fces: FCE[];
+}
+
