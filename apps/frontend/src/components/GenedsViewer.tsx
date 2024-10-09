@@ -24,6 +24,7 @@ const GenedsViewer = () => {
   const [tagQuery, setTagQuery] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [data, setData] = useState<Gened[]>([]);
+  const [query, setQuery] = useState("");
 
   const deleteTag = (tagToDelete: string) => {
     dispatch(userSlice.actions.setSelectedTags(selectedTags.filter((tag) => tag !== tagToDelete)));
@@ -54,10 +55,19 @@ const GenedsViewer = () => {
           selectedTags.some((tag) => gened.tags?.includes(tag))
         );
       }
+      if (query.length > 0) {
+        mappedGeneds = mappedGeneds.filter((gened) =>
+          gened.name?.toLowerCase().includes(query.toLowerCase()) ||
+          gened.instructor?.toLowerCase().includes(query.toLowerCase()) ||
+          gened.tags?.some((tag) => tag.toLowerCase().includes(query.toLowerCase())) ||
+          gened.desc?.toLowerCase().includes(query.toLowerCase()) ||
+          gened.courseID?.toLowerCase().includes(query.toLowerCase())
+        );
+      }
       setData(mappedGeneds);
       setTags([...new Set(geneds.map(gened => gened.tags).flat().filter((tag) => tag !== undefined))]);
     }
-  }, [geneds, geneds.map, selectedTags]);
+  }, [geneds, geneds.map, selectedTags, query]);
 
   return (
     <div className="p-3 m-2 bg-white rounded">
@@ -179,6 +189,15 @@ const GenedsViewer = () => {
               ))}
             </Combobox.Options>
           </div>
+        </Combobox>
+        <Combobox value={query} onChange={(payload) => setQuery(payload)}>
+          <Combobox.Label className="flex pt-2">
+            Search
+          </Combobox.Label>
+          <Combobox.Input
+            className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5"
+            onChange={(e) => setQuery(e.target.value)}
+          />
         </Combobox>
       </div>
       <div className="px-3">
