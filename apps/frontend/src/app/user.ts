@@ -24,13 +24,6 @@ export interface UserState {
   };
   selectedSchool: string;
   selectedTags: string[];
-  selectedSemester: string;
-  selectedSessions: {
-    [courseID: string]: {
-      [sessionType: string]: string;
-      Color: string;
-    };
-  };
   scheduleView: string;
 }
 
@@ -55,8 +48,6 @@ const initialState: UserState = {
   },
   selectedSchool: "SCS",
   selectedTags: [],
-  selectedSemester: "",
-  selectedSessions: {},
   scheduleView: "cal",
 };
 
@@ -113,12 +104,6 @@ export const userSlice = createSlice({
     },
     setSelectedTags: (state, action: PayloadAction<string[]>) => {
       state.selectedTags = action.payload;
-    },
-    setSelectedSemester: (state, action: PayloadAction<string>) => {
-      state.selectedSemester = action.payload;
-    },
-    setSelectedSessions: (state, action: PayloadAction<{}>) => {
-      state.selectedSessions = action.payload
     },
     setScheduleView: (state, action: PayloadAction<string>) => {
       state.scheduleView = action.payload;

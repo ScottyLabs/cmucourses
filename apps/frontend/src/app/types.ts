@@ -1,4 +1,4 @@
-export type Semester = "fall" | "spring" | "summer";
+export type Semester = "fall" | "spring" | "summer" | "";
 export type SummerSession =
   | "summer one"
   | "summer two"

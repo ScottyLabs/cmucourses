@@ -159,6 +159,7 @@ const CourseCombobox = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   removeSelectedItem(selectedItem);
+                  dispatch(userSchedulesSlice.actions.removeCourseFromActiveSchedule(selectedItem.courseID));
                 }}
               >
                 &#10005;
@@ -224,7 +225,7 @@ const CourseCombobox = ({
                           },
                         })}
                       >
-                        <span className="inline-block flex h-full w-full items-center">
+                        <span className="flex h-full w-full items-center">
                           <span className="inline-block w-16 flex-none font-semibold">
                             {course.courseID}
                           </span>

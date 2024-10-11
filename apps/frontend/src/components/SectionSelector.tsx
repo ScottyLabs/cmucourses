@@ -1,36 +1,28 @@
 import React, { Dispatch, SetStateAction } from "react";
-import {useAppDispatch, useAppSelector} from "~/app/hooks";
+import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Listbox } from "@headlessui/react";
-import {classNames, sessionToString} from "~/app/utils";
+import { classNames, sessionToString, stringToSession } from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import {selectCourseResults} from "~/app/cache";
 import { Lecture, Section } from "~/app/types";
-import { userSlice } from "~/app/user";
-import {GET_CALENDAR_COLOR} from "~/app/constants";
+import {
+  CourseSessions,
+  selectCourseSessionsInActiveSchedule,
+  selectSessionInActiveSchedule,
+  userSchedulesSlice
+} from "~/app/userSchedules";
 
 interface Props {
   courseIDs: string[];
 }
 
-interface courseSessions {
-  [courseID: string]: {
-    [sessionType: string]: string;
-  };
-}
-
-const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | Section[], selectedSessions: courseSessions, dispatch: Dispatch<SetStateAction<any>>) => {
+const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | Section[], selectedSessions: CourseSessions, dispatch: Dispatch<SetStateAction<any>>) => {
   const selectedSession = selectedSessions[courseID]?.[sessionType] || "";
 
   return (
     <Listbox value={selectedSession} onChange={(payload) => {
-        dispatch(userSlice.actions.setSelectedSessions({
-          ...selectedSessions,
-          [courseID]: {
-            ...selectedSessions[courseID],
-            [sessionType]: payload
-          }
-        }));
+        dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({ courseID, sessionType, session: payload as string }));
       }}>
       <Listbox.Label className="flex">
         {sessionType}
@@ -97,8 +89,9 @@ const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | S
 const SectionSelector = ({ courseIDs }: Props) => {
   const dispatch = useAppDispatch();
   const CourseDetails = useAppSelector(selectCourseResults(courseIDs)).filter(x => x !== undefined);
-  const selectedSemester = useAppSelector((state) => state.user.selectedSemester);
-  const selectedSessions = useAppSelector((state) => state.user.selectedSessions);
+
+  const selectedSession = useAppSelector(selectSessionInActiveSchedule);
+  const selectedCourseSessions = useAppSelector(selectCourseSessionsInActiveSchedule);
 
   const semesters = [...new Set(CourseDetails.flatMap(course => {
     const schedules = course.schedules;
@@ -114,13 +107,8 @@ const SectionSelector = ({ courseIDs }: Props) => {
       </div>
 
       <div className="relative mt-1">
-        <Listbox value={selectedSemester} onChange={(payload) => {
-            dispatch(userSlice.actions.setSelectedSemester(payload));
-            const courseIDs = CourseDetails.filter((course) => course.schedules?.some(sched => sessionToString(sched) === payload)).map(course => course.courseID);
-            dispatch(userSlice.actions.setSelectedSessions(courseIDs.reduce((acc: courseSessions, courseID, i: number) => {
-              acc[courseID] = {Lecture: "", Section: "", Color: GET_CALENDAR_COLOR(i)};
-              return acc;
-            }, {})));
+        <Listbox value={selectedSession} onChange={(payload) => {
+            dispatch(userSchedulesSlice.actions.updateActiveScheduleSession(stringToSession(payload)));
           }}>
           <Listbox.Label className="flex">
             Semester
@@ -128,14 +116,14 @@ const SectionSelector = ({ courseIDs }: Props) => {
           <Listbox.Button
             className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
           <span className="flex flex-wrap gap-1">
-            {selectedSemester.length === 0 ? (
+            {selectedSession.length === 0 ? (
               <span className="p-0.5">Select Semester</span>
             ) : (
               <span
-                key={selectedSemester}
+                key={selectedSession}
                 className="flex items-center gap-1 rounded px-2 py-0.5"
               >
-                {selectedSemester}
+                {selectedSession}
               </span>
             )}
           </span>
@@ -184,15 +172,15 @@ const SectionSelector = ({ courseIDs }: Props) => {
       </div>
       <div className="overflow-y-auto h-72 my-4">
         {
-          CourseDetails.filter((course) => course.schedules?.some(sched => sessionToString(sched) === selectedSemester)).map((course) => {
-            const schedule = course.schedules?.find(sched => sessionToString(sched) === selectedSemester);
+          CourseDetails.filter((course) => course.schedules?.some(sched => sessionToString(sched) === selectedSession)).map((course) => {
+            const schedule = course.schedules?.find(sched => sessionToString(sched) === selectedSession);
             const courseID = course.courseID;
 
             return (
-              <div key={courseID} className="relative mb-4 p-3 rounded-md border border-black" style={{backgroundColor: selectedSessions[courseID]?.Color || ""}}>
+              <div key={courseID} className="relative mb-4 p-3 rounded-md border border-black" style={{backgroundColor: selectedCourseSessions[courseID]?.Color || ""}}>
                 <div className="text-md">{courseID}</div>
-                {schedule?.lectures && getTimes(courseID, "Lecture", schedule.lectures, selectedSessions, dispatch)}
-                {schedule?.sections && getTimes(courseID, "Section", schedule.sections, selectedSessions, dispatch)}
+                {schedule?.lectures && getTimes(courseID, "Lecture", schedule.lectures, selectedCourseSessions, dispatch)}
+                {schedule?.sections && getTimes(courseID, "Section", schedule.sections, selectedCourseSessions, dispatch)}
               </div>
             );
           })

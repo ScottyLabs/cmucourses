@@ -150,4 +150,6 @@ const CALENDAR_COLORS = [
   "#C4E1FF", // Light Sky Blue
   "#E1FFC4", // Light Lime
   "#FFF4BA"  // Light Cream
-];export const GET_CALENDAR_COLOR = (i: number) => CALENDAR_COLORS[i % CALENDAR_COLORS.length] || "";
+];
+
+export const GET_CALENDAR_COLOR = (i: number) => CALENDAR_COLORS[i % CALENDAR_COLORS.length] || "";
