@@ -65,6 +65,38 @@ export const sessionToShortString = (sessionInfo: Session | FCE | Schedule) => {
   }
 };
 
+export const stringToSession = (sessionString: string): Session => {
+  const sessionStringSplit = sessionString.split(" ");
+
+  if (sessionStringSplit.length === 2) {
+    const [semester, year] = sessionStringSplit;
+    return {
+      semester: semester?.toLowerCase() as any,
+      year: year as string,
+    };
+  } else if (sessionStringSplit.length === 3) {
+    const [semester, session, year] = sessionStringSplit;
+
+    if (semester?.includes("Q")) {
+      return {
+        semester: "summer",
+        year: year as string,
+        session: "qatar summer",
+      };
+    }
+    return {
+      semester: semester?.toLowerCase() as any,
+      year: year as string,
+      session: `${semester} ${session}`.toLowerCase() as any,
+    };
+  }
+
+  return {
+    semester: "",
+    year: "",
+  };
+}
+
 export const compareSessions = (
   session1: Session | FCE,
   session2: Session | FCE

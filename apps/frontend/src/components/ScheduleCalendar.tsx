@@ -12,7 +12,8 @@ import { fetchCourseInfos } from "~/app/api/course";
 import { fetchFCEInfosByCourse } from "~/app/api/fce";
 import { selectCourseResults } from "~/app/cache";
 import {Course, Time} from "~/app/types";
-import {sessionToString} from "~/app/utils";
+import { sessionToString } from "~/app/utils";
+import { selectCourseSessionsInActiveSchedule, selectSessionInActiveSchedule } from "~/app/userSchedules";
 
 const localizer = momentLocalizer(moment);
 
@@ -158,8 +159,8 @@ interface Props {
 
 const ScheduleCalendar = ({ courseIDs }: Props) =>{
   const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  const selectedSemester = useAppSelector((state) => state.user.selectedSemester);
-  const selectedSessions = useAppSelector((state) => state.user.selectedSessions);
+  const selectedSession = useAppSelector(selectSessionInActiveSchedule);
+  const selectedCourseSessions = useAppSelector(selectCourseSessionsInActiveSchedule);
   const dispatch = useAppDispatch();
 
   useDeepCompareEffect(() => {
@@ -171,7 +172,7 @@ const ScheduleCalendar = ({ courseIDs }: Props) =>{
 
   const CourseDetails = useAppSelector(selectCourseResults(courseIDs)).filter(x => x !== undefined);
 
-  const events = getEvents(CourseDetails, selectedSemester, selectedSessions);
+  const events = getEvents(CourseDetails, selectedSession, selectedCourseSessions);
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
