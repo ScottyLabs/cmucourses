@@ -256,9 +256,9 @@ const ScheduleSearch = () => {
       <div className="flex flex-col gap-y-2">
         {active !== null && (
           <div className="flex items-center">
-            <PencilSquareIcon className="mr-2 h-4 w-4" />
+            <PencilSquareIcon className="mr-2 h-4 w-4"/>
             <input
-              className="bg-white"
+              className="bg-white mr-4"
               value={savedSchedules[active].name}
               onChange={(e) =>
                 dispatch(
@@ -269,23 +269,20 @@ const ScheduleSearch = () => {
               }
               placeholder="Schedule Name"
             />
+            <button
+              className={`px-4 py-2 mr-2 rounded-md ${scheduleView === SCHED_VIEW ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              onClick={() => dispatch(userSlice.actions.setScheduleView(SCHED_VIEW))}
+            >
+              Schedule View
+            </button>
+            <button
+              className={`px-4 py-2 ml-2 rounded-md ${scheduleView === CAL_VIEW ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+              onClick={() => dispatch(userSlice.actions.setScheduleView(CAL_VIEW))}
+            >
+              Calendar View
+            </button>
           </div>
         )}
-
-        <div className="mb-4">
-          <button
-            className={`px-4 py-2 mr-2 rounded-md ${scheduleView === SCHED_VIEW ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-            onClick={() => dispatch(userSlice.actions.setScheduleView(SCHED_VIEW))}
-          >
-            Schedule View
-          </button>
-          <button
-            className={`px-4 py-2 ml-2 rounded-md ${scheduleView === CAL_VIEW ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-            onClick={() => dispatch(userSlice.actions.setScheduleView(CAL_VIEW))}
-          >
-            Calendar View
-          </button>
-        </div>
 
         <CourseCombobox
           onSelectedItemsChange={(courseIDs) => {
