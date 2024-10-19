@@ -142,11 +142,12 @@ export const cacheSlice = createSlice({
           state.page = action.payload.page;
           state.pageCourses = [];
 
-          for (const result of action.payload?.docs) {
-            state.pageCourses.push(result.courseID);
-            state.courseResults[result.courseID] = result;
+          if (action.payload?.docs) {
+            for (const result of action.payload?.docs) {
+              state.pageCourses.push(result.courseID);
+              state.courseResults[result.courseID] = result;
+            }
           }
-
           state.coursesLoading = false;
         },
       );
