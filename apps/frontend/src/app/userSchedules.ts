@@ -19,6 +19,7 @@ export interface UserSchedule {
   id: string;
   session: Session;
   courseSessions: CourseSessions;
+  numColors: number;
 }
 
 export interface UserSchedulesState {
@@ -45,6 +46,7 @@ const getNewUserSchedule = (courseIDs: string[], id: string) : UserSchedule => {
       acc[courseID] = {Lecture: "", Section: "", Color: GET_CALENDAR_COLOR(i)};
       return acc;
     }, {}),
+    numColors: courseIDs.length,
   };
 }
 
@@ -69,7 +71,8 @@ export const userSchedulesSlice = createSlice({
         state.saved[state.active].selected,
         action.payload
       );
-      state.saved[state.active].courseSessions[action.payload] = {Lecture: "", Section: "", Color: GET_CALENDAR_COLOR(state.saved[state.active].selected.length)};
+      state.saved[state.active].courseSessions[action.payload] = {Lecture: "", Section: "", Color: GET_CALENDAR_COLOR(state.saved[state.active].numColors)};
+      state.saved[state.active].numColors += 1;
     },
     removeCourseFromActiveSchedule: (state, action: PayloadAction<string>) => {
       if (state.active === null) return;
