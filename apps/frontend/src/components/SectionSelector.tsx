@@ -81,6 +81,8 @@ const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | S
                 )}
               </Listbox.Option>
             ))}
+            {sessions.length === 0 &&
+                <Listbox.Option value={""} className="py-2 pl-3 pr-9 text-gray-500">No {sessionType}s</Listbox.Option>}
           </Listbox.Options>
         </div>
       </Listbox>
