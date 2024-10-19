@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Listbox } from "@headlessui/react";
-import { classNames, sessionToString, stringToSession } from "~/app/utils";
+import {classNames, compareSessions, sessionToString, stringToSession} from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import {selectCourseResults} from "~/app/cache";
 import { Lecture, Section } from "~/app/types";
@@ -102,7 +102,9 @@ const SectionSelector = ({ courseIDs }: Props) => {
     if (schedules) {
       return schedules.map(schedule => sessionToString(schedule));
     }
-  }))];
+  }))].sort((a, b) => {
+    return compareSessions(stringToSession(a || ""), stringToSession(b || ""));
+  });
 
   return (
     <div>
