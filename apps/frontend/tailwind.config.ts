@@ -143,5 +143,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("nightwind"), require("@tailwindcss/line-clamp")],
+  plugins: [require("nightwind")],
 };
