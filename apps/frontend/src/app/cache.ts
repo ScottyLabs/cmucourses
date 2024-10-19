@@ -159,8 +159,10 @@ export const cacheSlice = createSlice({
       .addCase(
         fetchCourseInfos.fulfilled,
         (state, action: PayloadAction<Course[]>) => {
-          for (const result of action.payload) {
-            state.courseResults[result.courseID] = result;
+          if (action.payload) {
+            for (const result of action.payload) {
+              state.courseResults[result.courseID] = result;
+            }
           }
           state.coursesLoading = false;
         },
