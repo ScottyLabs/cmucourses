@@ -34,7 +34,7 @@ const BookmarkButton = ({courseID}: Props) => {
   return (
     <div className="relative" onMouseEnter={() => setDropdownVisible(true)} onMouseLeave={() => setDropdownVisible(false)}>
       {dropdownVisible ? (
-        <div className="absolute right-0 top-full w-auto p-2 min-w-36 bg-white border border-gray-300 shadow-lg">
+        <div className="absolute right-0 top-full w-auto p-2 min-w-36 bg-white shadow-lg rounded-md border border-grey-50">
           <ul>
             <li key="saved" className="relative cursor-pointer select-none pl-3 pr-9 focus:outline-none"
               onClick={bookmarkCourse}>
