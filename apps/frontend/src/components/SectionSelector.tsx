@@ -21,14 +21,15 @@ const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | S
   const selectedSession = selectedSessions[courseID]?.[sessionType] || "";
 
   return (
-    <Listbox value={selectedSession} onChange={(payload) => {
+    <div className="pt-2">
+      <Listbox value={selectedSession} onChange={(payload) => {
         dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({ courseID, sessionType, session: payload as string }));
       }}>
-      <Listbox.Label className="flex">
-        {sessionType}
-      </Listbox.Label>
-      <Listbox.Button
-        className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-black sm:text-sm sm:leading-5">
+        <Listbox.Label className="flex">
+          {sessionType}
+        </Listbox.Label>
+        <Listbox.Button
+          className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-black sm:text-sm sm:leading-5">
             <span className="flex flex-wrap gap-1">
               {selectedSession.length === 0 ? (
                 <span className="p-0.5">Select Lecture</span>
@@ -41,26 +42,26 @@ const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | S
                 </span>
               )}
             </span>
-        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400"/>
-            </span>
-      </Listbox.Button>
-      <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
-        <Listbox.Options
-          className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
-          {sessions.map((lecture) => (
-            <Listbox.Option
-              key={lecture.name}
-              value={lecture.name}
-              className={({active}) => {
-                return classNames(
-                  "relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none ",
-                  active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
-                );
-              }}
-            >
-              {({selected}) => (
-                <>
+          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400"/>
+          </span>
+        </Listbox.Button>
+        <div className="absolute inset-x-3 mt-1 rounded shadow-lg bg-white">
+          <Listbox.Options
+            className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
+            {sessions.map((lecture) => (
+              <Listbox.Option
+                key={lecture.name}
+                value={lecture.name}
+                className={({active}) => {
+                  return classNames(
+                    "relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none ",
+                    active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
+                  );
+                }}
+              >
+                {({selected}) => (
+                  <>
                       <span className={"block truncate"}>
                         <span
                           className={classNames(
@@ -71,18 +72,19 @@ const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | S
                           {lecture.name}
                         </span>
                       </span>
-                  {selected && (
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-4">
+                    {selected && (
+                      <span className="absolute inset-y-0 right-0 flex items-center pr-4">
                           <CheckIcon className="h-5 w-5"/>
                         </span>
-                  )}
-                </>
-              )}
-            </Listbox.Option>
-          ))}
-        </Listbox.Options>
-      </div>
-    </Listbox>
+                    )}
+                  </>
+                )}
+              </Listbox.Option>
+            ))}
+          </Listbox.Options>
+        </div>
+      </Listbox>
+    </div>
   )
 }
 
