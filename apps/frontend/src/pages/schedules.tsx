@@ -38,13 +38,21 @@ const SchedulePage: NextPage = () => {
                   )}
                 </CourseList>
             )}
-          {scheduleView === CAL_VIEW && (<ScheduleCalendar courseIDs={scheduled} />)}
+          {scheduleView === CAL_VIEW && (
+            scheduled.length ? (
+              <ScheduleCalendar courseIDs={scheduled} />
+              ) : (
+              <div className="mt-8 text-center text-gray-400">
+                Nothing in your schedule yet!
+              </div>
+            )
+          )}
         </>
       }
       sidebar={
         <>
-          <ScheduleSelector />
-          <Aggregate />
+          <ScheduleSelector/>
+          <Aggregate/>
           <SectionSelector courseIDs={scheduled}/>
         </>
       }
