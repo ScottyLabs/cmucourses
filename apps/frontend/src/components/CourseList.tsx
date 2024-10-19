@@ -12,7 +12,7 @@ const CourseList = ({ courseIDs, children }: Props) => {
   const results = useFetchCourseInfos(courseIDs);
 
   return (
-    <div className="py-6 px-2 md:px-6">
+    <div className="pt-2 pb-6 px-2 md:px-6">
       {results.length > 0 ? (
         <>
           <div className="mt-3 pb-2 text-sm text-gray-400">

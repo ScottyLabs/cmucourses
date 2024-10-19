@@ -198,7 +198,7 @@ const ScheduleCalendar = ({ courseIDs }: Props) =>{
     }), []);
 
   return (
-    <div className="m-2 p-4 bg-white rounded-md">
+    <div className="m-6 p-4 bg-white rounded-md">
       <Calendar
         defaultDate={defaultDate}
         defaultView="week"
