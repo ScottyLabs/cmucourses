@@ -121,8 +121,6 @@ const getEvents = (CourseDetails: Course[], selectedSemester: string, selectedSe
     }
   });
 
-  console.log(selectedSessions)
-
   const selectedLectures = filteredCourses.flatMap(course => {
     const lecture = course.schedules?.find(sched => sessionToString(sched) === selectedSemester)
       ?.lectures.find(lecture => lecture.name === selectedSessions[course.courseID]?.Lecture);
