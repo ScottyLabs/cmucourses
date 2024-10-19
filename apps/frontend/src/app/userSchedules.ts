@@ -31,12 +31,12 @@ const initialState: UserSchedulesState = {
   saved: {},
 };
 
-const getNewUserSchedule = (courseIDs: string[]) : UserSchedule => {
+const getNewUserSchedule = (courseIDs: string[], id: string) : UserSchedule => {
   return {
     name: "My Schedule",
     courses: courseIDs,
     selected: courseIDs,
-    id: uuidv4(),
+    id: id,
     session: {
       year: "",
       semester: "",
@@ -58,7 +58,7 @@ export const userSchedulesSlice = createSlice({
     addCourseToActiveSchedule: (state, action: PayloadAction<string>) => {
       if (state.active === null) {
         const newId = uuidv4();
-        state.saved[newId] = getNewUserSchedule([]);
+        state.saved[newId] = getNewUserSchedule([], newId);
         state.active = newId;
       }
       state.saved[state.active].courses = addToSet(
@@ -81,8 +81,6 @@ export const userSchedulesSlice = createSlice({
         state.saved[state.active].selected,
         action.payload
       );
-
-      console.log("Here")
 
       delete state.saved[state.active].courseSessions[action.payload];
     },
@@ -114,12 +112,12 @@ export const userSchedulesSlice = createSlice({
     },
     createEmptySchedule: (state) => {
       const newId = uuidv4();
-      state.saved[newId] = getNewUserSchedule([]);
+      state.saved[newId] = getNewUserSchedule([], newId);
       state.active = newId;
     },
     createSharedSchedule: (state, action: PayloadAction<string[]>) => {
       const newId = uuidv4();
-      state.saved[newId] = getNewUserSchedule(action.payload);
+      state.saved[newId] = getNewUserSchedule(action.payload, newId);
       state.active = newId;
     },
     deleteSchedule: (state, action: PayloadAction<string>) => {
