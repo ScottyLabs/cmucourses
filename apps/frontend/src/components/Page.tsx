@@ -57,7 +57,7 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
       <header className="fixed inset-x-0 top-0 z-40 h-16 border-b drop-shadow bg-gray-50 border-gray-200 dark:bg-zinc-800">
         <Header />
       </header>
-      <main className="relative flex min-h-full flex-col pt-16 md:h-screen md:flex-row md:justify-around">
+      <main className="relative flex min-h-full flex-col pt-[104px] md:h-screen md:flex-row md:justify-around">
         <SideNav activePage={activePage} />
         {sidebar && <Sidebar>{sidebar}</Sidebar>}
         <div
