@@ -44,7 +44,7 @@ export default function Header(): ReactElement {
       <div className="p-1.5 text-lg text-white text-center bg-[#007fff] h-10">
         ‼️ Sign up for {' '}
         <Link
-          href="https://nova.scottylabs.org/"
+          href="https://go.scottylabs.org/nova-cmucourses"
         >
           <strong>Nova</strong>
         </Link>
