@@ -41,7 +41,7 @@ export default function Header(): ReactElement {
 
   return (
     <div className="">
-      <div className="p-1.5 text-lg text-white text-center bg-[#007fff] h-10">
+      <div className="lg:p-1.5 md:p-2 p-3 lg:text-lg md:text-base text-xs text-white text-center bg-[#007fff] h-10">
         ‼️ Sign up for {' '}
         <Link
           href="https://go.scottylabs.org/nova-cmucourses"
