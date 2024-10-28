@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev -p 3010",
+    "dev": "next dev -p 3010 -H 0.0.0.0",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
