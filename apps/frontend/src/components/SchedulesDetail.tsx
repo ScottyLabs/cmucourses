@@ -49,7 +49,7 @@ const Lecture = ({
               <div className="col-span-1 col-start-3">
                 {timeArrToString([time])}
               </div>
-              <Link href={`https://maps.scottylabs.org/${time.building}-${time.room}`}>
+              <Link href={`https://maps.scottylabs.org/${time.building}-${time.room}`} openInNewTab = {true}>
                 {time.building} {time.room}
               </Link>
             </div>
@@ -72,7 +72,7 @@ const Lecture = ({
                 <div className="col-span-1 col-start-3">
                   {timeArrToString([time])}
                 </div>
-                <Link href={`https://maps.scottylabs.org/${time.building}-${time.room}`}>
+                <Link href={`https://maps.scottylabs.org/${time.building}-${time.room}`} openInNewTab = {true}>
                   {time.building} {time.room}
                 </Link>
                 
