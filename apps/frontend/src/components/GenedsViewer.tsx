@@ -197,6 +197,7 @@ const GenedsViewer = () => {
           <Combobox.Input
             className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5"
             onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search courses by ID, description, instructor, name, or tag..."
           />
         </Combobox>
       </div>
