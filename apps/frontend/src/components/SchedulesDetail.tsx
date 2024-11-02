@@ -49,9 +49,9 @@ const Lecture = ({
               <div className="col-span-1 col-start-3">
                 {timeArrToString([time])}
               </div>
-              <div className="col-span-1">
+              <Link href={`https://maps.scottylabs.org/${time.building}-${time.room}`}>
                 {time.building} {time.room}
-              </div>
+              </Link>
             </div>
           ))}
         </div>
@@ -72,9 +72,10 @@ const Lecture = ({
                 <div className="col-span-1 col-start-3">
                   {timeArrToString([time])}
                 </div>
-                <div className="col-span-1">
+                <Link href={`https://maps.scottylabs.org/${time.building}-${time.room}`}>
                   {time.building} {time.room}
-                </div>
+                </Link>
+                
               </div>
             ))}
           </div>
