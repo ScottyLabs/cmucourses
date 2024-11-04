@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import React from "react";
 import CourseList from "~/components/CourseList";
 import Aggregate from "~/components/Aggregate";
+import ShowFilter from "~/components/ShowFilter"
 import { useAppSelector } from "~/app/hooks";
 import { Page } from "~/components/Page";
 
@@ -11,7 +12,12 @@ const SavedPage: NextPage = () => {
   return (
     <Page
       activePage="saved"
-      sidebar={<Aggregate />}
+      sidebar={
+        <>
+          <Aggregate />
+          <ShowFilter />
+        </>
+      }
       content={
         <CourseList courseIDs={saved}>
           <div className="mt-6 text-center text-gray-400">
