@@ -105,8 +105,8 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                   {open ? (
                     <div className="mr-1">Hide</div>
                   ) : (
-                    <div className="mr-1">Show</div>)
-                  }
+                    <div className="mr-1">Show</div>
+                  )}
                   {open ? (
                     <ChevronUpIcon className="h-5 w-5" />
                   ) : (
