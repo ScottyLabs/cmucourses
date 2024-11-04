@@ -30,11 +30,11 @@ const ShowFilter = () => {
     }, [dispatchSearch, search]);
   
     const loggedIn = useAppSelector((state) => state.user.loggedIn);
-    const showFCEs = useAppSelector((state) => state.user.showFCEs);
-    const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
-    const showSchedules = useAppSelector((state) => state.user.showSchedules);
+    const showFCEs = useAppSelector((state) => state.user.savedShowFCEs);
+    const showCourseInfos = useAppSelector((state) => state.user.savedShowCourseInfos);
+    const showSchedules = useAppSelector((state) => state.user.savedShowSchedules);
   
-    const showAll = useAppSelector((state) => state.user.showAll);
+    const showAll = useAppSelector((state) => state.user.savedShowAll);
   
     const showAllRef = useRef<any>(null);
     useEffect(() => {
@@ -62,22 +62,22 @@ const ShowFilter = () => {
     }, [showAllRef, showAllRef.current, showFCEs, showCourseInfos, showSchedules]);
   
     const setShowFCEs = (e: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(userSlice.actions.showFCEs(e.target.checked));
+      dispatch(userSlice.actions.savedShowFCEs(e.target.checked));
     };
   
     const setShowCourseInfos = (e: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(userSlice.actions.showCourseInfos(e.target.checked));
+      dispatch(userSlice.actions.savedShowCourseInfos(e.target.checked));
     };
   
     const setShowSchedules = (e: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(userSlice.actions.showSchedules(e.target.checked));
+      dispatch(userSlice.actions.savedShowSchedules(e.target.checked));
     };
   
     const setShowAll = (e: React.ChangeEvent<HTMLInputElement>) => {
-      dispatch(userSlice.actions.showAll(e.target.checked));
-      if (loggedIn) dispatch(userSlice.actions.showFCEs(e.target.checked));
-      dispatch(userSlice.actions.showCourseInfos(e.target.checked));
-      dispatch(userSlice.actions.showSchedules(e.target.checked));
+      dispatch(userSlice.actions.savedShowAll(e.target.checked));
+      if (loggedIn) dispatch(userSlice.actions.savedShowFCEs(e.target.checked));
+      dispatch(userSlice.actions.savedShowCourseInfos(e.target.checked));
+      dispatch(userSlice.actions.savedShowSchedules(e.target.checked));
     };
 
     return (
