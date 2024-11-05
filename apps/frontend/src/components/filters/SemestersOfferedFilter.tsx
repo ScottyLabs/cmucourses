@@ -9,6 +9,7 @@ import { Session } from "~/app/types";
 import { classNames, sessionToShortString, sessionToString } from "~/app/utils";
 
 const SESSIONS: Session[] = [
+  { year: "2025", semester: "spring" },
   { year: "2024", semester: "fall" },
   { year: "2024", semester: "summer" },
   { year: "2024", semester: "spring" },
@@ -61,7 +62,7 @@ const SemestersOfferedFilter = () => {
           </div>
           Offered in
         </Listbox.Label>
-        <Listbox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
+        <Listbox.Button className="border-gray-200 relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out sm:text-sm sm:leading-5">
           <span className="flex flex-wrap gap-1">
             {sessions.length === 0 ? (
               <span className="p-0.5">None</span>
@@ -69,7 +70,7 @@ const SemestersOfferedFilter = () => {
               sessions.map((session) => (
                 <span
                   key={sessionToShortString(session)}
-                  className="flex items-center gap-1 rounded px-2 py-0.5 text-yellow-800 bg-yellow-50"
+                  className="text-yellow-800 bg-yellow-50 flex items-center gap-1 rounded px-2 py-0.5"
                 >
                   <span>{sessionToString(session)}</span>
                   <XMarkIcon
@@ -88,8 +89,8 @@ const SemestersOfferedFilter = () => {
             <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
           </span>
         </Listbox.Button>
-        <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
-          <Listbox.Options className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
+        <div className="bg-white absolute mt-1 w-full rounded shadow-lg">
+          <Listbox.Options className="shadow-xs bg-white relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
             {SESSIONS.map((session) => (
               <Listbox.Option
                 key={sessionToShortString(session)}
@@ -106,7 +107,7 @@ const SemestersOfferedFilter = () => {
                     <span className={"block truncate"}>
                       <span
                         className={classNames(
-                          "ml-1 text-gray-700",
+                          "text-gray-700 ml-1",
                           selected ? "font-semibold" : "font-normal"
                         )}
                       >
