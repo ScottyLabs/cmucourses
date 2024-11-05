@@ -103,14 +103,15 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
               >
                 <div className="hidden items-center md:flex">
                   {open ? (
-                    <div className="mr-1">Hide</div>
+                    <>
+                      <div className="mr-1">Hide</div>
+                      <ChevronUpIcon className="h-5 w-5" />
+                    </>
                   ) : (
-                    <div className="mr-1">Show</div>
-                  )}
-                  {open ? (
-                    <ChevronUpIcon className="h-5 w-5" />
-                  ) : (
-                    <ChevronDownIcon className="h-5 w-5" />
+                    <>
+                      <div className="mr-1">Show</div>
+                      <ChevronDownIcon className="h-5 w-5" />
+                    </>
                   )}
                 </div>
               </FlushedButton>
