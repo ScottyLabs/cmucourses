@@ -9,6 +9,7 @@ import { SideNav } from "./SideNav";
 import Link from "./Link";
 import { useAuth } from "@clerk/nextjs";
 import { userSlice } from "~/app/user";
+import { usePostHog } from "posthog-js/react";
 
 type Props = {
   sidebar?: React.ReactNode;
@@ -23,7 +24,7 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
   );
   const dispatch = useAppDispatch();
 
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { isLoaded, isSignedIn, userId, sessionId, getToken } = useAuth();
 
   useEffect(() => {
     if (isLoaded && userId && sessionId) {
@@ -49,6 +50,16 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
       dispatch(uiSlice.actions.closeLoginModal());
     }
   }, [dispatch, loggedIn, modalShown]);
+
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    if (isSignedIn && userId) {
+      posthog?.identify(userId);
+    } else {
+      posthog?.reset();
+    }
+  }, [posthog, isSignedIn, userId]);
 
   return (
     <div className="accent-blue-600 dark:accent-blue-800">
