@@ -9,6 +9,7 @@ import ScheduleData from "~/components/ScheduleData";
 import { selectCoursesInActiveSchedule } from "~/app/userSchedules";
 import { Page } from "~/components/Page";
 import Loading from "~/components/Loading";
+import ShowFilter from "~/components/ShowFilter";
 
 const SchedulePage: NextPage = () => {
   const scheduled = useAppSelector(selectCoursesInActiveSchedule);
@@ -39,6 +40,7 @@ const SchedulePage: NextPage = () => {
         <>
           <ScheduleSelector />
           <Aggregate />
+          <ShowFilter />
         </>
       }
     />

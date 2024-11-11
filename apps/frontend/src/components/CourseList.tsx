@@ -25,6 +25,10 @@ const CourseList = ({ courseIDs, children }: Props) => {
 
   const results = useAppSelector(selectCourseResults(courseIDs));
 
+  const showFCEs = useAppSelector((state) => state.user.savedShowFCEs);
+  const showCourseInfos = useAppSelector((state) => state.user.savedShowCourseInfos);
+  const showSchedules = useAppSelector((state) => state.user.savedShowSchedules);
+  
   return (
     <div className="py-6 px-2 md:px-6">
       {results.length > 0 ? (
@@ -39,9 +43,9 @@ const CourseList = ({ courseIDs, children }: Props) => {
               <CourseCard
                 info={course}
                 key={course.courseID}
-                showFCEs={true}
-                showCourseInfo={true}
-                showSchedules={true}
+                showFCEs={showFCEs}
+                showCourseInfo={showCourseInfos}
+                showSchedules={showSchedules}
               />
             ))}
           </div>
