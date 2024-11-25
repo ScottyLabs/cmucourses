@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@nx/next": "19.6.3",
+    "@tanstack/eslint-plugin-query": "^5.61.3",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "eslint-config-prettier": "^8.8.0",
@@ -19,5 +20,9 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "@tanstack/react-query": "^5.61.3",
+    "@tanstack/react-query-devtools": "^5.61.3"
+  }
 }
