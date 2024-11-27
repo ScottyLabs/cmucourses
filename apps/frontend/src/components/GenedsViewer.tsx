@@ -54,7 +54,7 @@ const GenedsViewer = () => {
       );
     }
 
-    if (!data || data.length === 0) {
+    if (!geneds || geneds.length === 0) {
       return (
         <div className="py-4 text-center text-gray-500 dark:text-zinc-400">
           No geneds found for {selectedSchool}. If you would like to map geneds for your school, please fill in the feedback form in the sidebar!
@@ -111,7 +111,12 @@ const GenedsViewer = () => {
   return (
     <div className="p-3 m-2 bg-white rounded">
       <div className="relative m-2">
-        <Combobox value={selectedSchool} onChange={(payload) => dispatch(userSlice.actions.setSelectedSchool(payload))}>
+        <Combobox value={selectedSchool}
+                  onChange={(payload) => {
+                    dispatch(userSlice.actions.setSelectedSchool(payload));
+                    dispatch(userSlice.actions.setSelectedTags([]));
+                    setSearchQuery("");
+                  }}>
           <Combobox.Label className="flex">
             School
           </Combobox.Label>
