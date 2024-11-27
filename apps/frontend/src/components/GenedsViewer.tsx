@@ -10,7 +10,7 @@ import { classNames } from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { SignInButton, useAuth } from "@clerk/nextjs";
 import { userSlice } from "~/app/user";
-import { GENED_SCHOOLS, GENED_SOURCES } from "~/app/constants";
+import { GENED_SCHOOLS, GENED_SOURCES, STALE_TIME } from "~/app/constants";
 import Link from "~/components/Link";
 import { useQuery } from "@tanstack/react-query";
 
@@ -26,9 +26,10 @@ const GenedsViewer = () => {
   const [data, setData] = useState<Gened[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const {isPending, error, data: geneds} = useQuery({
+  const { isPending, error, data: geneds } = useQuery({
     queryKey: ['geneds', selectedSchool, isSignedIn],
-    queryFn: () => fetchGenedsBySchool(selectedSchool, isSignedIn, getToken)
+    queryFn: () => fetchGenedsBySchool(selectedSchool, isSignedIn, getToken),
+    staleTime: STALE_TIME,
   });
 
   const deleteTag = (tagToDelete: string) => {
