@@ -1,24 +1,20 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "~/store";
+import axios from "axios";
+import Fuse, { FuseIndex } from "fuse.js";
 
-type FetchAllInstructorsType = { instructor: string }[];
-
-export const fetchAllInstructors = createAsyncThunk<
-  FetchAllInstructorsType,
-  void,
-  { state: RootState }
->("fetchAllInstructors", async (_, thunkAPI) => {
+export const fetchAllInstructors = async (): Promise<{
+  allInstructors: { instructor: string }[],
+  fuse: Fuse<{ instructor: string }>
+}> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/instructors`;
-  const state = thunkAPI.getState();
 
-  if (state.cache.allInstructors.length > 0) return;
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-  return (
-    await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-  ).json();
-});
+  const fuseIndex: FuseIndex<{ instructor: string }> = Fuse.createIndex(["instructor"], response.data);
+  const fuse = new Fuse(response.data, {}, fuseIndex);
+
+  return { allInstructors: response.data, fuse };
+};

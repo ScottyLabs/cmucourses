@@ -9,7 +9,7 @@ import {
   UserSchedulesState,
 } from "./userSchedules";
 import { reducer as uiReducer, UIState } from "./ui";
-import { reducer as instructorsReducer, InstructorsState } from "./instructors";
+import { reducer as instructorsReducer, InstructorsState, instructorsSlice } from "./instructors";
 import debounce from "lodash/debounce";
 import {
   FLUSH,
@@ -106,17 +106,16 @@ export const throttledFilter = () => {
   debouncedFilter();
 };
 
-const debouncedInstructorFilter = debounce(() => {
+const debouncedInstructorFilter = debounce((search: string) => {
   setTimeout(() => {
-    const state = store.getState();
-    void store.dispatch(cacheSlice.actions.selectInstructors(state.instructors.search));
-    void store.dispatch(cacheSlice.actions.setInstructorsLoading(false));
+    void store.dispatch(instructorsSlice.actions.updateSearch(search));
+    void store.dispatch(instructorsSlice.actions.setInstructorsLoading(false));
   }, 0);
 }, 300);
 
-export const throttledInstructorFilter = () => {
-  void store.dispatch(cacheSlice.actions.setInstructorsLoading(true));
-  debouncedInstructorFilter();
+export const throttledInstructorFilter = (search: string) => {
+  void store.dispatch(instructorsSlice.actions.setInstructorsLoading(true));
+  debouncedInstructorFilter(search);
 }
 
 export type AppState = ReturnType<typeof store.getState>;
