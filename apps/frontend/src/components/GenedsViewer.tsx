@@ -27,7 +27,7 @@ const GenedsViewer = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const {isPending, error, data: geneds} = useQuery({
-    queryKey: ['geneds', selectedSchool],
+    queryKey: ['geneds', selectedSchool, isSignedIn],
     queryFn: () => fetchGenedsBySchool(selectedSchool, isSignedIn, getToken)
   });
 
