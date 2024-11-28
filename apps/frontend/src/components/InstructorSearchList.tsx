@@ -3,11 +3,9 @@ import Loading from "./Loading";
 import { Pagination } from "./Pagination";
 import React, { useEffect, useState } from "react";
 import InstructorDetail from "./InstructorDetail";
-import { fetchAllInstructors } from "~/app/api/instructors";
+import { useFetchAllInstructors } from "~/app/api/instructors";
 import { instructorsSlice } from "~/app/instructors";
 import { userSlice } from "~/app/user";
-import { useQuery } from "@tanstack/react-query";
-import { STALE_TIME } from "~/app/constants";
 
 const RESULTS_PER_PAGE = 10;
 
@@ -16,11 +14,7 @@ const InstructorSearchList = () => {
   const search = useAppSelector((state) => state.instructors.search);
   const [results, setResults] = useState<{ instructor: string }[]>([]);
 
-  const { isPending, data: { allInstructors, fuse } = {} } = useQuery({
-    queryKey: ['instructors'],
-    queryFn: fetchAllInstructors,
-    staleTime: STALE_TIME,
-  });
+  const { isPending, data: { allInstructors, fuse } = {} } = useFetchAllInstructors();
 
   useEffect(() => {
     if (!fuse || !allInstructors) return;

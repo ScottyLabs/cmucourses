@@ -1,7 +1,9 @@
 import axios from "axios";
 import Fuse, { FuseIndex } from "fuse.js";
+import { useQuery } from "@tanstack/react-query";
+import { STALE_TIME } from "~/app/constants";
 
-export const fetchAllInstructors = async (): Promise<{
+const fetchAllInstructors = async (): Promise<{
   allInstructors: { instructor: string }[],
   fuse: Fuse<{ instructor: string }>
 }> => {
@@ -18,3 +20,11 @@ export const fetchAllInstructors = async (): Promise<{
 
   return { allInstructors: response.data, fuse };
 };
+
+export const useFetchAllInstructors = () => {
+  return useQuery({
+    queryKey: ['instructors'],
+    queryFn: fetchAllInstructors,
+    staleTime: STALE_TIME,
+  });
+}

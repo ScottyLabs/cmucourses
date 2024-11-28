@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import React, { useEffect, useState } from "react";
-import { fetchGenedsBySchool } from "~/app/api/geneds";
+import { useFetchGenedsBySchool } from "~/app/api/geneds";
 import { aggregateFCEs, filterFCEs } from "~/app/fce";
 import { Combobox } from "@headlessui/react";
 import { GenedsDataTable } from "~/components/GenedsDataTable";
@@ -12,7 +12,6 @@ import { SignInButton, useAuth } from "@clerk/nextjs";
 import { userSlice } from "~/app/user";
 import { GENED_SCHOOLS, GENED_SOURCES, STALE_TIME } from "~/app/constants";
 import Link from "~/components/Link";
-import { useQuery } from "@tanstack/react-query";
 
 const GenedsViewer = () => {
   const dispatch = useAppDispatch();
@@ -26,11 +25,7 @@ const GenedsViewer = () => {
   const [data, setData] = useState<Gened[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { isPending, error, data: geneds } = useQuery({
-    queryKey: ['geneds', selectedSchool, isSignedIn],
-    queryFn: () => fetchGenedsBySchool(selectedSchool, isSignedIn, getToken),
-    staleTime: STALE_TIME,
-  });
+  const { isPending, error, data: geneds } = useFetchGenedsBySchool(selectedSchool, isSignedIn, getToken);
 
   const deleteTag = (tagToDelete: string) => {
     dispatch(userSlice.actions.setSelectedTags(selectedTags.filter((tag) => tag !== tagToDelete)));
