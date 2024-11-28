@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { Course, FCE, Schedule } from "./types";
 import {
-  fetchCourseInfo,
   fetchCourseInfos,
   fetchCourseInfosByPage,
   FetchCourseInfosByPageResult,
@@ -20,7 +19,6 @@ interface CacheState {
   page: number;
   pageCourses: string[];
   courseResults: { [courseID: string]: Course };
-  scheduleResults: { [courseID: string]: Schedule[] };
   fces: { [courseID: string]: FCE[] };
   fcesLoading: boolean;
   coursesLoading: boolean;
@@ -33,7 +31,6 @@ const initialState: CacheState = {
   page: 1,
   pageCourses: [],
   courseResults: {},
-  scheduleResults: {},
   fces: {},
   fcesLoading: false,
   coursesLoading: false,
@@ -60,11 +57,6 @@ export const selectFCEResultsForCourse =
   (courseID: string) =>
     (state: RootState): FCE[] | undefined =>
       state.cache.fces[courseID];
-
-export const selectScheduleForCourse =
-  (courseID: string) =>
-    (state: RootState): Schedule[] | undefined =>
-      state.cache.scheduleResults[courseID];
 
 export const cacheSlice = createSlice({
   name: "cache",
@@ -119,23 +111,6 @@ export const cacheSlice = createSlice({
             state.courseResults[result.courseID] = result;
           }
           state.coursesLoading = false;
-        },
-      );
-
-    builder
-      .addCase(fetchCourseInfo.pending, (state) => {
-        state.coursesLoading = true;
-      })
-      .addCase(
-        fetchCourseInfo.fulfilled,
-        (state, action: PayloadAction<Course>) => {
-          state.courseResults[action.payload.courseID] = action.payload;
-          state.coursesLoading = false;
-
-          if (action.payload.schedules) {
-            state.scheduleResults[action.payload.courseID] =
-              action.payload.schedules;
-          }
         },
       );
 

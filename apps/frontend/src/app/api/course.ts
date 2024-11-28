@@ -115,31 +115,31 @@ export const fetchCourseInfosByPage = createAsyncThunk<
   }
 });
 
-type FetchCourseInfoOptions = {
-  courseID: string;
-  schedules: boolean;
+const fetchCourseInfo = async (courseID: string, schedules: boolean): Promise<Course | undefined> => {
+  if (!courseID) return;
+
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/course/${courseID}`;
+  const params = new URLSearchParams({
+    schedules: schedules ? "true" : "false",
+  });
+
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params,
+  });
+
+  return response.data;
 };
 
-export const fetchCourseInfo = createAsyncThunk<
-  Course,
-  FetchCourseInfoOptions,
-  { state: RootState }
->(
-  "fetchCourseInfo",
-  async ({ courseID, schedules }: FetchCourseInfoOptions, thunkAPI) => {
-    if (!courseID) return;
-
-    const state = thunkAPI.getState();
-    if (courseID in state.cache.courseResults && !schedules) return;
-
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/course/${courseID}?`;
-    const params = new URLSearchParams({
-      schedules: schedules ? "true" : "false",
-    });
-
-    return (await fetch(url + params.toString())).json();
-  }
-);
+export const useFetchCourseInfo = (courseID: string, schedules: boolean) => {
+  return useQuery({
+    queryKey: ['courseInfo', courseID, schedules],
+    queryFn: () => fetchCourseInfo(courseID, schedules),
+    staleTime: STALE_TIME,
+  });
+};
 
 type FetchAllCoursesType = { name: string; courseID: string }[];
 
