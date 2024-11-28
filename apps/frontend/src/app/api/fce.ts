@@ -38,7 +38,7 @@ export const fetchFCEInfosByCourse = createAsyncThunk<
   }
 });
 
-export const fetchFCEInfosByInstructor = async (instructor: string, isSignedIn: boolean | undefined, getToken: GetToken): Promise<FCE[]> => {
+const fetchFCEInfosByInstructor = async (instructor: string, isSignedIn: boolean | undefined, getToken: GetToken): Promise<FCE[]> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/fces`;
   const params = new URLSearchParams();
   params.append("instructor", instructor);
