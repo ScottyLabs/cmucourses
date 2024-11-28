@@ -1,6 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Course, Session } from "~/types";
 import { RootState } from "~/store";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { STALE_TIME } from "~/app/constants";
 
 export const fetchCourseInfos = createAsyncThunk<
   Course[],
@@ -140,22 +143,22 @@ export const fetchCourseInfo = createAsyncThunk<
 
 type FetchAllCoursesType = { name: string; courseID: string }[];
 
-export const fetchAllCourses = createAsyncThunk<
-  FetchAllCoursesType,
-  void,
-  { state: RootState }
->("fetchAllCourses", async (_, thunkAPI) => {
+const fetchAllCourses = async (): Promise<FetchAllCoursesType> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/all`;
-  const state = thunkAPI.getState();
 
-  if (state.cache.allCourses.length > 0) return;
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-  return (
-    await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-  ).json();
-});
+  return response.data;
+};
+
+export const useFetchAllCourses = () => {
+  return useQuery({
+    queryKey: ['allCourses'],
+    queryFn: fetchAllCourses,
+    staleTime: STALE_TIME,
+  });
+};

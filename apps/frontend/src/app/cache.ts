@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { Course, FCE, Schedule } from "./types";
 import {
-  fetchAllCourses,
   fetchCourseInfo,
   fetchCourseInfos,
   fetchCourseInfosByPage,
@@ -26,7 +25,6 @@ interface CacheState {
   fcesLoading: boolean;
   coursesLoading: boolean;
   exactResultsCourses: string[];
-  allCourses: { courseID: string; name: string }[];
 }
 
 const initialState: CacheState = {
@@ -40,7 +38,6 @@ const initialState: CacheState = {
   fcesLoading: false,
   coursesLoading: false,
   exactResultsCourses: [],
-  allCourses: [],
 };
 
 export const selectCourseResults =
@@ -167,11 +164,6 @@ export const cacheSlice = createSlice({
           }
         },
       );
-
-    builder.addCase(fetchAllCourses.fulfilled, (state, action) => {
-      if (action.payload) state.allCourses = action.payload;
-    });
-
   },
 });
 
