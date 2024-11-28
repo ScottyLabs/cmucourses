@@ -8,7 +8,7 @@ import {
   fetchCourseInfosByPage,
   FetchCourseInfosByPageResult,
 } from "./api/course";
-import { fetchFCEInfosByCourse, fetchFCEInfosByInstructor } from "./api/fce";
+import { fetchFCEInfosByCourse } from "./api/fce";
 
 /**
  * This cache lasts for the duration of the user session
@@ -24,8 +24,6 @@ interface CacheState {
   scheduleResults: { [courseID: string]: Schedule[] };
   fces: { [courseID: string]: FCE[] };
   fcesLoading: boolean;
-  instructorResults: { [instructor: string]: FCE[] };
-  instructorLoading: boolean;
   coursesLoading: boolean;
   exactResultsCourses: string[];
   allCourses: { courseID: string; name: string }[];
@@ -40,8 +38,6 @@ const initialState: CacheState = {
   scheduleResults: {},
   fces: {},
   fcesLoading: false,
-  instructorResults: {},
-  instructorLoading: false,
   coursesLoading: false,
   exactResultsCourses: [],
   allCourses: [],
@@ -72,11 +68,6 @@ export const selectScheduleForCourse =
   (courseID: string) =>
     (state: RootState): Schedule[] | undefined =>
       state.cache.scheduleResults[courseID];
-
-export const selectFCEResultsForInstructor =
-  (name: string) =>
-    (state: RootState): FCE[] | undefined =>
-      state.cache.instructorResults[name];
 
 export const cacheSlice = createSlice({
   name: "cache",
@@ -181,17 +172,6 @@ export const cacheSlice = createSlice({
       if (action.payload) state.allCourses = action.payload;
     });
 
-    builder
-      .addCase(fetchFCEInfosByInstructor.pending, (state) => {
-        state.instructorLoading = true;
-      })
-      .addCase(fetchFCEInfosByInstructor.fulfilled, (state, action) => {
-        state.instructorLoading = false;
-        if (!action.payload) return;
-        if (!action.payload[0]) return;
-
-        state.instructorResults[action.meta.arg] = action.payload;
-      });
   },
 });
 

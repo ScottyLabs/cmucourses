@@ -8,7 +8,7 @@ export const fetchGenedsBySchool = async (selectedSchool: string, isSignedIn: bo
   const params = new URLSearchParams();
   params.append("school", selectedSchool);
 
-  const token = await getToken()
+  const token = await getToken();
 
   if (isSignedIn && token) {
     const response = await axios.post(url, { token }, {

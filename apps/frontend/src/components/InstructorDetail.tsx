@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "~/app/hooks";
-import { fetchFCEInfosByInstructor } from "~/app/api/fce";
-import { selectFCEResultsForInstructor } from "~/app/cache";
+import React from "react";
+import { useAppSelector } from "~/app/hooks";
+import { useFetchFCEInfosByInstructor } from "~/app/api/fce";
 import Loading from "./Loading";
 import { InstructorFCEDetail } from "./InstructorFCEDetail";
 import { toNameCase } from "~/app/utils";
 import { Card } from "./Card";
 import Link from "next/link";
+import { useAuth } from "@clerk/nextjs";
 
 type Props = {
   name: string;
@@ -14,20 +14,14 @@ type Props = {
 };
 
 const InstructorDetail = ({ name, showLoading }: Props) => {
-  const dispatch = useAppDispatch();
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
-
-  const fces = useAppSelector(selectFCEResultsForInstructor(name));
-
   const aggregationOptions = useAppSelector(
     (state) => state.user.fceAggregation
   );
 
-  useEffect(() => {
-    if (name) void dispatch(fetchFCEInfosByInstructor(name));
-  }, [dispatch, loggedIn, name]);
+  const { isSignedIn, getToken } = useAuth();
+  const { isPending, data: fces } = useFetchFCEInfosByInstructor(name, isSignedIn, getToken);
 
-  if (!fces) {
+  if (isPending || !fces) {
     return (
       <div
         className={
@@ -38,8 +32,6 @@ const InstructorDetail = ({ name, showLoading }: Props) => {
       </div>
     );
   }
-
-  // const coursesTaught = new Set(fces.map(({ courseID }) => courseID));
 
   return (
     <Card>
