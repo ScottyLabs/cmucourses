@@ -10,7 +10,7 @@ import { classNames } from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { SignInButton, useAuth } from "@clerk/nextjs";
 import { userSlice } from "~/app/user";
-import { GENED_SCHOOLS, GENED_SOURCES, STALE_TIME } from "~/app/constants";
+import { GENED_SCHOOLS, GENED_SOURCES } from "~/app/constants";
 import Link from "~/components/Link";
 
 const GenedsViewer = () => {

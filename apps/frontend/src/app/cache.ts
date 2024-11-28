@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { Course, FCE, Schedule } from "./types";
+import { Course, FCE } from "./types";
 import {
   fetchCourseInfos,
   fetchCourseInfosByPage,
