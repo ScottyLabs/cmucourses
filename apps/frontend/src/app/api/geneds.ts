@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Gened } from "~/app/types";
 import { GetToken } from "@clerk/types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { STALE_TIME } from "~/app/constants";
 
 const fetchGenedsBySchool = async (selectedSchool: string, isSignedIn: boolean | undefined, getToken: GetToken): Promise<Gened[]> => {
@@ -33,8 +33,9 @@ const fetchGenedsBySchool = async (selectedSchool: string, isSignedIn: boolean |
 
 export const useFetchGenedsBySchool = (selectedSchool: string, isSignedIn: boolean | undefined, getToken: GetToken) => {
   return useQuery({
-    queryKey: ["geneds", selectedSchool],
+    queryKey: ["geneds", { selectedSchool, isSignedIn }],
     queryFn: () => fetchGenedsBySchool(selectedSchool, isSignedIn, getToken),
     staleTime: STALE_TIME,
+    placeholderData: keepPreviousData,
   });
 };

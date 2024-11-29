@@ -1,7 +1,7 @@
 import axios from "axios";
 import { FCE } from "~/types";
 import { GetToken } from "@clerk/types";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery, keepPreviousData } from "@tanstack/react-query";
 import { STALE_TIME } from "~/app/constants";
 import { create, keyResolver, windowScheduler } from "@yornaath/batshit";
 import { memoize } from "lodash-es";
@@ -41,7 +41,7 @@ export const useFetchFCEInfoByCourse = (courseID: string) => {
   const { isSignedIn, getToken } = useAuth();
 
   return useQuery({
-    queryKey: ['fces', courseID, isSignedIn],
+    queryKey: ['fces', { courseID, isSignedIn }],
     queryFn: () => fetchFCEInfosByCourseBatcher(isSignedIn, getToken).fetch(courseID),
     staleTime: STALE_TIME,
   });
@@ -50,7 +50,7 @@ export const useFetchFCEInfoByCourse = (courseID: string) => {
 export const useFetchFCEInfosByCourse = (courseIDs: string[], isSignedIn: boolean | undefined, getToken: GetToken) => {
   return useQueries({
     queries: courseIDs.map((courseID) => ({
-      queryKey: ['fces', courseID, isSignedIn],
+      queryKey: ['fces', { courseID, isSignedIn }],
       queryFn: () => fetchFCEInfosByCourseBatcher(isSignedIn, getToken).fetch(courseID),
       staleTime: STALE_TIME,
       placeholderData: {courseID, fces: []},
@@ -85,8 +85,9 @@ const fetchFCEInfosByInstructor = async (instructor: string, isSignedIn: boolean
 
 export const useFetchFCEInfosByInstructor = (instructor: string, isSignedIn: boolean | undefined, getToken: GetToken) => {
   return useQuery({
-    queryKey: ['instructorFCEs', instructor, isSignedIn],
+    queryKey: ['instructorFCEs', { instructor, isSignedIn }],
     queryFn: () => fetchFCEInfosByInstructor(instructor, isSignedIn, getToken),
     staleTime: STALE_TIME,
+    placeholderData: keepPreviousData,
   });
 };

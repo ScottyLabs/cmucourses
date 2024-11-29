@@ -19,10 +19,10 @@ export type FetchCourseInfosByPageResult = {
   nextPage: number | null;
 };
 
-const fetchCourseInfosByPage = async (filters: FiltersState, page: number): Promise<FetchCourseInfosByPageResult> => {
+const fetchCourseInfosByPage = async (filters: FiltersState): Promise<FetchCourseInfosByPageResult> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/search?`;
   const params = new URLSearchParams({
-    page: `${page}`,
+    page: `${filters.page}`,
     schedules: "true",
   });
 
@@ -64,11 +64,10 @@ const fetchCourseInfosByPage = async (filters: FiltersState, page: number): Prom
 
 export const useFetchCourseInfosByPage = () => {
   const filters = useAppSelector((state) => state.filters);
-  const page = useAppSelector((state) => state.filters.page);
 
   return useQuery({
-    queryKey: ['courseInfosByPage', filters, page],
-    queryFn: () => fetchCourseInfosByPage(filters, page),
+    queryKey: ['courseInfosByPage', filters],
+    queryFn: () => fetchCourseInfosByPage(filters),
     staleTime: STALE_TIME,
     placeholderData: keepPreviousData,
   });
@@ -96,7 +95,7 @@ const fetchCourseInfosBatcher = create({
 
 export const useFetchCourseInfo = (courseID: string) => {
   return useQuery({
-    queryKey: ['courseInfo', courseID],
+    queryKey: ['courseInfo', { courseID }],
     queryFn: () => fetchCourseInfosBatcher.fetch(courseID),
     staleTime: STALE_TIME,
   });
@@ -105,7 +104,7 @@ export const useFetchCourseInfo = (courseID: string) => {
 export const useFetchCourseInfos = (courseIDs: string[]) => {
   return useQueries({
     queries: courseIDs.map((courseID) => ({
-      queryKey: ['courseInfo', courseID],
+      queryKey: ['courseInfo', { courseID }],
       queryFn: () => fetchCourseInfosBatcher.fetch(courseID),
       staleTime: STALE_TIME,
     })),
