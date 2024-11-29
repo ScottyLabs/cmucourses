@@ -6,7 +6,6 @@ import {
   selectSelectedCoursesInActiveSchedule,
   userSchedulesSlice,
 } from "~/app/userSchedules";
-import { cacheSlice } from "~/app/cache";
 import { FlushedButton } from "./Buttons";
 import { uiSlice } from "~/app/ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
