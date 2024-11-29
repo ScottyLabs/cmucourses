@@ -3,7 +3,7 @@ import { FCE } from "~/app/types";
 import { FCETable } from "./FCETable";
 import { useAppSelector } from "~/app/hooks";
 
-export const FCEDetail = ({ fces }: { fces: FCE[] }) => {
+export const FCEDetail = ({ fces, extraFilters }: { fces: FCE[], extraFilters?: boolean }) => {
   const aggregationOptions = useAppSelector(
     (state) => state.user.fceAggregation
   );
@@ -13,6 +13,7 @@ export const FCEDetail = ({ fces }: { fces: FCE[] }) => {
       fces={fces}
       columnVisibility={{ courseID: false }}
       aggregationOptions={aggregationOptions}
+      extraFilters={extraFilters}
     />
   );
 };

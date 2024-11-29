@@ -144,16 +144,18 @@ export const FCETable = ({
   fces,
   columnVisibility,
   aggregationOptions,
+  extraFilters,
 }: {
   fces: FCE[];
   columnVisibility: Record<string, boolean>;
   aggregationOptions: AggregateFCEsOptions;
+  extraFilters?: boolean;
 }) => {
   let aggregateData: AggregatedFCEs | undefined = undefined;
   let filteredFCEs = fces;
 
   if (fces) {
-    filteredFCEs = filterFCEs(fces, aggregationOptions);
+    filteredFCEs = filterFCEs(fces, aggregationOptions, extraFilters);
     aggregateData = aggregateFCEs(filteredFCEs);
   }
 

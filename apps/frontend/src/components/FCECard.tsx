@@ -7,7 +7,7 @@ export const FCECard = ({ fces }: { fces: FCE[] }) => {
   return (
     <Card>
       <Card.Header>FCE Browser</Card.Header>
-      <FCEDetail fces={fces} />
+      <FCEDetail fces={fces} extraFilters={true} />
     </Card>
   );
 };

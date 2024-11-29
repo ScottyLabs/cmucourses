@@ -59,7 +59,7 @@ export interface AggregateFCEsOptions {
   numSemesters: number;
 }
 
-export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
+export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions, extraFilters: boolean = false) => {
   const sortedFCEs = fces
     .filter((fce) => options.counted[fce.semester])
     .sort(compareSessions);
@@ -73,14 +73,14 @@ export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions) => {
   }
 
   // Filter by courses
-  if (options.filters.type === "courses" && options.filters.courses) {
+  if (options.filters.type === "courses" && options.filters.courses && extraFilters) {
     result = result.filter(({ courseID }) =>
       options.filters.courses.includes(courseID),
     );
   }
 
   // Filter by instructors
-  if (options.filters.type === "instructors" && options.filters.instructors) {
+  if (options.filters.type === "instructors" && options.filters.instructors && extraFilters) {
     result = result.filter(({ instructor }) =>
       options.filters.instructors.includes(instructor),
     );

@@ -61,8 +61,6 @@ const CourseSearchList = () => {
 
   const dispatch = useAppDispatch();
 
-  dispatch(userSlice.actions.resetFilters()); // Not ideal
-
   const handlePageClick = (page: number) => {
     void dispatch(filtersSlice.actions.setPage(page + 1));
   };

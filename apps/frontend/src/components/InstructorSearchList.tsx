@@ -25,7 +25,6 @@ const InstructorSearchList = () => {
     } else {
       const searchResults = fuse.search(search).map(({item}) => item);
       setResults(searchResults);
-      console.log(searchResults)
       dispatch(instructorsSlice.actions.setNumResults(searchResults.length));
     }
   }, [fuse, search]);
@@ -33,8 +32,6 @@ const InstructorSearchList = () => {
   const pages = Math.ceil(results.length / RESULTS_PER_PAGE);
   const curPage = useAppSelector((state) => state.instructors.instructorPage);
   const loading = useAppSelector((state) => state.instructors.instructorsLoading);
-
-  dispatch(userSlice.actions.resetFilters()); // Not ideal
 
   const handlePageClick = (page: number) => {
     dispatch(instructorsSlice.actions.setInstructorPage(page + 1));
