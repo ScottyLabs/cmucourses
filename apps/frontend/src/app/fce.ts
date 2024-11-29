@@ -24,8 +24,8 @@ export const aggregateFCEs = (rawFces: FCE[]) => {
 
   for (const fce of fces) {
     workload += fce.hrsPerWeek;
-    teachingRate += fce.rating[7];
-    courseRate += fce.rating[8];
+    teachingRate += fce.rating[7] || 0;
+    courseRate += fce.rating[8] || 0;
     semesters.add(sessionToShortString(fce));
   }
 
@@ -137,7 +137,7 @@ export const aggregateCourses = (
 
   for (const courseID of coursesWithoutFCEs) {
     const findCourse = courses.filter((course) => course.courseID === courseID);
-    if (findCourse.length > 0) workload += parseUnits(findCourse[0].units);
+    if (findCourse.length > 0) workload += parseUnits(findCourse[0]?.units || "0");
   }
 
   const totalUnits = courses.reduce((acc, curr) => acc + parseUnits(curr.units) + parseUnits(curr.manualUnits || ""), 0);

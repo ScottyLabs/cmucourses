@@ -183,7 +183,7 @@ export function getCourseIDs(search: string): string[] {
   return search.match(courseIdRegex) || [];
 }
 
-export function classNames(...classes) {
+export function classNames(...classes: (string | undefined)[]): string {
   return classes.filter(Boolean).join(" ");
 }
 
