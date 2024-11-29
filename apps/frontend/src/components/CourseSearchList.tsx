@@ -4,7 +4,6 @@ import CourseCard from "./CourseCard";
 import Loading from "./Loading";
 import { useFetchCourseInfos, useFetchCourseInfosByPage } from "~/app/api/course";
 import { Pagination } from "./Pagination";
-import { userSlice } from "~/app/user";
 import { filtersSlice } from "~/app/filters";
 
 const CoursePage = () => {

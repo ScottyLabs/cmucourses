@@ -17,7 +17,7 @@ type Props = {
 };
 
 export const Page = ({ sidebar, content, activePage }: Props) => {
-  const { isSignedIn, userId, sessionId, getToken } = useAuth();
+  const { isSignedIn, userId } = useAuth();
   const modalShown = useAppSelector(
     (state) => state.ui.session.loginModalShown
   );

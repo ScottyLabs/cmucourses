@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import InstructorDetail from "./InstructorDetail";
 import { useFetchAllInstructors } from "~/app/api/instructors";
 import { instructorsSlice } from "~/app/instructors";
-import { userSlice } from "~/app/user";
 
 const RESULTS_PER_PAGE = 10;
 
