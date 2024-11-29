@@ -2,13 +2,15 @@ import React, { useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import CourseCard from "./CourseCard";
 import Loading from "./Loading";
-import { fetchCourseInfosByPage, useFetchCourseInfos } from "~/app/api/course";
+import { useFetchCourseInfos, useFetchCourseInfosByPage } from "~/app/api/course";
 import { Pagination } from "./Pagination";
 import { userSlice } from "~/app/user";
+import { cacheSlice } from "~/app/cache";
 
 const CoursePage = () => {
-  const pageCourses = useAppSelector((state) => state.cache.pageCourses);
   const page = useAppSelector((state) => state.cache.page);
+
+  const { data: { docs } = {} } = useFetchCourseInfosByPage();
 
   const exactResultsCourses = useAppSelector(
     (state) => state.cache.exactResultsCourses
@@ -19,6 +21,8 @@ const CoursePage = () => {
   const showSchedules = useAppSelector((state) => state.user.showSchedules);
 
   const coursesToShow: string[] = useMemo(() => {
+    const pageCourses = docs?.map((doc) => doc.courseID) || [];
+
     if (page === 1 && exactResultsCourses.length > 0) {
       if (pageCourses.includes(exactResultsCourses[0])) {
         const filteredCourses = pageCourses.filter(
@@ -31,7 +35,7 @@ const CoursePage = () => {
     } else {
       return pageCourses;
     }
-  }, [exactResultsCourses, pageCourses, page]);
+  }, [exactResultsCourses, docs, page]);
 
   const results =  useFetchCourseInfos(coursesToShow);
 
@@ -52,21 +56,20 @@ const CoursePage = () => {
 };
 
 const CourseSearchList = () => {
-  const pages = useAppSelector((state) => state.cache.totalPages);
   const curPage = useAppSelector((state) => state.cache.page);
+  const { isPending, data: { totalPages } = {}  } = useFetchCourseInfosByPage();
 
-  const loading = useAppSelector((state) => state.cache.coursesLoading);
   const dispatch = useAppDispatch();
 
   dispatch(userSlice.actions.resetFilters()); // Not ideal
 
   const handlePageClick = (page: number) => {
-    void dispatch(fetchCourseInfosByPage(page + 1));
+    void dispatch(cacheSlice.actions.setPage(page + 1));
   };
 
   return (
     <div className="p-6">
-      {loading ? (
+      {isPending || !totalPages ? (
         <Loading />
       ) : (
         <>
@@ -75,7 +78,7 @@ const CourseSearchList = () => {
             <Pagination
               currentPage={curPage - 1}
               setCurrentPage={handlePageClick}
-              totalPages={pages}
+              totalPages={totalPages}
             />
           </div>
         </>

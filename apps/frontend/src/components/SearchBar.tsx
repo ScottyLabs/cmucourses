@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { throttledFilter } from "~/app/store";
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
@@ -6,11 +6,12 @@ import { userSlice } from "~/app/user";
 import {
   getCourseIDs,
   sessionToShortString,
-  sessionToString,
+  sessionToString, standardizeIdsInString,
 } from "~/app/utils";
 import { cacheSlice } from "~/app/cache";
 import { filtersSlice } from "~/app/filters";
 import { getPillboxes } from "./filters/LevelFilter";
+import { useFetchCourseInfosByPage } from "~/app/api/course";
 
 const AppliedFiltersPill = ({
   className,
@@ -32,7 +33,6 @@ const AppliedFiltersPill = ({
           className="ml-2 h-3 w-3 cursor-pointer"
           onClick={() => {
             onDelete();
-            throttledFilter();
           }}
         />
       )}
@@ -128,7 +128,7 @@ const AppliedFilters = () => {
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
-  const search = useAppSelector((state) => state.filters.search);
+  const [search, setSearch] = useState("");
 
   const dispatchSearch = useCallback(
     (search: string) => {
@@ -136,13 +136,13 @@ const SearchBar = () => {
       if (exactCourses)
         dispatch(cacheSlice.actions.setExactResultsCourses(exactCourses));
       else dispatch(cacheSlice.actions.setExactResultsCourses([]));
-      throttledFilter();
     },
     [dispatch]
   );
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(filtersSlice.actions.updateSearch(e.target.value));
+    setSearch(standardizeIdsInString(e.target.value));
+    throttledFilter(e.target.value);
   };
 
   useEffect(() => {
@@ -200,7 +200,7 @@ const SearchBar = () => {
     dispatch(userSlice.actions.showSchedules(e.target.checked));
   };
 
-  const numResults = useAppSelector((state) => state.cache.totalDocs);
+  const { data: { totalDocs: numResults } = {} } = useFetchCourseInfosByPage();
 
   return (
     <>
@@ -218,7 +218,7 @@ const SearchBar = () => {
         />
       </div>
       <div className="flex justify-between">
-        <div className="mt-3 text-sm text-gray-400">{numResults} results</div>
+        <div className="mt-3 text-sm text-gray-400">{numResults || 0} results</div>
         <div className="mt-3 flex justify-end text-gray-500">
           <div className="mr-6 hidden md:block">Show</div>
           <div className="mr-6">

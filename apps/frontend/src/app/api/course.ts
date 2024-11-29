@@ -1,10 +1,10 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Course, Session } from "~/types";
-import { RootState } from "~/store";
 import axios from "axios";
-import { useQuery, useQueries } from "@tanstack/react-query";
-import { STALE_TIME } from "~/app/constants";
+import { useQuery, useQueries, keepPreviousData } from "@tanstack/react-query";
 import { create, windowScheduler, keyResolver } from "@yornaath/batshit"
+import { Course, Session } from "~/types";
+import { STALE_TIME } from "~/app/constants";
+import { FiltersState } from "~/app/filters";
+import { useAppSelector } from "~/app/hooks";
 
 export type FetchCourseInfosByPageResult = {
   docs: Course[];
@@ -19,68 +19,60 @@ export type FetchCourseInfosByPageResult = {
   nextPage: number | null;
 };
 
-export const fetchCourseInfosByPage = createAsyncThunk<
-  FetchCourseInfosByPageResult,
-  number,
-  { state: RootState }
->("fetchCourseInfosByPage", async (page: number, thunkAPI) => {
-  const state = thunkAPI.getState();
-
+const fetchCourseInfosByPage = async (filters: FiltersState, page: number): Promise<FetchCourseInfosByPageResult> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/search?`;
   const params = new URLSearchParams({
     page: `${page}`,
     schedules: "true",
   });
 
-  if (state.filters.search !== "") {
-    params.set("keywords", state.filters.search);
+  if (filters.search !== "") {
+    params.set("keywords", filters.search);
   }
 
-  if (
-    state.filters.departments.active &&
-    state.filters.departments.names.length > 0
-  ) {
-    state.filters.departments.names.forEach((d) =>
-      params.append("department", d)
-    );
+  if (filters.departments.active && filters.departments.names.length > 0) {
+    filters.departments.names.forEach((d) => params.append("department", d));
   }
 
-  if (state.filters.units.active) {
-    params.append("unitsMin", state.filters.units.min.toString());
-    params.append("unitsMax", state.filters.units.max.toString());
+  if (filters.units.active) {
+    params.append("unitsMin", filters.units.min.toString());
+    params.append("unitsMax", filters.units.max.toString());
   }
 
-  if (state.filters.semesters.active) {
-    state.filters.semesters.sessions.forEach((s: Session) =>
-      params.append("session", JSON.stringify(s))
-    );
+  if (filters.semesters.active) {
+    filters.semesters.sessions.forEach((s: Session) => params.append("session", JSON.stringify(s)));
   }
 
-  if (state.filters.levels.active) {
+  if (filters.levels.active) {
     let value = "";
-    state.filters.levels.selected.forEach((elem, index) => {
+    filters.levels.selected.forEach((elem, index) => {
       if (elem) value += index.toString();
     });
 
     if (value) params.append("levels", value);
   }
 
-  if (state.user.loggedIn) {
-    return (
-      await fetch(url + params.toString(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: state.user.token,
-        }),
-      })
-    ).json();
-  } else {
-    return (await fetch(url + params.toString())).json();
-  }
-});
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params,
+  });
+
+  return response.data;
+};
+
+export const useFetchCourseInfosByPage = () => {
+  const filters = useAppSelector((state) => state.filters);
+  const page = useAppSelector((state) => state.cache.page);
+
+  return useQuery({
+    queryKey: ['courseInfosByPage', filters, page],
+    queryFn: () => fetchCourseInfosByPage(filters, page),
+    staleTime: STALE_TIME,
+    placeholderData: keepPreviousData,
+  });
+};
 
 const fetchCourseInfosBatcher = create({
   fetcher: async (courseIDs: string[]): Promise<Course[]> => {

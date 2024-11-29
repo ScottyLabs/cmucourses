@@ -3,7 +3,7 @@ import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
 import { cacheSlice, reducer as cacheReducer } from "./cache";
 import { reducer as userReducer, UserState } from "./user";
-import { FiltersState, reducer as filtersReducer } from "./filters";
+import { filtersSlice, FiltersState, reducer as filtersReducer } from "./filters";
 import {
   reducer as userSchedulesReducer,
   UserSchedulesState,
@@ -22,7 +22,6 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
-import { fetchCourseInfosByPage } from "./api/course";
 
 const reducers = combineReducers({
   cache: cacheReducer,
@@ -88,17 +87,15 @@ export type RootState = ReturnType<typeof store.getState>;
 
 export const persistor = persistStore(store);
 
-const updateFilter = () => {
+const debouncedFilter = debounce((search: string) => {
   setTimeout(() => {
-    void store.dispatch(fetchCourseInfosByPage(1));
+    void store.dispatch(filtersSlice.actions.updateSearch(search));
+    void store.dispatch(cacheSlice.actions.setPage(1));
   }, 0);
-};
+}, 1000);
 
-const debouncedFilter = debounce(updateFilter, 1000);
-
-export const throttledFilter = () => {
-  void store.dispatch(cacheSlice.actions.setCoursesLoading(true));
-  debouncedFilter();
+export const throttledFilter = (search: string) => {
+  debouncedFilter(search);
 };
 
 const debouncedInstructorFilter = debounce((search: string) => {
