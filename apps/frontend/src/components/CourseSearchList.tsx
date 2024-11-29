@@ -5,15 +5,15 @@ import Loading from "./Loading";
 import { useFetchCourseInfos, useFetchCourseInfosByPage } from "~/app/api/course";
 import { Pagination } from "./Pagination";
 import { userSlice } from "~/app/user";
-import { cacheSlice } from "~/app/cache";
+import { filtersSlice } from "~/app/filters";
 
 const CoursePage = () => {
-  const page = useAppSelector((state) => state.cache.page);
+  const page = useAppSelector((state) => state.filters.page);
 
   const { data: { docs } = {} } = useFetchCourseInfosByPage();
 
   const exactResultsCourses = useAppSelector(
-    (state) => state.cache.exactResultsCourses
+    (state) => state.filters.exactResultsCourses
   );
 
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
@@ -56,7 +56,7 @@ const CoursePage = () => {
 };
 
 const CourseSearchList = () => {
-  const curPage = useAppSelector((state) => state.cache.page);
+  const curPage = useAppSelector((state) => state.filters.page);
   const { isPending, data: { totalPages } = {}  } = useFetchCourseInfosByPage();
 
   const dispatch = useAppDispatch();
@@ -64,7 +64,7 @@ const CourseSearchList = () => {
   dispatch(userSlice.actions.resetFilters()); // Not ideal
 
   const handlePageClick = (page: number) => {
-    void dispatch(cacheSlice.actions.setPage(page + 1));
+    void dispatch(filtersSlice.actions.setPage(page + 1));
   };
 
   return (

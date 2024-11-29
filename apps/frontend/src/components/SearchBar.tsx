@@ -8,7 +8,6 @@ import {
   sessionToShortString,
   sessionToString, standardizeIdsInString,
 } from "~/app/utils";
-import { cacheSlice } from "~/app/cache";
 import { filtersSlice } from "~/app/filters";
 import { getPillboxes } from "./filters/LevelFilter";
 import { useFetchCourseInfosByPage } from "~/app/api/course";
@@ -134,8 +133,8 @@ const SearchBar = () => {
     (search: string) => {
       const exactCourses = getCourseIDs(search);
       if (exactCourses)
-        dispatch(cacheSlice.actions.setExactResultsCourses(exactCourses));
-      else dispatch(cacheSlice.actions.setExactResultsCourses([]));
+        dispatch(filtersSlice.actions.setExactResultsCourses(exactCourses));
+      else dispatch(filtersSlice.actions.setExactResultsCourses([]));
     },
     [dispatch]
   );

@@ -64,7 +64,7 @@ const fetchCourseInfosByPage = async (filters: FiltersState, page: number): Prom
 
 export const useFetchCourseInfosByPage = () => {
   const filters = useAppSelector((state) => state.filters);
-  const page = useAppSelector((state) => state.cache.page);
+  const page = useAppSelector((state) => state.filters.page);
 
   return useQuery({
     queryKey: ['courseInfosByPage', filters, page],

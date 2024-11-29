@@ -1,7 +1,6 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-import { cacheSlice, reducer as cacheReducer } from "./cache";
 import { reducer as userReducer, UserState } from "./user";
 import { filtersSlice, FiltersState, reducer as filtersReducer } from "./filters";
 import {
@@ -24,7 +23,6 @@ import {
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
 const reducers = combineReducers({
-  cache: cacheReducer,
   user: persistReducer<UserState>(
     {
       key: "root",
@@ -90,7 +88,7 @@ export const persistor = persistStore(store);
 const debouncedFilter = debounce((search: string) => {
   setTimeout(() => {
     void store.dispatch(filtersSlice.actions.updateSearch(search));
-    void store.dispatch(cacheSlice.actions.setPage(1));
+    void store.dispatch(filtersSlice.actions.setPage(1));
   }, 0);
 }, 1000);
 
