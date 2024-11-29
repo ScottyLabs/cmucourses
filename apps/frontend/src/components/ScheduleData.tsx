@@ -179,7 +179,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                       </td>
                       <td>
                         {result.courseID in aggregatedDataByCourseID
-                          ? aggregatedDataByCourseID[result.courseID].workload
+                          ? aggregatedDataByCourseID[result.courseID]?.workload
                           : "NA"}
                       </td>
                     </tr>
