@@ -5,13 +5,11 @@ import CourseDetail from "~/components/CourseDetail";
 import Aggregate from "~/components/Aggregate";
 import Loading from "~/components/Loading";
 import { Page } from "~/components/Page";
-import { useFetchCourseInfo } from "~/app/api/course";
 import InstructorFilter from "~/components/filters/InstructorFilter";
 
 const CourseDetailPage: NextPage = () => {
   const router = useRouter();
   const courseID = router.query.courseID as string;
-  const { data: courseInfo } = useFetchCourseInfo(courseID);
 
   let content = (
     <div className="p-6">
@@ -20,7 +18,7 @@ const CourseDetailPage: NextPage = () => {
   );
 
   if (courseID) {
-    content = <CourseDetail info={courseInfo} schedules={courseInfo?.schedules || []} />;
+    content = <CourseDetail courseID={courseID} />;
   }
 
   return (
