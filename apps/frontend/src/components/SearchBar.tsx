@@ -127,7 +127,8 @@ const AppliedFilters = () => {
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
-  const [search, setSearch] = useState("");
+  const initialSearch = useAppSelector((state) => state.filters.search);
+  const [search, setSearch] = useState(initialSearch);
 
   const dispatchSearch = useCallback(
     (search: string) => {
