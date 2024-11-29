@@ -22,7 +22,7 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
-import { fetchCourseInfos, fetchCourseInfosByPage } from "./api/course";
+import { fetchCourseInfosByPage } from "./api/course";
 
 const reducers = combineReducers({
   cache: cacheReducer,
@@ -90,12 +90,7 @@ export const persistor = persistStore(store);
 
 const updateFilter = () => {
   setTimeout(() => {
-    const state = store.getState();
     void store.dispatch(fetchCourseInfosByPage(1));
-
-    if (state.cache.exactResultsCourses) {
-      void store.dispatch(fetchCourseInfos(state.cache.exactResultsCourses));
-    }
   }, 0);
 };
 

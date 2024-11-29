@@ -6,40 +6,6 @@ import { useQuery, useQueries } from "@tanstack/react-query";
 import { STALE_TIME } from "~/app/constants";
 import { create, windowScheduler, keyResolver } from "@yornaath/batshit"
 
-export const fetchCourseInfos = createAsyncThunk<
-  Course[],
-  string[],
-  { state: RootState }
->("fetchCourseInfos", async (ids: string[], thunkAPI) => {
-  const state = thunkAPI.getState();
-
-  const newIds = ids.filter((id) => !(id in state.cache.courseResults));
-  if (newIds.length === 0) return [];
-
-  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses?`;
-  const params = new URLSearchParams(ids.map((id) => ["courseID", id]));
-
-  params.set("schedules", "true");
-
-  if (state.user.loggedIn) {
-    params.set("fces", "true");
-
-    return (
-      await fetch(url + params.toString(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: state.user.token,
-        }),
-      })
-    ).json();
-  } else {
-    return (await fetch(url + params.toString())).json();
-  }
-});
-
 export type FetchCourseInfosByPageResult = {
   docs: Course[];
   totalDocs: number;

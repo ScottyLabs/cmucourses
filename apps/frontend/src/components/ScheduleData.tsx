@@ -163,14 +163,15 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                                 ? displayUnits(result.manualUnits)
                                 : displayUnits(result.units)
                             }
-                            onChange={(e) =>
-                              dispatch(
-                                cacheSlice.actions.updateUnits({
-                                  courseID: result.courseID,
-                                  units: e.target.value,
-                                })
-                              )
-                            }
+                            // TODO: Fix updateUnits
+                            // onChange={(e) =>
+                            //   dispatch(
+                            //     cacheSlice.actions.updateUnits({
+                            //       courseID: result.courseID,
+                            //       units: e.target.value,
+                            //     })
+                            //   )
+                            // }
                             placeholder="Units"
                           />
                         ) : (
