@@ -134,3 +134,5 @@ export const GENED_SOURCES = {
   MCS: "http://coursecatalog.web.cmu.edu/schools-colleges/melloncollegeofscience/#generaleducationrequirementstextcontainer",
   Dietrich: "https://www.cmu.edu/dietrich/gened/fall-2021-and-beyond/course-options/index.html",
 };
+
+export const STALE_TIME = 1000 * 60 * 60 * 24; // 1 day

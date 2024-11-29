@@ -22,6 +22,8 @@ export interface FiltersState {
     active: boolean;
     selected: boolean[]; // selected[i] <=> show i00 level
   };
+  page: number,
+  exactResultsCourses: string[];
 }
 
 const initialState: FiltersState = {
@@ -55,6 +57,8 @@ const initialState: FiltersState = {
       false, // 900
     ],
   },
+  page: 1,
+  exactResultsCourses: [],
 };
 
 export const filtersSlice = createSlice({
@@ -116,6 +120,12 @@ export const filtersSlice = createSlice({
       state.levels = initialState.levels;
       state.units = initialState.units;
       state.semesters = initialState.semesters;
+    },
+    setPage: (state, action: PayloadAction<number>) => {
+      state.page = action.payload;
+    },
+    setExactResultsCourses: (state, action: PayloadAction<string[]>) => {
+      state.exactResultsCourses = action.payload;
     },
   },
 });

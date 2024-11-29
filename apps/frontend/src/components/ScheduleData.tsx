@@ -2,15 +2,16 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { aggregateCourses, AggregatedFCEs } from "~/app/fce";
 import { displayUnits, isValidUnits, roundTo } from "~/app/utils";
-import { selectCourseResults, selectFCEResultsForCourses } from "~/app/cache";
 import {
   selectSelectedCoursesInActiveSchedule,
   userSchedulesSlice,
 } from "~/app/userSchedules";
-import { cacheSlice } from "~/app/cache";
 import { FlushedButton } from "./Buttons";
 import { uiSlice } from "~/app/ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
+import { useFetchCourseInfos } from "~/app/api/course";
+import { useFetchFCEInfosByCourse } from "~/app/api/fce";
+import { useAuth } from "@clerk/nextjs";
 
 type ScheduleDataProps = {
   scheduled: string[];
@@ -19,19 +20,17 @@ type ScheduleDataProps = {
 const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
   const dispatch = useAppDispatch();
 
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const active = useAppSelector((state) => state.schedules.active);
   const selected = useAppSelector(selectSelectedCoursesInActiveSchedule);
-  const scheduledResults = useAppSelector(selectCourseResults(scheduled));
-
   const options = useAppSelector((state) => state.user.fceAggregation);
-  const scheduledFCEs = useAppSelector(
-    selectFCEResultsForCourses(scheduled || [])
-  );
+
+  const { isSignedIn, getToken } = useAuth()
+  const scheduledResults =  useFetchCourseInfos(scheduled);
+  const scheduledFCEs = useFetchFCEInfosByCourse(scheduled, isSignedIn, getToken);
 
   const open = useAppSelector((state) => state.ui.schedulesTopbarOpen);
 
-  if (!loggedIn) {
+  if (!isSignedIn) {
     return (
       <div className="z-10 bg-white text-gray-700">
         <p>Log in to view FCE results.</p>
@@ -163,14 +162,15 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                                 ? displayUnits(result.manualUnits)
                                 : displayUnits(result.units)
                             }
-                            onChange={(e) =>
-                              dispatch(
-                                cacheSlice.actions.updateUnits({
-                                  courseID: result.courseID,
-                                  units: e.target.value,
-                                })
-                              )
-                            }
+                            // TODO: Fix updateUnits
+                            // onChange={(e) =>
+                            //   dispatch(
+                            //     cacheSlice.actions.updateUnits({
+                            //       courseID: result.courseID,
+                            //       units: e.target.value,
+                            //     })
+                            //   )
+                            // }
                             placeholder="Units"
                           />
                         ) : (

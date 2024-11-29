@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
   useCombobox,
@@ -15,8 +15,7 @@ import {
   selectCoursesInActiveSchedule,
   userSchedulesSlice,
 } from "~/app/userSchedules";
-import { fetchAllCourses, fetchCourseInfos } from "~/app/api/course";
-import { fetchFCEInfosByCourse } from "~/app/api/fce";
+import { useFetchAllCourses } from "~/app/api/course";
 
 type selectedItem = {
   courseID: string;
@@ -34,12 +33,8 @@ const CourseCombobox = ({
   const listRef = useRef(null);
   const dispatch = useAppDispatch();
 
-  const allCourses = useAppSelector((state) => state.cache.allCourses);
+  const { data: allCourses } = useFetchAllCourses();
   const activeSchedule = useAppSelector(selectCoursesInActiveSchedule);
-
-  useEffect(() => {
-    void dispatch(fetchAllCourses());
-  }, [dispatch]);
 
   useDeepCompareEffect(() => {
     setSelectedItems(
@@ -51,6 +46,7 @@ const CourseCombobox = ({
     // hyphenates 3 to 5 digit numbers, e.g. 152 -> 15-2, 1521 -> 15-21, 15213 -> 15-213
     // otherwise, input value remains the same
     const hyphenated = inputValue.replace(unhyphenatedCourseCodeRegex, "$1-$2");
+    if (!allCourses) return [];
     return allCourses.filter(
       (course) =>
         (course.courseID.includes(hyphenated) ||
@@ -275,8 +271,6 @@ const ScheduleSearch = () => {
 
         <CourseCombobox
           onSelectedItemsChange={(courseIDs) => {
-            void dispatch(fetchFCEInfosByCourse({ courseIDs }));
-            void dispatch(fetchCourseInfos(courseIDs));
             dispatch(
               userSchedulesSlice.actions.setActiveScheduleCourses(courseIDs)
             );

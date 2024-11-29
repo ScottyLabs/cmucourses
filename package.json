@@ -23,6 +23,9 @@
   ],
   "dependencies": {
     "@tanstack/react-query": "^5.61.3",
-    "@tanstack/react-query-devtools": "^5.61.3"
+    "@tanstack/react-query-devtools": "^5.61.3",
+    "@types/lodash-es": "^4.17.12",
+    "@yornaath/batshit": "^0.10.1",
+    "lodash-es": "^4.17.21"
   }
 }

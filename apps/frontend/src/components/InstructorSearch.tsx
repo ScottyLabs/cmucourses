@@ -1,23 +1,21 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
-import React from "react";
+import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { instructorsSlice } from "~/app/instructors";
-import { cacheSlice } from "~/app/cache";
 import { throttledInstructorFilter } from "~/app/store";
 
 const InstructorSearch = () => {
   const dispatch = useAppDispatch();
-  const page = useAppSelector((state) => state.cache.instructorPage);
-  const search = useAppSelector((state) => state.instructors.search);
+  const page = useAppSelector((state) => state.instructors.instructorPage);
+  const numResults = useAppSelector((state) => state.instructors.numResults);
+  const initialSearch = useAppSelector((state) => state.instructors.search);
+  const [search, setSearch] = useState(initialSearch);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(instructorsSlice.actions.updateSearch(e.target.value));
-    if (page !== 1) dispatch(cacheSlice.actions.setInstructorPage(1));
-    throttledInstructorFilter();
+    setSearch(e.target.value);
+    if (page !== 1) dispatch(instructorsSlice.actions.setInstructorPage(1));
+    throttledInstructorFilter(e.target.value);
   };
-
-  const results = useAppSelector((state) => state.cache.selectedInstructors);
-  const numResults = results.length;
 
   return (
     <>

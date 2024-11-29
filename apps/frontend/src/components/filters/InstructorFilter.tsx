@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { Combobox } from "@headlessui/react";
 import { classNames, getUnique } from "~/app/utils";
 import { userSlice } from "~/app/user";
+import { useFetchFCEInfoByCourse } from "~/app/api/fce";
 
 type Props = {
   courseID: string;
@@ -18,7 +19,7 @@ const InstructorFilter = ({ courseID }: Props) => {
   const filteredInstructors = useAppSelector(
     (state) => state.user.fceAggregation.filters.instructors
   );
-  const fces = useAppSelector((state) => state.cache.fces[courseID]);
+  const { data: { fces } = {} } = useFetchFCEInfoByCourse(courseID);
   const instructors = getUnique(fces?.map((fce) => fce.instructor).sort());
 
   useEffect(() => {

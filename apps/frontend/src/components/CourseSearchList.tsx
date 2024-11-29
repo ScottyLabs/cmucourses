@@ -1,29 +1,28 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import CourseCard from "./CourseCard";
-import { selectCourseResults } from "~/app/cache";
 import Loading from "./Loading";
-import { fetchCourseInfosByPage } from "~/app/api/course";
-import { fetchFCEInfosByCourse } from "~/app/api/fce";
+import { useFetchCourseInfos, useFetchCourseInfosByPage } from "~/app/api/course";
 import { Pagination } from "./Pagination";
 import { userSlice } from "~/app/user";
+import { filtersSlice } from "~/app/filters";
 
 const CoursePage = () => {
-  const dispatch = useAppDispatch();
+  const page = useAppSelector((state) => state.filters.page);
 
-  const pageCourses = useAppSelector((state) => state.cache.pageCourses);
-  const page = useAppSelector((state) => state.cache.page);
+  const { data: { docs } = {} } = useFetchCourseInfosByPage();
 
   const exactResultsCourses = useAppSelector(
-    (state) => state.cache.exactResultsCourses
+    (state) => state.filters.exactResultsCourses
   );
 
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const showSchedules = useAppSelector((state) => state.user.showSchedules);
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   const coursesToShow: string[] = useMemo(() => {
+    const pageCourses = docs?.map((doc) => doc.courseID) || [];
+
     if (page === 1 && exactResultsCourses.length > 0) {
       if (pageCourses.includes(exactResultsCourses[0])) {
         const filteredCourses = pageCourses.filter(
@@ -36,23 +35,17 @@ const CoursePage = () => {
     } else {
       return pageCourses;
     }
-  }, [exactResultsCourses, pageCourses, page]);
+  }, [exactResultsCourses, docs, page]);
 
-  const results = useAppSelector(selectCourseResults(coursesToShow));
-
-  useEffect(() => {
-    if (loggedIn && coursesToShow) {
-      void dispatch(fetchFCEInfosByCourse({ courseIDs: coursesToShow }));
-    }
-  }, [dispatch, coursesToShow, loggedIn]);
+  const results =  useFetchCourseInfos(coursesToShow);
 
   return (
     <div className="space-y-4">
       {results &&
-        results.map((course) => (
+        coursesToShow.map((courseID) => (
           <CourseCard
-            info={course}
-            key={course.courseID}
+            courseID={courseID}
+            key={courseID}
             showFCEs={showFCEs}
             showCourseInfo={showCourseInfos}
             showSchedules={showSchedules}
@@ -63,21 +56,20 @@ const CoursePage = () => {
 };
 
 const CourseSearchList = () => {
-  const pages = useAppSelector((state) => state.cache.totalPages);
-  const curPage = useAppSelector((state) => state.cache.page);
+  const curPage = useAppSelector((state) => state.filters.page);
+  const { isPending, data: { totalPages } = {}  } = useFetchCourseInfosByPage();
 
-  const loading = useAppSelector((state) => state.cache.coursesLoading);
   const dispatch = useAppDispatch();
 
   dispatch(userSlice.actions.resetFilters()); // Not ideal
 
   const handlePageClick = (page: number) => {
-    void dispatch(fetchCourseInfosByPage(page + 1));
+    void dispatch(filtersSlice.actions.setPage(page + 1));
   };
 
   return (
     <div className="p-6">
-      {loading ? (
+      {isPending || !totalPages ? (
         <Loading />
       ) : (
         <>
@@ -86,7 +78,7 @@ const CourseSearchList = () => {
             <Pagination
               currentPage={curPage - 1}
               setCurrentPage={handlePageClick}
-              totalPages={pages}
+              totalPages={totalPages}
             />
           </div>
         </>

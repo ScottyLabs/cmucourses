@@ -4,7 +4,6 @@ import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { filtersSlice } from "~/app/filters";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
-import { throttledFilter } from "~/app/store";
 import { Session } from "~/app/types";
 import { classNames, sessionToShortString, sessionToString } from "~/app/utils";
 
@@ -35,12 +34,10 @@ const SemestersOfferedFilter = () => {
   const setSessions = (semesters: Session[]) => {
     dispatch(filtersSlice.actions.updateSemesters(semesters));
     dispatch(filtersSlice.actions.updateSemestersActive(true));
-    throttledFilter();
   };
 
   const deleteSession = (session: Session) => {
     dispatch(filtersSlice.actions.deleteSemester(session));
-    throttledFilter();
   };
 
   return (
@@ -56,7 +53,6 @@ const SemestersOfferedFilter = () => {
                 dispatch(
                   filtersSlice.actions.updateSemestersActive(e.target.checked)
                 );
-                throttledFilter();
               }}
             />
           </div>
