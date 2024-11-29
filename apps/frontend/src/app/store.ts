@@ -90,7 +90,7 @@ const debouncedFilter = debounce((search: string) => {
     void store.dispatch(filtersSlice.actions.updateSearch(search));
     void store.dispatch(filtersSlice.actions.setPage(1));
   }, 0);
-}, 1000);
+}, 300);
 
 export const throttledFilter = (search: string) => {
   debouncedFilter(search);
