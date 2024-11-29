@@ -115,13 +115,12 @@ export const fetchCourseInfosByPage = createAsyncThunk<
   }
 });
 
-const fetchCourseInfo = async (courseID: string, schedules: boolean): Promise<Course | undefined> => {
+const fetchCourseInfo = async (courseID: string): Promise<Course | undefined> => {
   if (!courseID) return;
 
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/course/${courseID}`;
-  const params = new URLSearchParams({
-    schedules: schedules ? "true" : "false",
-  });
+  const params = new URLSearchParams();
+  params.set("schedules", "true");
 
   const response = await axios.get(url, {
     headers: {
@@ -133,10 +132,10 @@ const fetchCourseInfo = async (courseID: string, schedules: boolean): Promise<Co
   return response.data;
 };
 
-export const useFetchCourseInfo = (courseID: string, schedules: boolean) => {
+export const useFetchCourseInfo = (courseID: string) => {
   return useQuery({
-    queryKey: ['courseInfo', courseID, schedules],
-    queryFn: () => fetchCourseInfo(courseID, schedules),
+    queryKey: ['courseInfo', courseID],
+    queryFn: () => fetchCourseInfo(courseID),
     staleTime: STALE_TIME,
   });
 };

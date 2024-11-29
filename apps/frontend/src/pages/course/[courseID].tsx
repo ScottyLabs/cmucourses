@@ -11,7 +11,7 @@ import InstructorFilter from "~/components/filters/InstructorFilter";
 const CourseDetailPage: NextPage = () => {
   const router = useRouter();
   const courseID = router.query.courseID as string;
-  const { data: courseInfo } = useFetchCourseInfo(courseID, true);
+  const { data: courseInfo } = useFetchCourseInfo(courseID);
 
   let content = (
     <div className="p-6">

@@ -43,9 +43,6 @@ export const selectCourseResults =
       .filter((courseID) => courseID in state.cache.courseResults)
       .map((courseID) => state.cache.courseResults[courseID]);
 
-export const selectCourseResult = (courseID: string) => (state: RootState) =>
-  state.cache.courseResults[courseID];
-
 export const selectFCEResultsForCourses =
   (courseIDs: string[]) => (state: RootState) =>
     courseIDs.map((courseID) => {
