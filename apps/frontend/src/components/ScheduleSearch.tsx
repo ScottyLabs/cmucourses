@@ -15,8 +15,7 @@ import {
   selectCoursesInActiveSchedule,
   userSchedulesSlice,
 } from "~/app/userSchedules";
-import { fetchCourseInfos, useFetchAllCourses } from "~/app/api/course";
-import { fetchFCEInfosByCourse } from "~/app/api/fce";
+import { useFetchAllCourses } from "~/app/api/course";
 
 type selectedItem = {
   courseID: string;
@@ -272,8 +271,6 @@ const ScheduleSearch = () => {
 
         <CourseCombobox
           onSelectedItemsChange={(courseIDs) => {
-            void dispatch(fetchFCEInfosByCourse({ courseIDs }));
-            void dispatch(fetchCourseInfos(courseIDs));
             dispatch(
               userSchedulesSlice.actions.setActiveScheduleCourses(courseIDs)
             );

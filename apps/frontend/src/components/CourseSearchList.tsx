@@ -1,16 +1,12 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import CourseCard from "./CourseCard";
-import { selectCourseResults } from "~/app/cache";
 import Loading from "./Loading";
-import { fetchCourseInfosByPage } from "~/app/api/course";
-import { fetchFCEInfosByCourse } from "~/app/api/fce";
+import { fetchCourseInfosByPage, useFetchCourseInfos } from "~/app/api/course";
 import { Pagination } from "./Pagination";
 import { userSlice } from "~/app/user";
 
 const CoursePage = () => {
-  const dispatch = useAppDispatch();
-
   const pageCourses = useAppSelector((state) => state.cache.pageCourses);
   const page = useAppSelector((state) => state.cache.page);
 
@@ -21,7 +17,6 @@ const CoursePage = () => {
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const showSchedules = useAppSelector((state) => state.user.showSchedules);
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
 
   const coursesToShow: string[] = useMemo(() => {
     if (page === 1 && exactResultsCourses.length > 0) {
@@ -38,21 +33,15 @@ const CoursePage = () => {
     }
   }, [exactResultsCourses, pageCourses, page]);
 
-  const results = useAppSelector(selectCourseResults(coursesToShow));
-
-  useEffect(() => {
-    if (loggedIn && coursesToShow) {
-      void dispatch(fetchFCEInfosByCourse({ courseIDs: coursesToShow }));
-    }
-  }, [dispatch, coursesToShow, loggedIn]);
+  const results =  useFetchCourseInfos(coursesToShow);
 
   return (
     <div className="space-y-4">
       {results &&
-        results.map((course) => (
+        coursesToShow.map((courseID) => (
           <CourseCard
-            info={course}
-            key={course.courseID}
+            courseID={courseID}
+            key={courseID}
             showFCEs={showFCEs}
             showCourseInfo={showCourseInfos}
             showSchedules={showSchedules}

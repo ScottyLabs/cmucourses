@@ -2,8 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { Course, Session } from "~/types";
 import { RootState } from "~/store";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueries } from "@tanstack/react-query";
 import { STALE_TIME } from "~/app/constants";
+import { create, windowScheduler, keyResolver } from "@yornaath/batshit"
 
 export const fetchCourseInfos = createAsyncThunk<
   Course[],
@@ -115,28 +116,47 @@ export const fetchCourseInfosByPage = createAsyncThunk<
   }
 });
 
-const fetchCourseInfo = async (courseID: string): Promise<Course | undefined> => {
-  if (!courseID) return;
+const fetchCourseInfosBatcher = create({
+  fetcher: async (courseIDs: string[]): Promise<Course[]> => {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses?`;
+    const params = new URLSearchParams(courseIDs.map((id) => ["courseID", id]));
 
-  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/course/${courseID}`;
-  const params = new URLSearchParams();
-  params.set("schedules", "true");
+    params.set("schedules", "true");
 
-  const response = await axios.get(url, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    params,
-  });
+    const response = await axios.get(url, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      params,
+    });
 
-  return response.data;
-};
+    return response.data;
+  },
+  resolver: keyResolver("courseID"),
+  scheduler: windowScheduler(10),
+});
 
 export const useFetchCourseInfo = (courseID: string) => {
   return useQuery({
     queryKey: ['courseInfo', courseID],
-    queryFn: () => fetchCourseInfo(courseID),
+    queryFn: () => fetchCourseInfosBatcher.fetch(courseID),
     staleTime: STALE_TIME,
+  });
+};
+
+export const useFetchCourseInfos = (courseIDs: string[]) => {
+  return useQueries({
+    queries: courseIDs.map((courseID) => ({
+      queryKey: ['courseInfo', courseID],
+      queryFn: () => fetchCourseInfosBatcher.fetch(courseID),
+      staleTime: STALE_TIME,
+    })),
+    combine: result => {
+      return result.reduce((acc, { data }) => {
+        if (data) acc.push(data);
+        return acc;
+      }, [] as Course[]);
+    },
   });
 };
 

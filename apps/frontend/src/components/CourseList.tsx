@@ -1,10 +1,6 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import CourseCard from "./CourseCard";
-import { selectCourseResults } from "~/app/cache";
-import useDeepCompareEffect from "use-deep-compare-effect";
-import { fetchCourseInfos } from "~/app/api/course";
-import { fetchFCEInfosByCourse } from "~/app/api/fce";
+import { useFetchCourseInfos } from "~/app/api/course";
 import Loading from "./Loading";
 
 interface Props {
@@ -13,17 +9,7 @@ interface Props {
 }
 
 const CourseList = ({ courseIDs, children }: Props) => {
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  const dispatch = useAppDispatch();
-
-  useDeepCompareEffect(() => {
-    if (courseIDs) {
-      void dispatch(fetchCourseInfos(courseIDs));
-      if (loggedIn) void dispatch(fetchFCEInfosByCourse({ courseIDs }));
-    }
-  }, [courseIDs]);
-
-  const results = useAppSelector(selectCourseResults(courseIDs));
+  const results = useFetchCourseInfos(courseIDs);
 
   return (
     <div className="py-6 px-2 md:px-6">
@@ -35,10 +21,10 @@ const CourseList = ({ courseIDs, children }: Props) => {
           <div className="space-y-4">
             {/* We found less courses than what we search for, so put a Loading indicator */}
             {courseIDs.length > results.length && <Loading />}
-            {results.map((course) => (
+            {courseIDs.map((courseID) => (
               <CourseCard
-                info={course}
-                key={course.courseID}
+                courseID={courseID}
+                key={courseID}
                 showFCEs={true}
                 showCourseInfo={true}
                 showSchedules={true}

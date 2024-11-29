@@ -1,12 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./store";
-import { Course, FCE } from "./types";
+import { Course } from "./types";
 import {
   fetchCourseInfos,
   fetchCourseInfosByPage,
   FetchCourseInfosByPageResult,
 } from "./api/course";
-import { fetchFCEInfosByCourse } from "./api/fce";
 
 /**
  * This cache lasts for the duration of the user session
@@ -19,8 +17,6 @@ interface CacheState {
   page: number;
   pageCourses: string[];
   courseResults: { [courseID: string]: Course };
-  fces: { [courseID: string]: FCE[] };
-  fcesLoading: boolean;
   coursesLoading: boolean;
   exactResultsCourses: string[];
 }
@@ -31,36 +27,15 @@ const initialState: CacheState = {
   page: 1,
   pageCourses: [],
   courseResults: {},
-  fces: {},
-  fcesLoading: false,
   coursesLoading: false,
   exactResultsCourses: [],
 };
-
-export const selectCourseResults =
-  (courseIDs: string[]) => (state: RootState) =>
-    courseIDs
-      .filter((courseID) => courseID in state.cache.courseResults)
-      .map((courseID) => state.cache.courseResults[courseID]);
-
-export const selectFCEResultsForCourses =
-  (courseIDs: string[]) => (state: RootState) =>
-    courseIDs.map((courseID) => {
-      if (!state.cache.fces[courseID]) return { courseID, fces: [] };
-      return { courseID, fces: state.cache.fces[courseID] };
-    });
-
-export const selectFCEResultsForCourse =
-  (courseID: string) =>
-    (state: RootState): FCE[] | undefined =>
-      state.cache.fces[courseID];
 
 export const cacheSlice = createSlice({
   name: "cache",
   initialState,
   reducers: {
     clearData: (state) => {
-      state.fces = {};
       state.courseResults = {};
     },
     setExactResultsCourses: (state, action: PayloadAction<string[]>) => {
@@ -108,32 +83,6 @@ export const cacheSlice = createSlice({
             state.courseResults[result.courseID] = result;
           }
           state.coursesLoading = false;
-        },
-      );
-
-    builder
-      .addCase(fetchFCEInfosByCourse.pending, (state) => {
-        state.fcesLoading = true;
-      })
-      .addCase(
-        fetchFCEInfosByCourse.fulfilled,
-        (state, action: PayloadAction<FCE[]>) => {
-          state.fcesLoading = false;
-          if (!action.payload) return;
-          if (!action.payload[0]) return;
-
-          const courseIDs = new Set<string>();
-          for (const fce of action.payload) {
-            courseIDs.add(fce.courseID);
-          }
-
-          courseIDs.forEach((courseID: string) => {
-            state.fces[courseID] = [];
-          });
-
-          for (const fce of action.payload) {
-            state.fces[fce.courseID].push(fce);
-          }
         },
       );
   },

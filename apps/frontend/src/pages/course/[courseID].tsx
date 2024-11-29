@@ -19,7 +19,7 @@ const CourseDetailPage: NextPage = () => {
     </div>
   );
 
-  if (courseInfo) {
+  if (courseID) {
     content = <CourseDetail info={courseInfo} schedules={courseInfo?.schedules || []} />;
   }
 
