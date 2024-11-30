@@ -6,14 +6,11 @@ import TimeGrid from 'react-big-calendar/lib/TimeGrid'
 import Toolbar from 'react-big-calendar/lib/Toolbar'
 import style from "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
-import { useAppDispatch, useAppSelector } from "~/app/hooks";
-import useDeepCompareEffect from "use-deep-compare-effect";
-import { fetchCourseInfos } from "~/app/api/course";
-import { fetchFCEInfosByCourse } from "~/app/api/fce";
-import { selectCourseResults } from "~/app/cache";
-import {Course, Time} from "~/app/types";
+import { useAppSelector } from "~/app/hooks";
+import { Course, Time } from "~/app/types";
 import { sessionToString } from "~/app/utils";
 import { selectCourseSessionsInActiveSchedule, selectSessionInActiveSchedule } from "~/app/userSchedules";
+import { useFetchCourseInfos } from "~/app/api/course";
 
 const localizer = momentLocalizer(moment);
 
@@ -156,19 +153,10 @@ interface Props {
 }
 
 const ScheduleCalendar = ({ courseIDs }: Props) =>{
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const selectedSession = useAppSelector(selectSessionInActiveSchedule);
   const selectedCourseSessions = useAppSelector(selectCourseSessionsInActiveSchedule);
-  const dispatch = useAppDispatch();
 
-  useDeepCompareEffect(() => {
-    if (courseIDs) {
-      void dispatch(fetchCourseInfos(courseIDs));
-      if (loggedIn) void dispatch(fetchFCEInfosByCourse({ courseIDs }));
-    }
-  }, [courseIDs]);
-
-  const CourseDetails = useAppSelector(selectCourseResults(courseIDs)).filter(x => x !== undefined);
+  const CourseDetails = useFetchCourseInfos(courseIDs);
 
   const events = getEvents(CourseDetails, selectedSession, selectedCourseSessions);
 

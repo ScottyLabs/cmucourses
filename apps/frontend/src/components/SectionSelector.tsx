@@ -4,14 +4,14 @@ import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Listbox } from "@headlessui/react";
 import {classNames, compareSessions, sessionToString, stringToSession} from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import {selectCourseResults} from "~/app/cache";
-import { Lecture, Section } from "~/app/types";
+import { Lecture, Section, Schedule } from "~/app/types";
 import {
   CourseSessions,
   selectCourseSessionsInActiveSchedule,
   selectSessionInActiveSchedule,
   userSchedulesSlice
 } from "~/app/userSchedules";
+import { useFetchCourseInfos } from "~/app/api/course";
 
 interface Props {
   courseIDs: string[];
@@ -92,13 +92,13 @@ const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | S
 
 const SectionSelector = ({ courseIDs }: Props) => {
   const dispatch = useAppDispatch();
-  const CourseDetails = useAppSelector(selectCourseResults(courseIDs)).filter(x => x !== undefined);
+  const CourseDetails = useFetchCourseInfos(courseIDs);
 
   const selectedSession = useAppSelector(selectSessionInActiveSchedule);
   const selectedCourseSessions = useAppSelector(selectCourseSessionsInActiveSchedule);
 
   const semesters = [...new Set(CourseDetails.flatMap(course => {
-    const schedules = course.schedules;
+    const schedules: Schedule[] = course.schedules;
     if (schedules) {
       return schedules.map(schedule => sessionToString(schedule));
     }
@@ -178,8 +178,8 @@ const SectionSelector = ({ courseIDs }: Props) => {
       </div>
       <div className="overflow-y-auto h-72 my-4">
         {
-          CourseDetails.filter((course) => course.schedules?.some(sched => sessionToString(sched) === selectedSession)).map((course) => {
-            const schedule = course.schedules?.find(sched => sessionToString(sched) === selectedSession);
+          CourseDetails.filter((course) => course.schedules?.some((sched: Schedule) => sessionToString(sched) === selectedSession)).map((course) => {
+            const schedule = course.schedules?.find((sched: Schedule) => sessionToString(sched) === selectedSession);
             const courseID = course.courseID;
 
             return (

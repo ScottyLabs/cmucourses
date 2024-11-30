@@ -170,7 +170,7 @@ export const selectSessionInActiveSchedule = (
 ): string => {
   if (state.schedules.active === null) return "";
   const session = state.schedules.saved[state.schedules.active].session;
-  if (session.semester === "") return "";
+  if (session?.semester === "") return "";
   return sessionToString(session);
 };
 

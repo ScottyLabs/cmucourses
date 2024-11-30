@@ -20,7 +20,9 @@ export const standardizeIdsInString = (str: string) => {
 };
 
 export const sessionToString = (sessionInfo: Session | FCE | Schedule) => {
-  const semester = sessionInfo.semester;
+  if (!sessionInfo) return "";
+
+  const semester = sessionInfo?.semester || "";
 
   const sessionStrings = {
     "summer one": "Summer One",
@@ -38,12 +40,14 @@ export const sessionToString = (sessionInfo: Session | FCE | Schedule) => {
   if (semester === "summer" && sessionInfo.session) {
     return `${sessionStrings[sessionInfo.session]} ${sessionInfo.year}`;
   } else {
-    return `${semesterStrings[sessionInfo.semester]} ${sessionInfo.year}`;
+    return `${semesterStrings[semester]} ${sessionInfo.year}`;
   }
 };
 
 export const sessionToShortString = (sessionInfo: Session | FCE | Schedule) => {
-  const semester = sessionInfo.semester;
+  if (!sessionInfo) return "";
+
+  const semester = sessionInfo?.semester || "";
 
   const sessionStrings = {
     "summer one": "M1",
@@ -61,7 +65,7 @@ export const sessionToShortString = (sessionInfo: Session | FCE | Schedule) => {
   if (semester === "summer" && sessionInfo.session) {
     return `${sessionStrings[sessionInfo.session]} ${sessionInfo.year}`;
   } else {
-    return `${semesterStrings[sessionInfo.semester]} ${sessionInfo.year}`;
+    return `${semesterStrings[semester]} ${sessionInfo.year}`;
   }
 };
 
