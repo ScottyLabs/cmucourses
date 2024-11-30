@@ -16,8 +16,6 @@ import {
   userSchedulesSlice,
 } from "~/app/userSchedules";
 import { useFetchAllCourses } from "~/app/api/course";
-import { userSlice } from "~/app/user";
-import { CAL_VIEW, SCHED_VIEW } from "~/app/constants";
 
 type selectedItem = {
   courseID: string;
@@ -250,16 +248,15 @@ const ScheduleSearch = () => {
   const dispatch = useAppDispatch();
   const savedSchedules = useAppSelector((state) => state.schedules.saved);
   const active = useAppSelector((state) => state.schedules.active);
-  const scheduleView = useAppSelector((state) => state.user.scheduleView);
 
   return (
     <div className="mb-6">
       <div className="flex flex-col gap-y-2">
         {active !== null && (
           <div className="flex items-center">
-            <PencilSquareIcon className="mr-2 h-4 w-4"/>
+            <PencilSquareIcon className="mr-2 h-4 w-4" />
             <input
-              className="bg-white mr-4"
+              className="bg-white"
               value={savedSchedules[active].name}
               onChange={(e) =>
                 dispatch(
@@ -270,18 +267,6 @@ const ScheduleSearch = () => {
               }
               placeholder="Schedule Name"
             />
-            <button
-              className={`px-4 py-2 mr-2 rounded-md ${scheduleView === SCHED_VIEW ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-              onClick={() => dispatch(userSlice.actions.setScheduleView(SCHED_VIEW))}
-            >
-              Schedule View
-            </button>
-            <button
-              className={`px-4 py-2 ml-2 rounded-md ${scheduleView === CAL_VIEW ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-              onClick={() => dispatch(userSlice.actions.setScheduleView(CAL_VIEW))}
-            >
-              Calendar View
-            </button>
           </div>
         )}
 

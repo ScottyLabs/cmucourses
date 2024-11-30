@@ -12,6 +12,8 @@ import {
   userSchedulesSlice
 } from "~/app/userSchedules";
 import { useFetchCourseInfos } from "~/app/api/course";
+import { userSlice } from "~/app/user";
+import { SCHED_VIEW } from "~/app/constants";
 
 interface Props {
   courseIDs: string[];
@@ -96,6 +98,7 @@ const SectionSelector = ({ courseIDs }: Props) => {
 
   const selectedSession = useAppSelector(selectSessionInActiveSchedule);
   const selectedCourseSessions = useAppSelector(selectCourseSessionsInActiveSchedule);
+  const scheduleView = useAppSelector((state) => state.user.scheduleView);
 
   const semesters = [...new Set(CourseDetails.flatMap(course => {
     const schedules: Schedule[] = course.schedules;
@@ -108,8 +111,14 @@ const SectionSelector = ({ courseIDs }: Props) => {
 
   return (
     <div>
-      <div className="mb-2 flex gap-1">
+      <div className="mb-2 flex gap-1 justify-between">
         <div className="text-lg">Schedule Calendar</div>
+        <button
+          className=""
+          onClick={() => dispatch(userSlice.actions.toggleScheduleView())}
+        >
+          {scheduleView === SCHED_VIEW ? "Show" : "Hide"}
+        </button>
       </div>
 
       <div className="relative mt-1">
