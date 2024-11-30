@@ -12,6 +12,8 @@ import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useFetchCourseInfos } from "~/app/api/course";
 import { useFetchFCEInfosByCourse } from "~/app/api/fce";
 import { useAuth } from "@clerk/nextjs";
+import { useQueryClient } from "@tanstack/react-query";
+import { Course } from "~/app/types";
 
 type ScheduleDataProps = {
   scheduled: string[];
@@ -19,6 +21,7 @@ type ScheduleDataProps = {
 
 const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
   const active = useAppSelector((state) => state.schedules.active);
   const selected = useAppSelector(selectSelectedCoursesInActiveSchedule);
@@ -78,6 +81,18 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
       dispatch(
         userSchedulesSlice.actions.deselectCourseInActiveSchedule(courseID)
       );
+  };
+
+  const updateManualUnits = (courseID: string, manualUnits: string) => {
+    queryClient.setQueryData(
+      ["courseInfo", { courseID }],
+      (oldData: Course) => {
+        return {
+          ...oldData,
+          manualUnits,
+        };
+      }
+    );
   };
 
   return (
@@ -162,15 +177,14 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                                 ? displayUnits(result.manualUnits)
                                 : displayUnits(result.units)
                             }
-                            // TODO: Fix updateUnits
-                            // onChange={(e) =>
-                            //   dispatch(
-                            //     cacheSlice.actions.updateUnits({
-                            //       courseID: result.courseID,
-                            //       units: e.target.value,
-                            //     })
-                            //   )
-                            // }
+                            onClick={() => {
+                              if (result.manualUnits === undefined) {
+                                updateManualUnits(result.courseID, "");
+                              }
+                            }}
+                            onChange={(e) =>
+                              updateManualUnits(result.courseID, e.target.value)
+                            }
                             placeholder="Units"
                           />
                         ) : (
@@ -179,7 +193,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                       </td>
                       <td>
                         {result.courseID in aggregatedDataByCourseID
-                          ? aggregatedDataByCourseID[result.courseID].workload
+                          ? aggregatedDataByCourseID[result.courseID]?.workload
                           : "NA"}
                       </td>
                     </tr>

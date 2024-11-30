@@ -11,6 +11,7 @@ import {
 import { filtersSlice } from "~/app/filters";
 import { getPillboxes } from "./filters/LevelFilter";
 import { useFetchCourseInfosByPage } from "~/app/api/course";
+import { useAuth } from "@clerk/nextjs";
 
 const AppliedFiltersPill = ({
   className,
@@ -127,7 +128,8 @@ const AppliedFilters = () => {
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
-  const [search, setSearch] = useState("");
+  const initialSearch = useAppSelector((state) => state.filters.search);
+  const [search, setSearch] = useState(initialSearch);
 
   const dispatchSearch = useCallback(
     (search: string) => {
@@ -148,7 +150,7 @@ const SearchBar = () => {
     dispatchSearch(search);
   }, [dispatchSearch, search]);
 
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
+  const { isSignedIn } = useAuth()
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const showSchedules = useAppSelector((state) => state.user.showSchedules);
@@ -158,7 +160,7 @@ const SearchBar = () => {
   const showAllRef = useRef<any>(null);
   useEffect(() => {
     if (showAllRef.current) {
-      if (loggedIn) {
+      if (isSignedIn) {
         if (showFCEs && showCourseInfos && showSchedules) {
           showAllRef.current.indeterminate = false;
           showAllRef.current.checked = true;
@@ -194,7 +196,7 @@ const SearchBar = () => {
 
   const setShowAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showAll(e.target.checked));
-    if (loggedIn) dispatch(userSlice.actions.showFCEs(e.target.checked));
+    if (isSignedIn) dispatch(userSlice.actions.showFCEs(e.target.checked));
     dispatch(userSlice.actions.showCourseInfos(e.target.checked));
     dispatch(userSlice.actions.showSchedules(e.target.checked));
   };
@@ -235,7 +237,7 @@ const SearchBar = () => {
             <input
               type="checkbox"
               className="mr-2"
-              disabled={!loggedIn}
+              disabled={!isSignedIn}
               onChange={setShowFCEs}
               checked={showFCEs}
             />

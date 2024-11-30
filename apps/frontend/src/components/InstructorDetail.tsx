@@ -11,9 +11,10 @@ import { useAuth } from "@clerk/nextjs";
 type Props = {
   name: string;
   showLoading: boolean;
+  extraFilters?: boolean;
 };
 
-const InstructorDetail = ({ name, showLoading }: Props) => {
+const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
   const aggregationOptions = useAppSelector(
     (state) => state.user.fceAggregation
   );
@@ -47,6 +48,7 @@ const InstructorDetail = ({ name, showLoading }: Props) => {
         <InstructorFCEDetail
           fces={fces}
           aggregationOptions={aggregationOptions}
+          extraFilters={extraFilters}
         />
       </div>
     </Card>

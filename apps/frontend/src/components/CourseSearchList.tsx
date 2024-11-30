@@ -4,7 +4,6 @@ import CourseCard from "./CourseCard";
 import Loading from "./Loading";
 import { useFetchCourseInfos, useFetchCourseInfosByPage } from "~/app/api/course";
 import { Pagination } from "./Pagination";
-import { userSlice } from "~/app/user";
 import { filtersSlice } from "~/app/filters";
 
 const CoursePage = () => {
@@ -60,8 +59,6 @@ const CourseSearchList = () => {
   const { isPending, data: { totalPages } = {}  } = useFetchCourseInfosByPage();
 
   const dispatch = useAppDispatch();
-
-  dispatch(userSlice.actions.resetFilters()); // Not ideal
 
   const handlePageClick = (page: number) => {
     void dispatch(filtersSlice.actions.setPage(page + 1));

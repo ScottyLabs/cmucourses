@@ -19,13 +19,12 @@ const GenedsViewer = () => {
   const selectedTags = useAppSelector((state) => state.user.selectedTags);
   const aggregationOptions = useAppSelector((state) => state.user.fceAggregation);
   const { isSignedIn, getToken } = useAuth();
+  const { isPending, error, data: geneds } = useFetchGenedsBySchool(selectedSchool, isSignedIn, getToken);
 
   const [tagQuery, setTagQuery] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [data, setData] = useState<Gened[]>([]);
+  const [data, setData] = useState<Gened[]>(geneds || []);
   const [searchQuery, setSearchQuery] = useState("");
-
-  const { isPending, error, data: geneds } = useFetchGenedsBySchool(selectedSchool, isSignedIn, getToken);
 
   const deleteTag = (tagToDelete: string) => {
     dispatch(userSlice.actions.setSelectedTags(selectedTags.filter((tag) => tag !== tagToDelete)));
@@ -73,11 +72,10 @@ const GenedsViewer = () => {
   }
 
   useEffect(() => {
-    if (geneds && geneds?.map) {
+    if (geneds && geneds.length > 0) {
       let mappedGeneds = geneds.map(gened => {
-        const instructor = gened.fces[0]?.instructor;
-
         const filtered = filterFCEs(gened.fces, aggregationOptions);
+        const instructor = filtered[0]?.instructor;
         const aggregated = aggregateFCEs(filtered);
         return {
           ...gened,
@@ -102,7 +100,7 @@ const GenedsViewer = () => {
       setData(mappedGeneds);
       setTags([...new Set(geneds.map(gened => gened.tags).flat().filter((tag) => tag !== undefined))]);
     }
-  }, [geneds, geneds?.map, selectedTags, searchQuery]);
+  }, [geneds, selectedTags, searchQuery, aggregationOptions]);
 
   return (
     <div className="p-3 m-2 bg-white rounded">
