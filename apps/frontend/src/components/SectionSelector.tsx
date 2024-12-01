@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Listbox, RadioGroup } from "@headlessui/react";
 import { classNames, compareSessions, sessionToString, stringToSession } from "~/app/utils";
-import { CheckIcon } from "@heroicons/react/20/solid";
+import {CheckIcon, ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/20/solid";
 import { Schedule } from "~/app/types";
 import {
   CourseSessions,
@@ -14,6 +14,8 @@ import {
 import { useFetchCourseInfos } from "~/app/api/course";
 import { userSlice } from "~/app/user";
 import { SCHED_VIEW } from "~/app/constants";
+import {FlushedButton} from "~/components/Buttons";
+import {uiSlice} from "~/app/ui";
 
 interface Props {
   courseIDs: string[];
@@ -84,14 +86,10 @@ const SectionSelector = ({ courseIDs }: Props) => {
     <div className="pt-4">
       <div className="mb-2 flex gap-1 justify-between">
         <div className="text-lg">Schedule Calendar</div>
-        <button
-          className=""
-          onClick={() => dispatch(userSlice.actions.toggleScheduleView())}
-        >
-          {scheduleView === SCHED_VIEW ? "Show" : "Hide"}
-        </button>
+        <FlushedButton onClick={() => dispatch(userSlice.actions.toggleScheduleView())}>
+            {scheduleView === SCHED_VIEW ? "Show" : "Hide"}
+        </FlushedButton>
       </div>
-
       <div className="relative mt-1">
         <Listbox value={selectedSession} onChange={(payload) => {
             dispatch(userSchedulesSlice.actions.updateActiveScheduleSession(stringToSession(payload)));
