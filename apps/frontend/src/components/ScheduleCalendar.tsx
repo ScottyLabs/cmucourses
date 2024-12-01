@@ -155,6 +155,8 @@ const getEvents = (CourseDetails: Course[], selectedSemester: string, selectedSe
     const hoverSection = selectedCourse?.schedules?.find(sched => sessionToString(sched) === selectedSemester)
       ?.sections.find(section => section.name === hoverSession["Section"]);
 
+    events = events.filter(event => event.title.slice(0, courseID.length) !== courseID);
+
     const hoverColor = getCalendarColorLight(`${selectedSessions[courseID]?.Color}`) || "";
     if (hoverLecture)
       events.push(...getTimes(courseID, hoverLecture.name || "Lecture", hoverLecture.times, hoverColor));
