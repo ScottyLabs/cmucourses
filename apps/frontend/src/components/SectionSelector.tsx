@@ -202,7 +202,18 @@ const SectionSelector = ({ courseIDs }: Props) => {
 
             return (
               <div key={courseID} className="relative mb-4 p-3 rounded-md border border-black" style={{backgroundColor: selectedCourseSessions[courseID]?.Color || ""}}>
-                <div className="text-md">{courseID}</div>
+                <div className="flex justify-between text-lg">
+                  {courseID}
+                  <span
+                    className="cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(userSchedulesSlice.actions.removeCourseFromActiveSchedule(courseID));
+                    }}
+                  >
+                    &#10005;
+                  </span>
+                </div>
                 {getTimes(courseID, schedule, selectedCourseSessions, dispatch)}
               </div>
             );
