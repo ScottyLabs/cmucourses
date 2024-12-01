@@ -220,6 +220,7 @@ const SectionSelector = ({ courseIDs }: Props) => {
           })
         }
       </div>
+      <div className="text-white h-2" />
     </div>
   );
 };
