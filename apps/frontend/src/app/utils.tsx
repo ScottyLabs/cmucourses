@@ -2,7 +2,7 @@ import reactStringReplace from "react-string-replace";
 import Link from "~/components/Link";
 import { FCE, Schedule, Session, Time } from "./types";
 import { AggregateFCEsOptions, filterFCEs } from "./fce";
-import { DEPARTMENT_MAP_NAME, DEPARTMENT_MAP_SHORTNAME } from "./constants";
+import { DEPARTMENT_MAP_NAME, DEPARTMENT_MAP_SHORTNAME, CALENDAR_COLORS, CALENDAR_COLORS_LIGHT } from "./constants";
 import namecase from "namecase";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
@@ -271,4 +271,11 @@ export function parseUnits(units: string): number {
     return parseFloat(units);
   }
   return 0.0;
+}
+
+export const getCalendarColor = (i: number) => CALENDAR_COLORS[i % CALENDAR_COLORS.length] || "";
+
+export const getCalendarColorLight = (color: string) => {
+  const index = CALENDAR_COLORS.indexOf(color);
+  return CALENDAR_COLORS_LIGHT[index];
 }

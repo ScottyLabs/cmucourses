@@ -8,7 +8,7 @@ import style from "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
 import { useAppSelector } from "~/app/hooks";
 import { Course, Time } from "~/app/types";
-import { sessionToString } from "~/app/utils";
+import {getCalendarColorLight, sessionToString} from "~/app/utils";
 import {
   CourseSessions, HoverSession,
   selectCourseSessionsInActiveSchedule,
@@ -155,7 +155,7 @@ const getEvents = (CourseDetails: Course[], selectedSemester: string, selectedSe
     const hoverSection = selectedCourse?.schedules?.find(sched => sessionToString(sched) === selectedSemester)
       ?.sections.find(section => section.name === hoverSession["Section"]);
 
-    const hoverColor = "#9CA3AF";
+    const hoverColor = getCalendarColorLight(`${selectedSessions[courseID]?.Color}`) || "";
     if (hoverLecture)
       events.push(...getTimes(courseID, hoverLecture.name || "Lecture", hoverLecture.times, hoverColor));
 

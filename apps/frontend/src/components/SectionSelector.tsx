@@ -163,7 +163,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                         className={({active}) => {
                           return classNames(
                             "flex relative justify-center cursor-pointer select-none focus:outline-none",
-                            "hover:bg-gray-50 py-1",
+                            "hover:bg-gray-200 py-1",
                             i === 0 ? "rounded-l-md pl-1" : "",
                             i === sessions.length - 1 ? "rounded-r-md pr-1" : "",
                             active ? "bg-indigo-600 text-gray-600" : "text-gray-900"

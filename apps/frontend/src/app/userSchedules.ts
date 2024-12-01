@@ -1,9 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addToSet, removeFromSet, sessionToString } from "./utils";
+import { addToSet, getCalendarColor, removeFromSet, sessionToString } from "./utils";
 import { Session } from "./types";
 import { v4 as uuidv4 } from "uuid";
 import { RootState } from "./store";
-import { GET_CALENDAR_COLOR } from "~/app/constants";
 
 export interface CourseSessions {
   [courseID: string]: {
@@ -49,7 +48,7 @@ const getNewUserSchedule = (courseIDs: string[], id: string) : UserSchedule => {
       semester: "",
     },
     courseSessions: courseIDs.reduce((acc: CourseSessions, courseID, i: number) => {
-      acc[courseID] = {Lecture: "", Section: "", Color: GET_CALENDAR_COLOR(i)};
+      acc[courseID] = {Lecture: "", Section: "", Color: getCalendarColor(i)};
       return acc;
     }, {}),
     numColors: courseIDs.length,
@@ -77,7 +76,7 @@ export const userSchedulesSlice = createSlice({
         state.saved[state.active].selected,
         action.payload
       );
-      state.saved[state.active].courseSessions[action.payload] = {Lecture: "", Section: "", Color: GET_CALENDAR_COLOR(state.saved[state.active].numColors)};
+      state.saved[state.active].courseSessions[action.payload] = {Lecture: "", Section: "", Color: getCalendarColor(state.saved[state.active].numColors)};
       state.saved[state.active].numColors += 1;
     },
     removeCourseFromActiveSchedule: (state, action: PayloadAction<string>) => {
