@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Listbox, RadioGroup } from "@headlessui/react";
@@ -6,7 +6,6 @@ import { classNames, compareSessions, sessionToString, stringToSession } from "~
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { Schedule } from "~/app/types";
 import {
-  CourseSessions,
   selectCourseSessionsInActiveSchedule,
   selectSessionInActiveSchedule,
   userSchedulesSlice
@@ -16,55 +15,7 @@ import { userSlice } from "~/app/user";
 import { SCHED_VIEW } from "~/app/constants";
 import { FlushedButton } from "~/components/Buttons";
 
-interface Props {
-  courseIDs: string[];
-}
-
-const getTimes = (courseID: string, schedule: Schedule, selectedSessions: CourseSessions, dispatch: Dispatch<SetStateAction<any>>) => {
-  const sessionType = schedule.sections ? "Section" : "Lecture";
-  const sessions = schedule.sections || schedule.lectures
-
-  const selectedSession = selectedSessions[courseID]?.[sessionType] || "";
-
-  return (
-    <div>
-      <RadioGroup
-        className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-black p-1"
-        value={selectedSession} onChange={(payload) => {
-        if (sessionType === "Section") {
-          const section = schedule.sections.find((section) => section.name === payload);
-          const lecture = schedule.lectures.find((lecture) => lecture.name === section?.lecture);
-          if (lecture)
-            dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({ courseID, sessionType: "Lecture", session: lecture.name }));
-        }
-        dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({ courseID, sessionType, session: payload as string }));
-      }}>
-        {sessions.map((lecture) => (
-          <RadioGroup.Option
-            key={lecture.name}
-            value={lecture.name}
-            className={({active}) => {
-              return classNames(
-                "flex relative justify-center cursor-pointer select-none focus:outline-none",
-                active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
-              );
-            }}
-          >
-            {({checked}) => (
-              <span className="block truncate">
-                <span className={classNames("text-gray-700", checked ? "font-semibold" : "font-normal")}>
-                  {lecture.name}
-                </span>
-              </span>
-            )}
-          </RadioGroup.Option>
-        ))}
-      </RadioGroup>
-    </div>
-  )
-}
-
-const SectionSelector = ({ courseIDs }: Props) => {
+const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
   const dispatch = useAppDispatch();
   const CourseDetails = useFetchCourseInfos(courseIDs);
 
@@ -156,13 +107,17 @@ const SectionSelector = ({ courseIDs }: Props) => {
       <div className="my-4">
         {
           CourseDetails.filter((course) => course.schedules?.some((sched: Schedule) => sessionToString(sched) === selectedSession)).map((course) => {
-            const schedule = course.schedules?.find((sched: Schedule) => sessionToString(sched) === selectedSession);
+            const schedule: Schedule = course.schedules?.find((sched: Schedule) => sessionToString(sched) === selectedSession);
             const courseID = course.courseID;
 
             const sessionType = schedule.sections ? "Section" : "Lecture";
+            const sessions = schedule.sections || schedule.lectures
+
+            const selectedCourseSession = selectedCourseSessions[courseID]?.[sessionType] || "";
 
             return (
-              <div key={courseID} className="relative mb-4 p-3 rounded-md border border-black" style={{backgroundColor: selectedCourseSessions[courseID]?.Color || ""}}>
+              <div key={courseID} className="relative mb-4 p-3 rounded-md border border-black"
+                   style={{backgroundColor: selectedCourseSessions[courseID]?.Color || ""}}>
                 <div className="flex justify-between text-lg">
                   {courseID} (Select {sessionType})
                   <span
@@ -175,13 +130,54 @@ const SectionSelector = ({ courseIDs }: Props) => {
                     &#10005;
                   </span>
                 </div>
-                {getTimes(courseID, schedule, selectedCourseSessions, dispatch)}
+                <div>
+                  <RadioGroup
+                    className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-black p-1"
+                    value={selectedCourseSession} onChange={(payload) => {
+                    if (sessionType === "Section") {
+                      const section = schedule.sections.find((section) => section.name === payload);
+                      const lecture = schedule.lectures.find((lecture) => lecture.name === section?.lecture);
+                      if (lecture)
+                        dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({
+                          courseID,
+                          sessionType: "Lecture",
+                          session: lecture.name
+                        }));
+                    }
+                    dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({
+                      courseID,
+                      sessionType,
+                      session: payload as string
+                    }));
+                  }}>
+                    {sessions.map((lecture) => (
+                      <RadioGroup.Option
+                        key={lecture.name}
+                        value={lecture.name}
+                        className={({active}) => {
+                          return classNames(
+                            "flex relative justify-center cursor-pointer select-none focus:outline-none",
+                            active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
+                          );
+                        }}
+                      >
+                        {({checked}) => (
+                          <span className="block truncate">
+                            <span className={classNames("text-gray-700", checked ? "font-semibold" : "font-normal")}>
+                              {lecture.name}
+                            </span>
+                          </span>
+                        )}
+                      </RadioGroup.Option>
+                    ))}
+                  </RadioGroup>
+                </div>
               </div>
             );
           })
         }
       </div>
-      <div className="text-white h-2" />
+      <div className="text-white h-2"/>
     </div>
   );
 };
