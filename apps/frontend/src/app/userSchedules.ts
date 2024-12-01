@@ -12,6 +12,11 @@ export interface CourseSessions {
   };
 }
 
+export interface HoverSession {
+  courseID: string;
+  [sessionType: string]: string;
+}
+
 export interface UserSchedule {
   name: string;
   courses: string[];
@@ -20,6 +25,7 @@ export interface UserSchedule {
   session: Session;
   courseSessions: CourseSessions;
   numColors: number;
+  hoverSession?: HoverSession;
 }
 
 export interface UserSchedulesState {
@@ -150,6 +156,16 @@ export const userSchedulesSlice = createSlice({
         state.saved[state.active].courseSessions[action.payload.courseID][action.payload.sessionType] = action.payload.session
       }
     },
+    setHoverSession: (state, action: PayloadAction<{ courseID: string, [sessionType: string]: string }>) => {
+      if (state.active !== null) {
+        state.saved[state.active].hoverSession = action.payload;
+      }
+    },
+    clearHoverSession: (state) => {
+      if (state.active !== null) {
+        state.saved[state.active].hoverSession = undefined;
+      }
+    },
   },
 });
 
@@ -179,6 +195,13 @@ export const selectCourseSessionsInActiveSchedule = (
 ): CourseSessions => {
   if (state.schedules.active === null) return {};
   return state.schedules.saved[state.schedules.active].courseSessions;
+};
+
+export const selectHoverSessionInActiveSchedule = (
+  state: RootState
+): { courseID: string, [sessionType: string]: string } | undefined => {
+  if (state.schedules.active === null) return undefined;
+  return state.schedules.saved[state.schedules.active].hoverSession;
 };
 
 export const reducer = userSchedulesSlice.reducer;

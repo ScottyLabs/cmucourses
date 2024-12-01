@@ -9,7 +9,12 @@ import moment from "moment";
 import { useAppSelector } from "~/app/hooks";
 import { Course, Time } from "~/app/types";
 import { sessionToString } from "~/app/utils";
-import { CourseSessions, selectCourseSessionsInActiveSchedule, selectSessionInActiveSchedule } from "~/app/userSchedules";
+import {
+  CourseSessions, HoverSession,
+  selectCourseSessionsInActiveSchedule,
+  selectHoverSessionInActiveSchedule,
+  selectSessionInActiveSchedule
+} from "~/app/userSchedules";
 import { useFetchCourseInfos } from "~/app/api/course";
 
 const localizer = momentLocalizer(moment);
@@ -102,7 +107,7 @@ interface Event {
   color: string;
 }
 
-const getEvents = (CourseDetails: Course[], selectedSemester: string, selectedSessions: CourseSessions) => {
+const getEvents = (CourseDetails: Course[], selectedSemester: string, selectedSessions: CourseSessions, hoverSession?: HoverSession) => {
   let events: Event[] = [];
 
   const filteredCourses = CourseDetails.filter((course) => {
@@ -139,6 +144,25 @@ const getEvents = (CourseDetails: Course[], selectedSemester: string, selectedSe
   events = events.concat(selectedSections.flatMap(section => {
     if (section.times) return getTimes(section.courseID, `Section ${section.name || ""}`, section.times, section.color);
   }).filter(x => x !== undefined));
+
+  if (hoverSession) {
+    const courseID = hoverSession.courseID;
+    const selectedCourse = filteredCourses.find(course => course.courseID === courseID);
+
+    const hoverLecture = selectedCourse?.schedules?.find(sched => sessionToString(sched) === selectedSemester)
+      ?.lectures.find(lecture => lecture.name === hoverSession["Lecture"]);
+
+    const hoverSection = selectedCourse?.schedules?.find(sched => sessionToString(sched) === selectedSemester)
+      ?.sections.find(section => section.name === hoverSession["Section"]);
+
+    const hoverColor = "#9CA3AF";
+    if (hoverLecture)
+      events.push(...getTimes(courseID, hoverLecture.name || "Lecture", hoverLecture.times, hoverColor));
+
+    if (hoverSection)
+      events.push(...getTimes(courseID, `Section ${hoverSection?.name || ""}`, hoverSection?.times, hoverColor));
+  }
+
   return events;
 }
 
@@ -149,10 +173,11 @@ interface Props {
 const ScheduleCalendar = ({ courseIDs }: Props) =>{
   const selectedSession = useAppSelector(selectSessionInActiveSchedule);
   const selectedCourseSessions = useAppSelector(selectCourseSessionsInActiveSchedule);
+  const hoverSession = useAppSelector(selectHoverSessionInActiveSchedule);
 
   const CourseDetails = useFetchCourseInfos(courseIDs);
 
-  const events = getEvents(CourseDetails, selectedSession, selectedCourseSessions);
+  const events = getEvents(CourseDetails, selectedSession, selectedCourseSessions, hoverSession);
 
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 

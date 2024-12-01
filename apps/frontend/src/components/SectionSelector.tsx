@@ -133,27 +133,33 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                 <div>
                   <RadioGroup
                     className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-black sm:text-xs lg:text-base"
-                    value={selectedCourseSession} onChange={(payload) => {
-                    if (sessionType === "Section") {
-                      const section = schedule.sections.find((section) => section.name === payload);
-                      const lecture = schedule.lectures.find((lecture) => lecture.name === section?.lecture);
-                      if (lecture)
-                        dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({
-                          courseID,
-                          sessionType: "Lecture",
-                          session: lecture.name
-                        }));
-                    }
-                    dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({
-                      courseID,
-                      sessionType,
-                      session: payload as string
-                    }));
-                  }}>
-                    {sessions.map((lecture, i) => (
+                    value={selectedCourseSession}
+                    onChange={(payload) => {
+                      if (sessionType === "Section") {
+                        const section = schedule.sections.find((section) => section.name === payload);
+                        const lecture = schedule.lectures.find((lecture) => lecture.name === section?.lecture);
+                        if (lecture)
+                          dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({
+                            courseID,
+                            sessionType: "Lecture",
+                            session: lecture.name
+                          }));
+                      }
+                      dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({
+                        courseID,
+                        sessionType,
+                        session: payload as string
+                      }));
+                      dispatch(userSchedulesSlice.actions.clearHoverSession());
+                    }}
+                    onMouseLeave={() => {
+                      dispatch(userSchedulesSlice.actions.clearHoverSession());
+                    }}
+                  >
+                    {sessions.map((session, i) => (
                       <RadioGroup.Option
-                        key={lecture.name}
-                        value={lecture.name}
+                        key={session.name}
+                        value={session.name}
                         className={({active}) => {
                           return classNames(
                             "flex relative justify-center cursor-pointer select-none focus:outline-none",
@@ -163,11 +169,25 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                             active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
                           );
                         }}
+                        onMouseEnter={() => {
+                          const payload = { courseID, "Lecture": "", "Section": "" };
+                          if (sessionType === "Lecture") {
+                            payload["Lecture"] = session.name;
+                          }
+                          if (sessionType === "Section") {
+                            payload["Section"] = session.name;
+                            const section = schedule.sections.find((section) => section.name === session.name);
+                            const lecture = schedule.lectures.find((lecture) => lecture.name === section?.lecture);
+                            if (lecture)
+                              payload["Lecture"] = lecture.name;
+                          }
+                          dispatch(userSchedulesSlice.actions.setHoverSession(payload));
+                        }}
                       >
                         {({checked}) => (
                           <span className="block truncate">
                             <span className={classNames("text-gray-700", checked ? "font-semibold" : "font-normal")}>
-                              {lecture.name}
+                              {session.name}
                             </span>
                           </span>
                         )}
