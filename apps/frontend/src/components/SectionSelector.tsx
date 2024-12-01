@@ -132,7 +132,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                 </div>
                 <div>
                   <RadioGroup
-                    className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-black p-1"
+                    className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-black sm:text-xs lg:text-base"
                     value={selectedCourseSession} onChange={(payload) => {
                     if (sessionType === "Section") {
                       const section = schedule.sections.find((section) => section.name === payload);
@@ -150,13 +150,16 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                       session: payload as string
                     }));
                   }}>
-                    {sessions.map((lecture) => (
+                    {sessions.map((lecture, i) => (
                       <RadioGroup.Option
                         key={lecture.name}
                         value={lecture.name}
                         className={({active}) => {
                           return classNames(
                             "flex relative justify-center cursor-pointer select-none focus:outline-none",
+                            "hover:bg-gray-50 py-1",
+                            i === 0 ? "rounded-l-md pl-1" : "",
+                            i === sessions.length - 1 ? "rounded-r-md pr-1" : "",
                             active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
                           );
                         }}
