@@ -4,7 +4,7 @@ import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Listbox } from "@headlessui/react";
 import {classNames, compareSessions, sessionToString, stringToSession} from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { Lecture, Section, Schedule } from "~/app/types";
+import { Schedule } from "~/app/types";
 import {
   CourseSessions,
   selectCourseSessionsInActiveSchedule,
@@ -19,12 +19,21 @@ interface Props {
   courseIDs: string[];
 }
 
-const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | Section[], selectedSessions: CourseSessions, dispatch: Dispatch<SetStateAction<any>>) => {
+const getTimes = (courseID: string, schedule: Schedule, selectedSessions: CourseSessions, dispatch: Dispatch<SetStateAction<any>>) => {
+  const sessionType = schedule.sections ? "Section" : "Lecture";
+  const sessions = schedule.sections || schedule.lectures
+
   const selectedSession = selectedSessions[courseID]?.[sessionType] || "";
 
   return (
     <div className="pt-2">
       <Listbox value={selectedSession} onChange={(payload) => {
+        if (sessionType === "Section") {
+          const section = schedule.sections.find((section) => section.name === payload);
+          const lecture = schedule.lectures.find((lecture) => lecture.name === section?.lecture);
+          if (lecture)
+            dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({ courseID, sessionType: "Lecture", session: lecture.name }));
+        }
         dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({ courseID, sessionType, session: payload as string }));
       }}>
         <Listbox.Label className="flex">
@@ -34,7 +43,7 @@ const getTimes = (courseID: string, sessionType: string, sessions: Lecture[] | S
           className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-black sm:text-sm sm:leading-5">
             <span className="flex flex-wrap gap-1">
               {selectedSession.length === 0 ? (
-                <span className="p-0.5">Select Lecture</span>
+                <span className="p-0.5">Select {sessionType}</span>
               ) : (
                 <span
                   key={selectedSession}
@@ -194,8 +203,7 @@ const SectionSelector = ({ courseIDs }: Props) => {
             return (
               <div key={courseID} className="relative mb-4 p-3 rounded-md border border-black" style={{backgroundColor: selectedCourseSessions[courseID]?.Color || ""}}>
                 <div className="text-md">{courseID}</div>
-                {schedule?.lectures && getTimes(courseID, "Lecture", schedule.lectures, selectedCourseSessions, dispatch)}
-                {schedule?.sections && getTimes(courseID, "Section", schedule.sections, selectedCourseSessions, dispatch)}
+                {getTimes(courseID, schedule, selectedCourseSessions, dispatch)}
               </div>
             );
           })
