@@ -98,7 +98,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
   return (
     <>
       <div className="flex items-end justify-between">
-        <div>
+        <div className="flex">
           <div className="text-a-600 text-lg">
             Total Workload{" "}
             <span className="ml-4">
@@ -115,7 +115,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                   dispatch(uiSlice.actions.toggleSchedulesTopbarOpen())
                 }
               >
-                <div className="hidden items-center md:flex">
+                <div className="flex items-center">
                   {open ? (
                     <>
                       <div className="mr-1">Hide</div>

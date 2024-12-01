@@ -141,8 +141,8 @@ const CourseCombobox = ({
       <div>
         <label {...getLabelProps()} />
       </div>
-      <div className="relative mt-2 flex flex-col items-baseline space-y-2 md:mt-0 md:flex-row md:flex-wrap md:space-y-0">
-        <div className="flex w-full max-w-full overflow-x-auto md:w-auto md:flex-none">
+      <div className="relative flex items-baseline mt-0 flex-row flex-wrap space-y-0">
+        <div className="flex max-w-full overflow-x-auto w-auto flex-none">
           {selectedItems.map((selectedItem, index) => (
             <div
               key={`selected-item-${index}`}
@@ -157,6 +157,7 @@ const CourseCombobox = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   removeSelectedItem(selectedItem);
+                  dispatch(userSchedulesSlice.actions.removeCourseFromActiveSchedule(selectedItem.courseID));
                 }}
               >
                 &#10005;
@@ -222,7 +223,7 @@ const CourseCombobox = ({
                           },
                         })}
                       >
-                        <span className="inline-block flex h-full w-full items-center">
+                        <span className="flex h-full w-full items-center">
                           <span className="inline-block w-16 flex-none font-semibold">
                             {course.courseID}
                           </span>

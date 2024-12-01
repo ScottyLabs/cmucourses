@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { addToSet, removeFromSet } from "./utils";
-import { SEMESTERS_COUNTED } from "./constants";
+import {CAL_VIEW, SCHED_VIEW, SEMESTERS_COUNTED} from "./constants";
 import { Semester } from "./types";
 
 export interface UserState {
@@ -24,6 +24,7 @@ export interface UserState {
   };
   selectedSchool: string;
   selectedTags: string[];
+  scheduleView: string;
 }
 
 const initialState: UserState = {
@@ -47,6 +48,7 @@ const initialState: UserState = {
   },
   selectedSchool: "SCS",
   selectedTags: [],
+  scheduleView: "cal",
 };
 
 export const userSlice = createSlice({
@@ -102,7 +104,10 @@ export const userSlice = createSlice({
     },
     setSelectedTags: (state, action: PayloadAction<string[]>) => {
       state.selectedTags = action.payload;
-    }
+    },
+    toggleScheduleView: (state) => {
+      state.scheduleView = state.scheduleView === CAL_VIEW ? SCHED_VIEW : CAL_VIEW;
+    },
   },
 });
 

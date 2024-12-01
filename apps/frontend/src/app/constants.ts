@@ -136,3 +136,32 @@ export const GENED_SOURCES = {
 };
 
 export const STALE_TIME = 1000 * 60 * 60 * 24; // 1 day
+
+export const CAL_VIEW = "cal";
+export const SCHED_VIEW = "sched";
+
+export const CALENDAR_COLORS = [
+  "#FFB3BA", // Red
+  "#FFDFBA", // Orange
+  "#FFFFBA", // Yellow
+  "#BAFFC9", // Green
+  "#BAE1FF", // Blue
+  "#D4BAFF", // Purple
+  "#FFC4E1", // Pink
+  "#C4E1FF", // Sky Blue
+  "#E1FFC4", // Lime
+  "#FFF4BA"  // Cream
+];
+
+export const CALENDAR_COLORS_LIGHT = [
+  "#FFE1E3", // Light Red
+  "#FFF2E3", // Light Orange
+  "#FFFFE3", // Light Yellow
+  "#E3FFE9", // Light Green
+  "#E3F3FF", // Light Blue
+  "#EEE3FF", // Light Purple
+  "#FFE7F3", // Light Pink
+  "#E7F3FF", // Light Sky Blue
+  "#F3FFE7", // Light Lime
+  "#FFFBE3"  // Light Cream
+];

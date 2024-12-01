@@ -2,7 +2,7 @@ import reactStringReplace from "react-string-replace";
 import Link from "~/components/Link";
 import { FCE, Schedule, Session, Time } from "./types";
 import { AggregateFCEsOptions, filterFCEs } from "./fce";
-import { DEPARTMENT_MAP_NAME, DEPARTMENT_MAP_SHORTNAME } from "./constants";
+import { DEPARTMENT_MAP_NAME, DEPARTMENT_MAP_SHORTNAME, CALENDAR_COLORS, CALENDAR_COLORS_LIGHT } from "./constants";
 import namecase from "namecase";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
@@ -20,7 +20,9 @@ export const standardizeIdsInString = (str: string) => {
 };
 
 export const sessionToString = (sessionInfo: Session | FCE | Schedule) => {
-  const semester = sessionInfo.semester;
+  if (!sessionInfo) return "";
+
+  const semester = sessionInfo?.semester || "";
 
   const sessionStrings = {
     "summer one": "Summer One",
@@ -38,12 +40,14 @@ export const sessionToString = (sessionInfo: Session | FCE | Schedule) => {
   if (semester === "summer" && sessionInfo.session) {
     return `${sessionStrings[sessionInfo.session]} ${sessionInfo.year}`;
   } else {
-    return `${semesterStrings[sessionInfo.semester]} ${sessionInfo.year}`;
+    return `${semesterStrings[semester]} ${sessionInfo.year}`;
   }
 };
 
 export const sessionToShortString = (sessionInfo: Session | FCE | Schedule) => {
-  const semester = sessionInfo.semester;
+  if (!sessionInfo) return "";
+
+  const semester = sessionInfo?.semester || "";
 
   const sessionStrings = {
     "summer one": "M1",
@@ -61,9 +65,41 @@ export const sessionToShortString = (sessionInfo: Session | FCE | Schedule) => {
   if (semester === "summer" && sessionInfo.session) {
     return `${sessionStrings[sessionInfo.session]} ${sessionInfo.year}`;
   } else {
-    return `${semesterStrings[sessionInfo.semester]} ${sessionInfo.year}`;
+    return `${semesterStrings[semester]} ${sessionInfo.year}`;
   }
 };
+
+export const stringToSession = (sessionString: string): Session => {
+  const sessionStringSplit = sessionString.split(" ");
+
+  if (sessionStringSplit.length === 2) {
+    const [semester, year] = sessionStringSplit;
+    return {
+      semester: semester?.toLowerCase() as any,
+      year: year as string,
+    };
+  } else if (sessionStringSplit.length === 3) {
+    const [semester, session, year] = sessionStringSplit;
+
+    if (semester?.includes("Q")) {
+      return {
+        semester: "summer",
+        year: year as string,
+        session: "qatar summer",
+      };
+    }
+    return {
+      semester: semester?.toLowerCase() as any,
+      year: year as string,
+      session: `${semester} ${session}`.toLowerCase() as any,
+    };
+  }
+
+  return {
+    semester: "",
+    year: "",
+  };
+}
 
 export const compareSessions = (
   session1: Session | FCE,
@@ -235,4 +271,11 @@ export function parseUnits(units: string): number {
     return parseFloat(units);
   }
   return 0.0;
+}
+
+export const getCalendarColor = (i: number) => CALENDAR_COLORS[i % CALENDAR_COLORS.length] || "";
+
+export const getCalendarColorLight = (color: string) => {
+  const index = CALENDAR_COLORS.indexOf(color);
+  return CALENDAR_COLORS_LIGHT[index];
 }
