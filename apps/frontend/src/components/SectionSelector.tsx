@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { Listbox } from "@headlessui/react";
-import {classNames, compareSessions, sessionToString, stringToSession} from "~/app/utils";
+import { Listbox, RadioGroup } from "@headlessui/react";
+import { classNames, compareSessions, sessionToString, stringToSession } from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { Schedule } from "~/app/types";
 import {
@@ -26,8 +26,10 @@ const getTimes = (courseID: string, schedule: Schedule, selectedSessions: Course
   const selectedSession = selectedSessions[courseID]?.[sessionType] || "";
 
   return (
-    <div className="pt-2">
-      <Listbox value={selectedSession} onChange={(payload) => {
+    <div>
+      <RadioGroup
+        className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-black p-1"
+        value={selectedSession} onChange={(payload) => {
         if (sessionType === "Section") {
           const section = schedule.sections.find((section) => section.name === payload);
           const lecture = schedule.lectures.find((lecture) => lecture.name === section?.lecture);
@@ -36,67 +38,27 @@ const getTimes = (courseID: string, schedule: Schedule, selectedSessions: Course
         }
         dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({ courseID, sessionType, session: payload as string }));
       }}>
-        <Listbox.Label className="flex">
-          {sessionType}
-        </Listbox.Label>
-        <Listbox.Button
-          className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-black sm:text-sm sm:leading-5">
-            <span className="flex flex-wrap gap-1">
-              {selectedSession.length === 0 ? (
-                <span className="p-0.5">Select {sessionType}</span>
-              ) : (
-                <span
-                  key={selectedSession}
-                  className="flex items-center gap-1 rounded px-2 py-0.5"
-                >
-                  {selectedSession}
+        {sessions.map((lecture) => (
+          <RadioGroup.Option
+            key={lecture.name}
+            value={lecture.name}
+            className={({active}) => {
+              return classNames(
+                "flex relative justify-center cursor-pointer select-none focus:outline-none",
+                active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
+              );
+            }}
+          >
+            {({checked}) => (
+              <span className="block truncate">
+                <span className={classNames("text-gray-700", checked ? "font-semibold" : "font-normal")}>
+                  {lecture.name}
                 </span>
-              )}
-            </span>
-          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400"/>
-          </span>
-        </Listbox.Button>
-        <div className="absolute inset-x-3 mt-1 rounded shadow-lg bg-white">
-          <Listbox.Options
-            className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
-            {sessions.map((lecture) => (
-              <Listbox.Option
-                key={lecture.name}
-                value={lecture.name}
-                className={({active}) => {
-                  return classNames(
-                    "relative cursor-pointer select-none py-2 pl-3 pr-9 focus:outline-none ",
-                    active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
-                  );
-                }}
-              >
-                {({selected}) => (
-                  <>
-                      <span className={"block truncate"}>
-                        <span
-                          className={classNames(
-                            "ml-1 text-gray-700",
-                            selected ? "font-semibold" : "font-normal"
-                          )}
-                        >
-                          {lecture.name}
-                        </span>
-                      </span>
-                    {selected && (
-                      <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-                          <CheckIcon className="h-5 w-5"/>
-                        </span>
-                    )}
-                  </>
-                )}
-              </Listbox.Option>
-            ))}
-            {sessions.length === 0 &&
-                <Listbox.Option value={""} className="py-2 pl-3 pr-9 text-gray-500">No {sessionType}s</Listbox.Option>}
-          </Listbox.Options>
-        </div>
-      </Listbox>
+              </span>
+            )}
+          </RadioGroup.Option>
+        ))}
+      </RadioGroup>
     </div>
   )
 }
@@ -200,10 +162,12 @@ const SectionSelector = ({ courseIDs }: Props) => {
             const schedule = course.schedules?.find((sched: Schedule) => sessionToString(sched) === selectedSession);
             const courseID = course.courseID;
 
+            const sessionType = schedule.sections ? "Section" : "Lecture";
+
             return (
               <div key={courseID} className="relative mb-4 p-3 rounded-md border border-black" style={{backgroundColor: selectedCourseSessions[courseID]?.Color || ""}}>
                 <div className="flex justify-between text-lg">
-                  {courseID}
+                  {courseID} (Select {sessionType})
                   <span
                     className="cursor-pointer"
                     onClick={(e) => {
