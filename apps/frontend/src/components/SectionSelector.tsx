@@ -157,7 +157,7 @@ const SectionSelector = ({ courseIDs }: Props) => {
           </Listbox.Button>
           <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
             <Listbox.Options
-              className="shadow-xs relative z-50 max-h-60 rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
+              className="shadow-xs relative z-50 max-h-60 rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5 overflow-auto">
               {semesters.map((semester) => (
                 <Listbox.Option
                   key={semester}
