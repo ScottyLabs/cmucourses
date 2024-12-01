@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { PrismaReturn } from "~/util";
-import prisma from "@cmucourses/db";
+import db from "@cmucourses/db";
 
 const getAllInstructorsDbQuery = {
   select: {
@@ -10,7 +10,7 @@ const getAllInstructorsDbQuery = {
 
 export interface GetInstructors {
   params: unknown;
-  resBody: PrismaReturn<typeof prisma.fces.findMany<typeof getAllInstructorsDbQuery>>;
+  resBody: PrismaReturn<typeof db.fces.findMany<typeof getAllInstructorsDbQuery>>;
   reqBody: unknown;
   query: unknown;
 }
@@ -22,7 +22,7 @@ export const getInstructors: RequestHandler<
   GetInstructors["query"]
 > = async (_, res, next) => {
   try {
-    const instructors = await prisma.fces.findMany({
+    const instructors = await db.fces.findMany({
       select: {
         instructor: true,
       },

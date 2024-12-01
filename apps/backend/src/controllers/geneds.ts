@@ -1,5 +1,4 @@
 import { RequestHandler } from "express";
-import prisma from "@cmucourses/db";
 import { ElemType, PrismaReturn } from "~/util";
 import db from "@cmucourses/db";
 
@@ -40,7 +39,7 @@ export const getGeneds: RequestHandler<
   try {
     if ("school" in req.query) {
       const school = req.query.school
-      const geneds = await prisma.geneds.findMany({
+      const geneds = await db.geneds.findMany({
         select: {
           courseID: true,
           tags: true,
@@ -56,7 +55,7 @@ export const getGeneds: RequestHandler<
       const courseIDs = Object.keys(proccesedGeneds);
 
 
-      const courses = await prisma.courses.findMany({
+      const courses = await db.courses.findMany({
         select: {
           courseID: true,
           name: true,
@@ -76,7 +75,7 @@ export const getGeneds: RequestHandler<
 
       let fces;
       if (req.body.token) {
-        fces = await prisma.fces.findMany({
+        fces = await db.fces.findMany({
           where: {
             courseID: {
               in: courseIDs
