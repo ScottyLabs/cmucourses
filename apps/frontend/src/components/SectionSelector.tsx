@@ -119,7 +119,7 @@ const SectionSelector = ({ courseIDs }: Props) => {
   });
 
   return (
-    <div>
+    <div className="pt-4">
       <div className="mb-2 flex gap-1 justify-between">
         <div className="text-lg">Schedule Calendar</div>
         <button
@@ -157,7 +157,7 @@ const SectionSelector = ({ courseIDs }: Props) => {
           </Listbox.Button>
           <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
             <Listbox.Options
-              className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
+              className="shadow-xs relative z-50 max-h-60 rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
               {semesters.map((semester) => (
                 <Listbox.Option
                   key={semester}
@@ -194,7 +194,7 @@ const SectionSelector = ({ courseIDs }: Props) => {
           </div>
         </Listbox>
       </div>
-      <div className="overflow-y-auto h-72 my-4">
+      <div className="my-4">
         {
           CourseDetails.filter((course) => course.schedules?.some((sched: Schedule) => sessionToString(sched) === selectedSession)).map((course) => {
             const schedule = course.schedules?.find((sched: Schedule) => sessionToString(sched) === selectedSession);

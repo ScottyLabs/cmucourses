@@ -14,7 +14,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
 
   return open ? (
-    <div className="relative z-30 w-full border-r border-gray-100 md:w-72 lg:w-96">
+    <div className="relative z-30 w-full border-r border-gray-100 md:w-72 lg:w-96 overflow-y-auto bg-white">
       <button className="absolute right-3 top-3 z-40 md:top-4 md:right-2">
         <FlushedButton
           onClick={() => dispatch(uiSlice.actions.toggleSidebarOpen())}
