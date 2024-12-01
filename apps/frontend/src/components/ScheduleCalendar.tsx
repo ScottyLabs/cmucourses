@@ -170,7 +170,7 @@ const ScheduleCalendar = ({ courseIDs }: Props) =>{
       },
       components: {
         toolbar: CustomToolbar,
-        header: ({ date } : { date: Date }) => <span>{days[moment(date).day()]}</span>,
+        header: ({ date } : { date: Date }) => <div>{days[moment(date).day()]}</div>,
       },
       formats: {
         eventTimeRangeFormat: () => {
