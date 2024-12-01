@@ -9,7 +9,7 @@ import moment from "moment";
 import { useAppSelector } from "~/app/hooks";
 import { Course, Time } from "~/app/types";
 import { sessionToString } from "~/app/utils";
-import { selectCourseSessionsInActiveSchedule, selectSessionInActiveSchedule } from "~/app/userSchedules";
+import { CourseSessions, selectCourseSessionsInActiveSchedule, selectSessionInActiveSchedule } from "~/app/userSchedules";
 import { useFetchCourseInfos } from "~/app/api/course";
 
 const localizer = momentLocalizer(moment);
@@ -80,12 +80,6 @@ const getTime = (day: number, time: string) => {
   return new Date(2024, 8, 29 + day, parseInt(hour || "0"), parseInt(minute || "0"));
 }
 
-interface courseSessions {
-  [courseID: string]: {
-    [sessionType: string]: string;
-  };
-}
-
 const getTimes = (courseID: string, sessionType: string, sessionTimes: Time[], color: string) => {
   const times = [];
   for (const sessionTime of sessionTimes || []) {
@@ -108,7 +102,7 @@ interface Event {
   color: string;
 }
 
-const getEvents = (CourseDetails: Course[], selectedSemester: string, selectedSessions: courseSessions) => {
+const getEvents = (CourseDetails: Course[], selectedSemester: string, selectedSessions: CourseSessions) => {
   let events: Event[] = [];
 
   const filteredCourses = CourseDetails.filter((course) => {
