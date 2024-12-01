@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { Listbox, RadioGroup } from "@headlessui/react";
@@ -17,13 +17,13 @@ import { FlushedButton } from "~/components/Buttons";
 
 const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
   const dispatch = useAppDispatch();
-  const CourseDetails = useFetchCourseInfos(courseIDs);
+  const courseDetails = useFetchCourseInfos(courseIDs);
 
   const selectedSession = useAppSelector(selectSessionInActiveSchedule);
   const selectedCourseSessions = useAppSelector(selectCourseSessionsInActiveSchedule);
   const scheduleView = useAppSelector((state) => state.user.scheduleView);
 
-  const semesters = [...new Set(CourseDetails.flatMap(course => {
+  const semesters = [...new Set(courseDetails.flatMap(course => {
     const schedules: Schedule[] = course.schedules;
     if (schedules) {
       return schedules.map(schedule => sessionToString(schedule));
@@ -31,6 +31,19 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
   }))].sort((a, b) => {
     return compareSessions(stringToSession(a || ""), stringToSession(b || ""));
   });
+
+  const coursesNotInSemester = courseIDs.filter((courseID) => {
+    const course = courseDetails.find(course => course.courseID === courseID);
+    const schedules: Schedule[] = course?.schedules || [];
+    return !schedules.some(schedule => sessionToString(schedule) === selectedSession);
+  });
+
+  useEffect(() => {
+    // Check if selected session is in the list of semesters
+    if (selectedSession.length > 0 && !semesters.includes(selectedSession)) {
+      dispatch(userSchedulesSlice.actions.updateActiveScheduleSession(stringToSession("")));
+    }
+  }, [selectedSession, semesters])
 
   return (
     <div className="pt-4">
@@ -50,7 +63,9 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
           <Listbox.Button
             className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
           <span className="flex flex-wrap gap-1">
-            {selectedSession.length === 0 ? (
+            {semesters.length === 0 ? (
+              <span className="p-0.5">Add courses</span>
+            ) : selectedSession.length === 0 ? (
               <span className="p-0.5">Select Semester</span>
             ) : (
               <span
@@ -103,10 +118,14 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
             </Listbox.Options>
           </div>
         </Listbox>
+        <div className="text-sm text-gray-500 pt-2">
+          {selectedSession.length > 0 && coursesNotInSemester.length > 0 &&
+            `The following courses are not offered in the selected semester: ${coursesNotInSemester.join(", ")}.`}
+        </div>
       </div>
       <div className="my-4">
         {
-          CourseDetails.filter((course) => course.schedules?.some((sched: Schedule) => sessionToString(sched) === selectedSession)).map((course) => {
+          courseDetails.filter((course) => course.schedules?.some((sched: Schedule) => sessionToString(sched) === selectedSession)).map((course) => {
             const schedule: Schedule = course.schedules?.find((sched: Schedule) => sessionToString(sched) === selectedSession);
             const courseID = course.courseID;
 
