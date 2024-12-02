@@ -6,6 +6,7 @@ import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "~/
 import { getFCEs } from "~/controllers/fces";
 import { getInstructors } from "~/controllers/instructors";
 import { getGeneds } from "~/controllers/geneds";
+import { getSchedules } from "~/controllers/schedules";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -26,6 +27,7 @@ app.route("/courses/search/").post(isUser, getFilteredCourses);
 app.route("/fces").post(isUser, getFCEs);
 
 app.route("/instructors").get(getInstructors);
+app.route("/schedules").get(getSchedules);
 
 app.route("/geneds").get(getGeneds);
 app.route("/geneds").post(isUser, getGeneds);
