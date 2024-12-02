@@ -8,7 +8,7 @@ export interface GetSchedules {
   params: unknown;
   resBody: Omit<schedule, "id" | "v">[];
   reqBody: unknown;
-  query: { courseID: string | string[] } | { instructor: string };
+  query: { courseID: string | string[] } | { instructor: string | string[] };
 }
 
 export const getSchedules: RequestHandler<
@@ -18,11 +18,11 @@ export const getSchedules: RequestHandler<
   GetSchedules["query"]
 > = async (req, res, next) => {
   if ("instructor" in req.query) {
-    const instructor = req.query.instructor;
+    const instructors = singleToArray(req.query.instructor);
     try {
       const schedules = await db.schedules.findMany({
         where: {
-          instructors: { has: instructor },
+          instructors: { hasSome: instructors },
         },
       });
       const projectedResults = schedules.map((courseFce) => exclude(courseFce, "id", "v"));
@@ -35,7 +35,7 @@ export const getSchedules: RequestHandler<
     try {
       const schedules = await db.schedules.findMany({
         where: {
-          courseID: {in: courseIDs},
+          courseID: { in: courseIDs },
         },
       });
       const projectedResults = schedules.map((courseFce) => exclude(courseFce, "id", "v"));
