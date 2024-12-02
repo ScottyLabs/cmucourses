@@ -9,23 +9,15 @@
   },
   "devDependencies": {
     "@nx/next": "19.6.3",
-    "@tanstack/eslint-plugin-query": "^5.61.3",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.1",
-    "eslint-config-prettier": "^8.8.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint-config-prettier": "^8.10.0",
     "nx": "19.6.3",
-    "prettier": "^2.8.7",
-    "typescript": "^5.5.4"
+    "prettier": "^2.8.8",
+    "typescript": "^5.7.2"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
-  ],
-  "dependencies": {
-    "@tanstack/react-query": "^5.61.3",
-    "@tanstack/react-query-devtools": "^5.61.3",
-    "@types/lodash-es": "^4.17.12",
-    "@yornaath/batshit": "^0.10.1",
-    "lodash-es": "^4.17.21"
-  }
+  ]
 }
