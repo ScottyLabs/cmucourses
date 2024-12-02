@@ -73,12 +73,11 @@ export const LoginModal = () => {
                     >
                       Continue without logging in
                     </button>
-                    <button
-                      type="button"
+                    <div
                       className="inline-flex justify-center rounded border px-4 py-2 text-sm font-medium border-transparent text-blue-900 bg-blue-50 hover:bg-blue-100"
                     >
                       <SignInButton />
-                    </button>
+                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
