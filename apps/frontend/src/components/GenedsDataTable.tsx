@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-table";
 import Link from "./Link";
 import { Gened } from "~/app/types";
-import { Tooltip } from "react-tooltip";
+import { getTooltip } from "~/components/GetTooltip";
 
 const defaultValue = (info: any) => {
   const val = info.getValue() as string;
@@ -31,11 +31,7 @@ const columns: ColumnDef<Gened>[] = [
           <Link href={`/course/${courseID}`} data-tooltip-id={courseID} >
             {courseID}
           </Link>
-          <Tooltip id={courseID} className="max-w-sm z-40">
-            <div className="flex flex-col">
-              <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
-            </div>
-          </Tooltip>
+          {getTooltip(courseID, info.row.original.desc as string)}
         </>
       )
     },
@@ -51,11 +47,7 @@ const columns: ColumnDef<Gened>[] = [
             <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={name} >
               <span className="text-wrap">{name}</span>
             </Link>
-            <Tooltip id={name} className="max-w-sm z-40">
-              <div className="flex flex-col">
-                <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
-              </div>
-            </Tooltip>
+            {getTooltip(name, info.row.original.desc as string)}
           </>
         )
       }

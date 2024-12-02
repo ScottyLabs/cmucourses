@@ -3,14 +3,10 @@ import { Tab } from "@headlessui/react";
 import Link from "./Link";
 import { compareSessions, stringToSession } from "~/app/utils";
 import { useFetchCourseInfos } from "~/app/api/course";
-import {
-  ColumnDef,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Course } from "~/app/types";
-import { Tooltip } from "react-tooltip";
 import { getTable } from "~/components/GetTable";
+import { getTooltip } from "~/components/GetTooltip";
 
 const columns: ColumnDef<Course>[] = [
   {
@@ -20,14 +16,10 @@ const columns: ColumnDef<Course>[] = [
       const courseID = info.getValue() as string;
       return (
         <>
-          <Link href={`/course/${courseID}`} data-tooltip-id={courseID} >
+          <Link href={`/course/${courseID}`} data-tooltip-id={courseID}>
             {courseID}
           </Link>
-          <Tooltip id={courseID} className="max-w-sm z-40">
-            <div className="flex flex-col">
-              <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
-            </div>
-          </Tooltip>
+          {getTooltip(courseID, info.row.original.desc as string)}
         </>
       )
     },
@@ -43,11 +35,7 @@ const columns: ColumnDef<Course>[] = [
             <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={name} >
               <span className="text-wrap">{name}</span>
             </Link>
-            <Tooltip id={name} className="max-w-sm z-40">
-              <div className="flex flex-col">
-                <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
-              </div>
-            </Tooltip>
+            {getTooltip(name, info.row.original.desc as string)}
           </>
         )
       }
