@@ -90,9 +90,9 @@ const convertFCEData = (fces: FCE[]) => {
 };
 
 export const FCEDataTable = ({
- columns,
- data,
- columnVisibility,
+  columns,
+  data,
+  columnVisibility,
 }: {
   columns: ColumnDef<FCEDetailRow>[];
   data: FCEDetailRow[];
@@ -131,13 +131,6 @@ export const FCETable = ({
   if (!fces || fces.length == 0) {
     return <></>;
   }
-
-  const table = useReactTable({
-    columns,
-    data: convertFCEData(filteredFCEs),
-    state: { columnVisibility },
-    getCoreRowModel: getCoreRowModel(),
-  });
 
   return (
     <>
