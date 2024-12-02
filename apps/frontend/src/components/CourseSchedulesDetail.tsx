@@ -27,7 +27,7 @@ const getInstructors = (instructors: string[]) => {
   );
 };
 
-const Lecture = ({
+const LectureViewer = ({
   lectureInfo,
   sections,
 }: {
@@ -75,7 +75,7 @@ const Lecture = ({
                 <Link href={`https://maps.scottylabs.org/${time.building}-${time.room}`} openInNewTab = {true}>
                   {time.building} {time.room}
                 </Link>
-                
+
               </div>
             ))}
           </div>
@@ -85,12 +85,12 @@ const Lecture = ({
   );
 };
 
-const Schedule = ({ scheduleInfo }: { scheduleInfo: Schedule }) => {
+const ScheduleViewer = ({ scheduleInfo }: { scheduleInfo: Schedule }) => {
   let scheduleDivs;
 
   if (scheduleInfo.lectures.length !== 0) {
     scheduleDivs = scheduleInfo.lectures.map((lecture) => (
-      <Lecture
+      <LectureViewer
         key={lecture.name}
         lectureInfo={lecture}
         sections={scheduleInfo.sections.filter(
@@ -100,7 +100,7 @@ const Schedule = ({ scheduleInfo }: { scheduleInfo: Schedule }) => {
     ));
   } else {
     scheduleDivs = scheduleInfo.sections.map((section) => (
-      <Lecture lectureInfo={section} sections={[]} key={section.name} />
+      <LectureViewer lectureInfo={section} sections={[]} key={section.name} />
     ));
   }
   return (
@@ -110,7 +110,7 @@ const Schedule = ({ scheduleInfo }: { scheduleInfo: Schedule }) => {
   );
 };
 
-export const SchedulesDetail = ({
+export const CourseSchedulesDetail = ({
   scheduleInfos,
 }: {
   scheduleInfos: Schedule[];
@@ -136,7 +136,7 @@ export const SchedulesDetail = ({
       <Tab.Panels>
         {scheduleInfos.map((scheduleInfo) => (
           <Tab.Panel key={sessionToString(scheduleInfo)}>
-            <Schedule scheduleInfo={scheduleInfo} />
+            <ScheduleViewer scheduleInfo={scheduleInfo} />
           </Tab.Panel>
         ))}
       </Tab.Panels>

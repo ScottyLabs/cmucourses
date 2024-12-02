@@ -12,7 +12,7 @@ import BookmarkButton from "./BookmarkButton";
 import Link from "next/link";
 import { FCEDetail } from "./FCEDetail";
 import { Card } from "./Card";
-import { SchedulesDetail } from "./SchedulesDetail";
+import { CourseSchedulesDetail } from "./CourseSchedulesDetail";
 import { useFetchCourseInfo } from "~/app/api/course";
 import { useFetchFCEInfoByCourse } from "~/app/api/fce";
 import { useAuth } from "@clerk/nextjs";
@@ -122,7 +122,7 @@ const CourseCard = ({
       <div className="m-auto space-y-4">
         {showFCEs && fces && <FCEDetail fces={fces} />}
         {showSchedules && sortedSchedules && (
-          <SchedulesDetail scheduleInfos={sortedSchedules} />
+          <CourseSchedulesDetail scheduleInfos={sortedSchedules} />
         )}
       </div>
     </Card>
