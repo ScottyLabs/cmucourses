@@ -3,10 +3,12 @@ import { useAppSelector } from "~/app/hooks";
 import { useFetchFCEInfosByInstructor } from "~/app/api/fce";
 import Loading from "./Loading";
 import { InstructorFCEDetail } from "./InstructorFCEDetail";
-import { toNameCase } from "~/app/utils";
+import { sessionToString, toNameCase } from "~/app/utils";
 import { Card } from "./Card";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
+import { useFetchSchedulesByInstructor } from "~/app/api/schedules";
+import { InstructorSchedulesDetail } from "~/components/InstructorSchedulesDetail";
 
 type Props = {
   name: string;
@@ -20,9 +22,10 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
   );
 
   const { isSignedIn, getToken } = useAuth();
-  const { isPending, data: fces } = useFetchFCEInfosByInstructor(name, isSignedIn, getToken);
+  const { isPending: isFCEsPending, data: fces } = useFetchFCEInfosByInstructor(name, isSignedIn, getToken);
+  const { isPending: isSchedulesPending, data: schedules } = useFetchSchedulesByInstructor(name);
 
-  if (isPending || !fces) {
+  if (isFCEsPending || isSchedulesPending || !fces || !schedules) {
     return (
       <div
         className={
@@ -33,6 +36,16 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
       </div>
     );
   }
+
+  const scheduleInfos: { [session: string]: string[] } = {};
+  schedules.schedules.forEach((schedule) => {
+    const session = sessionToString(schedule);
+    if (!scheduleInfos[session]) {
+      scheduleInfos[session] = [schedule.courseID];
+    } else {
+      scheduleInfos[session].push(schedule.courseID);
+    }
+  });
 
   return (
     <Card>
@@ -50,6 +63,9 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
           aggregationOptions={aggregationOptions}
           extraFilters={extraFilters}
         />
+      </div>
+      <div className="pt-1">
+        <InstructorSchedulesDetail name={name} scheduleInfos={scheduleInfos} />
       </div>
     </Card>
   );

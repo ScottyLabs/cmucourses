@@ -57,6 +57,7 @@ export interface Schedule extends Session {
   courseID: string;
   lectures: Lecture[];
   sections: Section[];
+  instructors?: string[];
 }
 
 export interface FCE extends Session {
