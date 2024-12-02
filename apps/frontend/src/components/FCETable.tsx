@@ -89,6 +89,26 @@ const convertFCEData = (fces: FCE[]) => {
   });
 };
 
+export const FCEDataTable = ({
+ columns,
+ data,
+ columnVisibility,
+}: {
+  columns: ColumnDef<FCEDetailRow>[];
+  data: FCEDetailRow[];
+  columnVisibility: Record<string, boolean>;
+}) => {
+  const table = useReactTable({
+    columns,
+    data,
+    state: { columnVisibility },
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  return getTable(table);
+};
+
+
 export const FCETable = ({
   fces,
   columnVisibility,
@@ -168,7 +188,11 @@ export const FCETable = ({
         </div>
       )}
       <div className="mt-3 overflow-x-auto rounded p-4 bg-gray-50">
-        {getTable(table)}
+        <FCEDataTable
+          columns={columns}
+          data={convertFCEData(filteredFCEs)}
+          columnVisibility={columnVisibility}
+        />
       </div>
     </>
   );
