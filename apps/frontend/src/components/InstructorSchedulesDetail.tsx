@@ -1,20 +1,79 @@
 import React from "react";
 import { Tab } from "@headlessui/react";
 import Link from "./Link";
-import {compareSessions, stringToSession} from "~/app/utils";
+import { compareSessions, stringToSession } from "~/app/utils";
+import { useFetchCourseInfos } from "~/app/api/course";
+import {
+  ColumnDef,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { Course } from "~/app/types";
+import { Tooltip } from "react-tooltip";
+import { getTable } from "~/components/GetTable";
+
+const columns: ColumnDef<Course>[] = [
+  {
+    header: "Course",
+    accessorKey: "courseID",
+    cell: (info) => {
+      const courseID = info.getValue() as string;
+      return (
+        <>
+          <Link href={`/course/${courseID}`} data-tooltip-id={courseID} >
+            {courseID}
+          </Link>
+          <Tooltip id={courseID} className="max-w-sm z-40">
+            <div className="flex flex-col">
+              <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
+            </div>
+          </Tooltip>
+        </>
+      )
+    },
+  },
+  {
+    header: "Course Name",
+    accessorKey: "name",
+    cell: (info) => {
+      const name = info.getValue() as string;
+      if (name) {
+        return (
+          <>
+            <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={name} >
+              <span className="text-wrap">{name}</span>
+            </Link>
+            <Tooltip id={name} className="max-w-sm z-40">
+              <div className="flex flex-col">
+                <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
+              </div>
+            </Tooltip>
+          </>
+        )
+      }
+      return <p>-</p>
+    },
+  },
+  {
+    header: "Units",
+    accessorKey: "units",
+  },
+];
 
 const ScheduleViewer = ({ courseIDs }: { courseIDs: string[] }) => {
+  const data = useFetchCourseInfos(courseIDs);
+
+  if (!data) return null;
+
+  const table = useReactTable({
+    columns,
+    data,
+    getCoreRowModel: getCoreRowModel(),
+  });
+
   return (
-    <div className="p-2">
-      <div className="flex text-gray-700 text-sm">
-        {courseIDs.map((courseID, i) => (
-          <div className="pr-1" key={courseID}>
-            <Link href={`/course/${courseID}`}>
-              {courseID}{i !== courseIDs.length - 1 ? `,` : ""}
-            </Link>
-          </div>
-        ))}
-      </div>
+    <div className="p-3">
+      {getTable(table)}
     </div>
   );
 };

@@ -1,20 +1,11 @@
 import React from "react";
-import {
-  AggregatedFCEs,
-  aggregateFCEs,
-  AggregateFCEsOptions,
-  filterFCEs,
-} from "~/app/fce";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { AggregatedFCEs, aggregateFCEs, AggregateFCEsOptions, filterFCEs } from "~/app/fce";
+import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { FCE } from "~/app/types";
-import { sessionToString, responseRateZero } from "~/app/utils";
+import { responseRateZero, sessionToString } from "~/app/utils";
 import { StarRating } from "./StarRating";
 import Link from "./Link";
+import { getTable } from "~/components/GetTable";
 
 const columns: ColumnDef<FCEDetailRow>[] = [
   {
@@ -58,59 +49,6 @@ const columns: ColumnDef<FCEDetailRow>[] = [
     accessorKey: "responseRate",
   },
 ];
-
-export const FCEDataTable = ({
-  columns,
-  data,
-  columnVisibility,
-}: {
-  columns: ColumnDef<FCEDetailRow>[];
-  data: FCEDetailRow[];
-  columnVisibility: Record<string, boolean>;
-}) => {
-  const table = useReactTable({
-    columns,
-    data,
-    state: { columnVisibility },
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  return (
-    <table className="w-full min-w-fit table-auto">
-      <thead>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th
-                className="whitespace-nowrap px-2 text-left text-sm font-semibold text-gray-700"
-                key={header.id}
-              >
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext()
-                )}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id} className="hover:bg-white">
-            {row.getVisibleCells().map((cell) => (
-              <td
-                className="whitespace-nowrap px-2 text-sm text-gray-600"
-                key={cell.id}
-              >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
 
 type FCEDetailRow = ReturnType<typeof convertFCEData>[0];
 
@@ -163,6 +101,13 @@ export const FCETable = ({
     return <></>;
   }
 
+  const table = useReactTable({
+    columns,
+    data: convertFCEData(filteredFCEs),
+    state: { columnVisibility },
+    getCoreRowModel: getCoreRowModel(),
+  });
+
   return (
     <>
       {aggregateData && aggregateData.fcesCounted !== 0 && (
@@ -212,11 +157,7 @@ export const FCETable = ({
         </div>
       )}
       <div className="mt-3 overflow-x-auto rounded p-4 bg-gray-50">
-        <FCEDataTable
-          columns={columns}
-          data={convertFCEData(filteredFCEs)}
-          columnVisibility={columnVisibility}
-        />
+        {getTable(table)}
       </div>
     </>
   );
