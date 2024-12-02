@@ -6,6 +6,8 @@ import { responseRateZero, sessionToString } from "~/app/utils";
 import { StarRating } from "./StarRating";
 import Link from "./Link";
 import { getTable } from "~/components/GetTable";
+import { useFetchCourseInfo } from "~/app/api/course";
+import { getTooltip } from "~/components/GetTooltip";
 
 const columns: ColumnDef<FCEDetailRow>[] = [
   {
@@ -17,7 +19,15 @@ const columns: ColumnDef<FCEDetailRow>[] = [
     accessorKey: "courseID",
     cell: (info) => {
       const courseID = info.getValue() as string;
-      return <Link href={`/course/${courseID}`}>{courseID}</Link>;
+      const id = `fce-table-${courseID}`;
+      return (
+        <>
+          <Link href={`/course/${courseID}`} data-tooltip-id={id} >
+            {courseID}
+          </Link>
+          {getTooltip(id, info.row.original.desc as string)}
+        </>
+      )
     },
   },
   {
@@ -54,6 +64,8 @@ type FCEDetailRow = ReturnType<typeof convertFCEData>[0];
 
 const convertFCEData = (fces: FCE[]) => {
   return fces.map((fce) => {
+    const { data }  = useFetchCourseInfo(fce.courseID);
+
     if (responseRateZero(fce)) {
       // If response rate is 0, then the no data
       return {
@@ -63,6 +75,7 @@ const convertFCEData = (fces: FCE[]) => {
         teachingRate: "N/A",
         courseRate: "N/A",
         hrsPerWeek: "N/A",
+        desc: data?.desc,
       };
     }
     return {
@@ -74,6 +87,7 @@ const convertFCEData = (fces: FCE[]) => {
       semesterStr: sessionToString(fce),
       teachingRate: fce.rating[7],
       courseRate: fce.rating[8],
+      desc: data?.desc,
     };
   });
 };
