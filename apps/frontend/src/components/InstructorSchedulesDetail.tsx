@@ -2,15 +2,10 @@ import React from "react";
 import { Tab } from "@headlessui/react";
 import Link from "./Link";
 
-const ScheduleViewer = ({ name, courseIDs }: { name: string; courseIDs: string[] }) => {
+const ScheduleViewer = ({ courseIDs }: { courseIDs: string[] }) => {
   return (
     <div className="p-2">
       <div className="flex text-gray-700 text-sm">
-        {name.toLowerCase()
-          .split(' ')
-          .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-          .join(" ")} is teaching:
-        &nbsp;
         {courseIDs.map((courseID, i) => (
           <div className="pr-1" key={courseID}>
             <Link href={`/course/${courseID}`}>
@@ -28,10 +23,8 @@ interface ScheduleInfos {
 }
 
 export const InstructorSchedulesDetail = ({
-  name,
   scheduleInfos,
 }: {
-  name: string;
   scheduleInfos: ScheduleInfos;
 }) => {
   const sessions = Object.keys(scheduleInfos);
@@ -56,7 +49,7 @@ export const InstructorSchedulesDetail = ({
       <Tab.Panels>
         {sessions.map((session) => (
           <Tab.Panel key={session}>
-            <ScheduleViewer name={name} courseIDs={scheduleInfos[session] || []} />
+            <ScheduleViewer courseIDs={scheduleInfos[session] || []} />
           </Tab.Panel>
         ))}
       </Tab.Panels>

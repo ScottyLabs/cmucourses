@@ -65,7 +65,7 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
         />
       </div>
       {schedules.schedules.length > 0 && (<div className="pt-1">
-        <InstructorSchedulesDetail name={name} scheduleInfos={scheduleInfos} />
+        <InstructorSchedulesDetail scheduleInfos={scheduleInfos} />
       </div>)}
     </Card>
   );
