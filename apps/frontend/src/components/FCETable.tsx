@@ -20,12 +20,13 @@ const columns: ColumnDef<FCEDetailRow>[] = [
     cell: (info) => {
       const courseID = info.getValue() as string;
       const id = `fce-table-${courseID}`;
+      const { data } = useFetchCourseInfo(courseID);
       return (
         <>
           <Link href={`/course/${courseID}`} data-tooltip-id={id} >
             {courseID}
           </Link>
-          {getTooltip(id, info.row.original.desc as string)}
+          {getTooltip(id, data?.desc as string)}
         </>
       )
     },
@@ -64,8 +65,6 @@ type FCEDetailRow = ReturnType<typeof convertFCEData>[0];
 
 const convertFCEData = (fces: FCE[]) => {
   return fces.map((fce) => {
-    const { data }  = useFetchCourseInfo(fce.courseID);
-
     if (responseRateZero(fce)) {
       // If response rate is 0, then the no data
       return {
@@ -75,7 +74,6 @@ const convertFCEData = (fces: FCE[]) => {
         teachingRate: "N/A",
         courseRate: "N/A",
         hrsPerWeek: "N/A",
-        desc: data?.desc,
       };
     }
     return {
@@ -87,7 +85,6 @@ const convertFCEData = (fces: FCE[]) => {
       semesterStr: sessionToString(fce),
       teachingRate: fce.rating[7],
       courseRate: fce.rating[8],
-      desc: data?.desc,
     };
   });
 };
