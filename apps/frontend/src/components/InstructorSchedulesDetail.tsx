@@ -14,12 +14,13 @@ const columns: ColumnDef<Course>[] = [
     accessorKey: "courseID",
     cell: (info) => {
       const courseID = info.getValue() as string;
+      const id = `instructor-schedules-detail-${courseID}`;
       return (
         <>
-          <Link href={`/course/${courseID}`} data-tooltip-id={courseID}>
+          <Link href={`/course/${courseID}`} data-tooltip-id={id}>
             {courseID}
           </Link>
-          {getTooltip(courseID, info.row.original.desc as string)}
+          {getTooltip(id, info.row.original.desc as string)}
         </>
       )
     },
@@ -29,13 +30,14 @@ const columns: ColumnDef<Course>[] = [
     accessorKey: "name",
     cell: (info) => {
       const name = info.getValue() as string;
+      const id = `instructor-schedules-detail-${name}`;
       if (name) {
         return (
           <>
-            <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={name} >
+            <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={id} >
               <span className="text-wrap">{name}</span>
             </Link>
-            {getTooltip(name, info.row.original.desc as string)}
+            {getTooltip(id, info.row.original.desc as string)}
           </>
         )
       }
