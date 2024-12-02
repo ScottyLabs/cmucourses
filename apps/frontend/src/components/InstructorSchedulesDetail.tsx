@@ -30,7 +30,8 @@ const columns: ColumnDef<Course>[] = [
     accessorKey: "name",
     cell: (info) => {
       const name = info.getValue() as string;
-      const id = `instructor-schedules-detail-${name}`;
+      const courseID = info.row.original.courseID as string;
+      const id = `instructor-schedules-detail-${name}-${courseID}`;
       if (name) {
         return (
           <>
