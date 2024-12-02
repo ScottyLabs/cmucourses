@@ -8,7 +8,7 @@ export interface GetFces {
   params: unknown;
   resBody: Omit<fce, "id" | "v">[];
   reqBody: unknown;
-  query: { courseID: string | string[] } | { instructor: string };
+  query: { courseID: string | string[] } | { instructor: string | string[] };
 }
 
 export const getFCEs: RequestHandler<
@@ -19,7 +19,6 @@ export const getFCEs: RequestHandler<
 > = async (req, res, next) => {
   if ("courseID" in req.query) {
     const courseIDs = singleToArray(req.query.courseID).map(standardizeID);
-
     try {
       const results = await db.fces.findMany({
         where: {
@@ -34,11 +33,11 @@ export const getFCEs: RequestHandler<
       next(e);
     }
   } else {
-    const instructor = req.query.instructor;
+    const instructors = singleToArray(req.query.instructor);
     try {
       const results = await db.fces.findMany({
         where: {
-          instructor,
+          instructor: { in: instructors },
         },
       });
 

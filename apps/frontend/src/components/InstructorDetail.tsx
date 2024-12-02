@@ -60,7 +60,7 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
       </div>
       <div>
         <InstructorFCEDetail
-          fces={fces}
+          fces={fces.fces}
           aggregationOptions={aggregationOptions}
           extraFilters={extraFilters}
         />
