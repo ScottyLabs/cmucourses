@@ -3,7 +3,7 @@ import { useAppSelector } from "~/app/hooks";
 import { useFetchFCEInfosByInstructor } from "~/app/api/fce";
 import Loading from "./Loading";
 import { InstructorFCEDetail } from "./InstructorFCEDetail";
-import {compareSessions, filterSessions, sessionToString, toNameCase} from "~/app/utils";
+import { filterSessions, sessionToString, toNameCase } from "~/app/utils";
 import { Card } from "./Card";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
