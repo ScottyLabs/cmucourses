@@ -21,12 +21,19 @@ const columns: ColumnDef<FCEDetailRow>[] = [
       const courseID = info.getValue() as string;
       const id = `fce-table-${courseID}`;
       const { data } = useFetchCourseInfo(courseID);
+      const courseName = data?.name as string;
+      const desc = data?.desc as string;
+      const tooltipText =
+        <>
+          <b>{courseName}</b>
+          <div>{desc}</div>
+        </>;
       return (
         <>
           <Link href={`/course/${courseID}`} data-tooltip-id={id} >
             {courseID}
           </Link>
-          {getTooltip(id, data?.desc as string)}
+          {getTooltip(id, tooltipText)}
         </>
       )
     },
