@@ -1,6 +1,7 @@
 import React from "react";
 import { Tab } from "@headlessui/react";
 import Link from "./Link";
+import {compareSessions, stringToSession} from "~/app/utils";
 
 const ScheduleViewer = ({ courseIDs }: { courseIDs: string[] }) => {
   return (
@@ -27,7 +28,9 @@ export const InstructorSchedulesDetail = ({
 }: {
   scheduleInfos: ScheduleInfos;
 }) => {
-  const sessions = Object.keys(scheduleInfos);
+  const sessions = Object.keys(scheduleInfos).sort((a, b) => {
+    return compareSessions(stringToSession(a), stringToSession(b));
+  });
 
   return (
     <Tab.Group>

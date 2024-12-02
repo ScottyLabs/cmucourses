@@ -3,7 +3,7 @@ import { useAppSelector } from "~/app/hooks";
 import { useFetchFCEInfosByInstructor } from "~/app/api/fce";
 import Loading from "./Loading";
 import { InstructorFCEDetail } from "./InstructorFCEDetail";
-import { sessionToString, toNameCase } from "~/app/utils";
+import {compareSessions, filterSessions, sessionToString, toNameCase} from "~/app/utils";
 import { Card } from "./Card";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
@@ -38,7 +38,8 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
   }
 
   const scheduleInfos: { [session: string]: string[] } = {};
-  schedules.schedules.forEach((schedule) => {
+  const filteredSchedules = filterSessions(schedules.schedules || [])
+  filteredSchedules.forEach((schedule) => {
     const session = sessionToString(schedule);
     if (!scheduleInfos[session]) {
       scheduleInfos[session] = [schedule.courseID];
