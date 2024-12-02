@@ -23,13 +23,13 @@ const CourseFilter = ({ name }: Props) => {
 
   const { isSignedIn, getToken } = useAuth();
   const { data: fces } = useFetchFCEInfosByInstructor(name, isSignedIn, getToken);
-  const courses = getUnique(fces?.map((fce) => fce.courseID).sort() || []);
+  const courses = getUnique(fces?.fces?.map((fce) => fce.courseID).sort() || []);
 
   useEffect(() => {
     dispatch(
       userSlice.actions.setFilters({
         type: "courses",
-        courses: getUnique(fces?.map((fce) => fce.courseID).sort() || []),
+        courses: getUnique(fces?.fces?.map((fce) => fce.courseID).sort() || []),
         instructors: [],
       })
     );

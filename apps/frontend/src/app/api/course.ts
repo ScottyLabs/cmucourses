@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useQuery, useQueries, keepPreviousData } from "@tanstack/react-query";
 import { create, windowScheduler, keyResolver } from "@yornaath/batshit"
-import { Course, Session } from "~/types";
+import { Course, Session } from "~/app/types";
 import { STALE_TIME } from "~/app/constants";
 import { FiltersState } from "~/app/filters";
 import { useAppSelector } from "~/app/hooks";

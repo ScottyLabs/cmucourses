@@ -3,10 +3,12 @@ import { useAppSelector } from "~/app/hooks";
 import { useFetchFCEInfosByInstructor } from "~/app/api/fce";
 import Loading from "./Loading";
 import { InstructorFCEDetail } from "./InstructorFCEDetail";
-import { toNameCase } from "~/app/utils";
+import { filterSessions, sessionToString, toNameCase } from "~/app/utils";
 import { Card } from "./Card";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
+import { useFetchSchedulesByInstructor } from "~/app/api/schedules";
+import { InstructorSchedulesDetail } from "~/components/InstructorSchedulesDetail";
 
 type Props = {
   name: string;
@@ -20,9 +22,10 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
   );
 
   const { isSignedIn, getToken } = useAuth();
-  const { isPending, data: fces } = useFetchFCEInfosByInstructor(name, isSignedIn, getToken);
+  const { isPending: isFCEsPending, data: fces } = useFetchFCEInfosByInstructor(name, isSignedIn, getToken);
+  const { isPending: isSchedulesPending, data: schedules } = useFetchSchedulesByInstructor(name);
 
-  if (isPending || !fces) {
+  if (isFCEsPending || isSchedulesPending || !fces || !schedules) {
     return (
       <div
         className={
@@ -33,6 +36,17 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
       </div>
     );
   }
+
+  const scheduleInfos: { [session: string]: string[] } = {};
+  const filteredSchedules = filterSessions(schedules.schedules || [])
+  filteredSchedules.forEach((schedule) => {
+    const session = sessionToString(schedule);
+    if (!scheduleInfos[session]) {
+      scheduleInfos[session] = [schedule.courseID];
+    } else {
+      scheduleInfos[session].push(schedule.courseID);
+    }
+  });
 
   return (
     <Card>
@@ -46,11 +60,14 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
       </div>
       <div>
         <InstructorFCEDetail
-          fces={fces}
+          fces={fces.fces}
           aggregationOptions={aggregationOptions}
           extraFilters={extraFilters}
         />
       </div>
+      {schedules.schedules.length > 0 && (<div className="pt-1">
+        <InstructorSchedulesDetail scheduleInfos={scheduleInfos} />
+      </div>)}
     </Card>
   );
 };

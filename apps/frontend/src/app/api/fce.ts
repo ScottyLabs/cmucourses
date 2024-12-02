@@ -64,29 +64,41 @@ export const useFetchFCEInfosByCourse = (courseIDs: string[], isSignedIn: boolea
   });
 };
 
-const fetchFCEInfosByInstructor = async (instructor: string, isSignedIn: boolean | undefined, getToken: GetToken): Promise<FCE[]> => {
-  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/fces`;
-  const params = new URLSearchParams();
-  params.append("instructor", instructor);
+const fetchFCEInfosByInstructorBatcher = memoize((isSignedIn: boolean | undefined, getToken: GetToken) => {
+  return create({
+    fetcher: async (instructors: string[]): Promise<{ instructor: string; fces: FCE[]; }[]> => {
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/fces`;
+      const params = new URLSearchParams();
 
-  const token = await getToken();
+      instructors.forEach((instructor) => params.append("instructor", instructor));
 
-  if (isSignedIn && token) {
-    const response = await axios.post(url, { token }, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      params,
-    });
-    return response.data;
-  }
-  return [];
-};
+      const token = await getToken();
+
+      if (isSignedIn && token) {
+        const response = await axios.post(url, { token }, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          params,
+        });
+
+        return instructors.map((instructor) => ({
+          instructor,
+          fces: response.data.filter((fce: FCE) => fce.instructor === instructor)
+        }));
+      }
+      return [];
+    },
+    resolver: keyResolver("instructor"),
+    scheduler: windowScheduler(10),
+  });
+});
+
 
 export const useFetchFCEInfosByInstructor = (instructor: string, isSignedIn: boolean | undefined, getToken: GetToken) => {
   return useQuery({
     queryKey: ['instructorFCEs', { instructor, isSignedIn }],
-    queryFn: () => fetchFCEInfosByInstructor(instructor, isSignedIn, getToken),
+    queryFn: () => fetchFCEInfosByInstructorBatcher(isSignedIn, getToken).fetch(instructor),
     staleTime: STALE_TIME,
     placeholderData: keepPreviousData,
   });
