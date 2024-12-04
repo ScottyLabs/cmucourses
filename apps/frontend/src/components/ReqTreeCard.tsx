@@ -4,7 +4,7 @@ import React from "react";
 export const ReqTreeCard = () => { //add any inputs here
     return (
       <Card>
-        <Card.Header>Pre/Co/Post-requisite Tree</Card.Header>
+        <Card.Header>Prerequisite, Corequisite, and Postrequisite Tree</Card.Header>
       </Card>
     );
   };
