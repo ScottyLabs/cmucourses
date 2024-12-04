@@ -134,8 +134,8 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
 
             const courseID = course.courseID;
 
-            const sessionType = schedule.sections ? "Section" : "Lecture";
-            const sessions = schedule.sections || schedule.lectures
+            const sessionType = schedule.sections.length ? "Section" : "Lecture";
+            const sessions = schedule.sections.length ? schedule.sections : schedule.lectures;
 
             const selectedCourseSession = selectedCourseSessions[courseID]?.[sessionType] || "";
 
