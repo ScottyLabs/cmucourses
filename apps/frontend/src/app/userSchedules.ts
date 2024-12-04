@@ -152,6 +152,9 @@ export const userSchedulesSlice = createSlice({
       }
     },
     updateActiveScheduleSemester: (state, action: PayloadAction<Session>) => {
+      if (!state.saved[state.active].courseSessions)
+        state.saved[state.active] = getNewUserSchedule(state.saved[state.active].courses, state.active);
+
       if (state.active !== null) {
         state.saved[state.active].session = action.payload;
       }
