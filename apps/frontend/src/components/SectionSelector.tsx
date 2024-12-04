@@ -125,8 +125,13 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
       </div>
       <div className="my-4">
         {
-          courseDetails.filter((course) => course.schedules?.some((sched: Schedule) => sessionToString(sched) === selectedSession)).map((course) => {
-            const schedule: Schedule = course.schedules?.find((sched: Schedule) => sessionToString(sched) === selectedSession);
+          courseDetails.filter((course) =>
+            course.schedules?.some((sched: Schedule) =>
+              sessionToString(sched) === selectedSession)).map((course) => {
+            const schedule: Schedule | undefined = course.schedules?.find((sched: Schedule) => sessionToString(sched) === selectedSession);
+
+            if (!schedule) return null;
+
             const courseID = course.courseID;
 
             const sessionType = schedule.sections ? "Section" : "Lecture";
