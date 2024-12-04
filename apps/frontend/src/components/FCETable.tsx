@@ -7,7 +7,7 @@ import { StarRating } from "./StarRating";
 import Link from "./Link";
 import { getTable } from "~/components/GetTable";
 import { useFetchCourseInfo } from "~/app/api/course";
-import { getTooltip } from "~/components/GetTooltip";
+import { GetTooltip } from "~/components/GetTooltip";
 
 const columns: ColumnDef<FCEDetailRow>[] = [
   {
@@ -33,7 +33,7 @@ const columns: ColumnDef<FCEDetailRow>[] = [
           <Link href={`/course/${courseID}`} data-tooltip-id={id} >
             {courseID}
           </Link>
-          {getTooltip(id, tooltipText)}
+          <GetTooltip id={id} children={tooltipText}/>
         </>
       )
     },
