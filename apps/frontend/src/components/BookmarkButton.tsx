@@ -39,7 +39,7 @@ const BookmarkButton = ({ courseID }: Props) => {
       <PlusIcon className="h-6 w-6" data-tooltip-id={id} data-tooltip-place="bottom-end"/>
       <GetTooltip id={id}>
         <div
-          className="right-0 top-full w-auto min-w-36 bg-white rounded -m-3 p-3">
+          className="right-0 top-full w-auto min-w-36 bg-white rounded -m-3 py-3 px-1">
           <ul>
             <li key="titlle" className="relative cursor-pointer select-none pl-3 pr-9 focus:outline-none">
               <b>Add to schedule</b>
