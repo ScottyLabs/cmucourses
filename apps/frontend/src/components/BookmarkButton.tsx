@@ -1,5 +1,5 @@
 import React from "react";
-import { PlusIcon } from "@heroicons/react/24/solid";
+import { PlusIcon, StarIcon, PlusCircleIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { userSlice } from "~/app/user";
 import { CheckIcon } from "@heroicons/react/20/solid";
@@ -43,8 +43,13 @@ const BookmarkButton = ({ courseID }: Props) => {
             <li key="titlle" className="relative cursor-pointer select-none pl-3 pr-9 focus:outline-none">
               <b>Add to schedule:</b>
             </li>
-            <li key="saved" className="relative cursor-pointer select-none pt-2 pl-3 pr-9 focus:outline-none"
+            <li key="saved" className="flex relative cursor-pointer select-none pt-2 pl-3 pr-9 focus:outline-none"
                 onClick={bookmarkCourse}>
+              {bookmarked ? (
+                <StarIcon className="h-5 w-5 fill-yellow-500 stroke-yellow-500 dark:stroke-yellow-500 pr-1" />
+              ) : (
+                <StarIcon className="h-5 w-5 fill-transparent stroke-gray-300 dark:stroke-zinc-400 pr-1" />
+              )}
               Saved
               {bookmarked && (
                 <span className="absolute inset-y-0 right-0 flex items-center pr-4">
@@ -53,7 +58,7 @@ const BookmarkButton = ({ courseID }: Props) => {
               )}
             </li>
             {Object.values(saved).map((schedule) => (
-              <li key={schedule.id} className="relative cursor-pointer select-none pt-2 pl-3 pr-9 focus:outline-none"
+              <li key={schedule.id} className="relative cursor-pointer select-none pt-2 pl-8 pr-9 focus:outline-none"
                   onClick={() => toggleCourseInSchedule(schedule)}>
                 {schedule.name}
                 {schedule.courses.includes(courseID) && (
@@ -63,11 +68,13 @@ const BookmarkButton = ({ courseID }: Props) => {
                 )}
               </li>
             ))}
-            <li className="relative cursor-pointer select-none pt-2 pl-3 pr-9 focus:outline-none"
+            <li className="flex relative cursor-pointer select-none pt-2 pl-3 pr-9 focus:outline-none"
                 onClick={() => {
                   dispatch(userSchedulesSlice.actions.createSharedSchedule([courseID]));
                 }}
             >
+              <PlusCircleIcon className="h-5 w-5 fill-transparent stroke-gray-300 dark:stroke-zinc-400 pr-1" />
+
               Create new schedule
             </li>
           </ul>
