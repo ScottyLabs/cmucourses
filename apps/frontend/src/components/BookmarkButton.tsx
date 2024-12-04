@@ -42,7 +42,7 @@ const BookmarkButton = ({ courseID }: Props) => {
           className="right-0 top-full w-auto min-w-36 bg-white rounded -m-3 p-3">
           <ul>
             <li key="titlle" className="relative cursor-pointer select-none pl-3 pr-9 focus:outline-none">
-              <b>Add to schedule:</b>
+              <b>Add to schedule</b>
             </li>
             <li key="saved" className="flex relative cursor-pointer select-none pt-2 pl-3 pr-9 focus:outline-none"
                 onClick={bookmarkCourse}>
