@@ -1,7 +1,7 @@
 import { Card } from "./Card";
 import React from "react";
 
-export const ReqTreeCard = () => { //add any inputs here
+export const ReqTreeCard = () => { //add any inputs here (courses, prereqs, etc.)
     return (
       <Card>
         <Card.Header>Prerequisite, Corequisite, and Postrequisite Tree</Card.Header>

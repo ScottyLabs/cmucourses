@@ -29,4 +29,6 @@ const CourseDetail = ({ courseID }: Props) => {
   );
 };
 
+// Add the inputs/logic above inside {<ReqTreeCard> } (if no post/pre-requisites, display "No pre/poste-requisites" or similar)
+
 export default CourseDetail;
