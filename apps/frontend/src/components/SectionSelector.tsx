@@ -156,7 +156,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                 </div>
                 <div>
                   <RadioGroup
-                    className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-black sm:text-xs lg:text-base"
+                    className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-black overflow-x-auto"
                     value={selectedCourseSession}
                     onChange={(payload) => {
                       if (sessionType === "Section") {
@@ -187,7 +187,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                         className={({active}) => {
                           return classNames(
                             "flex relative justify-center cursor-pointer select-none focus:outline-none",
-                            "hover:bg-gray-200 py-1",
+                            "hover:bg-gray-200 p-1",
                             i === 0 ? "rounded-l-md pl-1" : "",
                             i === sessions.length - 1 ? "rounded-r-md pr-1" : "",
                             active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
