@@ -151,7 +151,7 @@ export const userSchedulesSlice = createSlice({
         state.saved[state.active].name = action.payload;
       }
     },
-    updateActiveScheduleSession: (state, action: PayloadAction<Session>) => {
+    updateActiveScheduleSemester: (state, action: PayloadAction<Session>) => {
       if (state.active !== null) {
         state.saved[state.active].session = action.payload;
       }

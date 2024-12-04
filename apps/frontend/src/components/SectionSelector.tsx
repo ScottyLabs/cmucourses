@@ -41,7 +41,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
   useEffect(() => {
     // Check if selected session is in the list of semesters
     if (selectedSession.length > 0 && !semesters.includes(selectedSession)) {
-      dispatch(userSchedulesSlice.actions.updateActiveScheduleSession(stringToSession("")));
+      dispatch(userSchedulesSlice.actions.updateActiveScheduleSemester(stringToSession("")));
     }
   }, [selectedSession, semesters])
 
@@ -55,7 +55,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
       </div>
       <div className="relative mt-1">
         <Listbox value={selectedSession} onChange={(payload) => {
-            dispatch(userSchedulesSlice.actions.updateActiveScheduleSession(stringToSession(payload)));
+            dispatch(userSchedulesSlice.actions.updateActiveScheduleSemester(stringToSession(payload)));
           }}>
           <Listbox.Label className="flex">
             Semester
