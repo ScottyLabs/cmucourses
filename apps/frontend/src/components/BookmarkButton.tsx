@@ -5,6 +5,7 @@ import { userSlice } from "~/app/user";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { UserSchedule, userSchedulesSlice } from "~/app/userSchedules";
 import { GetTooltip } from "~/components/GetTooltip";
+import { classNames } from "~/app/utils";
 
 interface Props {
   courseID: string;
@@ -51,21 +52,17 @@ const BookmarkButton = ({ courseID }: Props) => {
                 <StarIcon className="h-5 w-5 fill-transparent stroke-gray-300 dark:stroke-zinc-400 pr-1" />
               )}
               Saved
-              {bookmarked && (
-                <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-                  <CheckIcon className="h-5 w-5" />
-                </span>
-              )}
             </li>
             {Object.values(saved).map((schedule) => (
-              <li key={schedule.id} className="relative cursor-pointer select-none pt-2 pl-8 pr-9 focus:outline-none"
-                  onClick={() => toggleCourseInSchedule(schedule)}>
-                {schedule.name}
+              <li key={schedule.id}
+                  className={classNames("flex relative cursor-pointer select-none pt-2 focus:outline-none",
+                    schedule.courses.includes(courseID) ? "pl-3" : "pl-8")}
+                  onClick={() => toggleCourseInSchedule(schedule)}
+              >
                 {schedule.courses.includes(courseID) && (
-                  <span className="absolute inset-y-0 right-0 flex items-center pr-4">
-                    <CheckIcon className="h-5 w-5" />
-                  </span>
+                  <CheckIcon className="h-5 w-5" />
                 )}
+                {schedule.name}
               </li>
             ))}
             <li className="flex relative cursor-pointer select-none pt-2 pl-3 pr-9 focus:outline-none"
