@@ -24,6 +24,7 @@ const CourseDetail = ({ courseID }: Props) => {
           scheduleInfos={filterSessions([...schedules]).sort(compareSessions)}
         />
       )}
+      {< ReqTreeCard />}
     </div>
   );
 };
