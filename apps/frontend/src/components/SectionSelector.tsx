@@ -24,7 +24,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
   const scheduleView = useAppSelector((state) => state.user.scheduleView);
 
   const semesters = [...new Set(courseDetails.flatMap(course => {
-    const schedules: Schedule[] = course.schedules;
+    const schedules: Schedule[] = course.schedules || [];
     if (schedules) {
       return schedules.map(schedule => sessionToString(schedule));
     }
