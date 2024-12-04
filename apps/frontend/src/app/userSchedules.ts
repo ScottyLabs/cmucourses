@@ -76,6 +76,9 @@ export const userSchedulesSlice = createSlice({
         state.saved[state.active].selected,
         action.payload
       );
+
+      if (!state.saved[state.active].courseSessions)
+        state.saved[state.active] = getNewUserSchedule(state.saved[state.active].courses, state.active);
       state.saved[state.active].courseSessions[action.payload] = {Lecture: "", Section: "", Color: getCalendarColor(state.saved[state.active].numColors)};
       state.saved[state.active].numColors += 1;
     },
@@ -90,7 +93,10 @@ export const userSchedulesSlice = createSlice({
         action.payload
       );
 
-      delete state.saved[state.active].courseSessions[action.payload];
+      if (!state.saved[state.active].courseSessions)
+        state.saved[state.active] = getNewUserSchedule(state.saved[state.active].courses, state.active);
+      else
+        delete state.saved[state.active].courseSessions[action.payload];
     },
     selectCourseInActiveSchedule: (state, action: PayloadAction<string>) => {
       if (state.active === null) return;
