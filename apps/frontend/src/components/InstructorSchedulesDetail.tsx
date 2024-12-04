@@ -6,7 +6,7 @@ import { useFetchCourseInfos } from "~/app/api/course";
 import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Course } from "~/app/types";
 import { getTable } from "~/components/GetTable";
-import { getTooltip } from "~/components/GetTooltip";
+import { GetTooltip } from "~/components/GetTooltip";
 
 const columns: ColumnDef<Course>[] = [
   {
@@ -20,7 +20,7 @@ const columns: ColumnDef<Course>[] = [
           <Link href={`/course/${courseID}`} data-tooltip-id={id}>
             {courseID}
           </Link>
-          {getTooltip(id, info.row.original.desc as string)}
+          <GetTooltip id={id} children={info.row.original.desc as string} />
         </>
       )
     },
@@ -38,7 +38,7 @@ const columns: ColumnDef<Course>[] = [
             <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={id} >
               <span className="text-wrap">{name}</span>
             </Link>
-            {getTooltip(id, info.row.original.desc as string)}
+            <GetTooltip id={id} children={info.row.original.desc as string} />
           </>
         )
       }

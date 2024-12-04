@@ -24,7 +24,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
   const scheduleView = useAppSelector((state) => state.user.scheduleView);
 
   const semesters = [...new Set(courseDetails.flatMap(course => {
-    const schedules: Schedule[] = course.schedules;
+    const schedules: Schedule[] = course.schedules || [];
     if (schedules) {
       return schedules.map(schedule => sessionToString(schedule));
     }
@@ -41,7 +41,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
   useEffect(() => {
     // Check if selected session is in the list of semesters
     if (selectedSession.length > 0 && !semesters.includes(selectedSession)) {
-      dispatch(userSchedulesSlice.actions.updateActiveScheduleSession(stringToSession("")));
+      dispatch(userSchedulesSlice.actions.updateActiveScheduleSemester(stringToSession("")));
     }
   }, [selectedSession, semesters])
 
@@ -55,7 +55,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
       </div>
       <div className="relative mt-1">
         <Listbox value={selectedSession} onChange={(payload) => {
-            dispatch(userSchedulesSlice.actions.updateActiveScheduleSession(stringToSession(payload)));
+            dispatch(userSchedulesSlice.actions.updateActiveScheduleSemester(stringToSession(payload)));
           }}>
           <Listbox.Label className="flex">
             Semester
@@ -125,12 +125,17 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
       </div>
       <div className="my-4">
         {
-          courseDetails.filter((course) => course.schedules?.some((sched: Schedule) => sessionToString(sched) === selectedSession)).map((course) => {
-            const schedule: Schedule = course.schedules?.find((sched: Schedule) => sessionToString(sched) === selectedSession);
+          courseDetails.filter((course) =>
+            course.schedules?.some((sched: Schedule) =>
+              sessionToString(sched) === selectedSession)).map((course) => {
+            const schedule: Schedule | undefined = course.schedules?.find((sched: Schedule) => sessionToString(sched) === selectedSession);
+
+            if (!schedule) return null;
+
             const courseID = course.courseID;
 
-            const sessionType = schedule.sections ? "Section" : "Lecture";
-            const sessions = schedule.sections || schedule.lectures
+            const sessionType = schedule.sections.length ? "Section" : "Lecture";
+            const sessions = schedule.sections.length ? schedule.sections : schedule.lectures;
 
             const selectedCourseSession = selectedCourseSessions[courseID]?.[sessionType] || "";
 
@@ -151,7 +156,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                 </div>
                 <div>
                   <RadioGroup
-                    className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-black sm:text-xs lg:text-base"
+                    className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-black overflow-x-auto"
                     value={selectedCourseSession}
                     onChange={(payload) => {
                       if (sessionType === "Section") {
@@ -182,7 +187,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                         className={({active}) => {
                           return classNames(
                             "flex relative justify-center cursor-pointer select-none focus:outline-none",
-                            "hover:bg-gray-200 py-1",
+                            "hover:bg-gray-200 p-1",
                             i === 0 ? "rounded-l-md pl-1" : "",
                             i === sessions.length - 1 ? "rounded-r-md pr-1" : "",
                             active ? "bg-indigo-600 text-gray-600" : "text-gray-900"
