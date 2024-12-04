@@ -5,6 +5,7 @@ import { useFetchFCEInfoByCourse } from "~/app/api/fce";
 import { SchedulesCard } from "./SchedulesCard";
 import { FCECard } from "./FCECard";
 import { useFetchCourseInfo } from "~/app/api/course";
+import { ReqTreeCard } from "./ReqTreeCard";
 
 type Props = {
   courseID: string;
