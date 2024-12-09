@@ -74,7 +74,28 @@ export const getCourses: RequestHandler<
         schedules: fromBoolLiteral(req.query.schedules),
       },
     });
-    res.json(courses);
+
+    const coursesWithPostreqs = await Promise.all(courses.map(async (course) => {
+      const postreqs = await db.courses.findMany({
+        where: {
+          prereqs: {
+            has: course.courseID,
+          },
+        },
+        select: {
+          courseID: true,
+        },
+      });
+
+      const postreqIDs = postreqs.map(postreq => postreq.courseID);
+
+      return {
+        ...course,
+        postreqs: postreqIDs,
+      };
+    }));
+
+    res.json(coursesWithPostreqs);
   } catch (e) {
     next(e);
   }
