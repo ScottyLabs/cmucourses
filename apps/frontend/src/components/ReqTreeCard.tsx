@@ -1,7 +1,6 @@
 import React from "react";
 import { Card } from "./Card";
 import ReqTreeDetail from "./ReqTreeDetail";
-import postreqCourses from "./PostReqCourses";
 
 interface TreeNode {
   courseID: string;
