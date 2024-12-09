@@ -13,7 +13,6 @@ interface ReqTreeProps {
 
 const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
   const [showPrereqs, setShowPrereqs] = useState(false);
-  const [showPostreqs, setShowPostreqs] = useState(false);
 
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -90,52 +89,36 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
       {/* Postrequisites on the Right */}
       {root.postreqs && root.postreqs.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginLeft: "20px" }}>
-          <button
-            onClick={() => setShowPostreqs(!showPostreqs)}
-            style={{
-              marginBottom: "10px",
-              padding: "5px 10px",
-              fontSize: "14px",
-              cursor: "pointer",
-              backgroundColor: "#2563eb",
-              color: "#ffffff",
-              border: "none",
-              borderRadius: "4px",
-            }}
-          >
-            {showPostreqs ? "Hide Postreqs" : "View More Postreqs"}
-          </button>
-          {showPostreqs &&
-            root.postreqs.map((postreq) => (
-              <div key={postreq.courseID} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+          {root.postreqs.map((postreq) => (
+            <div key={postreq.courseID} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+              <div
+                style={{
+                  width: "20px",
+                  height: "1px",
+                  backgroundColor: "#d1d5db",
+                  marginRight: "5px",
+                }}
+              ></div>
+              <Link href={`/course/${postreq.courseID}`} passHref>
                 <div
                   style={{
-                    width: "20px",
-                    height: "1px",
-                    backgroundColor: "#d1d5db",
-                    marginRight: "5px",
+                    fontWeight: "normal",
+                    textAlign: "center",
+                    padding: "5px 10px",
+                    fontSize: "14px",
+                    backgroundColor: "#f9fafb",
+                    color: "#111827",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "4px",
+                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+                    cursor: "pointer",
                   }}
-                ></div>
-                <Link href={`/course/${postreq.courseID}`} passHref>
-                  <div
-                    style={{
-                      fontWeight: "normal",
-                      textAlign: "center",
-                      padding: "5px 10px",
-                      fontSize: "14px",
-                      backgroundColor: "#f9fafb",
-                      color: "#111827",
-                      border: "1px solid #d1d5db",
-                      borderRadius: "4px",
-                      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {postreq.courseID}
-                  </div>
-                </Link>
-              </div>
-            ))}
+                >
+                  {postreq.courseID}
+                </div>
+              </Link>
+            </div>
+          ))}
         </div>
       )}
     </div>
