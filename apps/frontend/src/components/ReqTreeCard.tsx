@@ -1,37 +1,46 @@
-import {
-  courseListToString,
-  injectLinks,
-} from "~/app/utils";
+import React from "react";
 import { Card } from "./Card";
-import { useFetchCourseInfo } from "~/app/api/course";
+import ReqTreeDetail from "./ReqTreeDetail";
 
-interface Props {
+interface TreeNode {
   courseID: string;
+  prereqs?: TreeNode[];
+  postreqs?: TreeNode[];
 }
 
-export const ReqTreeCard = ({
-  courseID
-}: Props) => { //add any inputs here (courses, prereqs, etc.)
-  const { isPending: isCourseInfoPending, data: info } = useFetchCourseInfo(courseID);
+interface ReqTreeCardProps {
+  courseID: string;
+  prereqs: string[];    // Array of prerequisite course IDs
+  postreqs: string[];   // Array of postrequisite course IDs
+}
 
-  if (isCourseInfoPending || !info) {
-    return (<></>);
-  }
+const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, postreqs }) => {
+  // Check if there are no prerequisites and no postrequisites
+  const hasNoRequisites = prereqs.length === 0 && postreqs.length === 0;
+
+  // Build the requisite tree with prereqs and postreqs
+  const buildTree = (id: string, prereqList: string[], postreqList: string[]): TreeNode => {
+    return {
+      courseID: id,
+      prereqs: prereqList.map((prereq) => ({ courseID: prereq })),
+      postreqs: postreqList.map((postreq) => ({ courseID: postreq })),
+    };
+  };
+
+  const tree = buildTree(courseID, prereqs, postreqs);
 
   return (
     <Card>
-      <Card.Header>Prerequisite, Corequisite, and Postrequisite Tree</Card.Header>
-      <div className="space-y-4">
-        <div className="flex flex-col">
-          <div className="font-semibold">
-            Postrequisites
-          </div>
-          <div className="text-md text-gray-500">
-            {injectLinks(courseListToString(info.postreqs))}
-          </div>
+      <Card.Header>Requisite Tree</Card.Header>
+      {hasNoRequisites ? (
+        <div style={{ fontStyle: "italic", color: "#6b7280", padding: "20px", textAlign: "center" }}>
+          There are no prerequisites or postrequisites for this course.
         </div>
-      </div>
+      ) : (
+        <ReqTreeDetail root={tree} />
+      )}
     </Card>
   );
 };
-// Add the tree logic or call the tree component within the <Card> tag (look at FCECard.tsx as an example)
+
+export default ReqTreeCard;
