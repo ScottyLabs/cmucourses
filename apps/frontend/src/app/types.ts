@@ -20,6 +20,7 @@ export interface Session {
 export interface Course {
   prereqs: string[];
   prereqString: string;
+  postreqs: string[];
   coreqs: string[];
   crosslisted: string[];
   name: string;
