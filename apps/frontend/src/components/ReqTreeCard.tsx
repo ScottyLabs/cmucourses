@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "./Card";
 import ReqTreeDetail from "./ReqTreeDetail";
+import postreqCourses from "./PostReqCourses";
 
 interface TreeNode {
   courseID: string;
@@ -39,6 +40,7 @@ const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, postreqs }
       ) : (
         <ReqTreeDetail root={tree} />
       )}
+
     </Card>
   );
 };
