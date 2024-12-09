@@ -1,45 +1,35 @@
 import React from "react";
 import { Card } from "./Card";
-import { useFetchCourseInfo } from "~/app/api/course";
-import { courseListToString, injectLinks } from "~/app/utils";
+import ReqTreeDetail from "./ReqTreeDetail";
 
-interface Props {
+interface TreeNode {
   courseID: string;
+  prereqs?: TreeNode[];
+  postreqs?: TreeNode[];
 }
 
-export const ReqTreeCard = ({ courseID }: Props) => {
-  const { isPending: isCourseInfoPending, data: info } = useFetchCourseInfo(courseID);
+interface ReqTreeCardProps {
+  courseID: string;
+  prereqs: string[];    // Array of prerequisite course IDs
+  postreqs: string[];   // Array of postrequisite course IDs
+}
 
-  if (isCourseInfoPending || !info) {
-    return <></>;
-  }
+const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, postreqs }) => {
+  // Build the requisite tree with prereqs and postreqs
+  const buildTree = (id: string, prereqList: string[], postreqList: string[]): TreeNode => {
+    return {
+      courseID: id,
+      prereqs: prereqList.map((prereq) => ({ courseID: prereq })),
+      postreqs: postreqList.map((postreq) => ({ courseID: postreq })),
+    };
+  };
+
+  const tree = buildTree(courseID, prereqs, postreqs);
 
   return (
     <Card>
-      <Card.Header>Prerequisite, Corequisite, and Postrequisite Tree</Card.Header>
-      <div className="space-y-4">
-
-        {/* Prerequisite List */}
-        {info.prereqs && info.prereqs.length > 0 && (
-          <div className="flex flex-col">
-            <div className="font-semibold">Prerequisites</div>
-            <div className="text-md text-gray-500">
-              {injectLinks(courseListToString(info.prereqs))}
-            </div>
-          </div>
-        )}
-
-        {/* Postrequisite List */}
-        {info.postreqs && info.postreqs.length > 0 && (
-          <div className="flex flex-col">
-            <div className="font-semibold">Postrequisites</div>
-            <div className="text-md text-gray-500">
-              {injectLinks(courseListToString(info.postreqs))}
-            </div>
-          </div>
-        )}
-
-      </div>
+      <Card.Header>Requisite Tree</Card.Header>
+      <ReqTreeDetail root={tree} />
     </Card>
   );
 };

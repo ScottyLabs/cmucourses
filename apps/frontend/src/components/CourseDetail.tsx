@@ -5,7 +5,7 @@ import { useFetchFCEInfoByCourse } from "~/app/api/fce";
 import { SchedulesCard } from "./SchedulesCard";
 import { FCECard } from "./FCECard";
 import { useFetchCourseInfo } from "~/app/api/course";
-import { ReqTreeCard } from "./ReqTreeCard";
+import ReqTreeCard from "./ReqTreeCard";
 
 type Props = {
   courseID: string;
@@ -13,22 +13,33 @@ type Props = {
 
 const CourseDetail = ({ courseID }: Props) => {
   const { data: { fces } = {} } = useFetchFCEInfoByCourse(courseID);
-  const { data: { schedules } = {} } = useFetchCourseInfo(courseID);
+  const { data: info } = useFetchCourseInfo(courseID);
+
+  if (!info) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="m-auto space-y-4 p-6">
       <CourseCard courseID={courseID} showFCEs={false} showCourseInfo={true} />
+      
       {fces && <FCECard fces={fces} />}
-      {schedules && (
+
+      {info.schedules && (
         <SchedulesCard
-          scheduleInfos={filterSessions([...schedules]).sort(compareSessions)}
+          scheduleInfos={filterSessions([...info.schedules]).sort(compareSessions)}
         />
       )}
-      {< ReqTreeCard courseID={courseID} />}
+
+      {info.prereqs && info.postreqs && (
+        <ReqTreeCard
+          courseID={courseID}
+          prereqs={info.prereqs}
+          postreqs={info.postreqs}
+        />
+      )}
     </div>
   );
 };
-
-// Add the inputs/logic above inside {<ReqTreeCard> } (if no post/pre-requisites, display "No pre/poste-requisites" or similar)
 
 export default CourseDetail;
