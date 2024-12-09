@@ -40,6 +40,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                     borderRadius: "4px",
                     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
                     cursor: "pointer",
+                    minWidth: "80px", // Consistent width
                   }}
                 >
                   {prereq.courseID}
@@ -71,6 +72,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
           borderRadius: "4px",
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
           margin: "0 20px",
+          minWidth: "80px", // Consistent width
         }}
       >
         {root.courseID}
@@ -80,15 +82,15 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
       {root.postreqs && root.postreqs.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginLeft: "20px" }}>
           {root.postreqs.map((postreq) => (
-            <div key={postreq.courseID} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
-              <div
-                style={{
-                  width: "20px",
-                  height: "1px",
-                  backgroundColor: "#d1d5db",
-                  marginRight: "5px",
-                }}
-              ></div>
+            <div
+              key={postreq.courseID}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+                justifyContent: "space-between", // Space between course ID and button
+              }}
+            >
               <Link href={`/course/${postreq.courseID}`} passHref>
                 <div
                   style={{
@@ -102,23 +104,24 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                     borderRadius: "4px",
                     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
                     cursor: "pointer",
-                    flex: "1",
+                    minWidth: "80px", // Consistent width
+                    marginRight: "10px", // Space between course ID and button
                   }}
                 >
                   {postreq.courseID}
                 </div>
               </Link>
               <button
+                aria-label={`Toggle post-requisites for ${postreq.courseID}`}
                 style={{
                   marginLeft: "5px",
-                  padding: "2px 6px",
-                  backgroundColor: "#007BFF",
+                  padding: "5px 10px",
+                  backgroundColor: "#007BFF", // Button color
                   color: "#FFFFFF",
                   border: "none",
-                  borderRadius: "3px",
+                  borderRadius: "4px",
                   cursor: "pointer",
-                  fontSize: "10px",
-                  marginRight: "10px"
+                  fontSize: "12px",
                 }}
                 onClick={() => togglePostReqs(postreq.courseID)}
               >
@@ -126,7 +129,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               </button>
               {/* Render PostReqCourses dynamically */}
               {expandedCourseID === postreq.courseID && (
-                <div style={{ marginTop: "10px", marginLeft: "0px" }}>
+                <div style={{ marginTop: "10px", marginLeft: "20px" }}>
                   <PostReqCourses courseID={postreq.courseID} />
                 </div>
               )}
