@@ -15,6 +15,9 @@ interface ReqTreeCardProps {
 }
 
 const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, postreqs }) => {
+  // Check if there are no prerequisites and no postrequisites
+  const hasNoRequisites = prereqs.length === 0 && postreqs.length === 0;
+
   // Build the requisite tree with prereqs and postreqs
   const buildTree = (id: string, prereqList: string[], postreqList: string[]): TreeNode => {
     return {
@@ -29,7 +32,13 @@ const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, postreqs }
   return (
     <Card>
       <Card.Header>Requisite Tree</Card.Header>
-      <ReqTreeDetail root={tree} />
+      {hasNoRequisites ? (
+        <div style={{ fontStyle: "italic", color: "#6b7280", padding: "20px", textAlign: "center" }}>
+          There are no prerequisites or postrequisites for this course.
+        </div>
+      ) : (
+        <ReqTreeDetail root={tree} />
+      )}
     </Card>
   );
 };
