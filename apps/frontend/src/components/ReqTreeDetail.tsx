@@ -12,13 +12,14 @@ interface ReqTreeProps {
 }
 
 const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
-  const [showPrereqs, setShowPrereqs] = useState(false);
+  const [showPrereqs, setShowPrereqs] = useState(false); // Keep toggle logic from your branch
 
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
       {/* Prerequisites on the Left */}
       {root.prereqs && root.prereqs.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginRight: "20px" }}>
+          {/* Toggle button for prerequisites */}
           <button
             onClick={() => setShowPrereqs(!showPrereqs)}
             style={{
@@ -34,6 +35,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
           >
             {showPrereqs ? "Hide Prereqs" : "View More Prereqs"}
           </button>
+
           {showPrereqs &&
             root.prereqs.map((prereq) => (
               <div key={prereq.courseID} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
