@@ -40,6 +40,7 @@ const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, postreqs, 
       ) : (
         <ReqTreeDetail root={tree} />
       )}
+
     </Card>
   );
 };
