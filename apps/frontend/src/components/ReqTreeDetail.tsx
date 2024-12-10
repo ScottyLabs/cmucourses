@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Link from "next/link"; // Import Next.js Link component
+import Link from "next/link";
 
 interface TreeNode {
   courseID: string;
