@@ -91,6 +91,14 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                 justifyContent: "space-between", // Space between course ID and button
               }}
             >
+              <div
+                style={{
+                  width: "20px",
+                  height: "1px",
+                  backgroundColor: "#d1d5db",
+                  marginRight: "5px",
+                }}
+              ></div>
               <Link href={`/course/${postreq.courseID}`} passHref>
                 <div
                   style={{
