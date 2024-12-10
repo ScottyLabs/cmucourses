@@ -24,18 +24,17 @@ const CourseDetail = ({ courseID }: Props) => {
       <CourseCard courseID={courseID} showFCEs={false} showCourseInfo={true} />
       
       {fces && <FCECard fces={fces} />}
-
       {info.schedules && (
         <SchedulesCard
           scheduleInfos={filterSessions([...info.schedules]).sort(compareSessions)}
         />
       )}
-
       {info.prereqs && info.postreqs && (
         <ReqTreeCard
           courseID={courseID}
           prereqs={info.prereqs}
           postreqs={info.postreqs}
+          coreqs={info.coreqs} // Ensure coreqs are passed here
         />
       )}
     </div>

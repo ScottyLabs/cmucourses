@@ -5,6 +5,7 @@ import PreReqCourses from "./PreReqCourses";   // Import PreReqCourses component
 
 interface TreeNode {
   courseID: string;
+  coreqs?: Array<{ courseID: string }>;
   prereqs?: TreeNode[];
   postreqs?: TreeNode[];
 }
@@ -102,6 +103,36 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
       >
         {root.courseID}
       </div>
+
+      {/* Corequisites below the Main Course */}
+      {root.coreqs && root.coreqs.length > 0 && (
+        <div style={{ marginTop: "10px" }}>
+          <div style={{ fontWeight: "bold" }}>Corequisites:</div>
+          {root.coreqs.map((coreq) => (
+            <Link href={`/course/${coreq.courseID}`} passHref key={coreq.courseID}>
+              <div
+                style={{
+                  marginLeft: "20px",
+                  fontWeight: "normal",
+                  textAlign: "center",
+                  padding: "5px 10px",
+                  fontSize: "14px",
+                  backgroundColor: "#f9fafb",
+                  color: "#111827",
+                  border: "1px solid #d1d5db",
+                  borderRadius: "4px",
+                  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+                  cursor: "pointer",
+                  minWidth: "80px",
+                  marginBottom: "10px",
+                }}
+              >
+                {coreq.courseID}
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
 
       {/* Postrequisites on the Right */}
       {root.postreqs && root.postreqs.length > 0 && (
