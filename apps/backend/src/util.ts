@@ -41,3 +41,9 @@ export type PrismaReturn<PrismaFnType extends (...args: any) => any> =
 
 export type ElemType<ArrayType extends readonly unknown[]> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+
+export function parsePrereqString(prereqString: string): string[][] {
+  const normalized = prereqString.replace(/\s+/g, "").replace(/[()]/g, ""); // Remove whitespace and parentheses
+  const andGroups = normalized.split("and"); // Split by AND groups
+  return andGroups.map((group) => group.split("or")); // Split each AND group into OR relationships
+}
