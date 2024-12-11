@@ -87,8 +87,37 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
         </div>
       )}
 
-      {/* Main Course in the Center with Corequisites Below */}
+      {/* Main Course in the Center with Corequisites Above and Below */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "0 20px" }}>
+        {/* Corequisites Above */}
+        {root.coreqs && root.coreqs.length > 0 && (
+          <div style={{ marginBottom: "10px", textAlign: "center" }}>
+            {root.coreqs.slice(0, Math.ceil(root.coreqs.length / 2)).map((coreq) => (
+              <Link href={`/course/${coreq.courseID}`} passHref key={coreq.courseID}>
+                <div
+                  style={{
+                    fontWeight: "normal",
+                    textAlign: "center",
+                    padding: "5px 10px",
+                    fontSize: "14px",
+                    backgroundColor: "#f9fafb",
+                    color: "#111827",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "4px",
+                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+                    cursor: "pointer",
+                    minWidth: "80px",
+                    marginBottom: "5px",
+                  }}
+                >
+                  {coreq.courseID}
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+
+        {/* Main Course */}
         <div
           style={{
             fontWeight: "bold",
@@ -106,33 +135,31 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
           {root.courseID}
         </div>
 
-        {/* Corequisites directly below */}
+        {/* Corequisites Below */}
         {root.coreqs && root.coreqs.length > 0 && (
           <div style={{ marginTop: "10px", textAlign: "center" }}>
-            <div style={{ fontWeight: "bold" }}>Corequisites:</div>
-            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px", marginTop: "5px" }}>
-              {root.coreqs.map((coreq) => (
-                <Link href={`/course/${coreq.courseID}`} passHref key={coreq.courseID}>
-                  <div
-                    style={{
-                      fontWeight: "normal",
-                      textAlign: "center",
-                      padding: "5px 10px",
-                      fontSize: "14px",
-                      backgroundColor: "#f9fafb",
-                      color: "#111827",
-                      border: "1px solid #d1d5db",
-                      borderRadius: "4px",
-                      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
-                      cursor: "pointer",
-                      minWidth: "80px",
-                    }}
-                  >
-                    {coreq.courseID}
-                  </div>
-                </Link>
-              ))}
-            </div>
+            {root.coreqs.slice(Math.ceil(root.coreqs.length / 2)).map((coreq) => (
+              <Link href={`/course/${coreq.courseID}`} passHref key={coreq.courseID}>
+                <div
+                  style={{
+                    fontWeight: "normal",
+                    textAlign: "center",
+                    padding: "5px 10px",
+                    fontSize: "14px",
+                    backgroundColor: "#f9fafb",
+                    color: "#111827",
+                    border: "1px solid #d1d5db",
+                    borderRadius: "4px",
+                    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+                    cursor: "pointer",
+                    minWidth: "80px",
+                    marginTop: "5px",
+                  }}
+                >
+                  {coreq.courseID}
+                </div>
+              </Link>
+            ))}
           </div>
         )}
       </div>
