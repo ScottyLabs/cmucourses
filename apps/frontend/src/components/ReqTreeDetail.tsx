@@ -40,6 +40,12 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                 marginBottom: "10px",
               }}
             >
+              {expandedPreReqID === prereq.courseID && (
+                <div style={{ marginRight: "20px" }}>
+                  <PreReqCourses courseID={prereq.courseID} />
+                </div>
+              )}
+
               <button
                 aria-label={`Toggle prerequisites for ${prereq.courseID}`}
                 style={{
@@ -56,6 +62,8 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               >
                 {expandedPreReqID === prereq.courseID ? "Hide" : "View More"}
               </button>
+
+              {/* Line connector */}
 
               <Link href={`/course/${prereq.courseID}`} passHref>
                 <div
@@ -76,12 +84,6 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                   {prereq.courseID}
                 </div>
               </Link>
-
-              {expandedPreReqID === prereq.courseID && (
-                <div style={{ marginTop: "10px", marginLeft: "20px" }}>
-                  <PreReqCourses courseID={prereq.courseID} />
-                </div>
-              )}
             </div>
           ))}
         </div>

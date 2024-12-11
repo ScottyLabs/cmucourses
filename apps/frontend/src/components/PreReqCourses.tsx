@@ -31,16 +31,6 @@ export const PreReqCourses = ({ courseID }: Props) => {
               marginBottom: "10px",
             }}
           >
-            {/* Line connector */}
-            <div
-              style={{
-                width: "20px",
-                height: "1px",
-                backgroundColor: "#d1d5db",
-                marginRight: "10px",
-              }}
-            ></div>
-
             {/* Course ID button */}
             <button
               onClick={() => window.location.href = `/course/${node.courseID}`}
@@ -58,10 +48,21 @@ export const PreReqCourses = ({ courseID }: Props) => {
                 textDecoration: "none",
                 minWidth: "100px", // Ensure consistent width
                 display: "inline-block",
+                marginRight: "10px", // Adjust spacing for line placement
               }}
             >
               {node.courseID}
             </button>
+
+            {/* Line connector */}
+            <div
+              style={{
+                width: "20px",
+                height: "1px",
+                backgroundColor: "#d1d5db",
+                marginRight: "-10px", // Align the line to the green position
+              }}
+            ></div>
 
             {/* Render child nodes recursively */}
             {node.prereqs && renderTree(node.prereqs)}
