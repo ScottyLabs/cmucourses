@@ -4,14 +4,14 @@ import { useFetchCourseInfo } from "~/app/api/course";
 
 interface TreeNode {
   courseID: string;
-  postreqs?: TreeNode[];
+  prereqs?: TreeNode[];
 }
 
 interface Props {
   courseID: string;
 }
 
-export const PostReqCourses = ({ courseID }: Props) => {
+export const PreReqCourses = ({ courseID }: Props) => {
   const { isPending: isCourseInfoPending, data: info } = useFetchCourseInfo(courseID);
 
   if (isCourseInfoPending || !info) {
@@ -64,7 +64,7 @@ export const PostReqCourses = ({ courseID }: Props) => {
             </button>
 
             {/* Render child nodes recursively */}
-            {node.postreqs && renderTree(node.postreqs)}
+            {node.prereqs && renderTree(node.prereqs)}
           </div>
         ))}
       </div>
@@ -72,8 +72,8 @@ export const PostReqCourses = ({ courseID }: Props) => {
   };
 
   // Transform fetched data into a tree structure excluding the parent node
-  const childNodes: TreeNode[] = info.postreqs?.map((postreq: string) => ({
-    courseID: postreq,
+  const childNodes: TreeNode[] = info.prereqs?.map((prereq: string) => ({
+    courseID: prereq,
   })) || [];
 
   return (
@@ -91,11 +91,11 @@ export const PostReqCourses = ({ courseID }: Props) => {
             fontWeight: "bold",
           }}
         >
-          No further post-requisites
+          No further prerequisites
         </div>
       )}
     </div>
   );
 };
 
-export default PostReqCourses;
+export default PreReqCourses;

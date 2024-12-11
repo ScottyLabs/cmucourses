@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import PostReqCourses from "./PostReqCourses"; // Import PostReqCourses component
+import PreReqCourses from "./PreReqCourses";   // Import PreReqCourses component
 
 interface TreeNode {
   courseID: string;
+  coreqs?: Array<{ courseID: string }>;
   prereqs?: TreeNode[];
   postreqs?: TreeNode[];
 }
@@ -13,11 +15,15 @@ interface ReqTreeProps {
 }
 
 const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
-  const [expandedCourseID, setExpandedCourseID] = useState<string | null>(null);
+  const [expandedPostReqID, setExpandedPostReqID] = useState<string | null>(null);
+  const [expandedPreReqID, setExpandedPreReqID] = useState<string | null>(null);
 
   const togglePostReqs = (courseID: string) => {
-    // Toggle expanded state for the course
-    setExpandedCourseID((prev) => (prev === courseID ? null : courseID));
+    setExpandedPostReqID((prev) => (prev === courseID ? null : courseID));
+  };
+
+  const togglePreReqs = (courseID: string) => {
+    setExpandedPreReqID((prev) => (prev === courseID ? null : courseID));
   };
 
   return (
@@ -26,7 +32,31 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
       {root.prereqs && root.prereqs.length > 0 && (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", marginRight: "20px" }}>
           {root.prereqs.map((prereq) => (
-            <div key={prereq.courseID} style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}>
+            <div
+              key={prereq.courseID}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginBottom: "10px",
+              }}
+            >
+              <button
+                aria-label={`Toggle prerequisites for ${prereq.courseID}`}
+                style={{
+                  marginRight: "5px",
+                  padding: "5px 10px",
+                  backgroundColor: "#007BFF",
+                  color: "#FFFFFF",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  fontSize: "12px",
+                }}
+                onClick={() => togglePreReqs(prereq.courseID)}
+              >
+                {expandedPreReqID === prereq.courseID ? "Hide" : "View More"}
+              </button>
+
               <Link href={`/course/${prereq.courseID}`} passHref>
                 <div
                   style={{
@@ -40,42 +70,71 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                     borderRadius: "4px",
                     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
                     cursor: "pointer",
-                    minWidth: "80px", // Consistent width
+                    minWidth: "80px",
                   }}
                 >
                   {prereq.courseID}
                 </div>
               </Link>
-              <div
-                style={{
-                  width: "20px",
-                  height: "1px",
-                  backgroundColor: "#d1d5db",
-                  marginLeft: "5px",
-                }}
-              ></div>
+
+              {expandedPreReqID === prereq.courseID && (
+                <div style={{ marginTop: "10px", marginLeft: "20px" }}>
+                  <PreReqCourses courseID={prereq.courseID} />
+                </div>
+              )}
             </div>
           ))}
         </div>
       )}
 
-      {/* Main Course in the Center */}
-      <div
-        style={{
-          fontWeight: "bold",
-          textAlign: "center",
-          padding: "5px 10px",
-          fontSize: "14px",
-          backgroundColor: "#e5e7eb",
-          color: "#111827",
-          border: "1px solid #9ca3af",
-          borderRadius: "4px",
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-          margin: "0 20px",
-          minWidth: "80px", // Consistent width
-        }}
-      >
-        {root.courseID}
+      {/* Main Course in the Center with Corequisites Below */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", margin: "0 20px" }}>
+        <div
+          style={{
+            fontWeight: "bold",
+            textAlign: "center",
+            padding: "5px 10px",
+            fontSize: "14px",
+            backgroundColor: "#e5e7eb",
+            color: "#111827",
+            border: "1px solid #9ca3af",
+            borderRadius: "4px",
+            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+            minWidth: "80px",
+          }}
+        >
+          {root.courseID}
+        </div>
+
+        {/* Corequisites directly below */}
+        {root.coreqs && root.coreqs.length > 0 && (
+          <div style={{ marginTop: "10px", textAlign: "center" }}>
+            <div style={{ fontWeight: "bold" }}>Corequisites:</div>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px", marginTop: "5px" }}>
+              {root.coreqs.map((coreq) => (
+                <Link href={`/course/${coreq.courseID}`} passHref key={coreq.courseID}>
+                  <div
+                    style={{
+                      fontWeight: "normal",
+                      textAlign: "center",
+                      padding: "5px 10px",
+                      fontSize: "14px",
+                      backgroundColor: "#f9fafb",
+                      color: "#111827",
+                      border: "1px solid #d1d5db",
+                      borderRadius: "4px",
+                      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+                      cursor: "pointer",
+                      minWidth: "80px",
+                    }}
+                  >
+                    {coreq.courseID}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Postrequisites on the Right */}
@@ -88,17 +147,8 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                 display: "flex",
                 alignItems: "center",
                 marginBottom: "10px",
-                justifyContent: "space-between", // Space between course ID and button
               }}
             >
-              <div
-                style={{
-                  width: "20px",
-                  height: "1px",
-                  backgroundColor: "#d1d5db",
-                  marginRight: "5px",
-                }}
-              ></div>
               <Link href={`/course/${postreq.courseID}`} passHref>
                 <div
                   style={{
@@ -112,8 +162,8 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                     borderRadius: "4px",
                     boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
                     cursor: "pointer",
-                    minWidth: "80px", // Consistent width
-                    marginRight: "10px", // Space between course ID and button
+                    minWidth: "80px",
+                    marginRight: "10px",
                   }}
                 >
                   {postreq.courseID}
@@ -124,7 +174,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                 style={{
                   marginLeft: "5px",
                   padding: "5px 10px",
-                  backgroundColor: "#007BFF", // Button color
+                  backgroundColor: "#007BFF",
                   color: "#FFFFFF",
                   border: "none",
                   borderRadius: "4px",
@@ -133,10 +183,9 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                 }}
                 onClick={() => togglePostReqs(postreq.courseID)}
               >
-                {expandedCourseID === postreq.courseID ? "Hide" : "View More"}
+                {expandedPostReqID === postreq.courseID ? "Hide" : "View More"}
               </button>
-              {/* Render PostReqCourses dynamically */}
-              {expandedCourseID === postreq.courseID && (
+              {expandedPostReqID === postreq.courseID && (
                 <div style={{ marginTop: "10px", marginLeft: "20px" }}>
                   <PostReqCourses courseID={postreq.courseID} />
                 </div>
