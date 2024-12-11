@@ -40,6 +40,23 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                 marginBottom: "10px",
               }}
             >
+              <button
+                aria-label={`Toggle prerequisites for ${prereq.courseID}`}
+                style={{
+                  marginRight: "5px",
+                  padding: "5px 10px",
+                  backgroundColor: "#007BFF",
+                  color: "#FFFFFF",
+                  border: "none",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  fontSize: "12px",
+                }}
+                onClick={() => togglePreReqs(prereq.courseID)}
+              >
+                {expandedPreReqID === prereq.courseID ? "Hide" : "View More"}
+              </button>
+
               <Link href={`/course/${prereq.courseID}`} passHref>
                 <div
                   style={{
@@ -59,22 +76,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                   {prereq.courseID}
                 </div>
               </Link>
-              <button
-                aria-label={`Toggle prerequisites for ${prereq.courseID}`}
-                style={{
-                  marginLeft: "5px",
-                  padding: "5px 10px",
-                  backgroundColor: "#007BFF",
-                  color: "#FFFFFF",
-                  border: "none",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                  fontSize: "12px",
-                }}
-                onClick={() => togglePreReqs(prereq.courseID)}
-              >
-                {expandedPreReqID === prereq.courseID ? "Hide" : "View More"}
-              </button>
+
               {expandedPreReqID === prereq.courseID && (
                 <div style={{ marginTop: "10px", marginLeft: "20px" }}>
                   <PreReqCourses courseID={prereq.courseID} />
