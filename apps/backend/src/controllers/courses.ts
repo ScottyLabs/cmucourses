@@ -6,6 +6,7 @@ import {
   SingleOrArray,
   singleToArray,
   standardizeID,
+  parsePrereqString,
 } from "~/util";
 import { RequestHandler } from "express";
 import db, { Prisma } from "@cmucourses/db";
@@ -293,3 +294,47 @@ export const getAllCourses: RequestHandler<
     res.json(allCoursesEntry.allCourses);
   }
 };
+
+//adding function to get elements of the postreqs and prereqs tree
+export const getCourseRelations: RequestHandler = async (req, res, next) => {
+  try {
+    // Fetch all courses with their prereq strings
+    const courses = await db.courses.findMany({
+      select: {
+        courseID: true,
+        prereqString: true,
+      },
+    });
+
+    const courseRelations: Record<
+      string,
+      { prereqs: string[][]; postreqs: string[] }
+    > = {};
+
+    // Populate the prereqs and initialize postreqs
+    courses.forEach((course) => {
+      const parsedPrereqs = course.prereqString
+        ? parsePrereqString(course.prereqString)
+        : [];
+      courseRelations[course.courseID] = {
+        prereqs: parsedPrereqs,
+        postreqs: [],
+      };
+    });
+
+    // Populate the postreqs
+    for (const course of courses) {
+      const prereqGroups = courseRelations[course.courseID]?.prereqs || [];
+      prereqGroups.flat().forEach((prereqID) => {
+        if (courseRelations[prereqID]) {
+          courseRelations[prereqID].postreqs.push(course.courseID);
+        }
+      });
+    };
+
+    res.json(courseRelations);
+  } catch (e) {
+    next(e);
+  }
+};
+
