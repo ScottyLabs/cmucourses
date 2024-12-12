@@ -21,23 +21,57 @@ export const PostReqCourses = ({ courseID }: Props) => {
   // Recursive function to render only the child branches
   const renderTree = (nodes: TreeNode[]) => {
     return (
-      <div style={{ display: "flex", flexDirection: "column", marginLeft: "20px" }}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
         {nodes.map((node) => (
           <div
             key={node.courseID}
             style={{
               display: "flex",
               alignItems: "center",
-              marginBottom: "10px",
             }}
           >
+
+            {/* Half vertical line for the first prereq in the list */}
+            {nodes && nodes.length > 1 && nodes.indexOf(node) === 0 && (
+              <div
+                style={{
+                  width: "1px",
+                  height: "20px",
+                  backgroundColor: "#d1d5db",
+                  marginTop: "20px",
+                }}
+              ></div>
+            )}
+
+            {/* Normal vertical Line connector */}
+            {nodes && nodes.length > 1 && nodes.indexOf(node) !== 0 && nodes.indexOf(node) !== nodes.length - 1 && (
+              <div
+                style={{
+                  width: "1px",
+                  backgroundColor: "#d1d5db",
+                  alignSelf: "stretch",
+                }}
+              ></div>
+            )}
+
+            {/* Half vertical line for the last prereq in the list */}
+            {nodes && nodes.length > 1 && nodes.indexOf(node) === nodes.length - 1 && (
+              <div
+                style={{
+                  width: "1px",
+                  height: "20px",
+                  backgroundColor: "#d1d5db",
+                  marginBottom: "20px",
+                }}
+              ></div>
+            )}
+
             {/* Line connector */}
             <div
               style={{
                 width: "20px",
                 height: "1px",
                 backgroundColor: "#d1d5db",
-                marginRight: "10px",
               }}
             ></div>
 
@@ -58,6 +92,8 @@ export const PostReqCourses = ({ courseID }: Props) => {
                 textDecoration: "none",
                 minWidth: "100px", // Ensure consistent width
                 display: "inline-block",
+                marginTop: "2px",
+                marginBottom: "2px",
               }}
             >
               {node.courseID}
@@ -87,7 +123,6 @@ export const PostReqCourses = ({ courseID }: Props) => {
             color: "#000000",
             textAlign: "center",
             fontSize: "14px",
-            marginTop: "-10px",
             fontWeight: "bold",
           }}
         >
