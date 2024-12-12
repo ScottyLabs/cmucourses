@@ -310,13 +310,15 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               )}
 
               {/* Line connector right to postreqs */}
-              <div
-                style={{
-                  width: "20px",
-                  height: "1px",
-                  backgroundColor: "#d1d5db",
-                }}
-              ></div>
+              {root.postreqs && root.postreqs.length > 1 && (
+                <div
+                  style={{
+                    width: "20px",
+                    height: "1px",
+                    backgroundColor: "#d1d5db",
+                  }}
+                ></div>
+              )}
 
               <Link href={`/course/${postreq.courseID}`} passHref>
                 <div
