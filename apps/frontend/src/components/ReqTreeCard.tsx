@@ -34,9 +34,9 @@ const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, postreqs, 
     <Card>
       <Card.Header>Requisite Tree</Card.Header>
       {hasNoRequisites ? (
-        <div style={{ fontStyle: "italic", color: "#6b7280", padding: "20px", textAlign: "center" }}>
+        <div className="italic text-[#6b7280] p-[20px] text-center">
           There are no prerequisites, corequisites, or postrequisites for this course.
-        </div>
+        </div>      
       ) : (
         <ReqTreeDetail root={tree} />
       )}
