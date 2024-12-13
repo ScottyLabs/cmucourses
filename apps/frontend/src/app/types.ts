@@ -90,3 +90,10 @@ export interface Gened {
   fces: FCE[];
 }
 
+export interface TreeNode {
+  courseID: string;
+  coreqs?: Array<{ courseID: string }>;
+  prereqs?: TreeNode[];
+  prereqRelations?: TreeNode[][];
+  postreqs?: TreeNode[];
+}

@@ -1,10 +1,6 @@
 import React from "react";
 import { useFetchCourseRequisites } from "~/app/api/course";
-
-interface TreeNode {
-  courseID: string;
-  postreqs?: TreeNode[];
-}
+import { TreeNode } from "~/app/types";
 
 interface Props {
   courseID: string;

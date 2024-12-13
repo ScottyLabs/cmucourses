@@ -1,14 +1,7 @@
 import React from "react";
 import { Card } from "./Card";
 import ReqTreeDetail from "./ReqTreeDetail";
-
-interface TreeNode {
-  courseID: string;
-  prereqs?: TreeNode[];
-  prereqRelations?: TreeNode[][];
-  postreqs?: TreeNode[];
-  coreqs?: Array<{ courseID: string }>;
-}
+import { TreeNode } from "~/app/types";
 
 interface ReqTreeCardProps {
   courseID: string;

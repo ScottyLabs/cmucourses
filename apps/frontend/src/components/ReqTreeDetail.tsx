@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Link from "next/link";
 import PostReqCourses from "./PostReqCourses";
 import PreReqCourses from "./PreReqCourses";
 import {
@@ -7,14 +6,7 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/20/solid";
 import { FlushedButton } from "./Buttons";
-
-interface TreeNode {
-  courseID: string;
-  coreqs?: Array<{ courseID: string }>;
-  prereqs?: TreeNode[];
-  prereqRelations?: TreeNode[][];
-  postreqs?: TreeNode[];
-}
+import { TreeNode } from "~/app/types";
 
 interface ReqTreeProps {
   root: TreeNode;
@@ -195,14 +187,10 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               )}
 
             </div>
-
           ))}
-
         </div>
       )}
-
     </div>
-
   );
 };
 
