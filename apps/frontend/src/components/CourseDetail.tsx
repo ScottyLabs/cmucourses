@@ -33,7 +33,7 @@ const CourseDetail = ({ courseID }: Props) => {
       {info.prereqs && requisites.prereqRelations && requisites.postreqs && (
         <ReqTreeCard
           courseID={courseID}
-          prereqs={info.prereqs}
+          prereqs={requisites.prereqs}
           prereqRelations={requisites.prereqRelations}
           postreqs={requisites.postreqs}
           coreqs={info.coreqs}

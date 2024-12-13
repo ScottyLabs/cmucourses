@@ -140,6 +140,7 @@ export const useFetchAllCourses = () => {
 };
 
 export type CourseRequisites = {
+  prereqs: string[];
   prereqRelations: string[][];
   postreqs: string[];
 };

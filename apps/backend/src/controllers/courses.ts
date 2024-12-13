@@ -288,6 +288,7 @@ export const getRequisites: RequestHandler = async (req, res, next) => {
       where: { courseID },
       select: {
         courseID: true,
+        prereqs: true,
         prereqString: true,
       },
     });
@@ -312,6 +313,7 @@ export const getRequisites: RequestHandler = async (req, res, next) => {
     const postreqIDs = postreqs.map(postreq => postreq.courseID);
 
     const courseRequisites = {
+      prereqs: course.prereqs,
       prereqRelations: parsedPrereqs,
       postreqs: postreqIDs
     }
