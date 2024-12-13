@@ -5,30 +5,33 @@ import ReqTreeDetail from "./ReqTreeDetail";
 interface TreeNode {
   courseID: string;
   prereqs?: TreeNode[];
+  prereqRelations?: TreeNode[][];
   postreqs?: TreeNode[];
-  coreqs?: Array<{ courseID: string }>; // Ensure coreqs are included
+  coreqs?: Array<{ courseID: string }>;
 }
 
 interface ReqTreeCardProps {
   courseID: string;
   prereqs: string[];
+  prereqRelations: string[][];
   postreqs: string[];
-  coreqs: string[]; // Ensure coreqs are included
+  coreqs: string[];
 }
 
-const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, postreqs, coreqs }) => {
+const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, prereqRelations, postreqs, coreqs }) => {
   const hasNoRequisites = prereqs.length === 0 && postreqs.length === 0 && coreqs.length === 0;
 
-  const buildTree = (id: string, prereqList: string[], postreqList: string[], coreqList: string[]): TreeNode => {
+  const buildTree = (id: string, prereqList: string[], prereqRelationsList: string[][], postreqList: string[], coreqList: string[]): TreeNode => {
     return {
       courseID: id,
       prereqs: prereqList.map((prereq) => ({ courseID: prereq })),
+      prereqRelations: prereqRelationsList.map((prereqSubList) => (prereqSubList.map((prereq) => ({ courseID: prereq })))),
       postreqs: postreqList.map((postreq) => ({ courseID: postreq })),
-      coreqs: coreqList.map((coreq) => ({ courseID: coreq })), // Ensure coreqs are included
+      coreqs: coreqList.map((coreq) => ({ courseID: coreq })),
     };
   };
 
-  const tree = buildTree(courseID, prereqs, postreqs, coreqs);
+  const tree = buildTree(courseID, prereqs, prereqRelations, postreqs, coreqs);
 
   return (
     <Card>

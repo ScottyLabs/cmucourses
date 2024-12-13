@@ -2,7 +2,7 @@ import morgan from "morgan";
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import { isUser } from "~/controllers/user";
-import { getAllCourses, getCourseByID, getCourses, getFilteredCourses, getCourseRelations } from "~/controllers/courses";
+import { getAllCourses, getCourseByID, getCourses, getFilteredCourses, getRequisites } from "~/controllers/courses";
 import { getFCEs } from "~/controllers/fces";
 import { getInstructors } from "~/controllers/instructors";
 import { getGeneds } from "~/controllers/geneds";
@@ -21,7 +21,7 @@ app.route("/course/:courseID").get(getCourseByID);
 app.route("/courses").get(getCourses);
 app.route("/courses").post(isUser, getCourses);
 app.route("/courses/all").get(getAllCourses);
-app.route("/courses/relations").get(getCourseRelations);
+app.route("/courses/requisites/:courseID").get(getRequisites);
 app.route("/courses/search/").get(getFilteredCourses);
 app.route("/courses/search/").post(isUser, getFilteredCourses);
 

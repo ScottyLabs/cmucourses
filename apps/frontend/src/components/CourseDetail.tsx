@@ -4,7 +4,7 @@ import CourseCard from "./CourseCard";
 import { useFetchFCEInfoByCourse } from "~/app/api/fce";
 import { SchedulesCard } from "./SchedulesCard";
 import { FCECard } from "./FCECard";
-import { useFetchCourseInfo } from "~/app/api/course";
+import { useFetchCourseInfo, useFetchCourseRequisites } from "~/app/api/course";
 import ReqTreeCard from "./ReqTreeCard";
 
 type Props = {
@@ -14,8 +14,9 @@ type Props = {
 const CourseDetail = ({ courseID }: Props) => {
   const { data: { fces } = {} } = useFetchFCEInfoByCourse(courseID);
   const { data: info } = useFetchCourseInfo(courseID);
+  const { data: requisites } = useFetchCourseRequisites(courseID);
 
-  if (!info) {
+  if (!info || !requisites) {
     return <div>Loading...</div>;
   }
 
@@ -29,12 +30,13 @@ const CourseDetail = ({ courseID }: Props) => {
           scheduleInfos={filterSessions([...info.schedules]).sort(compareSessions)}
         />
       )}
-      {info.prereqs && info.postreqs && (
+      {info.prereqs && requisites.prereqRelations && requisites.postreqs && (
         <ReqTreeCard
           courseID={courseID}
           prereqs={info.prereqs}
-          postreqs={info.postreqs}
-          coreqs={info.coreqs} // Ensure coreqs are passed here
+          prereqRelations={requisites.prereqRelations}
+          postreqs={requisites.postreqs}
+          coreqs={info.coreqs}
         />
       )}
     </div>

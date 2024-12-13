@@ -76,27 +76,7 @@ export const getCourses: RequestHandler<
       },
     });
 
-    const coursesWithPostreqs = await Promise.all(courses.map(async (course) => {
-      const postreqs = await db.courses.findMany({
-        where: {
-          prereqs: {
-            has: course.courseID,
-          },
-        },
-        select: {
-          courseID: true,
-        },
-      });
-
-      const postreqIDs = postreqs.map(postreq => postreq.courseID);
-
-      return {
-        ...course,
-        postreqs: postreqIDs,
-      };
-    }));
-
-    res.json(coursesWithPostreqs);
+    res.json(courses);
   } catch (e) {
     next(e);
   }
@@ -295,46 +275,49 @@ export const getAllCourses: RequestHandler<
   }
 };
 
-//adding function to get elements of the postreqs and prereqs tree
-export const getCourseRelations: RequestHandler = async (req, res, next) => {
+
+export const getRequisites: RequestHandler = async (req, res, next) => {
   try {
-    // Fetch all courses with their prereq strings
-    const courses = await db.courses.findMany({
+    if (!req.params.courseID) {
+      return res.status(400).json({ error: 'courseID parameter is required' });
+    }
+
+    const courseID = standardizeID(req.params.courseID);
+
+    const course = await db.courses.findUnique({
+      where: { courseID },
       select: {
         courseID: true,
         prereqString: true,
       },
     });
 
-    const courseRelations: Record<
-      string,
-      { prereqs: string[][]; postreqs: string[] }
-    > = {};
+    if (!course) {
+      return res.status(400).json({ error: 'Course not found' });
+    }
 
-    // Populate the prereqs and initialize postreqs
-    courses.forEach((course) => {
-      const parsedPrereqs = course.prereqString
-        ? parsePrereqString(course.prereqString)
-        : [];
-      courseRelations[course.courseID] = {
-        prereqs: parsedPrereqs,
-        postreqs: [],
-      };
+    const parsedPrereqs = parsePrereqString(course.prereqString);
+
+    const postreqs = await db.courses.findMany({
+      where: {
+        prereqs: {
+          has: course.courseID,
+        },
+      },
+      select: {
+        courseID: true,
+      },
     });
 
-    // Populate the postreqs
-    for (const course of courses) {
-      const prereqGroups = courseRelations[course.courseID]?.prereqs || [];
-      prereqGroups.flat().forEach((prereqID) => {
-        if (courseRelations[prereqID]) {
-          courseRelations[prereqID].postreqs.push(course.courseID);
-        }
-      });
-    };
+    const postreqIDs = postreqs.map(postreq => postreq.courseID);
 
-    res.json(courseRelations);
+    const courseRequisites = {
+      prereqRelations: parsedPrereqs,
+      postreqs: postreqIDs
+    }
+
+    res.json(courseRequisites);
   } catch (e) {
     next(e);
   }
 };
-

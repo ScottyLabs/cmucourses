@@ -1,6 +1,5 @@
 import React from "react";
-import Link from "next/link"; 
-import { useFetchCourseInfo } from "~/app/api/course";
+import { useFetchCourseRequisites } from "~/app/api/course";
 
 interface TreeNode {
   courseID: string;
@@ -12,9 +11,9 @@ interface Props {
 }
 
 export const PostReqCourses = ({ courseID }: Props) => {
-  const { isPending: isCourseInfoPending, data: info } = useFetchCourseInfo(courseID);
+  const { isPending: isCourseInfoPending, data: requisites } = useFetchCourseRequisites(courseID);
 
-  if (isCourseInfoPending || !info) {
+  if (isCourseInfoPending || !requisites) {
     return null;
   }
 
@@ -59,7 +58,7 @@ export const PostReqCourses = ({ courseID }: Props) => {
   };
 
   // Transform fetched data into a tree structure excluding the parent node
-  const childNodes: TreeNode[] = info.postreqs?.map((postreq: string) => ({
+  const childNodes: TreeNode[] = requisites.postreqs?.map((postreq: string) => ({
     courseID: postreq,
   })) || [];
 

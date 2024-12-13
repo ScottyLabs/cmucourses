@@ -1,9 +1,10 @@
 import React from "react";
-import { useFetchCourseInfo } from "~/app/api/course";
+import { useFetchCourseRequisites } from "~/app/api/course";
 
 interface TreeNode {
   courseID: string;
   prereqs?: TreeNode[];
+  prereqRelations?: TreeNode[][];
 }
 
 interface Props {
@@ -11,11 +12,12 @@ interface Props {
 }
 
 export const PreReqCourses = ({ courseID }: Props) => {
-  const { isPending: isCourseInfoPending, data: info } = useFetchCourseInfo(courseID);
+  const { isPending: isCourseInfoPending, data: requisites } = useFetchCourseRequisites(courseID);
 
-  if (isCourseInfoPending || !info) {
+  if (isCourseInfoPending || !requisites) {
     return null;
   }
+
 
   // Recursive function to render only the child branches
   const renderTree = (nodes: TreeNode[]) => {
@@ -58,7 +60,10 @@ export const PreReqCourses = ({ courseID }: Props) => {
   };
 
   // Transform fetched data into a tree structure excluding the parent node
-  const childNodes: TreeNode[] = info.prereqs?.map((prereq: string) => ({
+
+  const prereqs = requisites.prereqRelations?.flat()
+
+  const childNodes: TreeNode[] = prereqs.map((prereq: string) => ({
     courseID: prereq,
   })) || [];
 

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import Link from "next/link";
-import PostReqCourses from "./PostReqCourses"; // Import PostReqCourses component
-import PreReqCourses from "./PreReqCourses";   // Import PreReqCourses component
+import PostReqCourses from "./PostReqCourses";
+import PreReqCourses from "./PreReqCourses";
 
 interface TreeNode {
   courseID: string;
   coreqs?: Array<{ courseID: string }>;
   prereqs?: TreeNode[];
+  prereqRelations?: TreeNode[][];
   postreqs?: TreeNode[];
 }
 

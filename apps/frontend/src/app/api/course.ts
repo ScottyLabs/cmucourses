@@ -138,3 +138,28 @@ export const useFetchAllCourses = () => {
     staleTime: STALE_TIME,
   });
 };
+
+export type CourseRequisites = {
+  prereqRelations: string[][];
+  postreqs: string[];
+};
+
+export const fetchCourseRequisites = async (courseID: string): Promise<CourseRequisites> => {
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/requisites/${courseID}`;
+
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.data;
+};
+
+export const useFetchCourseRequisites = (courseID: string) => {
+  return useQuery<CourseRequisites>({
+    queryKey: ['courseRequisites', courseID],
+    queryFn: () => fetchCourseRequisites(courseID),
+    staleTime: STALE_TIME,
+  });
+};
