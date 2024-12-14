@@ -6,22 +6,29 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/20/solid";
 import { TreeNode } from "~/app/types";
-import { GetTooltip } from "./GetTooltip";
 
 interface ReqTreeProps {
   root: TreeNode;
 }
 
 const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
-  const [expandedPostReqID, setExpandedPostReqID] = useState<string | null>(null);
-  const [expandedPreReqID, setExpandedPreReqID] = useState<string | null>(null);
+  const [expandedPostReqIDs, setExpandedPostReqIDs] = useState<string[]>([]);
+  const [expandedPreReqIDs, setExpandedPreReqIDs] = useState<string[]>([]);
 
   const togglePostReqs = (courseID: string) => {
-    setExpandedPostReqID((prev) => (prev === courseID ? null : courseID));
+    setExpandedPostReqIDs((prev) =>
+      prev.includes(courseID)
+        ? prev.filter((id) => id !== courseID)
+        : [...prev, courseID]
+    );
   };
 
   const togglePreReqs = (courseID: string) => {
-    setExpandedPreReqID((prev) => (prev === courseID ? null : courseID));
+    setExpandedPreReqIDs((prev) =>
+      prev.includes(courseID)
+        ? prev.filter((id) => id !== courseID)
+        : [...prev, courseID]
+    );
   };
 
   return (
@@ -36,7 +43,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
             <div key={prereq.courseID} className="flex items-center justify-center">
 
               {/* Next level of prereqs */}
-              {expandedPreReqID === prereq.courseID && (
+              {expandedPreReqIDs.includes(prereq.courseID) && (
                 <div className="flex items-center justify-center">
                   <PreReqCourses courseID={prereq.courseID} />
                   <div className="w-3 h-0.5 bg-gray-400"></div>
@@ -48,7 +55,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                 className="text-gray-700 cursor-pointer rounded py-1 px-2 text-sm hover:bg-gray-50"
                 onClick={() => togglePreReqs(prereq.courseID)}
               >
-                {expandedPreReqID === prereq.courseID ? (
+                {expandedPreReqIDs.includes(prereq.courseID) ? (
                   <div className="flex items-center">
                     <div className="mr-1 hidden md:block">Hide</div>
                     <ChevronRightIcon className="h-5 w-5" />
@@ -66,7 +73,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               {/* Course ID button */}
               <button
                 onClick={() => (window.location.href = `/course/${prereq.courseID}`)}
-                className="font-normal text-center px-2 py-1 text-base bg-gray-50 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
+                className="font-normal text-center px-2 py-1 text-base bg-gray-50 hover:bg-gray-200 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
               >
                 {prereq.courseID}
               </button>
@@ -156,7 +163,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               {/* Course ID button */}
               <button
                 onClick={() => (window.location.href = `/course/${postreq.courseID}`)}
-                className="font-normal text-center px-2 py-1 text-base bg-gray-50 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
+                className="font-normal text-center px-2 py-1 text-base bg-gray-50 hover:bg-gray-200 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
               >
                 {postreq.courseID}
               </button>
@@ -169,7 +176,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
                 className="text-gray-700 cursor-pointer rounded py-1 px-2 text-sm hover:bg-gray-50"
                 onClick={() => togglePostReqs(postreq.courseID)}
               >
-                {expandedPostReqID === postreq.courseID ? (
+                {expandedPostReqIDs.includes(postreq.courseID) ? (
                   <div className="flex items-center">
                     <div className="mr-1 hidden md:block">Hide</div>
                     <ChevronLeftIcon className="h-5 w-5" />
@@ -182,7 +189,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               </div>
 
               {/* Next level of postreqs */}
-              {expandedPostReqID === postreq.courseID && (
+              {expandedPostReqIDs.includes(postreq.courseID) && (
                 <div className="flex items-center justify-center">
                   <div className="w-3 h-0.5 bg-gray-400"></div>
                   <PostReqCourses courseID={postreq.courseID} />

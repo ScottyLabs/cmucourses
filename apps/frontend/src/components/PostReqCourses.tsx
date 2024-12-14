@@ -48,7 +48,7 @@ export const PostReqCourses = ({ courseID }: Props) => {
             {/* Course ID button */}
             <button
               onClick={() => window.location.href = `/course/${node.courseID}`}
-              className="font-normal text-center px-2 py-1 text-base bg-gray-50 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
+              className="font-normal text-center px-2 py-1 text-base bg-gray-50 hover:bg-gray-200 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
             >
               {node.courseID}
             </button>
