@@ -23,7 +23,6 @@ const CourseDetail = ({ courseID }: Props) => {
   return (
     <div className="m-auto space-y-4 p-6">
       <CourseCard courseID={courseID} showFCEs={false} showCourseInfo={true} />
-      
       {fces && <FCECard fces={fces} />}
       {info.schedules && (
         <SchedulesCard

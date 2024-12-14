@@ -75,7 +75,6 @@ export const getCourses: RequestHandler<
         schedules: fromBoolLiteral(req.query.schedules),
       },
     });
-
     res.json(courses);
   } catch (e) {
     next(e);
