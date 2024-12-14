@@ -72,7 +72,7 @@ export const PreReqCourses = ({ courseID }: Props) => {
         renderTree(childNodes)
       ) : (
         <div className="italic text-center text-base font-bold mr-2">
-          No further pre-requisites
+          No more pre-reqs
         </div>
       )}
     </div>

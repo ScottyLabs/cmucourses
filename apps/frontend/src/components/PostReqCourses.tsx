@@ -72,7 +72,7 @@ export const PostReqCourses = ({ courseID }: Props) => {
         renderTree(childNodes)
       ) : (
         <div className="italic ml-2 text-[#000000] text-center text-base font-bold">
-          No further post-requisites
+          No more post-reqs
         </div>
 
       )}
