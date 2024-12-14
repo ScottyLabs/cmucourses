@@ -6,6 +6,7 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/20/solid";
 import { TreeNode } from "~/app/types";
+import { GetTooltip } from "./GetTooltip";
 
 interface ReqTreeProps {
   root: TreeNode;
@@ -148,7 +149,9 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               )}
 
               {/* Line left to node */}
-              <div className="w-3 h-0.5 bg-gray-400"></div>
+              {root.postreqs && root.postreqs.length > 1 && (
+                <div className="w-3 h-0.5 bg-gray-400"></div>
+              )}
 
               {/* Course ID button */}
               <button
