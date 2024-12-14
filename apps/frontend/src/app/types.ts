@@ -92,7 +92,6 @@ export interface Gened {
 
 export interface TreeNode {
   courseID: string;
-  coreqs?: Array<{ courseID: string }>;
   prereqs?: TreeNode[];
   prereqRelations?: TreeNode[][];
   postreqs?: TreeNode[];

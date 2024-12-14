@@ -1,6 +1,7 @@
 import React from "react";
 import { useFetchCourseRequisites } from "~/app/api/course";
 import { TreeNode } from "~/app/types";
+import { CourseIDButton } from "./Buttons";
 
 interface Props {
   courseID: string;
@@ -20,12 +21,7 @@ export const PreReqCourses = ({ courseID }: Props) => {
         {nodes.map((node) => (
           <div key={node.courseID} className="flex items-center">
             {/* Course ID button */}
-            <button
-              onClick={() => (window.location.href = `/course/${node.courseID}`)}
-              className="font-normal text-center px-2 py-1 text-base bg-gray-50 hover:bg-gray-200 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
-            >
-              {node.courseID}
-            </button>
+            <CourseIDButton courseID={node.courseID} />
 
             {/* Line connector right to node */}
             {nodes && nodes.length > 1 && (

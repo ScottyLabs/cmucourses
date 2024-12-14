@@ -6,6 +6,7 @@ import {
   ChevronRightIcon,
 } from "@heroicons/react/20/solid";
 import { TreeNode } from "~/app/types";
+import { CourseIDButton } from "./Buttons";
 
 interface ReqTreeProps {
   root: TreeNode;
@@ -71,12 +72,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               <div className="w-3 h-0.5 bg-gray-400"></div>
 
               {/* Course ID button */}
-              <button
-                onClick={() => (window.location.href = `/course/${prereq.courseID}`)}
-                className="font-normal text-center px-2 py-1 text-base bg-gray-50 hover:bg-gray-200 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
-              >
-                {prereq.courseID}
-              </button>
+              <CourseIDButton courseID={prereq.courseID} />
 
               {/* Line connector right to node */}
               {root.prereqs && root.prereqs.length > 1 && (
@@ -118,7 +114,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
 
         {/* Main node */}
         <div
-          className="font-bold text-center px-2 py-1 text-base bg-gray-200 text-gray-900 border border-gray-400 rounded shadow-md min-w-[80px] mt-[10px] mb-[10px]"
+          className="font-bold text-center px-2 py-1 text-base bg-gray-200 text-gray-900 border border-gray-400 rounded shadow-md min-w-20"
         >
           {root.courseID}
         </div>
@@ -161,12 +157,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               )}
 
               {/* Course ID button */}
-              <button
-                onClick={() => (window.location.href = `/course/${postreq.courseID}`)}
-                className="font-normal text-center px-2 py-1 text-base bg-gray-50 hover:bg-gray-200 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
-              >
-                {postreq.courseID}
-              </button>
+              <CourseIDButton courseID={postreq.courseID} />
 
               {/* Line right to node */}
               <div className="w-3 h-0.5 bg-gray-400"></div>

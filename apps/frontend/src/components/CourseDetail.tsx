@@ -36,7 +36,6 @@ const CourseDetail = ({ courseID }: Props) => {
           prereqs={requisites.prereqs}
           prereqRelations={requisites.prereqRelations}
           postreqs={requisites.postreqs}
-          coreqs={info.coreqs}
         />
       )}
     </div>
