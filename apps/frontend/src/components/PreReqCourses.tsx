@@ -22,7 +22,7 @@ export const PreReqCourses = ({ courseID }: Props) => {
             {/* Course ID button */}
             <button
               onClick={() => (window.location.href = `/course/${node.courseID}`)}
-              className="font-normal text-center px-2 py-1 text-base bg-[#f9fafb] text-[#111827] border border-[#d1d5db] rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
+              className="font-normal text-center px-2 py-1 text-base bg-gray-50 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
             >
               {node.courseID}
             </button>
@@ -71,8 +71,10 @@ export const PreReqCourses = ({ courseID }: Props) => {
       {childNodes.length > 0 ? (
         renderTree(childNodes)
       ) : (
-        <div className="italic text-center text-base font-bold mr-2">
-          No more pre-reqs
+        <div
+          className="italic mr-2 text-gray-700 text-center text-lg font-semibold rounded-md"
+        >
+          None
         </div>
       )}
     </div>

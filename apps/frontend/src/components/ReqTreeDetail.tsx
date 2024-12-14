@@ -5,7 +5,6 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/20/solid";
-import { FlushedButton } from "./Buttons";
 import { TreeNode } from "~/app/types";
 
 interface ReqTreeProps {
@@ -25,7 +24,10 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
   };
 
   return (
-    <div className="flex items-center justify-center overflow-x-scroll">
+    <div className="flex overflow-auto">
+      {/* Padding */}
+      <div className="flex-grow"></div>
+
       {/* Prereqs on the left */}
       {root.prereqs && root.prereqs.length > 0 && (
         <div className="flex flex-col items-end justify-center">
@@ -41,22 +43,21 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               )}
 
               {/* Expansion button */}
-              <button className="right-3 top-3 z-40 md:top-4 md:right-2">
-                <FlushedButton
-                  onClick={() => togglePreReqs(prereq.courseID)}
-                >
-                  {expandedPreReqID === prereq.courseID ?
-                    <div className="hidden items-center md:flex">
-                      <div className="mr-1">Hide</div>
-                      <ChevronRightIcon className="h-5 w-5" />
-                    </div>
-                    :
-                    <div className="hidden items-center md:flex">
-                      <ChevronLeftIcon className="h-5 w-5" />
-                    </div>
-                  }
-                </FlushedButton>
-              </button>
+              <div
+                className="text-gray-700 cursor-pointer rounded py-1 px-2 text-sm hover:bg-gray-50"
+                onClick={() => togglePreReqs(prereq.courseID)}
+              >
+                {expandedPreReqID === prereq.courseID ? (
+                  <div className="flex items-center">
+                    <div className="mr-1 hidden md:block">Hide</div>
+                    <ChevronRightIcon className="h-5 w-5" />
+                  </div>
+                ) : (
+                  <div className="flex items-center">
+                    <ChevronLeftIcon className="h-5 w-5" />
+                  </div>
+                )}
+              </div>
 
               {/* Line right to expansion button */}
               <div className="w-3 h-0.5 bg-gray-400"></div>
@@ -64,7 +65,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               {/* Course ID button */}
               <button
                 onClick={() => (window.location.href = `/course/${prereq.courseID}`)}
-                className="font-normal text-center px-2 py-1 text-base bg-[#f9fafb] text-[#111827] border border-[#d1d5db] rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
+                className="font-normal text-center px-2 py-1 text-base bg-gray-50 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
               >
                 {prereq.courseID}
               </button>
@@ -109,7 +110,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
 
         {/* Main node */}
         <div
-          className="font-bold text-center px-2 py-1 text-base bg-[#e5e7eb] text-[#111827] border border-[#9ca3af] rounded shadow-md min-w-[80px] mt-[10px] mb-[10px]"
+          className="font-bold text-center px-2 py-1 text-base bg-gray-200 text-gray-900 border border-gray-400 rounded shadow-md min-w-[80px] mt-[10px] mb-[10px]"
         >
           {root.courseID}
         </div>
@@ -152,7 +153,7 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               {/* Course ID button */}
               <button
                 onClick={() => (window.location.href = `/course/${postreq.courseID}`)}
-                className="font-normal text-center px-2 py-1 text-base bg-[#f9fafb] text-[#111827] border border-[#d1d5db] rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
+                className="font-normal text-center px-2 py-1 text-base bg-gray-50 text-gray-900 border border-gray-300 rounded shadow cursor-pointer no-underline min-w-[80px] inline mt-[2px] mb-[2px]"
               >
                 {postreq.courseID}
               </button>
@@ -161,22 +162,21 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
               <div className="w-3 h-0.5 bg-gray-400"></div>
 
               {/* Expansion button */}
-              <button className="right-3 top-3 z-40 md:top-4 md:right-2">
-                <FlushedButton
-                  onClick={() => togglePostReqs(postreq.courseID)}
-                >
-                  {expandedPostReqID === postreq.courseID ?
-                    <div className="hidden items-center md:flex">
-                      <div className="mr-1">Hide</div>
-                      <ChevronLeftIcon className="h-5 w-5" />
-                    </div>
-                    :
-                    <div className="hidden items-center md:flex">
-                      <ChevronRightIcon className="h-5 w-5" />
-                    </div>
-                  }
-                </FlushedButton>
-              </button>
+              <div
+                className="text-gray-700 cursor-pointer rounded py-1 px-2 text-sm hover:bg-gray-50"
+                onClick={() => togglePostReqs(postreq.courseID)}
+              >
+                {expandedPostReqID === postreq.courseID ? (
+                  <div className="flex items-center">
+                    <div className="mr-1 hidden md:block">Hide</div>
+                    <ChevronLeftIcon className="h-5 w-5" />
+                  </div>
+                ) : (
+                  <div className="flex items-center">
+                    <ChevronRightIcon className="h-5 w-5" />
+                  </div>
+                )}
+              </div>
 
               {/* Next level of postreqs */}
               {expandedPostReqID === postreq.courseID && (
@@ -190,6 +190,9 @@ const ReqTreeDetail: React.FC<ReqTreeProps> = ({ root }) => {
           ))}
         </div>
       )}
+
+      {/* Padding */}
+      <div className="flex-grow"></div>
     </div>
   );
 };
