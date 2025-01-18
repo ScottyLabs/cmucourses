@@ -9,6 +9,10 @@ export interface UserState {
   showCourseInfos: boolean;
   showSchedules: boolean;
   showAll: boolean;
+  savedShowFCEs: boolean;
+  savedShowCourseInfos: boolean;
+  savedShowSchedules: boolean;
+  savedShowAll: boolean;
   fceAggregation: {
     numSemesters: number;
     counted: {
@@ -33,6 +37,10 @@ const initialState: UserState = {
   showCourseInfos: true,
   showSchedules: false,
   showAll: false,
+  savedShowFCEs: false,
+  savedShowCourseInfos: false,
+  savedShowSchedules: false,
+  savedShowAll: false,
   fceAggregation: {
     numSemesters: 2,
     counted: {
@@ -76,6 +84,26 @@ export const userSlice = createSlice({
     showAll : (state, action: PayloadAction<boolean>) => {
       state.showAll = action.payload;
     },
+    savedShowFCEs: (state, action: PayloadAction<boolean>) => {
+      state.savedShowFCEs = action.payload;
+    },
+    savedShowCourseInfos: (state, action: PayloadAction<boolean>) => {
+      state.savedShowCourseInfos = action.payload;
+    },
+    savedShowSchedules: (state, action: PayloadAction<boolean>) => {
+      state.savedShowSchedules = action.payload;
+    },
+    savedShowAll : (state, action: PayloadAction<boolean>) => {
+      state.savedShowAll = action.payload;
+    },
+    logIn: (state) => {
+      state.loggedIn = true;
+    },
+    logOut: (state) => {
+      state.token = null;
+      state.loggedIn = false;
+    },
+
     updateSemestersCounted: (
       state,
       action: PayloadAction<{ semester: Semester; value: boolean }>

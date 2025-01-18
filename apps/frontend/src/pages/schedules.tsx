@@ -9,9 +9,10 @@ import ScheduleData from "~/components/ScheduleData";
 import { selectCoursesInActiveSchedule } from "~/app/userSchedules";
 import { Page } from "~/components/Page";
 import Loading from "~/components/Loading";
+import ShowFilter from "~/components/ShowFilter";
 import ScheduleCalendar from "~/components/ScheduleCalendar";
 import SectionSelector from "~/components/SectionSelector";
-import {CAL_VIEW, SCHED_VIEW} from "~/app/constants";
+import { CAL_VIEW, SCHED_VIEW } from "~/app/constants";
 
 const SchedulePage: NextPage = () => {
   const scheduled = useAppSelector(selectCoursesInActiveSchedule);
@@ -53,6 +54,7 @@ const SchedulePage: NextPage = () => {
         <>
           <ScheduleSelector/>
           <Aggregate/>
+          <ShowFilter />
           <SectionSelector courseIDs={scheduled}/>
         </>
       }

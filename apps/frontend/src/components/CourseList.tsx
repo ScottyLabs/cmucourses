@@ -2,6 +2,7 @@ import React from "react";
 import CourseCard from "./CourseCard";
 import { useFetchCourseInfos } from "~/app/api/course";
 import Loading from "./Loading";
+import { useAppSelector } from "~/app/hooks";
 
 interface Props {
   courseIDs: string[];
@@ -10,6 +11,10 @@ interface Props {
 
 const CourseList = ({ courseIDs, children }: Props) => {
   const results = useFetchCourseInfos(courseIDs);
+
+  const showFCEs = useAppSelector((state) => state.user.savedShowFCEs);
+  const showCourseInfos = useAppSelector((state) => state.user.savedShowCourseInfos);
+  const showSchedules = useAppSelector((state) => state.user.savedShowSchedules);
 
   return (
     <div className="pt-2 pb-6 px-2 md:px-6">
@@ -23,11 +28,11 @@ const CourseList = ({ courseIDs, children }: Props) => {
             {courseIDs.length > results.length && <Loading />}
             {courseIDs.map((courseID) => (
               <CourseCard
-                courseID={courseID}
                 key={courseID}
-                showFCEs={true}
-                showCourseInfo={true}
-                showSchedules={true}
+                courseID={courseID}
+                showFCEs={showFCEs}
+                showCourseInfo={showCourseInfos}
+                showSchedules={showSchedules}
               />
             ))}
           </div>
