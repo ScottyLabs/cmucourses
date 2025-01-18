@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { userSlice } from "~/app/user";
 import { useAuth } from "@clerk/nextjs";
 
-
 const ShowFilter = () => {
   const dispatch = useAppDispatch();
 
