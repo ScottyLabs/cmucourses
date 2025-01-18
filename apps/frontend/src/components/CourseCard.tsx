@@ -1,4 +1,3 @@
-import { Course } from "~/app/types";
 import {
   approximateHours,
   compareSessions,
@@ -11,24 +10,35 @@ import {
 import { useAppSelector } from "~/app/hooks";
 import BookmarkButton from "./BookmarkButton";
 import Link from "next/link";
-import { selectFCEResultsForCourse } from "~/app/cache";
 import { FCEDetail } from "./FCEDetail";
 import { Card } from "./Card";
-import { SchedulesDetail } from "./SchedulesDetail";
+import { CourseSchedulesDetail } from "./CourseSchedulesDetail";
+import { useFetchCourseInfo } from "~/app/api/course";
+import { useFetchFCEInfoByCourse } from "~/app/api/fce";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
-  info: Course;
+  courseID: string;
   showFCEs: boolean;
   showCourseInfo?: boolean;
   showSchedules?: boolean;
 }
 
 const CourseCard = ({
-  info,
+  courseID,
   showFCEs,
   showCourseInfo,
   showSchedules,
 }: Props) => {
+  const { isSignedIn } = useAuth()
+  const { isPending: isCourseInfoPending, data: info } = useFetchCourseInfo(courseID);
+  const { isPending: isFCEInfoPending, data: { fces } = {} } = useFetchFCEInfoByCourse(courseID);
+  const options = useAppSelector((state) => state.user.fceAggregation);
+
+  if (isCourseInfoPending || isFCEInfoPending || !info) {
+    return (<></>);
+  }
+
   const sortedSchedules = filterSessions(info.schedules || []).sort(
     compareSessions
   );
@@ -36,10 +46,6 @@ const CourseCard = ({
   const schedulesAvailableString = mostRecentSchedules
     .map(sessionToShortString)
     .join(", ");
-
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  const fces = useAppSelector(selectFCEResultsForCourse(info.courseID));
-  const options = useAppSelector((state) => state.user.fceAggregation);
 
   const hours: number | undefined = fces
     ? approximateHours(fces, options)
@@ -71,7 +77,7 @@ const CourseCard = ({
               <BookmarkButton courseID={info.courseID} />
             </div>
           </div>
-          {loggedIn && hours && (
+          {isSignedIn && hours && (
             <div className="text-md text-gray-500">{hours} hrs/week</div>
           )}
         </div>
@@ -116,7 +122,7 @@ const CourseCard = ({
       <div className="m-auto space-y-4">
         {showFCEs && fces && <FCEDetail fces={fces} />}
         {showSchedules && sortedSchedules && (
-          <SchedulesDetail scheduleInfos={sortedSchedules} />
+          <CourseSchedulesDetail scheduleInfos={sortedSchedules} />
         )}
       </div>
     </Card>

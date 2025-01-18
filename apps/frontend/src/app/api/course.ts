@@ -1,40 +1,10 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Course, Session } from "~/types";
-import { RootState } from "~/store";
-
-export const fetchCourseInfos = createAsyncThunk<
-  Course[],
-  string[],
-  { state: RootState }
->("fetchCourseInfos", async (ids: string[], thunkAPI) => {
-  const state = thunkAPI.getState();
-
-  const newIds = ids.filter((id) => !(id in state.cache.courseResults));
-  if (newIds.length === 0) return [];
-
-  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses?`;
-  const params = new URLSearchParams(ids.map((id) => ["courseID", id]));
-
-  params.set("schedules", "true");
-
-  if (state.user.loggedIn) {
-    params.set("fces", "true");
-
-    return (
-      await fetch(url + params.toString(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: state.user.token,
-        }),
-      })
-    ).json();
-  } else {
-    return (await fetch(url + params.toString())).json();
-  }
-});
+import axios from "axios";
+import { useQuery, useQueries, keepPreviousData } from "@tanstack/react-query";
+import { create, windowScheduler, keyResolver } from "@yornaath/batshit"
+import { Course, Session } from "~/app/types";
+import { STALE_TIME } from "~/app/constants";
+import { FiltersState } from "~/app/filters";
+import { useAppSelector } from "~/app/hooks";
 
 export type FetchCourseInfosByPageResult = {
   docs: Course[];
@@ -49,113 +19,148 @@ export type FetchCourseInfosByPageResult = {
   nextPage: number | null;
 };
 
-export const fetchCourseInfosByPage = createAsyncThunk<
-  FetchCourseInfosByPageResult,
-  number,
-  { state: RootState }
->("fetchCourseInfosByPage", async (page: number, thunkAPI) => {
-  const state = thunkAPI.getState();
-
+const fetchCourseInfosByPage = async (filters: FiltersState): Promise<FetchCourseInfosByPageResult> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/search?`;
   const params = new URLSearchParams({
-    page: `${page}`,
+    page: `${filters.page}`,
     schedules: "true",
   });
 
-  if (state.filters.search !== "") {
-    params.set("keywords", state.filters.search);
+  if (filters.search !== "") {
+    params.set("keywords", filters.search);
   }
 
-  if (
-    state.filters.departments.active &&
-    state.filters.departments.names.length > 0
-  ) {
-    state.filters.departments.names.forEach((d) =>
-      params.append("department", d)
-    );
+  if (filters.departments.active && filters.departments.names.length > 0) {
+    filters.departments.names.forEach((d) => params.append("department", d));
   }
 
-  if (state.filters.units.active) {
-    params.append("unitsMin", state.filters.units.min.toString());
-    params.append("unitsMax", state.filters.units.max.toString());
+  if (filters.units.active) {
+    params.append("unitsMin", filters.units.min.toString());
+    params.append("unitsMax", filters.units.max.toString());
   }
 
-  if (state.filters.semesters.active) {
-    state.filters.semesters.sessions.forEach((s: Session) =>
-      params.append("session", JSON.stringify(s))
-    );
+  if (filters.semesters.active) {
+    filters.semesters.sessions.forEach((s: Session) => params.append("session", JSON.stringify(s)));
   }
 
-  if (state.filters.levels.active) {
+  if (filters.levels.active) {
     let value = "";
-    state.filters.levels.selected.forEach((elem, index) => {
+    filters.levels.selected.forEach((elem, index) => {
       if (elem) value += index.toString();
     });
 
     if (value) params.append("levels", value);
   }
 
-  if (state.user.loggedIn) {
-    return (
-      await fetch(url + params.toString(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: state.user.token,
-        }),
-      })
-    ).json();
-  } else {
-    return (await fetch(url + params.toString())).json();
-  }
-});
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    params,
+  });
 
-type FetchCourseInfoOptions = {
-  courseID: string;
-  schedules: boolean;
+  return response.data;
 };
 
-export const fetchCourseInfo = createAsyncThunk<
-  Course,
-  FetchCourseInfoOptions,
-  { state: RootState }
->(
-  "fetchCourseInfo",
-  async ({ courseID, schedules }: FetchCourseInfoOptions, thunkAPI) => {
-    if (!courseID) return;
+export const useFetchCourseInfosByPage = () => {
+  const filters = useAppSelector((state) => state.filters);
 
-    const state = thunkAPI.getState();
-    if (courseID in state.cache.courseResults && !schedules) return;
+  return useQuery({
+    queryKey: ['courseInfosByPage', filters],
+    queryFn: () => fetchCourseInfosByPage(filters),
+    staleTime: STALE_TIME,
+    placeholderData: keepPreviousData,
+  });
+};
 
-    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/course/${courseID}?`;
-    const params = new URLSearchParams({
-      schedules: schedules ? "true" : "false",
-    });
+const fetchCourseInfosBatcher = create({
+  fetcher: async (courseIDs: string[]): Promise<Course[]> => {
+    const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses?`;
+    const params = new URLSearchParams(courseIDs.map((id) => ["courseID", id]));
 
-    return (await fetch(url + params.toString())).json();
-  }
-);
+    params.set("schedules", "true");
 
-type FetchAllCoursesType = { name: string; courseID: string }[];
-
-export const fetchAllCourses = createAsyncThunk<
-  FetchAllCoursesType,
-  void,
-  { state: RootState }
->("fetchAllCourses", async (_, thunkAPI) => {
-  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/all`;
-  const state = thunkAPI.getState();
-
-  if (state.cache.allCourses.length > 0) return;
-
-  return (
-    await fetch(url, {
-      method: "GET",
+    const response = await axios.get(url, {
       headers: {
         "Content-Type": "application/json",
       },
-    })
-  ).json();
+      params,
+    });
+
+    return response.data;
+  },
+  resolver: keyResolver("courseID"),
+  scheduler: windowScheduler(10),
 });
+
+export const useFetchCourseInfo = (courseID: string) => {
+  return useQuery({
+    queryKey: ['courseInfo', { courseID }],
+    queryFn: () => fetchCourseInfosBatcher.fetch(courseID),
+    staleTime: STALE_TIME,
+  });
+};
+
+export const useFetchCourseInfos = (courseIDs: string[]) => {
+  return useQueries({
+    queries: courseIDs.map((courseID) => ({
+      queryKey: ['courseInfo', { courseID }],
+      queryFn: () => fetchCourseInfosBatcher.fetch(courseID),
+      staleTime: STALE_TIME,
+    })),
+    combine: result => {
+      return result.reduce((acc, { data }) => {
+        if (data) acc.push(data);
+        return acc;
+      }, [] as Course[]);
+    },
+  });
+};
+
+type FetchAllCoursesType = { name: string; courseID: string }[];
+
+const fetchAllCourses = async (): Promise<FetchAllCoursesType> => {
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/all`;
+
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.data;
+};
+
+export const useFetchAllCourses = () => {
+  return useQuery({
+    queryKey: ['allCourses'],
+    queryFn: fetchAllCourses,
+    staleTime: STALE_TIME,
+  });
+};
+
+export type CourseRequisites = {
+  prereqs: string[];
+  prereqRelations: string[][];
+  postreqs: string[];
+};
+
+export const fetchCourseRequisites = async (courseID: string): Promise<CourseRequisites> => {
+  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/requisites/${courseID}`;
+
+  const response = await axios.get(url, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  return response.data;
+};
+
+export const useFetchCourseRequisites = (courseID: string) => {
+  return useQuery<CourseRequisites>({
+    queryKey: ['courseRequisites', courseID],
+    queryFn: () => fetchCourseRequisites(courseID),
+    staleTime: STALE_TIME,
+  });
+};

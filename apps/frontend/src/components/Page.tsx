@@ -8,7 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { SideNav } from "./SideNav";
 import Link from "./Link";
 import { useAuth } from "@clerk/nextjs";
-import { userSlice } from "~/app/user";
+import { usePostHog } from "posthog-js/react";
 
 type Props = {
   sidebar?: React.ReactNode;
@@ -17,38 +17,29 @@ type Props = {
 };
 
 export const Page = ({ sidebar, content, activePage }: Props) => {
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
+  const { isSignedIn, userId } = useAuth();
   const modalShown = useAppSelector(
     (state) => state.ui.session.loginModalShown
   );
   const dispatch = useAppDispatch();
 
-  const { isLoaded, userId, sessionId, getToken } = useAuth();
-
   useEffect(() => {
-    if (isLoaded && userId && sessionId) {
-      dispatch(userSlice.actions.logIn());
-      getToken()
-        .then((token) => {
-          if (token) {
-            dispatch(userSlice.actions.setToken(token));
-          }
-        })
-        .catch(() => {
-          userSlice.actions.logOut();
-        });
-    } else {
-      dispatch(userSlice.actions.logOut());
-    }
-  }, [isLoaded, userId, sessionId, getToken, dispatch]);
-
-  useEffect(() => {
-    if (!loggedIn && !modalShown) {
+    if (!isSignedIn && !modalShown) {
       dispatch(uiSlice.actions.openLoginModal());
-    } else if (loggedIn) {
+    } else if (isSignedIn) {
       dispatch(uiSlice.actions.closeLoginModal());
     }
-  }, [dispatch, loggedIn, modalShown]);
+  }, [dispatch, isSignedIn, modalShown]);
+
+  const posthog = usePostHog();
+
+  useEffect(() => {
+    if (isSignedIn && userId) {
+      posthog?.identify(userId);
+    } else {
+      posthog?.reset();
+    }
+  }, [posthog, isSignedIn, userId]);
 
   return (
     <div className="accent-blue-600 dark:accent-blue-800">

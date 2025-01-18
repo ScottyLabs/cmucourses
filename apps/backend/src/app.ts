@@ -2,10 +2,11 @@ import morgan from "morgan";
 import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import { isUser } from "~/controllers/user";
-import { getAllCourses, getCourseByID, getCourses, getFilteredCourses } from "~/controllers/courses";
+import { getAllCourses, getCourseByID, getCourses, getFilteredCourses, getRequisites } from "~/controllers/courses";
 import { getFCEs } from "~/controllers/fces";
 import { getInstructors } from "~/controllers/instructors";
 import { getGeneds } from "~/controllers/geneds";
+import { getSchedules } from "~/controllers/schedules";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -20,12 +21,14 @@ app.route("/course/:courseID").get(getCourseByID);
 app.route("/courses").get(getCourses);
 app.route("/courses").post(isUser, getCourses);
 app.route("/courses/all").get(getAllCourses);
+app.route("/courses/requisites/:courseID").get(getRequisites);
 app.route("/courses/search/").get(getFilteredCourses);
 app.route("/courses/search/").post(isUser, getFilteredCourses);
 
 app.route("/fces").post(isUser, getFCEs);
 
 app.route("/instructors").get(getInstructors);
+app.route("/schedules").get(getSchedules);
 
 app.route("/geneds").get(getGeneds);
 app.route("/geneds").post(isUser, getGeneds);

@@ -2,7 +2,6 @@ import * as Slider from "@radix-ui/react-slider";
 import React, { useEffect } from "react";
 import { filtersSlice } from "~/app/filters";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
-import { throttledFilter } from "~/app/store";
 
 const UnitsFilter = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +23,6 @@ const UnitsFilter = () => {
           checked={active}
           onChange={(e) => {
             dispatch(filtersSlice.actions.updateUnitsActive(e.target.checked));
-            throttledFilter();
           }}
         />
       </div>
@@ -52,7 +50,6 @@ const UnitsFilter = () => {
                   )
                 );
                 dispatch(filtersSlice.actions.updateUnitsActive(true));
-                if (active) throttledFilter();
               }}
             />
           ))}

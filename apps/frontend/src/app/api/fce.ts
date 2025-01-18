@@ -1,63 +1,105 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 import { FCE } from "~/types";
-import { RootState } from "~/store";
+import { GetToken } from "@clerk/types";
+import { useQueries, useQuery, keepPreviousData } from "@tanstack/react-query";
+import { STALE_TIME } from "~/app/constants";
+import { create, keyResolver, windowScheduler } from "@yornaath/batshit";
+import { memoize } from "lodash-es";
+import { useAuth } from "@clerk/nextjs";
 
-type FCEInfosOptions = { courseIDs: string[] };
+const fetchFCEInfosByCourseBatcher = memoize((isSignedIn: boolean | undefined, getToken: GetToken) => {
+  return create({
+    fetcher: async (courseIDs: string[]): Promise<{ courseID: string; fces: FCE[]; }[]> => {
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/fces`;
+      const params = new URLSearchParams();
 
-export const fetchFCEInfosByCourse = createAsyncThunk<
-  FCE[],
-  FCEInfosOptions,
-  { state: RootState }
->("fetchFCEInfosByCourse", async ({ courseIDs }: FCEInfosOptions, thunkAPI) => {
-  const state = thunkAPI.getState();
+      courseIDs.forEach((courseID) => params.append("courseID", courseID));
 
-  const newIds = courseIDs.filter((id) => !(id in state.cache.fces));
-  if (newIds.length === 0) return;
+      const token = await getToken();
 
-  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/fces?`;
-  const params = new URLSearchParams();
+      if (isSignedIn && token) {
+        const response = await axios.post(url, {token}, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          params,
+        });
 
-  newIds.forEach((courseID) => params.append("courseID", courseID));
-
-  if (state.user.loggedIn && state.user.token) {
-    return (
-      await fetch(url + params.toString(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: state.user.token,
-        }),
-      })
-    ).json();
-  }
+        return courseIDs.map((courseID) => ({
+          courseID,
+          fces: response.data.filter((fce: FCE) => fce.courseID === courseID)
+        }));
+      }
+      return courseIDs.map((courseID) => ({courseID, fces: []}));
+    },
+    resolver: keyResolver("courseID"),
+    scheduler: windowScheduler(10),
+  });
 });
 
-export const fetchFCEInfosByInstructor = createAsyncThunk<
-  FCE[],
-  string,
-  { state: RootState }
->("fetchFCEInfosByInstructor", async (instructor: string, thunkAPI) => {
-  const state = thunkAPI.getState();
+export const useFetchFCEInfoByCourse = (courseID: string) => {
+  const { isSignedIn, getToken } = useAuth();
 
-  if (instructor in state.cache.instructorResults) return;
+  return useQuery({
+    queryKey: ['fces', { courseID, isSignedIn }],
+    queryFn: () => fetchFCEInfosByCourseBatcher(isSignedIn, getToken).fetch(courseID),
+    staleTime: STALE_TIME,
+  });
+};
 
-  const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/fces?`;
-  const params = new URLSearchParams();
-  params.append("instructor", instructor);
+export const useFetchFCEInfosByCourse = (courseIDs: string[], isSignedIn: boolean | undefined, getToken: GetToken) => {
+  return useQueries({
+    queries: courseIDs.map((courseID) => ({
+      queryKey: ['fces', { courseID, isSignedIn }],
+      queryFn: () => fetchFCEInfosByCourseBatcher(isSignedIn, getToken).fetch(courseID),
+      staleTime: STALE_TIME,
+      placeholderData: {courseID, fces: []},
+    })),
+    combine: result => {
+      return result.reduce((acc, {data}) => {
+        if (data) acc.push(data);
+        return acc;
+      }, [] as FCE[]);
+    },
+  });
+};
 
-  if (state.user.loggedIn && state.user.token) {
-    return (
-      await fetch(url + params.toString(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          token: state.user.token,
-        }),
-      })
-    ).json();
-  }
+const fetchFCEInfosByInstructorBatcher = memoize((isSignedIn: boolean | undefined, getToken: GetToken) => {
+  return create({
+    fetcher: async (instructors: string[]): Promise<{ instructor: string; fces: FCE[]; }[]> => {
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/fces`;
+      const params = new URLSearchParams();
+
+      instructors.forEach((instructor) => params.append("instructor", instructor));
+
+      const token = await getToken();
+
+      if (isSignedIn && token) {
+        const response = await axios.post(url, { token }, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          params,
+        });
+
+        return instructors.map((instructor) => ({
+          instructor,
+          fces: response.data.filter((fce: FCE) => fce.instructor === instructor)
+        }));
+      }
+      return [];
+    },
+    resolver: keyResolver("instructor"),
+    scheduler: windowScheduler(10),
+  });
 });
+
+
+export const useFetchFCEInfosByInstructor = (instructor: string, isSignedIn: boolean | undefined, getToken: GetToken) => {
+  return useQuery({
+    queryKey: ['instructorFCEs', { instructor, isSignedIn }],
+    queryFn: () => fetchFCEInfosByInstructorBatcher(isSignedIn, getToken).fetch(instructor),
+    staleTime: STALE_TIME,
+    placeholderData: keepPreviousData,
+  });
+};

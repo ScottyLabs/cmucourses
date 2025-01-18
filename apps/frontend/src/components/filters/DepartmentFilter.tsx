@@ -3,7 +3,6 @@ import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { filtersSlice } from "~/app/filters";
-import { throttledFilter } from "~/app/store";
 import { Combobox } from "@headlessui/react";
 import { classNames, getDepartmentByName } from "~/app/utils";
 import { DEPARTMENTS } from "~/app/constants";
@@ -18,12 +17,10 @@ const DepartmentFilter = () => {
   const setDepartments = (departments: string[]) => {
     dispatch(filtersSlice.actions.updateDepartments(departments));
     dispatch(filtersSlice.actions.updateDepartmentsActive(true));
-    throttledFilter();
   };
 
   const deleteDepartment = (department: string) => {
     dispatch(filtersSlice.actions.deleteDepartment(department));
-    throttledFilter();
   };
 
   const searchDepartments = (department: {
@@ -53,7 +50,6 @@ const DepartmentFilter = () => {
                 dispatch(
                   filtersSlice.actions.updateDepartmentsActive(e.target.checked)
                 );
-                throttledFilter();
               }}
             />
           </div>

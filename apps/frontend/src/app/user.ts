@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { addToSet, removeFromSet } from "./utils";
-import { SEMESTERS_COUNTED } from "./constants";
+import {CAL_VIEW, SCHED_VIEW, SEMESTERS_COUNTED} from "./constants";
 import { Semester } from "./types";
 
 export interface UserState {
@@ -8,7 +8,6 @@ export interface UserState {
   showFCEs: boolean;
   showCourseInfos: boolean;
   showSchedules: boolean;
-  loggedIn: boolean;
   showAll: boolean;
   savedShowFCEs: boolean;
   savedShowCourseInfos: boolean;
@@ -27,9 +26,9 @@ export interface UserState {
       instructors: string[];
     }
   };
-  token: string | null;
   selectedSchool: string;
   selectedTags: string[];
+  scheduleView: string;
 }
 
 const initialState: UserState = {
@@ -37,7 +36,6 @@ const initialState: UserState = {
   showFCEs: false,
   showCourseInfos: true,
   showSchedules: false,
-  loggedIn: false,
   showAll: false,
   savedShowFCEs: false,
   savedShowCourseInfos: false,
@@ -56,9 +54,9 @@ const initialState: UserState = {
       instructors: [],
     },
   },
-  token: null,
   selectedSchool: "SCS",
   selectedTags: [],
+  scheduleView: "cal",
 };
 
 export const userSlice = createSlice({
@@ -105,6 +103,7 @@ export const userSlice = createSlice({
       state.token = null;
       state.loggedIn = false;
     },
+
     updateSemestersCounted: (
       state,
       action: PayloadAction<{ semester: Semester; value: boolean }>
@@ -117,9 +116,6 @@ export const userSlice = createSlice({
       const newNumSemesters = Math.min(Math.max(action.payload, 1), 20);
       if (isNaN(newNumSemesters)) return;
       state.fceAggregation.numSemesters = newNumSemesters;
-    },
-    setToken: (state, action: PayloadAction<string>) => {
-      state.token = action.payload;
     },
     setFilters: (state, action: PayloadAction<UserState["fceAggregation"]["filters"]>) => {
       state.fceAggregation.filters = action.payload;
@@ -136,7 +132,10 @@ export const userSlice = createSlice({
     },
     setSelectedTags: (state, action: PayloadAction<string[]>) => {
       state.selectedTags = action.payload;
-    }
+    },
+    toggleScheduleView: (state) => {
+      state.scheduleView = state.scheduleView === CAL_VIEW ? SCHED_VIEW : CAL_VIEW;
+    },
   },
 });
 

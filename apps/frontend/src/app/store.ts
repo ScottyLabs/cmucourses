@@ -1,15 +1,14 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-import { cacheSlice, reducer as cacheReducer } from "./cache";
 import { reducer as userReducer, UserState } from "./user";
-import { FiltersState, reducer as filtersReducer } from "./filters";
+import { filtersSlice, FiltersState, reducer as filtersReducer } from "./filters";
 import {
   reducer as userSchedulesReducer,
   UserSchedulesState,
 } from "./userSchedules";
 import { reducer as uiReducer, UIState } from "./ui";
-import { reducer as instructorsReducer, InstructorsState } from "./instructors";
+import { reducer as instructorsReducer, InstructorsState, instructorsSlice } from "./instructors";
 import debounce from "lodash/debounce";
 import {
   FLUSH,
@@ -22,10 +21,8 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
-import { fetchCourseInfos, fetchCourseInfosByPage } from "./api/course";
 
 const reducers = combineReducers({
-  cache: cacheReducer,
   user: persistReducer<UserState>(
     {
       key: "root",
@@ -88,35 +85,27 @@ export type RootState = ReturnType<typeof store.getState>;
 
 export const persistor = persistStore(store);
 
-const updateFilter = () => {
+const debouncedFilter = debounce((search: string) => {
   setTimeout(() => {
-    const state = store.getState();
-    void store.dispatch(fetchCourseInfosByPage(1));
-
-    if (state.cache.exactResultsCourses) {
-      void store.dispatch(fetchCourseInfos(state.cache.exactResultsCourses));
-    }
-  }, 0);
-};
-
-const debouncedFilter = debounce(updateFilter, 1000);
-
-export const throttledFilter = () => {
-  void store.dispatch(cacheSlice.actions.setCoursesLoading(true));
-  debouncedFilter();
-};
-
-const debouncedInstructorFilter = debounce(() => {
-  setTimeout(() => {
-    const state = store.getState();
-    void store.dispatch(cacheSlice.actions.selectInstructors(state.instructors.search));
-    void store.dispatch(cacheSlice.actions.setInstructorsLoading(false));
+    void store.dispatch(filtersSlice.actions.updateSearch(search));
+    void store.dispatch(filtersSlice.actions.setPage(1));
   }, 0);
 }, 300);
 
-export const throttledInstructorFilter = () => {
-  void store.dispatch(cacheSlice.actions.setInstructorsLoading(true));
-  debouncedInstructorFilter();
+export const throttledFilter = (search: string) => {
+  debouncedFilter(search);
+};
+
+const debouncedInstructorFilter = debounce((search: string) => {
+  setTimeout(() => {
+    void store.dispatch(instructorsSlice.actions.updateSearch(search));
+    void store.dispatch(instructorsSlice.actions.setInstructorsLoading(false));
+  }, 0);
+}, 300);
+
+export const throttledInstructorFilter = (search: string) => {
+  void store.dispatch(instructorsSlice.actions.setInstructorsLoading(true));
+  debouncedInstructorFilter(search);
 }
 
 export type AppState = ReturnType<typeof store.getState>;

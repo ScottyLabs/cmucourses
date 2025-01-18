@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-table";
 import Link from "./Link";
 import { Gened } from "~/app/types";
-import { Tooltip } from "react-tooltip";
+import { GetTooltip } from "~/components/GetTooltip";
 
 const defaultValue = (info: any) => {
   const val = info.getValue() as string;
@@ -26,16 +26,13 @@ const columns: ColumnDef<Gened>[] = [
     accessorKey: "courseID",
     cell: (info) => {
       const courseID = info.getValue() as string;
+      const id = `geneds-table-${courseID}`;
       return (
         <>
-          <Link href={`/course/${courseID}`} data-tooltip-id={courseID} >
+          <Link href={`/course/${courseID}`} data-tooltip-id={id} >
             {courseID}
           </Link>
-          <Tooltip id={courseID} className="max-w-sm z-40">
-            <div className="flex flex-col">
-              <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
-            </div>
-          </Tooltip>
+          <GetTooltip id={id} children={info.row.original.desc as string} />
         </>
       )
     },
@@ -45,17 +42,14 @@ const columns: ColumnDef<Gened>[] = [
     accessorKey: "name",
     cell: (info) => {
       const name = info.getValue() as string;
+      const id = `geneds-table-${name}`;
       if (name) {
         return (
           <>
-            <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={name} >
+            <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={id} >
               <span className="text-wrap">{name}</span>
             </Link>
-            <Tooltip id={name} className="max-w-sm z-40">
-              <div className="flex flex-col">
-                <span className="text-wrap text-sm">{info.row.original.desc as string}</span>
-              </div>
-            </Tooltip>
+            <GetTooltip id={id} children={info.row.original.desc as string} />
           </>
         )
       }

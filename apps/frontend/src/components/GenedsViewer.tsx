@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import React, { useEffect, useState } from "react";
-import { fetchGenedsBySchool } from "~/app/api/geneds";
+import { useFetchGenedsBySchool } from "~/app/api/geneds";
 import { aggregateFCEs, filterFCEs } from "~/app/fce";
 import { Combobox } from "@headlessui/react";
 import { GenedsDataTable } from "~/components/GenedsDataTable";
@@ -8,41 +8,74 @@ import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Gened } from "~/app/types";
 import { classNames } from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton, useAuth } from "@clerk/nextjs";
 import { userSlice } from "~/app/user";
 import { GENED_SCHOOLS, GENED_SOURCES } from "~/app/constants";
 import Link from "~/components/Link";
 
 const GenedsViewer = () => {
   const dispatch = useAppDispatch();
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
-  const geneds = useAppSelector((state) => state.cache.geneds);
   const selectedSchool = useAppSelector((state) => state.user.selectedSchool);
   const selectedTags = useAppSelector((state) => state.user.selectedTags);
   const aggregationOptions = useAppSelector((state) => state.user.fceAggregation);
+  const { isSignedIn, getToken } = useAuth();
+  const { isPending, error, data: geneds } = useFetchGenedsBySchool(selectedSchool, isSignedIn, getToken);
 
   const [tagQuery, setTagQuery] = useState("");
   const [tags, setTags] = useState<string[]>([]);
-  const [data, setData] = useState<Gened[]>([]);
-  const [query, setQuery] = useState("");
+  const [data, setData] = useState<Gened[]>(geneds || []);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const deleteTag = (tagToDelete: string) => {
     dispatch(userSlice.actions.setSelectedTags(selectedTags.filter((tag) => tag !== tagToDelete)));
   };
 
-  useEffect(() => {
-    if (selectedSchool)
-      void dispatch(fetchGenedsBySchool(selectedSchool));
-  }, [dispatch, loggedIn, selectedSchool]);
+  const getGenedTable = () => {
+    if (isPending) {
+      return (
+        <div className="py-4 text-center text-gray-500 dark:text-zinc-400">
+          Loading...
+        </div>
+      );
+    }
+
+    if (error) {
+      console.log(error.message);
+
+      return (
+        <div className="py-4 text-center text-gray-500 dark:text-zinc-400">
+          Sorry there was an error in displaying this, please refresh!
+        </div>
+      );
+    }
+
+    if (!geneds || geneds.length === 0) {
+      return (
+        <div className="py-4 text-center text-gray-500 dark:text-zinc-400">
+          No geneds found for {selectedSchool}. If you would like to map geneds for your school, please fill in the feedback form in the sidebar!
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <div className="px-3 pt-2 text-gray-600">
+          <b>{data?.length}</b> geneds found
+        </div>
+        <div className="p-2 mt-4 ml-2 mr-2 overflow-x-auto bg-gray-50 rounded-md">
+          <GenedsDataTable
+            data={data}
+          />
+        </div>
+      </>
+    );
+  }
 
   useEffect(() => {
-    if (geneds && geneds.map) {
+    if (geneds && geneds.length > 0) {
       let mappedGeneds = geneds.map(gened => {
-        const instructor = gened.fces[0]?.instructor;
-
-        if (instructor === "SIRBU, MARVIN") console.log(gened)
-
         const filtered = filterFCEs(gened.fces, aggregationOptions);
+        const instructor = filtered[0]?.instructor;
         const aggregated = aggregateFCEs(filtered);
         return {
           ...gened,
@@ -55,24 +88,29 @@ const GenedsViewer = () => {
           selectedTags.some((tag) => gened.tags?.includes(tag))
         );
       }
-      if (query.length > 0) {
+      if (searchQuery.length > 0) {
         mappedGeneds = mappedGeneds.filter((gened) =>
-          gened.name?.toLowerCase().includes(query.toLowerCase()) ||
-          gened.instructor?.toLowerCase().includes(query.toLowerCase()) ||
-          gened.tags?.some((tag) => tag.toLowerCase().includes(query.toLowerCase())) ||
-          gened.desc?.toLowerCase().includes(query.toLowerCase()) ||
-          gened.courseID?.toLowerCase().includes(query.toLowerCase())
+          gened.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          gened.instructor?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          gened.tags?.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          gened.desc?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          gened.courseID?.toLowerCase().includes(searchQuery.toLowerCase())
         );
       }
       setData(mappedGeneds);
       setTags([...new Set(geneds.map(gened => gened.tags).flat().filter((tag) => tag !== undefined))]);
     }
-  }, [geneds, geneds.map, selectedTags, query]);
+  }, [geneds, selectedTags, searchQuery, aggregationOptions]);
 
   return (
     <div className="p-3 m-2 bg-white rounded">
       <div className="relative m-2">
-        <Combobox value={selectedSchool} onChange={(payload) => dispatch(userSlice.actions.setSelectedSchool(payload))}>
+        <Combobox value={selectedSchool}
+                  onChange={(payload) => {
+                    dispatch(userSlice.actions.setSelectedSchool(payload));
+                    dispatch(userSlice.actions.setSelectedTags([]));
+                    setSearchQuery("");
+                  }}>
           <Combobox.Label className="flex">
             School
           </Combobox.Label>
@@ -190,13 +228,13 @@ const GenedsViewer = () => {
             </Combobox.Options>
           </div>
         </Combobox>
-        <Combobox value={query} onChange={(payload) => setQuery(payload)}>
+        <Combobox value={searchQuery} onChange={(payload) => setSearchQuery(payload)}>
           <Combobox.Label className="flex pt-2">
             Search
           </Combobox.Label>
           <Combobox.Input
             className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5"
-            onChange={(e) => setQuery(e.target.value)}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search courses by ID, description, instructor, name, or tag..."
           />
         </Combobox>
@@ -212,35 +250,20 @@ const GenedsViewer = () => {
           form in the sidebar!
         </span>
       </div>
-      <div className="px-3 pt-2 text-gray-600">
-        <b>{data.length}</b> geneds found
-      </div>
       {
-        !loggedIn && (
+        !isSignedIn && (
           <div className="flex justify-center">
-            <button
+            <div
               className="px-4 py-2 mt-4 text-sm font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               <SignInButton>
                 Sign in to see FCE data
               </SignInButton>
-            </button>
+            </div>
           </div>
         )
       }
-      {
-        data.length === 0 ? (
-          <div className="py-4 text-center text-gray-500 dark:text-zinc-400">
-            Loading...
-          </div>
-        ) : (
-          <div className="p-2 mt-4 ml-2 mr-2 overflow-x-auto bg-gray-50 rounded-md">
-            <GenedsDataTable
-              data={data}
-            />
-          </div>
-        )
-      }
+      {getGenedTable()}
     </div>
   );
 }

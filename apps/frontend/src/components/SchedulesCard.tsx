@@ -1,7 +1,7 @@
 import React from "react";
 import { Schedule } from "~/app/types";
 import { Card } from "./Card";
-import { SchedulesDetail } from "./SchedulesDetail";
+import { CourseSchedulesDetail } from "./CourseSchedulesDetail";
 
 export const SchedulesCard = ({
   scheduleInfos,
@@ -11,7 +11,7 @@ export const SchedulesCard = ({
   return (
     <Card>
       <Card.Header>Schedules</Card.Header>
-      <SchedulesDetail scheduleInfos={scheduleInfos} />
+      <CourseSchedulesDetail scheduleInfos={scheduleInfos} />
     </Card>
   );
 };

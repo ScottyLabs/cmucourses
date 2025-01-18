@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
   useCombobox,
@@ -15,8 +15,7 @@ import {
   selectCoursesInActiveSchedule,
   userSchedulesSlice,
 } from "~/app/userSchedules";
-import { fetchAllCourses, fetchCourseInfos } from "~/app/api/course";
-import { fetchFCEInfosByCourse } from "~/app/api/fce";
+import { useFetchAllCourses } from "~/app/api/course";
 
 type selectedItem = {
   courseID: string;
@@ -34,12 +33,8 @@ const CourseCombobox = ({
   const listRef = useRef(null);
   const dispatch = useAppDispatch();
 
-  const allCourses = useAppSelector((state) => state.cache.allCourses);
+  const { data: allCourses } = useFetchAllCourses();
   const activeSchedule = useAppSelector(selectCoursesInActiveSchedule);
-
-  useEffect(() => {
-    void dispatch(fetchAllCourses());
-  }, [dispatch]);
 
   useDeepCompareEffect(() => {
     setSelectedItems(
@@ -51,6 +46,7 @@ const CourseCombobox = ({
     // hyphenates 3 to 5 digit numbers, e.g. 152 -> 15-2, 1521 -> 15-21, 15213 -> 15-213
     // otherwise, input value remains the same
     const hyphenated = inputValue.replace(unhyphenatedCourseCodeRegex, "$1-$2");
+    if (!allCourses) return [];
     return allCourses.filter(
       (course) =>
         (course.courseID.includes(hyphenated) ||
@@ -145,8 +141,8 @@ const CourseCombobox = ({
       <div>
         <label {...getLabelProps()} />
       </div>
-      <div className="relative mt-2 flex flex-col items-baseline space-y-2 md:mt-0 md:flex-row md:flex-wrap md:space-y-0">
-        <div className="flex w-full max-w-full overflow-x-auto md:w-auto md:flex-none">
+      <div className="relative flex items-baseline mt-0 flex-row flex-wrap space-y-0">
+        <div className="flex max-w-full overflow-x-auto w-auto flex-none">
           {selectedItems.map((selectedItem, index) => (
             <div
               key={`selected-item-${index}`}
@@ -161,6 +157,7 @@ const CourseCombobox = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   removeSelectedItem(selectedItem);
+                  dispatch(userSchedulesSlice.actions.removeCourseFromActiveSchedule(selectedItem.courseID));
                 }}
               >
                 &#10005;
@@ -226,7 +223,7 @@ const CourseCombobox = ({
                           },
                         })}
                       >
-                        <span className="inline-block flex h-full w-full items-center">
+                        <span className="flex h-full w-full items-center">
                           <span className="inline-block w-16 flex-none font-semibold">
                             {course.courseID}
                           </span>
@@ -275,8 +272,6 @@ const ScheduleSearch = () => {
 
         <CourseCombobox
           onSelectedItemsChange={(courseIDs) => {
-            void dispatch(fetchFCEInfosByCourse({ courseIDs }));
-            void dispatch(fetchCourseInfos(courseIDs));
             dispatch(
               userSchedulesSlice.actions.setActiveScheduleCourses(courseIDs)
             );

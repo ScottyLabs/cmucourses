@@ -44,11 +44,11 @@ export default function Header(): ReactElement {
       <div className="lg:p-1.5 md:p-2 p-3 lg:text-lg md:text-base text-xs text-white text-center bg-[#007fff] h-10">
         ‼️ Sign up for {' '}
         <Link
-          href="https://go.scottylabs.org/nova-cmucourses"
+          href="https://go.scottylabs.org/tartanhacks-cmucourses"
         >
-          <strong>Nova</strong>
+          <strong>TartanHacks</strong>
         </Link>
-        , ScottyLabs&apos; new GenAI Hackathon! 🖥️
+        , Pittsburgh&apos;s largest hackathon now! 🖥️
       </div>
       <div className="flex flex-row items-center justify-between p-6 bg-gray-50 h-16">
         <div className="flex flex-initial cursor-pointer flex-row justify-start font-semibold text-gray-800">

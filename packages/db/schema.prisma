@@ -111,17 +111,19 @@ model professors {
 }
 
 model schedules {
-  id       String              @id @default(auto()) @map("_id") @db.ObjectId
-  v        Int?                @map("__v")
-  courseID String
-  lectures SchedulesLectures[]
-  sections SchedulesSections[]
-  semester String
-  session  String?
-  year     Int
-  courses  courses             @relation(fields: [courseID], references: [courseID])
+  id          String              @id @default(auto()) @map("_id") @db.ObjectId
+  v           Int?                @map("__v")
+  courseID    String
+  lectures    SchedulesLectures[]
+  sections    SchedulesSections[]
+  instructors String[]
+  semester    String
+  session     String?
+  year        Int
+  courses     courses             @relation(fields: [courseID], references: [courseID])
 
   @@index([courseID], map: "courseID_1")
+  @@index([instructors], map: "instructors")
 }
 
 model geneds {

@@ -1,15 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addToSet, removeFromSet } from "./utils";
+import { addToSet, getCalendarColor, removeFromSet, sessionToString } from "./utils";
 import { Session } from "./types";
 import { v4 as uuidv4 } from "uuid";
 import { RootState } from "./store";
+
+export interface CourseSessions {
+  [courseID: string]: {
+    [sessionType: string]: string;
+    Color: string;
+  };
+}
+
+export interface HoverSession {
+  courseID: string;
+  [sessionType: string]: string;
+}
 
 export interface UserSchedule {
   name: string;
   courses: string[];
   selected: string[];
   id: string;
-  session?: Session;
+  session: Session;
+  courseSessions: CourseSessions;
+  numColors: number;
+  hoverSession?: HoverSession;
 }
 
 export interface UserSchedulesState {
@@ -22,6 +37,24 @@ const initialState: UserSchedulesState = {
   saved: {},
 };
 
+const getNewUserSchedule = (courseIDs: string[], id: string) : UserSchedule => {
+  return {
+    name: "My Schedule",
+    courses: courseIDs,
+    selected: courseIDs,
+    id: id,
+    session: {
+      year: "",
+      semester: "",
+    },
+    courseSessions: courseIDs.reduce((acc: CourseSessions, courseID, i: number) => {
+      acc[courseID] = {Lecture: "", Section: "", Color: getCalendarColor(i)};
+      return acc;
+    }, {}),
+    numColors: courseIDs.length,
+  };
+}
+
 export const userSchedulesSlice = createSlice({
   name: "userSchedules",
   initialState,
@@ -32,12 +65,7 @@ export const userSchedulesSlice = createSlice({
     addCourseToActiveSchedule: (state, action: PayloadAction<string>) => {
       if (state.active === null) {
         const newId = uuidv4();
-        state.saved[newId] = {
-          name: "My Schedule",
-          courses: [],
-          selected: [],
-          id: newId,
-        };
+        state.saved[newId] = getNewUserSchedule([], newId);
         state.active = newId;
       }
       state.saved[state.active].courses = addToSet(
@@ -48,6 +76,11 @@ export const userSchedulesSlice = createSlice({
         state.saved[state.active].selected,
         action.payload
       );
+
+      if (!state.saved[state.active].courseSessions)
+        state.saved[state.active] = getNewUserSchedule(state.saved[state.active].courses, state.active);
+      state.saved[state.active].courseSessions[action.payload] = {Lecture: "", Section: "", Color: getCalendarColor(state.saved[state.active].numColors)};
+      state.saved[state.active].numColors += 1;
     },
     removeCourseFromActiveSchedule: (state, action: PayloadAction<string>) => {
       if (state.active === null) return;
@@ -59,6 +92,11 @@ export const userSchedulesSlice = createSlice({
         state.saved[state.active].selected,
         action.payload
       );
+
+      if (!state.saved[state.active].courseSessions)
+        state.saved[state.active] = getNewUserSchedule(state.saved[state.active].courses, state.active);
+      else
+        delete state.saved[state.active].courseSessions[action.payload];
     },
     selectCourseInActiveSchedule: (state, action: PayloadAction<string>) => {
       if (state.active === null) return;
@@ -88,22 +126,12 @@ export const userSchedulesSlice = createSlice({
     },
     createEmptySchedule: (state) => {
       const newId = uuidv4();
-      state.saved[newId] = {
-        name: "My Schedule",
-        selected: [],
-        courses: [],
-        id: newId,
-      };
+      state.saved[newId] = getNewUserSchedule([], newId);
       state.active = newId;
     },
     createSharedSchedule: (state, action: PayloadAction<string[]>) => {
       const newId = uuidv4();
-      state.saved[newId] = {
-        name: "Shared Schedule",
-        selected: action.payload,
-        courses: action.payload,
-        id: newId,
-      };
+      state.saved[newId] = getNewUserSchedule(action.payload, newId);
       state.active = newId;
     },
     deleteSchedule: (state, action: PayloadAction<string>) => {
@@ -123,6 +151,29 @@ export const userSchedulesSlice = createSlice({
         state.saved[state.active].name = action.payload;
       }
     },
+    updateActiveScheduleSemester: (state, action: PayloadAction<Session>) => {
+      if (!state.saved[state.active].courseSessions)
+        state.saved[state.active] = getNewUserSchedule(state.saved[state.active].courses, state.active);
+
+      if (state.active !== null) {
+        state.saved[state.active].session = action.payload;
+      }
+    },
+    updateActiveScheduleCourseSession: (state, action: PayloadAction<{ courseID: string, sessionType: string, session: string }>) => {
+      if (state.active !== null) {
+        state.saved[state.active].courseSessions[action.payload.courseID][action.payload.sessionType] = action.payload.session
+      }
+    },
+    setHoverSession: (state, action: PayloadAction<{ courseID: string, [sessionType: string]: string }>) => {
+      if (state.active !== null) {
+        state.saved[state.active].hoverSession = action.payload;
+      }
+    },
+    clearHoverSession: (state) => {
+      if (state.active !== null) {
+        state.saved[state.active].hoverSession = undefined;
+      }
+    },
   },
 });
 
@@ -136,6 +187,29 @@ export const selectSelectedCoursesInActiveSchedule = (
 ): string[] => {
   if (state.schedules.active === null) return [];
   return state.schedules.saved[state.schedules.active].selected;
+};
+
+export const selectSessionInActiveSchedule = (
+  state: RootState
+): string => {
+  if (state.schedules.active === null) return "";
+  const session = state.schedules.saved[state.schedules.active].session;
+  if (session?.semester === "") return "";
+  return sessionToString(session);
+};
+
+export const selectCourseSessionsInActiveSchedule = (
+  state: RootState
+): CourseSessions => {
+  if (state.schedules.active === null) return {};
+  return state.schedules.saved[state.schedules.active].courseSessions;
+};
+
+export const selectHoverSessionInActiveSchedule = (
+  state: RootState
+): { courseID: string, [sessionType: string]: string } | undefined => {
+  if (state.schedules.active === null) return undefined;
+  return state.schedules.saved[state.schedules.active].hoverSession;
 };
 
 export const reducer = userSchedulesSlice.reducer;

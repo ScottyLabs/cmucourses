@@ -10,10 +10,13 @@ import { selectCoursesInActiveSchedule } from "~/app/userSchedules";
 import { Page } from "~/components/Page";
 import Loading from "~/components/Loading";
 import ShowFilter from "~/components/ShowFilter";
+import ScheduleCalendar from "~/components/ScheduleCalendar";
+import SectionSelector from "~/components/SectionSelector";
+import { CAL_VIEW, SCHED_VIEW } from "~/app/constants";
 
 const SchedulePage: NextPage = () => {
   const scheduled = useAppSelector(selectCoursesInActiveSchedule);
-
+  const scheduleView = useAppSelector((state) => state.user.scheduleView);
   return (
     <Page
       activePage={"schedules"}
@@ -23,24 +26,36 @@ const SchedulePage: NextPage = () => {
             <ScheduleSearch />
             <ScheduleData scheduled={scheduled} />
           </Topbar>
-          <CourseList courseIDs={scheduled}>
-            {/* This are the elements to show when we have no results to show. */}
-            {scheduled.length ? ( // We have things in our schedule, but have no results => still loading
-              <Loading />
-            ) : (
-              // We haven't added anything to the schedule yet
-              <div className="mt-6 text-center text-gray-400">
+          {scheduleView === SCHED_VIEW && (
+                <CourseList courseIDs={scheduled}>
+                  {/* This are the elements to show when we have no results to show. */}
+                  {scheduled.length ? ( // We have things in our schedule, but have no results => still loading
+                    <Loading />
+                  ) : (
+                    // We haven't added anything to the schedule yet
+                    <div className="mt-6 text-center text-gray-400">
+                      Nothing in your schedule yet!
+                    </div>
+                  )}
+                </CourseList>
+            )}
+          {scheduleView === CAL_VIEW && (
+            scheduled.length ? (
+              <ScheduleCalendar courseIDs={scheduled} />
+              ) : (
+              <div className="mt-8 text-center text-gray-400">
                 Nothing in your schedule yet!
               </div>
-            )}
-          </CourseList>
+            )
+          )}
         </>
       }
       sidebar={
         <>
-          <ScheduleSelector />
-          <Aggregate />
+          <ScheduleSelector/>
+          <Aggregate/>
           <ShowFilter />
+          <SectionSelector courseIDs={scheduled}/>
         </>
       }
     />

@@ -6,6 +6,7 @@ import {
   SingleOrArray,
   singleToArray,
   standardizeID,
+  parsePrereqString,
 } from "~/util";
 import { RequestHandler } from "express";
 import db, { Prisma } from "@cmucourses/db";
@@ -270,5 +271,54 @@ export const getAllCourses: RequestHandler<
     }
   } else {
     res.json(allCoursesEntry.allCourses);
+  }
+};
+
+
+export const getRequisites: RequestHandler = async (req, res, next) => {
+  try {
+    if (!req.params.courseID) {
+      return res.status(400).json({ error: 'courseID parameter is required' });
+    }
+
+    const courseID = standardizeID(req.params.courseID);
+
+    const course = await db.courses.findUnique({
+      where: { courseID },
+      select: {
+        courseID: true,
+        prereqs: true,
+        prereqString: true,
+      },
+    });
+
+    if (!course) {
+      return res.status(400).json({ error: 'Course not found' });
+    }
+
+    const parsedPrereqs = parsePrereqString(course.prereqString);
+
+    const postreqs = await db.courses.findMany({
+      where: {
+        prereqs: {
+          has: course.courseID,
+        },
+      },
+      select: {
+        courseID: true,
+      },
+    });
+
+    const postreqIDs = postreqs.map(postreq => postreq.courseID);
+
+    const courseRequisites = {
+      prereqs: course.prereqs,
+      prereqRelations: parsedPrereqs,
+      postreqs: postreqIDs
+    }
+
+    res.json(courseRequisites);
+  } catch (e) {
+    next(e);
   }
 };

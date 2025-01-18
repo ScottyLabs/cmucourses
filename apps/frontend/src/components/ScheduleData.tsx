@@ -2,15 +2,18 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { aggregateCourses, AggregatedFCEs } from "~/app/fce";
 import { displayUnits, isValidUnits, roundTo } from "~/app/utils";
-import { selectCourseResults, selectFCEResultsForCourses } from "~/app/cache";
 import {
   selectSelectedCoursesInActiveSchedule,
   userSchedulesSlice,
 } from "~/app/userSchedules";
-import { cacheSlice } from "~/app/cache";
 import { FlushedButton } from "./Buttons";
 import { uiSlice } from "~/app/ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
+import { useFetchCourseInfos } from "~/app/api/course";
+import { useFetchFCEInfosByCourse } from "~/app/api/fce";
+import { useAuth } from "@clerk/nextjs";
+import { useQueryClient } from "@tanstack/react-query";
+import { Course } from "~/app/types";
 
 type ScheduleDataProps = {
   scheduled: string[];
@@ -18,20 +21,19 @@ type ScheduleDataProps = {
 
 const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
   const dispatch = useAppDispatch();
+  const queryClient = useQueryClient();
 
-  const loggedIn = useAppSelector((state) => state.user.loggedIn);
   const active = useAppSelector((state) => state.schedules.active);
   const selected = useAppSelector(selectSelectedCoursesInActiveSchedule);
-  const scheduledResults = useAppSelector(selectCourseResults(scheduled));
-
   const options = useAppSelector((state) => state.user.fceAggregation);
-  const scheduledFCEs = useAppSelector(
-    selectFCEResultsForCourses(scheduled || [])
-  );
+
+  const { isSignedIn, getToken } = useAuth()
+  const scheduledResults =  useFetchCourseInfos(scheduled);
+  const scheduledFCEs = useFetchFCEInfosByCourse(scheduled, isSignedIn, getToken);
 
   const open = useAppSelector((state) => state.ui.schedulesTopbarOpen);
 
-  if (!loggedIn) {
+  if (!isSignedIn) {
     return (
       <div className="z-10 bg-white text-gray-700">
         <p>Log in to view FCE results.</p>
@@ -81,10 +83,22 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
       );
   };
 
+  const updateManualUnits = (courseID: string, manualUnits: string) => {
+    queryClient.setQueryData(
+      ["courseInfo", { courseID }],
+      (oldData: Course) => {
+        return {
+          ...oldData,
+          manualUnits,
+        };
+      }
+    );
+  };
+
   return (
     <>
       <div className="flex items-end justify-between">
-        <div>
+        <div className="flex">
           <div className="text-a-600 text-lg">
             Total Workload{" "}
             <span className="ml-4">
@@ -101,12 +115,17 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                   dispatch(uiSlice.actions.toggleSchedulesTopbarOpen())
                 }
               >
-                <div className="hidden items-center md:flex">
-                  <div className="mr-1">Hide</div>
+                <div className="flex items-center">
                   {open ? (
-                    <ChevronDownIcon className="h-5 w-5" />
+                    <>
+                      <div className="mr-1">Hide</div>
+                      <ChevronUpIcon className="h-5 w-5" />
+                    </>
                   ) : (
-                    <ChevronUpIcon className="h-5 w-5" />
+                    <>
+                      <div className="mr-1">Show</div>
+                      <ChevronDownIcon className="h-5 w-5" />
+                    </>
                   )}
                 </div>
               </FlushedButton>
@@ -158,13 +177,13 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                                 ? displayUnits(result.manualUnits)
                                 : displayUnits(result.units)
                             }
+                            onClick={() => {
+                              if (result.manualUnits === undefined) {
+                                updateManualUnits(result.courseID, "");
+                              }
+                            }}
                             onChange={(e) =>
-                              dispatch(
-                                cacheSlice.actions.updateUnits({
-                                  courseID: result.courseID,
-                                  units: e.target.value,
-                                })
-                              )
+                              updateManualUnits(result.courseID, e.target.value)
                             }
                             placeholder="Units"
                           />
@@ -174,7 +193,7 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
                       </td>
                       <td>
                         {result.courseID in aggregatedDataByCourseID
-                          ? aggregatedDataByCourseID[result.courseID].workload
+                          ? aggregatedDataByCourseID[result.courseID]?.workload
                           : "NA"}
                       </td>
                     </tr>

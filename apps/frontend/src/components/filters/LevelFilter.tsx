@@ -4,7 +4,6 @@ import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import { filtersSlice } from "~/app/filters";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
-import { throttledFilter } from "~/app/store";
 import { classNames } from "~/app/utils";
 
 const LevelRange = (start, end) => (
@@ -122,7 +121,6 @@ const LevelFilter = () => {
 
   const removeLevel = (levels: number[]) => {
     dispatch(filtersSlice.actions.deleteLevel(levels));
-    throttledFilter();
   };
 
   const updateListboxValue = (newListboxValue: number[][]) => {
@@ -139,7 +137,6 @@ const LevelFilter = () => {
 
       dispatch(filtersSlice.actions.updateLevelsActive(true));
       dispatch(filtersSlice.actions.updateLevelsSelection(newLevels));
-      throttledFilter();
     } else {
       // we removed a level
       // find the removed level
@@ -163,7 +160,6 @@ const LevelFilter = () => {
                 dispatch(
                   filtersSlice.actions.updateLevelsActive(e.target.checked)
                 );
-                throttledFilter();
               }}
             />
           </div>

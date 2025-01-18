@@ -9,12 +9,12 @@
   },
   "devDependencies": {
     "@nx/next": "19.6.3",
-    "@typescript-eslint/eslint-plugin": "^5.57.1",
-    "@typescript-eslint/parser": "^5.57.1",
-    "eslint-config-prettier": "^8.8.0",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint-config-prettier": "^8.10.0",
     "nx": "19.6.3",
-    "prettier": "^2.8.7",
-    "typescript": "^5.5.4"
+    "prettier": "^2.8.8",
+    "typescript": "^5.7.2"
   },
   "workspaces": [
     "apps/*",

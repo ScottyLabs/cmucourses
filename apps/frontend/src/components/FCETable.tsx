@@ -1,20 +1,13 @@
 import React from "react";
-import {
-  AggregatedFCEs,
-  aggregateFCEs,
-  AggregateFCEsOptions,
-  filterFCEs,
-} from "~/app/fce";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { AggregatedFCEs, aggregateFCEs, AggregateFCEsOptions, filterFCEs } from "~/app/fce";
+import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { FCE } from "~/app/types";
-import { sessionToString, responseRateZero } from "~/app/utils";
+import { responseRateZero, sessionToString } from "~/app/utils";
 import { StarRating } from "./StarRating";
 import Link from "./Link";
+import { getTable } from "~/components/GetTable";
+import { useFetchCourseInfo } from "~/app/api/course";
+import { GetTooltip } from "~/components/GetTooltip";
 
 const columns: ColumnDef<FCEDetailRow>[] = [
   {
@@ -26,7 +19,23 @@ const columns: ColumnDef<FCEDetailRow>[] = [
     accessorKey: "courseID",
     cell: (info) => {
       const courseID = info.getValue() as string;
-      return <Link href={`/course/${courseID}`}>{courseID}</Link>;
+      const id = `fce-table-${courseID}`;
+      const { data } = useFetchCourseInfo(courseID);
+      const courseName = data?.name as string;
+      const desc = data?.desc as string;
+      const tooltipText =
+        <>
+          <b>{courseName}</b>
+          <div>{desc}</div>
+        </>;
+      return (
+        <>
+          <Link href={`/course/${courseID}`} data-tooltip-id={id} >
+            {courseID}
+          </Link>
+          <GetTooltip id={id} children={tooltipText}/>
+        </>
+      )
     },
   },
   {
@@ -59,59 +68,6 @@ const columns: ColumnDef<FCEDetailRow>[] = [
   },
 ];
 
-export const FCEDataTable = ({
-  columns,
-  data,
-  columnVisibility,
-}: {
-  columns: ColumnDef<FCEDetailRow>[];
-  data: FCEDetailRow[];
-  columnVisibility: Record<string, boolean>;
-}) => {
-  const table = useReactTable({
-    columns,
-    data,
-    state: { columnVisibility },
-    getCoreRowModel: getCoreRowModel(),
-  });
-
-  return (
-    <table className="w-full min-w-fit table-auto">
-      <thead>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th
-                className="whitespace-nowrap px-2 text-left text-sm font-semibold text-gray-700"
-                key={header.id}
-              >
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext()
-                )}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id} className="hover:bg-white">
-            {row.getVisibleCells().map((cell) => (
-              <td
-                className="whitespace-nowrap px-2 text-sm text-gray-600"
-                key={cell.id}
-              >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-};
-
 type FCEDetailRow = ReturnType<typeof convertFCEData>[0];
 
 const convertFCEData = (fces: FCE[]) => {
@@ -140,20 +96,42 @@ const convertFCEData = (fces: FCE[]) => {
   });
 };
 
+export const FCEDataTable = ({
+  columns,
+  data,
+  columnVisibility,
+}: {
+  columns: ColumnDef<FCEDetailRow>[];
+  data: FCEDetailRow[];
+  columnVisibility: Record<string, boolean>;
+}) => {
+  const table = useReactTable({
+    columns,
+    data,
+    state: { columnVisibility },
+    getCoreRowModel: getCoreRowModel(),
+  });
+
+  return getTable(table);
+};
+
+
 export const FCETable = ({
   fces,
   columnVisibility,
   aggregationOptions,
+  extraFilters,
 }: {
   fces: FCE[];
   columnVisibility: Record<string, boolean>;
   aggregationOptions: AggregateFCEsOptions;
+  extraFilters?: boolean;
 }) => {
   let aggregateData: AggregatedFCEs | undefined = undefined;
   let filteredFCEs = fces;
 
   if (fces) {
-    filteredFCEs = filterFCEs(fces, aggregationOptions);
+    filteredFCEs = filterFCEs(fces, aggregationOptions, extraFilters);
     aggregateData = aggregateFCEs(filteredFCEs);
   }
 

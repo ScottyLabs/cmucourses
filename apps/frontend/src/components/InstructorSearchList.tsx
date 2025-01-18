@@ -1,35 +1,44 @@
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import Loading from "./Loading";
 import { Pagination } from "./Pagination";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import InstructorDetail from "./InstructorDetail";
-import { fetchAllInstructors } from "~/app/api/instructors";
-import { cacheSlice } from "~/app/cache";
-import { userSlice } from "~/app/user";
+import { useFetchAllInstructors } from "~/app/api/instructors";
+import { instructorsSlice } from "~/app/instructors";
 
 const RESULTS_PER_PAGE = 10;
 
 const InstructorSearchList = () => {
   const dispatch = useAppDispatch();
+  const search = useAppSelector((state) => state.instructors.search);
+  const [results, setResults] = useState<{ instructor: string }[]>([]);
+
+  const { isPending, data: { allInstructors, fuse } = {} } = useFetchAllInstructors();
 
   useEffect(() => {
-    void dispatch(fetchAllInstructors());
-  }, [dispatch]);
+    if (!fuse || !allInstructors) return;
 
-  const results = useAppSelector((state) => state.cache.selectedInstructors);
+    if (!search) {
+      setResults(allInstructors);
+      dispatch(instructorsSlice.actions.setNumResults(allInstructors.length));
+    } else {
+      const searchResults = fuse.search(search).map(({item}) => item);
+      setResults(searchResults);
+      dispatch(instructorsSlice.actions.setNumResults(searchResults.length));
+    }
+  }, [fuse, search]);
+
   const pages = Math.ceil(results.length / RESULTS_PER_PAGE);
-  const curPage = useAppSelector((state) => state.cache.instructorPage);
-  const loading = useAppSelector((state) => state.cache.instructorsLoading);
-
-  dispatch(userSlice.actions.resetFilters()); // Not ideal
+  const curPage = useAppSelector((state) => state.instructors.instructorPage);
+  const loading = useAppSelector((state) => state.instructors.instructorsLoading);
 
   const handlePageClick = (page: number) => {
-    dispatch(cacheSlice.actions.setInstructorPage(page + 1));
+    dispatch(instructorsSlice.actions.setInstructorPage(page + 1));
   };
 
   return (
     <div className="p-6">
-      {loading ? (
+      {loading || isPending ? (
         <Loading />
       ) : (
         <>
