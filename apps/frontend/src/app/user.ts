@@ -96,14 +96,6 @@ export const userSlice = createSlice({
     savedShowAll : (state, action: PayloadAction<boolean>) => {
       state.savedShowAll = action.payload;
     },
-    logIn: (state) => {
-      state.loggedIn = true;
-    },
-    logOut: (state) => {
-      state.token = null;
-      state.loggedIn = false;
-    },
-
     updateSemestersCounted: (
       state,
       action: PayloadAction<{ semester: Semester; value: boolean }>
