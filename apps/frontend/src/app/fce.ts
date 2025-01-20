@@ -21,11 +21,14 @@ export const aggregateFCEs = (rawFces: FCE[]) => {
   let workload = 0;
   let teachingRate = 0;
   let courseRate = 0;
+  let respondents = 0;
+
 
   for (const fce of fces) {
-    workload += fce.hrsPerWeek;
-    teachingRate += fce.rating[7] || 0;
-    courseRate += fce.rating[8] || 0;
+    workload += fce.hrsPerWeek * fce.numRespondents;
+    teachingRate += (fce.rating[7] || 0) * fce.numRespondents;
+    courseRate += (fce.rating[8] || 0) * fce.numRespondents;
+    respondents += fce.numRespondents;
     semesters.add(sessionToShortString(fce));
   }
 
@@ -37,9 +40,9 @@ export const aggregateFCEs = (rawFces: FCE[]) => {
   }
 
   return {
-    workload: roundTo(workload / fcesCounted, 2),
-    teachingRate: roundTo(teachingRate / fcesCounted, 2),
-    courseRate: roundTo(courseRate / fcesCounted, 2),
+    workload: roundTo(workload / respondents, 2),
+    teachingRate: roundTo(teachingRate / respondents, 2),
+    courseRate: roundTo(courseRate / respondents, 2),
     fcesCounted,
     semestersCounted: semesters.size,
   };
