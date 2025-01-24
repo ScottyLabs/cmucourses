@@ -6,27 +6,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: oven-sh/setup-bun@v2
+
       - name: Install dependencies
-        working-directory: .
-        run: npm i
-        shell: bash
+        run: bun install
+
       - name: Generate prisma client
-        working-directory: .
-        run: npm run db-generate
-        shell: bash
-      - name: Check TypeScript (Frontend)
-        working-directory: ./frontend
-        run: npx tsc --noEmit
-        shell: bash
+        run: bun run db-generate
+
       - name: Run ESLint (Frontend)
         working-directory: ./frontend
-        run: npm run lint
-        shell: bash
+        run: bun run lint
+
+      - name: Check TypeScript (Frontend)
+        working-directory: ./frontend
+        run: bunx tsc --noEmit
+
       - name: Run ESLint (Backend)
         working-directory: ./backend
-        run: npm run lint
-        shell: bash
+        run: bun run lint
+
       - name: Check TypeScript (Backend)
         working-directory: ./backend
-        run: npx tsc --noEmit
-        shell: bash
+        run: bunx tsc --noEmit
