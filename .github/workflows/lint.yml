@@ -12,20 +12,21 @@ jobs:
         run: bun install
 
       - name: Generate prisma client
+        working-directory: ./packages/db
         run: bun run db-generate
 
       - name: Run ESLint (Frontend)
-        working-directory: ./frontend
+        working-directory: ./apps/frontend
         run: bun run lint
 
       - name: Check TypeScript (Frontend)
-        working-directory: ./frontend
+        working-directory: ./apps/frontend
         run: bunx tsc --noEmit
 
       - name: Run ESLint (Backend)
-        working-directory: ./backend
+        working-directory: ./apps/backend
         run: bun run lint
 
       - name: Check TypeScript (Backend)
-        working-directory: ./backend
+        working-directory: ./apps/backend
         run: bunx tsc --noEmit
