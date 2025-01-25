@@ -40,7 +40,9 @@
   },
   "include": [
     "./src/**/*",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "eslint.config.mjs",
+    "next.config.mjs",
   ],
   "exclude": [
     "node_modules"
