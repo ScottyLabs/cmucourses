@@ -177,7 +177,7 @@ export const getFilteredCourses: RequestHandler<
       try {
         const session = JSON.parse(serializedSession);
         return [{ year: parseInt(session.year), semester: session.semester }];
-      } catch (e) {
+      } catch {
         // SyntaxError
         return [];
       }

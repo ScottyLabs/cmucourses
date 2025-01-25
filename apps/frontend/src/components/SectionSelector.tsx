@@ -43,7 +43,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
     if (selectedSession.length > 0 && !semesters.includes(selectedSession)) {
       dispatch(userSchedulesSlice.actions.updateActiveScheduleSemester(stringToSession("")));
     }
-  }, [selectedSession, semesters])
+  }, [selectedSession, semesters, dispatch])
 
   return (
     <div className="pt-4">

@@ -246,8 +246,6 @@ export function addToSet<T>(arr: T[], item: T): T[] {
 export function toNameCase(name: string): string {
   // Eventually we should get rid of this function altogether by
   // getting the proper names from the Directory, but this will do for now.
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   return namecase(name) as string;
 }
 

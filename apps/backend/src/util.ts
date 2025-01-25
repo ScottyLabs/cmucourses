@@ -33,7 +33,7 @@ export function parseOptionalInt(s: string | undefined, defaultVal: number): num
   return num;
 }
 
-export type PrismaReturn<PrismaFnType extends (...args: any) => any> = Awaited<ReturnType<PrismaFnType>>;
+export type PrismaReturn<PrismaFnType extends (...args: never[]) => unknown> = Awaited<ReturnType<PrismaFnType>>;
 
 export type ElemType<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[]
   ? ElementType

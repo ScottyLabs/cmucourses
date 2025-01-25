@@ -37,7 +37,7 @@ const ShowFilter = () => {
           showAllRef.current.indeterminate = true;
       }
     }
-  }, [showAllRef, showAllRef.current, showFCEs, showCourseInfos, showSchedules]);
+  }, [showAllRef, isSignedIn, showFCEs, showCourseInfos, showSchedules]);
 
   const setShowFCEs = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.savedShowFCEs(e.target.checked));

@@ -26,7 +26,7 @@ const InstructorSearchList = () => {
       setResults(searchResults);
       dispatch(instructorsSlice.actions.setNumResults(searchResults.length));
     }
-  }, [fuse, search]);
+  }, [allInstructors, dispatch, fuse, search]);
 
   const pages = Math.ceil(results.length / RESULTS_PER_PAGE);
   const curPage = useAppSelector((state) => state.instructors.instructorPage);

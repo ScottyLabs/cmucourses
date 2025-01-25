@@ -35,7 +35,6 @@ const LogInButton = () => {
 export default function Header(): ReactElement {
   const darkMode = useAppSelector((state) => state.ui.darkMode);
   useEffect(() => {
-    /* eslint-disable-next-line */
     nightwind.enable(darkMode);
   }, [darkMode]);
 

@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import { PrismaReturn } from "~/util";
 import db from "@cmucourses/db";
 
-const getAllInstructorsDbQuery = {
+type GetAllInstructorsDbQuery = {
   select: {
     instructor: true,
   },
@@ -10,7 +10,7 @@ const getAllInstructorsDbQuery = {
 
 export interface GetInstructors {
   params: unknown;
-  resBody: PrismaReturn<typeof db.fces.findMany<typeof getAllInstructorsDbQuery>>;
+  resBody: PrismaReturn<typeof db.fces.findMany<GetAllInstructorsDbQuery>>;
   reqBody: unknown;
   query: unknown;
 }

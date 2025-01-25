@@ -23,7 +23,6 @@ export default class MyDocument extends Document {
             `}
           </Script>
           {
-            /* eslint-disable-next-line */
             <script dangerouslySetInnerHTML={{ __html: nightwind.init() }} />
           }
           <meta

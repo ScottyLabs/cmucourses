@@ -8,7 +8,6 @@ const fullConfig: any = resolveConfig(tailwindConfig);
 export const StarRating = ({ rating }: { rating: number }) => {
   const darkMode = useAppSelector((state) => state.ui.darkMode);
 
-  /* eslint-disable */
   return (
     <StarRatings
       rating={rating}
@@ -26,5 +25,4 @@ export const StarRating = ({ rating }: { rating: number }) => {
       }
     />
   );
-  /* eslint-enable */
 };
