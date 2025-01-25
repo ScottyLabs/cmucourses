@@ -14,7 +14,7 @@ const compat = new FlatCompat({
 
 const config = [...compat.extends(
     "next/core-web-vitals",
-    // "next/typescript",
+    "next/typescript",
     "prettier",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
@@ -23,10 +23,20 @@ const config = [...compat.extends(
         parser: tsParser,
         ecmaVersion: 5,
         sourceType: "script",
-
         parserOptions: {
             project: "./tsconfig.json",
         },
+    },
+    rules: {
+        "@typescript-eslint/no-unsafe-member-access": "warn",
+        "@typescript-eslint/no-unsafe-assignment": "warn",
+        "@typescript-eslint/no-unsafe-call": "warn",
+        "@typescript-eslint/no-unsafe-return": "warn",
+        "@typescript-eslint/no-unsafe-argument": "warn",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-unused-vars": "warn",
+        "react-hooks/rules-of-hooks": "warn",
+        "react/no-children-prop": "warn",
     },
 }];
 
