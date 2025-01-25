@@ -157,7 +157,11 @@ const CourseCombobox = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   removeSelectedItem(selectedItem);
-                  dispatch(userSchedulesSlice.actions.removeCourseFromActiveSchedule(selectedItem.courseID));
+                  dispatch(
+                    userSchedulesSlice.actions.removeCourseFromActiveSchedule(
+                      selectedItem.courseID
+                    )
+                  );
                 }}
               >
                 &#10005;

@@ -5,14 +5,11 @@ import { Page } from "~/components/Page";
 import GenedsViewer from "~/components/GenedsViewer";
 
 const GenedsPage: NextPage = () => {
-
   return (
     <Page
       activePage="geneds"
       sidebar={<Aggregate />}
-      content={
-        <GenedsViewer />
-      }
+      content={<GenedsViewer />}
     />
   );
 };

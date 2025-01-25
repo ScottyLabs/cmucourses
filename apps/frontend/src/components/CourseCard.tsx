@@ -30,13 +30,15 @@ const CourseCard = ({
   showCourseInfo,
   showSchedules,
 }: Props) => {
-  const { isSignedIn } = useAuth()
-  const { isPending: isCourseInfoPending, data: info } = useFetchCourseInfo(courseID);
-  const { isPending: isFCEInfoPending, data: { fces } = {} } = useFetchFCEInfoByCourse(courseID);
+  const { isSignedIn } = useAuth();
+  const { isPending: isCourseInfoPending, data: info } =
+    useFetchCourseInfo(courseID);
+  const { isPending: isFCEInfoPending, data: { fces } = {} } =
+    useFetchFCEInfoByCourse(courseID);
   const options = useAppSelector((state) => state.user.fceAggregation);
 
   if (isCourseInfoPending || isFCEInfoPending || !info) {
-    return (<></>);
+    return <></>;
   }
 
   const sortedSchedules = filterSessions(info.schedules || []).sort(

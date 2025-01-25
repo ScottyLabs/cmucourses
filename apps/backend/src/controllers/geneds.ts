@@ -38,22 +38,19 @@ export const getGeneds: RequestHandler<
 > = async (req, res, next) => {
   try {
     if ("school" in req.query) {
-      const school = req.query.school
+      const school = req.query.school;
       const geneds = await db.geneds.findMany({
         select: {
           courseID: true,
           tags: true,
         },
         where: {
-          school
-        }
+          school,
+        },
       });
 
-      const proccesedGeneds = Object.fromEntries(
-        geneds.map((gened) => [gened.courseID, gened])
-      );
+      const proccesedGeneds = Object.fromEntries(geneds.map((gened) => [gened.courseID, gened]));
       const courseIDs = Object.keys(proccesedGeneds);
-
 
       const courses = await db.courses.findMany({
         select: {
@@ -64,23 +61,21 @@ export const getGeneds: RequestHandler<
         },
         where: {
           courseID: {
-            in: courseIDs
-          }
-        }
+            in: courseIDs,
+          },
+        },
       });
 
-      const processedCourses = Object.fromEntries(
-        courses.map((course) => [course.courseID, course])
-      );
+      const processedCourses = Object.fromEntries(courses.map((course) => [course.courseID, course]));
 
       let fces;
       if (req.body.token) {
         fces = await db.fces.findMany({
           where: {
             courseID: {
-              in: courseIDs
-            }
-          }
+              in: courseIDs,
+            },
+          },
         });
       }
 

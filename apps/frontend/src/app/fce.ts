@@ -1,5 +1,12 @@
 import { Course, FCE } from "./types";
-import { compareSessions, roundTo, sessionToShortString, responseRateZero, parseUnits, isValidUnits } from "./utils";
+import {
+  compareSessions,
+  roundTo,
+  sessionToShortString,
+  responseRateZero,
+  parseUnits,
+  isValidUnits,
+} from "./utils";
 
 export const FCE_RATINGS = [
   "Interest in student learning",
@@ -22,7 +29,6 @@ export const aggregateFCEs = (rawFces: FCE[]) => {
   let teachingRate = 0;
   let courseRate = 0;
   let respondents = 0;
-
 
   for (const fce of fces) {
     workload += fce.hrsPerWeek * fce.numRespondents;
@@ -62,7 +68,11 @@ export interface AggregateFCEsOptions {
   numSemesters: number;
 }
 
-export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions, extraFilters: boolean = false) => {
+export const filterFCEs = (
+  fces: FCE[],
+  options: AggregateFCEsOptions,
+  extraFilters: boolean = false
+) => {
   const sortedFCEs = fces
     .filter((fce) => options.counted[fce.semester])
     .sort(compareSessions);
@@ -76,16 +86,24 @@ export const filterFCEs = (fces: FCE[], options: AggregateFCEsOptions, extraFilt
   }
 
   // Filter by courses
-  if (options.filters.type === "courses" && options.filters.courses && extraFilters) {
+  if (
+    options.filters.type === "courses" &&
+    options.filters.courses &&
+    extraFilters
+  ) {
     result = result.filter(({ courseID }) =>
-      options.filters.courses.includes(courseID),
+      options.filters.courses.includes(courseID)
     );
   }
 
   // Filter by instructors
-  if (options.filters.type === "instructors" && options.filters.instructors && extraFilters) {
+  if (
+    options.filters.type === "instructors" &&
+    options.filters.instructors &&
+    extraFilters
+  ) {
     result = result.filter(({ instructor }) =>
-      options.filters.instructors.includes(instructor),
+      options.filters.instructors.includes(instructor)
     );
   }
 
@@ -97,8 +115,8 @@ export const aggregateCourses = (
   courses: Course[],
   options: AggregateFCEsOptions
 ) => {
-  const messages : string[] = [];
-  const unitsMessage : string[] = [];
+  const messages: string[] = [];
+  const unitsMessage: string[] = [];
 
   const coursesWithoutFCEs = data
     .filter(({ fces }) => fces === null)
@@ -140,10 +158,15 @@ export const aggregateCourses = (
 
   for (const courseID of coursesWithoutFCEs) {
     const findCourse = courses.filter((course) => course.courseID === courseID);
-    if (findCourse.length > 0) workload += parseUnits(findCourse[0]?.units || "0");
+    if (findCourse.length > 0)
+      workload += parseUnits(findCourse[0]?.units || "0");
   }
 
-  const totalUnits = courses.reduce((acc, curr) => acc + parseUnits(curr.units) + parseUnits(curr.manualUnits || ""), 0);
+  const totalUnits = courses.reduce(
+    (acc, curr) =>
+      acc + parseUnits(curr.units) + parseUnits(curr.manualUnits || ""),
+    0
+  );
   const varUnits = courses.filter((course) => !isValidUnits(course.units));
   if (varUnits.length > 0) {
     unitsMessage.push(

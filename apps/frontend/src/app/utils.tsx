@@ -2,7 +2,12 @@ import reactStringReplace from "react-string-replace";
 import Link from "~/components/Link";
 import { FCE, Schedule, Session, Time } from "./types";
 import { AggregateFCEsOptions, filterFCEs } from "./fce";
-import { DEPARTMENT_MAP_NAME, DEPARTMENT_MAP_SHORTNAME, CALENDAR_COLORS, CALENDAR_COLORS_LIGHT } from "./constants";
+import {
+  DEPARTMENT_MAP_NAME,
+  DEPARTMENT_MAP_SHORTNAME,
+  CALENDAR_COLORS,
+  CALENDAR_COLORS_LIGHT,
+} from "./constants";
 import namecase from "namecase";
 
 export const courseIdRegex = /([0-9]{2}-?[0-9]{3})/g;
@@ -99,7 +104,7 @@ export const stringToSession = (sessionString: string): Session => {
     semester: "",
     year: "",
   };
-}
+};
 
 export const compareSessions = (
   session1: Session | FCE,
@@ -246,8 +251,6 @@ export function addToSet<T>(arr: T[], item: T): T[] {
 export function toNameCase(name: string): string {
   // Eventually we should get rid of this function altogether by
   // getting the proper names from the Directory, but this will do for now.
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   return namecase(name) as string;
 }
 
@@ -273,9 +276,10 @@ export function parseUnits(units: string): number {
   return 0.0;
 }
 
-export const getCalendarColor = (i: number) => CALENDAR_COLORS[i % CALENDAR_COLORS.length] || "";
+export const getCalendarColor = (i: number) =>
+  CALENDAR_COLORS[i % CALENDAR_COLORS.length] || "";
 
 export const getCalendarColorLight = (color: string) => {
   const index = CALENDAR_COLORS.indexOf(color);
   return CALENDAR_COLORS_LIGHT[index];
-}
+};

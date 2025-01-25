@@ -6,7 +6,8 @@ import { userSlice } from "~/app/user";
 import {
   getCourseIDs,
   sessionToShortString,
-  sessionToString, standardizeIdsInString,
+  sessionToString,
+  standardizeIdsInString,
 } from "~/app/utils";
 import { filtersSlice } from "~/app/filters";
 import { getPillboxes } from "./filters/LevelFilter";
@@ -150,7 +151,7 @@ const SearchBar = () => {
     dispatchSearch(search);
   }, [dispatchSearch, search]);
 
-  const { isSignedIn } = useAuth()
+  const { isSignedIn } = useAuth();
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const showSchedules = useAppSelector((state) => state.user.showSchedules);
@@ -167,8 +168,7 @@ const SearchBar = () => {
         } else if (!(showFCEs || showCourseInfos || showSchedules)) {
           showAllRef.current.indeterminate = false;
           showAllRef.current.checked = false;
-        } else
-          showAllRef.current.indeterminate = true;
+        } else showAllRef.current.indeterminate = true;
       } else {
         if (showCourseInfos && showSchedules) {
           showAllRef.current.indeterminate = false;
@@ -176,11 +176,10 @@ const SearchBar = () => {
         } else if (!(showCourseInfos || showSchedules)) {
           showAllRef.current.indeterminate = false;
           showAllRef.current.checked = false;
-        } else
-          showAllRef.current.indeterminate = true;
+        } else showAllRef.current.indeterminate = true;
       }
     }
-  }, [showAllRef, showAllRef.current, showFCEs, showCourseInfos, showSchedules]);
+  }, [showAllRef, isSignedIn, showFCEs, showCourseInfos, showSchedules]);
 
   const setShowFCEs = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showFCEs(e.target.checked));
@@ -219,7 +218,9 @@ const SearchBar = () => {
         />
       </div>
       <div className="flex justify-between">
-        <div className="mt-3 text-sm text-gray-400">{numResults || 0} results</div>
+        <div className="mt-3 text-sm text-gray-400">
+          {numResults || 0} results
+        </div>
         <div className="mt-3 flex justify-end text-gray-500">
           <div className="mr-6 hidden md:block">Show</div>
           <div className="mr-6">
@@ -229,7 +230,7 @@ const SearchBar = () => {
               className="mr-2"
               onChange={setShowAll}
               checked={showAll}
-              ref = {showAllRef}
+              ref={showAllRef}
             />
             <span>All</span>
           </div>

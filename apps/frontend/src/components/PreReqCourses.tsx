@@ -8,7 +8,8 @@ interface Props {
 }
 
 export const PreReqCourses = ({ courseID }: Props) => {
-  const { isPending: isCourseInfoPending, data: requisites } = useFetchCourseRequisites(courseID);
+  const { isPending: isCourseInfoPending, data: requisites } =
+    useFetchCourseRequisites(courseID);
 
   if (isCourseInfoPending || !requisites) {
     return null;
@@ -37,17 +38,22 @@ export const PreReqCourses = ({ courseID }: Props) => {
             )}
 
             {/* Normal vertical Line connector */}
-            {nodes && nodes.length > 1 && nodes.indexOf(node) !== 0 && nodes.indexOf(node) !== nodes.length - 1 && (
-              <div className="w-0.5 bg-gray-400 self-stretch"></div>
-            )}
+            {nodes &&
+              nodes.length > 1 &&
+              nodes.indexOf(node) !== 0 &&
+              nodes.indexOf(node) !== nodes.length - 1 && (
+                <div className="w-0.5 bg-gray-400 self-stretch"></div>
+              )}
 
             {/* Half vertical line for the last prereq in the list */}
-            {nodes && nodes.length > 1 && nodes.indexOf(node) === nodes.length - 1 && (
-              <div className="flex flex-col w-0.5 self-stretch">
-                <div className="w-0.5 h-1/2 bg-gray-400 self-stretch"></div>
-                <div className="h-1/2 self-stretch"></div>
-              </div>
-            )}
+            {nodes &&
+              nodes.length > 1 &&
+              nodes.indexOf(node) === nodes.length - 1 && (
+                <div className="flex flex-col w-0.5 self-stretch">
+                  <div className="w-0.5 h-1/2 bg-gray-400 self-stretch"></div>
+                  <div className="h-1/2 self-stretch"></div>
+                </div>
+              )}
 
             {/* Render child nodes recursively */}
             {node.prereqs && renderTree(node.prereqs)}
@@ -58,18 +64,17 @@ export const PreReqCourses = ({ courseID }: Props) => {
   };
 
   // Transform fetched data into a tree structure excluding the parent node
-  const childNodes: TreeNode[] = requisites.prereqs.map((prereq: string) => ({
-    courseID: prereq,
-  })) || [];
+  const childNodes: TreeNode[] =
+    requisites.prereqs.map((prereq: string) => ({
+      courseID: prereq,
+    })) || [];
 
   return (
     <div>
       {childNodes.length > 0 ? (
         renderTree(childNodes)
       ) : (
-        <div
-          className="italic mr-2 text-gray-700 text-center text-lg font-semibold rounded-md"
-        >
+        <div className="italic mr-2 text-gray-700 text-center text-lg font-semibold rounded-md">
           None
         </div>
       )}

@@ -9,8 +9,12 @@ const ShowFilter = () => {
   const { isSignedIn } = useAuth();
 
   const showFCEs = useAppSelector((state) => state.user.savedShowFCEs);
-  const showCourseInfos = useAppSelector((state) => state.user.savedShowCourseInfos);
-  const showSchedules = useAppSelector((state) => state.user.savedShowSchedules);
+  const showCourseInfos = useAppSelector(
+    (state) => state.user.savedShowCourseInfos
+  );
+  const showSchedules = useAppSelector(
+    (state) => state.user.savedShowSchedules
+  );
 
   const showAll = useAppSelector((state) => state.user.savedShowAll);
 
@@ -24,8 +28,7 @@ const ShowFilter = () => {
         } else if (!(showFCEs || showCourseInfos || showSchedules)) {
           showAllRef.current.indeterminate = false;
           showAllRef.current.checked = false;
-        } else
-          showAllRef.current.indeterminate = true;
+        } else showAllRef.current.indeterminate = true;
       } else {
         if (showCourseInfos && showSchedules) {
           showAllRef.current.indeterminate = false;
@@ -33,11 +36,10 @@ const ShowFilter = () => {
         } else if (!(showCourseInfos || showSchedules)) {
           showAllRef.current.indeterminate = false;
           showAllRef.current.checked = false;
-        } else
-          showAllRef.current.indeterminate = true;
+        } else showAllRef.current.indeterminate = true;
       }
     }
-  }, [showAllRef, showAllRef.current, showFCEs, showCourseInfos, showSchedules]);
+  }, [showAllRef, isSignedIn, showFCEs, showCourseInfos, showSchedules]);
 
   const setShowFCEs = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.savedShowFCEs(e.target.checked));
@@ -62,7 +64,7 @@ const ShowFilter = () => {
     <div>
       <div className="mb-3 text-lg">Show</div>
       <div className="space-y-4 text-sm">
-      <div className="mt-3 flex justify-end text-gray-500">
+        <div className="mt-3 flex justify-end text-gray-500">
           <div className="mr-6">
             <input
               id="selectAll"
@@ -70,7 +72,7 @@ const ShowFilter = () => {
               className="mr-2"
               onChange={setShowAll}
               checked={showAll}
-              ref = {showAllRef}
+              ref={showAllRef}
             />
             <span>All</span>
           </div>

@@ -27,35 +27,34 @@ const SchedulePage: NextPage = () => {
             <ScheduleData scheduled={scheduled} />
           </Topbar>
           {scheduleView === SCHED_VIEW && (
-                <CourseList courseIDs={scheduled}>
-                  {/* This are the elements to show when we have no results to show. */}
-                  {scheduled.length ? ( // We have things in our schedule, but have no results => still loading
-                    <Loading />
-                  ) : (
-                    // We haven't added anything to the schedule yet
-                    <div className="mt-6 text-center text-gray-400">
-                      Nothing in your schedule yet!
-                    </div>
-                  )}
-                </CourseList>
-            )}
-          {scheduleView === CAL_VIEW && (
-            scheduled.length ? (
-              <ScheduleCalendar courseIDs={scheduled} />
+            <CourseList courseIDs={scheduled}>
+              {/* This are the elements to show when we have no results to show. */}
+              {scheduled.length ? ( // We have things in our schedule, but have no results => still loading
+                <Loading />
               ) : (
+                // We haven't added anything to the schedule yet
+                <div className="mt-6 text-center text-gray-400">
+                  Nothing in your schedule yet!
+                </div>
+              )}
+            </CourseList>
+          )}
+          {scheduleView === CAL_VIEW &&
+            (scheduled.length ? (
+              <ScheduleCalendar courseIDs={scheduled} />
+            ) : (
               <div className="mt-8 text-center text-gray-400">
                 Nothing in your schedule yet!
               </div>
-            )
-          )}
+            ))}
         </>
       }
       sidebar={
         <>
-          <ScheduleSelector/>
-          <Aggregate/>
+          <ScheduleSelector />
+          <Aggregate />
           <ShowFilter />
-          <SectionSelector courseIDs={scheduled}/>
+          <SectionSelector courseIDs={scheduled} />
         </>
       }
     />

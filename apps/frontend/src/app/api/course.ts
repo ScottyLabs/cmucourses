@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery, useQueries, keepPreviousData } from "@tanstack/react-query";
-import { create, windowScheduler, keyResolver } from "@yornaath/batshit"
+import { create, windowScheduler, keyResolver } from "@yornaath/batshit";
 import { Course, Session } from "~/app/types";
 import { STALE_TIME } from "~/app/constants";
 import { FiltersState } from "~/app/filters";
@@ -19,7 +19,9 @@ export type FetchCourseInfosByPageResult = {
   nextPage: number | null;
 };
 
-const fetchCourseInfosByPage = async (filters: FiltersState): Promise<FetchCourseInfosByPageResult> => {
+const fetchCourseInfosByPage = async (
+  filters: FiltersState
+): Promise<FetchCourseInfosByPageResult> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/search?`;
   const params = new URLSearchParams({
     page: `${filters.page}`,
@@ -40,7 +42,9 @@ const fetchCourseInfosByPage = async (filters: FiltersState): Promise<FetchCours
   }
 
   if (filters.semesters.active) {
-    filters.semesters.sessions.forEach((s: Session) => params.append("session", JSON.stringify(s)));
+    filters.semesters.sessions.forEach((s: Session) =>
+      params.append("session", JSON.stringify(s))
+    );
   }
 
   if (filters.levels.active) {
@@ -66,7 +70,7 @@ export const useFetchCourseInfosByPage = () => {
   const filters = useAppSelector((state) => state.filters);
 
   return useQuery({
-    queryKey: ['courseInfosByPage', filters],
+    queryKey: ["courseInfosByPage", filters],
     queryFn: () => fetchCourseInfosByPage(filters),
     staleTime: STALE_TIME,
     placeholderData: keepPreviousData,
@@ -95,7 +99,7 @@ const fetchCourseInfosBatcher = create({
 
 export const useFetchCourseInfo = (courseID: string) => {
   return useQuery({
-    queryKey: ['courseInfo', { courseID }],
+    queryKey: ["courseInfo", { courseID }],
     queryFn: () => fetchCourseInfosBatcher.fetch(courseID),
     staleTime: STALE_TIME,
   });
@@ -104,11 +108,11 @@ export const useFetchCourseInfo = (courseID: string) => {
 export const useFetchCourseInfos = (courseIDs: string[]) => {
   return useQueries({
     queries: courseIDs.map((courseID) => ({
-      queryKey: ['courseInfo', { courseID }],
+      queryKey: ["courseInfo", { courseID }],
       queryFn: () => fetchCourseInfosBatcher.fetch(courseID),
       staleTime: STALE_TIME,
     })),
-    combine: result => {
+    combine: (result) => {
       return result.reduce((acc, { data }) => {
         if (data) acc.push(data);
         return acc;
@@ -133,7 +137,7 @@ const fetchAllCourses = async (): Promise<FetchAllCoursesType> => {
 
 export const useFetchAllCourses = () => {
   return useQuery({
-    queryKey: ['allCourses'],
+    queryKey: ["allCourses"],
     queryFn: fetchAllCourses,
     staleTime: STALE_TIME,
   });
@@ -145,7 +149,9 @@ export type CourseRequisites = {
   postreqs: string[];
 };
 
-export const fetchCourseRequisites = async (courseID: string): Promise<CourseRequisites> => {
+export const fetchCourseRequisites = async (
+  courseID: string
+): Promise<CourseRequisites> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/requisites/${courseID}`;
 
   const response = await axios.get(url, {
@@ -159,7 +165,7 @@ export const fetchCourseRequisites = async (courseID: string): Promise<CourseReq
 
 export const useFetchCourseRequisites = (courseID: string) => {
   return useQuery<CourseRequisites>({
-    queryKey: ['courseRequisites', courseID],
+    queryKey: ["courseRequisites", courseID],
     queryFn: () => fetchCourseRequisites(courseID),
     staleTime: STALE_TIME,
   });

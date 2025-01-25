@@ -22,25 +22,22 @@ export function fromBoolLiteral(literal?: BoolLiteral): boolean {
 }
 
 export function exclude<T, K extends keyof T>(t: T, ...keys: K[]): Omit<T, K> {
-  for (const key of keys)
-    delete t[key];
+  for (const key of keys) delete t[key];
   return t;
 }
 
 export function parseOptionalInt(s: string | undefined, defaultVal: number): number {
-  if (s === undefined)
-    return defaultVal;
+  if (s === undefined) return defaultVal;
   const num = parseInt(s);
-  if (Number.isNaN(num))
-    throw new Error("Invalid number " + s);
+  if (Number.isNaN(num)) throw new Error("Invalid number " + s);
   return num;
 }
 
-export type PrismaReturn<PrismaFnType extends (...args: any) => any> =
-  Awaited<ReturnType<PrismaFnType>>;
+export type PrismaReturn<PrismaFnType extends (...args: never[]) => unknown> = Awaited<ReturnType<PrismaFnType>>;
 
-export type ElemType<ArrayType extends readonly unknown[]> =
-  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+export type ElemType<ArrayType extends readonly unknown[]> = ArrayType extends readonly (infer ElementType)[]
+  ? ElementType
+  : never;
 
 export function parsePrereqString(prereqString: string): string[][] {
   const normalized = prereqString.replace(/\s+/g, "").replace(/[()]/g, ""); // Remove whitespace and parentheses

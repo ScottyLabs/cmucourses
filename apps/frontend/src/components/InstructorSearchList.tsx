@@ -13,7 +13,8 @@ const InstructorSearchList = () => {
   const search = useAppSelector((state) => state.instructors.search);
   const [results, setResults] = useState<{ instructor: string }[]>([]);
 
-  const { isPending, data: { allInstructors, fuse } = {} } = useFetchAllInstructors();
+  const { isPending, data: { allInstructors, fuse } = {} } =
+    useFetchAllInstructors();
 
   useEffect(() => {
     if (!fuse || !allInstructors) return;
@@ -22,15 +23,17 @@ const InstructorSearchList = () => {
       setResults(allInstructors);
       dispatch(instructorsSlice.actions.setNumResults(allInstructors.length));
     } else {
-      const searchResults = fuse.search(search).map(({item}) => item);
+      const searchResults = fuse.search(search).map(({ item }) => item);
       setResults(searchResults);
       dispatch(instructorsSlice.actions.setNumResults(searchResults.length));
     }
-  }, [fuse, search]);
+  }, [allInstructors, dispatch, fuse, search]);
 
   const pages = Math.ceil(results.length / RESULTS_PER_PAGE);
   const curPage = useAppSelector((state) => state.instructors.instructorPage);
-  const loading = useAppSelector((state) => state.instructors.instructorsLoading);
+  const loading = useAppSelector(
+    (state) => state.instructors.instructorsLoading
+  );
 
   const handlePageClick = (page: number) => {
     dispatch(instructorsSlice.actions.setInstructorPage(page + 1));

@@ -5,14 +5,14 @@ const verifyUserToken = async (token: string) => {
   const pubkey = process.env.CLERK_PEM_KEY || "";
 
   const payload = jwt.verify(token, pubkey, {
-    algorithms: ["RS256"]
+    algorithms: ["RS256"],
   });
 
   const currentTime = Math.floor(Date.now() / 1000);
   const BACKEND_ENV = process.env.BACKEND_ENV || "dev";
   const CLERK_LOGIN_HOST = process.env.CLERK_LOGIN_HOST || "http://localhost:3010";
 
-  if (!payload || typeof payload === 'string') {
+  if (!payload || typeof payload === "string") {
     throw "No token present. Did you forget to pass in the token with the API call?";
   } else if (payload.exp && payload.exp < currentTime) {
     throw "Token has expired.";

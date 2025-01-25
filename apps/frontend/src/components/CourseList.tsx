@@ -13,8 +13,12 @@ const CourseList = ({ courseIDs, children }: Props) => {
   const results = useFetchCourseInfos(courseIDs);
 
   const showFCEs = useAppSelector((state) => state.user.savedShowFCEs);
-  const showCourseInfos = useAppSelector((state) => state.user.savedShowCourseInfos);
-  const showSchedules = useAppSelector((state) => state.user.savedShowSchedules);
+  const showCourseInfos = useAppSelector(
+    (state) => state.user.savedShowCourseInfos
+  );
+  const showSchedules = useAppSelector(
+    (state) => state.user.savedShowSchedules
+  );
 
   return (
     <div className="pt-2 pb-6 px-2 md:px-6">

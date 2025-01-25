@@ -1,10 +1,8 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
+import { type Config } from "tailwindcss";
+import { fontFamily } from "tailwindcss/defaultTheme";
+import nightwind from "nightwind";
 
-/** @typedef { import('tailwindcss/defaultConfig') } DefaultConfig */
-/** @typedef { import('tailwindcss/defaultTheme') } DefaultTheme */
-
-/** @type { DefaultConfig & { theme: { extend: DefaultTheme } } } */
-module.exports = {
+export default {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/pages/**/*.{js,ts,jsx,tsx}",
@@ -14,7 +12,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: [...defaultTheme.fontFamily.sans],
+        sans: [...fontFamily.sans],
       },
     },
     colors: {
@@ -143,5 +141,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("nightwind")],
-};
+  plugins: [nightwind],
+} satisfies Config;
