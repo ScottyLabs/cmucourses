@@ -1,5 +1,5 @@
 import { ElemType, exclude, PrismaReturn, singleToArray, standardizeID } from "~/util";
-import {RequestHandler} from "express";
+import { RequestHandler } from "express";
 import db from "@cmucourses/db";
 
 type schedule = ElemType<PrismaReturn<typeof db.schedules.findMany>>;
@@ -27,7 +27,7 @@ export const getSchedules: RequestHandler<
       });
       const projectedResults = schedules.map((courseFce) => exclude(courseFce, "id", "v"));
       res.json(projectedResults);
-    } catch(e) {
+    } catch (e) {
       next(e);
     }
   } else if ("courseID" in req.query) {
@@ -40,7 +40,7 @@ export const getSchedules: RequestHandler<
       });
       const projectedResults = schedules.map((courseFce) => exclude(courseFce, "id", "v"));
       res.json(projectedResults);
-    } catch(e) {
+    } catch (e) {
       next(e);
     }
   }

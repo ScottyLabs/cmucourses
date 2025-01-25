@@ -274,11 +274,10 @@ export const getAllCourses: RequestHandler<
   }
 };
 
-
 export const getRequisites: RequestHandler = async (req, res, next) => {
   try {
     if (!req.params.courseID) {
-      return res.status(400).json({ error: 'courseID parameter is required' });
+      return res.status(400).json({ error: "courseID parameter is required" });
     }
 
     const courseID = standardizeID(req.params.courseID);
@@ -293,7 +292,7 @@ export const getRequisites: RequestHandler = async (req, res, next) => {
     });
 
     if (!course) {
-      return res.status(400).json({ error: 'Course not found' });
+      return res.status(400).json({ error: "Course not found" });
     }
 
     const parsedPrereqs = parsePrereqString(course.prereqString);
@@ -309,13 +308,13 @@ export const getRequisites: RequestHandler = async (req, res, next) => {
       },
     });
 
-    const postreqIDs = postreqs.map(postreq => postreq.courseID);
+    const postreqIDs = postreqs.map((postreq) => postreq.courseID);
 
     const courseRequisites = {
       prereqs: course.prereqs,
       prereqRelations: parsedPrereqs,
-      postreqs: postreqIDs
-    }
+      postreqs: postreqIDs,
+    };
 
     res.json(courseRequisites);
   } catch (e) {
