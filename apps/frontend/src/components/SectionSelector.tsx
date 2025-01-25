@@ -172,7 +172,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                       dispatch(userSchedulesSlice.actions.updateActiveScheduleCourseSession({
                         courseID,
                         sessionType,
-                        session: payload as string
+                        session: payload
                       }));
                       dispatch(userSchedulesSlice.actions.clearHoverSession());
                     }}
