@@ -22,7 +22,7 @@ export interface FiltersState {
     active: boolean;
     selected: boolean[]; // selected[i] <=> show i00 level
   };
-  page: number,
+  page: number;
   exactResultsCourses: string[];
 }
 

@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { STALE_TIME } from "~/app/constants";
 
 const fetchAllInstructors = async (): Promise<{
-  allInstructors: { instructor: string }[],
-  fuse: Fuse<{ instructor: string }>
+  allInstructors: { instructor: string }[];
+  fuse: Fuse<{ instructor: string }>;
 }> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/instructors`;
 
@@ -15,7 +15,10 @@ const fetchAllInstructors = async (): Promise<{
     },
   });
 
-  const fuseIndex: FuseIndex<{ instructor: string }> = Fuse.createIndex(["instructor"], response.data);
+  const fuseIndex: FuseIndex<{ instructor: string }> = Fuse.createIndex(
+    ["instructor"],
+    response.data
+  );
   const fuse = new Fuse(response.data, {}, fuseIndex);
 
   return { allInstructors: response.data, fuse };
@@ -23,8 +26,8 @@ const fetchAllInstructors = async (): Promise<{
 
 export const useFetchAllInstructors = () => {
   return useQuery({
-    queryKey: ['instructors'],
+    queryKey: ["instructors"],
     queryFn: fetchAllInstructors,
     staleTime: STALE_TIME,
   });
-}
+};

@@ -8,11 +8,7 @@ const Loading = () => {
   return (
     <div className="text-center">
       <PulseLoader
-        color={
-          darkMode
-            ? 'zinc-300'
-            : 'gray-500'
-        }
+        color={darkMode ? "zinc-300" : "gray-500"}
         loading={true}
         size={10}
         margin={5}

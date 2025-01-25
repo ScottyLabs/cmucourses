@@ -10,14 +10,26 @@ interface ReqTreeCardProps {
   postreqs: string[];
 }
 
-const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, prereqRelations, postreqs }) => {
+const ReqTreeCard: React.FC<ReqTreeCardProps> = ({
+  courseID,
+  prereqs,
+  prereqRelations,
+  postreqs,
+}) => {
   const hasNoRequisites = prereqs.length === 0 && postreqs.length === 0;
 
-  const buildTree = (id: string, prereqList: string[], prereqRelationsList: string[][], postreqList: string[]): TreeNode => {
+  const buildTree = (
+    id: string,
+    prereqList: string[],
+    prereqRelationsList: string[][],
+    postreqList: string[]
+  ): TreeNode => {
     return {
       courseID: id,
       prereqs: prereqList.map((prereq) => ({ courseID: prereq })),
-      prereqRelations: prereqRelationsList.map((prereqSubList) => (prereqSubList.map((prereq) => ({ courseID: prereq })))),
+      prereqRelations: prereqRelationsList.map((prereqSubList) =>
+        prereqSubList.map((prereq) => ({ courseID: prereq }))
+      ),
       postreqs: postreqList.map((postreq) => ({ courseID: postreq })),
     };
   };
@@ -34,7 +46,6 @@ const ReqTreeCard: React.FC<ReqTreeCardProps> = ({ courseID, prereqs, prereqRela
       ) : (
         <ReqTreeDetail root={tree} />
       )}
-
     </Card>
   );
 };

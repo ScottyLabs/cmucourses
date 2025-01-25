@@ -34,11 +34,7 @@ export const FlushedButton = ({
   );
 };
 
-export const CourseIDButton = ({
-  courseID,
-}: {
-  courseID: string;
-}) => {
+export const CourseIDButton = ({ courseID }: { courseID: string }) => {
   return (
     <button
       onClick={() => (window.location.href = `/course/${courseID}`)}
@@ -46,5 +42,5 @@ export const CourseIDButton = ({
     >
       {courseID}
     </button>
-  )
-}
+  );
+};

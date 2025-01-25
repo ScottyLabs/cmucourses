@@ -2,13 +2,21 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
 import { reducer as userReducer, UserState } from "./user";
-import { filtersSlice, FiltersState, reducer as filtersReducer } from "./filters";
+import {
+  filtersSlice,
+  FiltersState,
+  reducer as filtersReducer,
+} from "./filters";
 import {
   reducer as userSchedulesReducer,
   UserSchedulesState,
 } from "./userSchedules";
 import { reducer as uiReducer, UIState } from "./ui";
-import { reducer as instructorsReducer, InstructorsState, instructorsSlice } from "./instructors";
+import {
+  reducer as instructorsReducer,
+  InstructorsState,
+  instructorsSlice,
+} from "./instructors";
 import debounce from "lodash/debounce";
 import {
   FLUSH,
@@ -106,7 +114,7 @@ const debouncedInstructorFilter = debounce((search: string) => {
 export const throttledInstructorFilter = (search: string) => {
   void store.dispatch(instructorsSlice.actions.setInstructorsLoading(true));
   debouncedInstructorFilter(search);
-}
+};
 
 export type AppState = ReturnType<typeof store.getState>;
 

@@ -15,9 +15,7 @@
     "outDir": "./build",
     "baseUrl": ".",
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
+      "~/*": ["./src/*"]
     },
     "plugins": [
       {
@@ -28,24 +26,13 @@
     "declarationMap": false,
     "incremental": true,
     "jsx": "preserve",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "module": "ESNext",
     "noEmit": true,
     "resolveJsonModule": true,
     "strict": true,
     "target": "ES6"
   },
-  "include": [
-    "./src/**/*",
-    ".next/types/**/*.ts",
-    "eslint.config.mjs",
-    "next.config.mjs",
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./src/**/*", ".next/types/**/*.ts", "eslint.config.mjs", "next.config.mjs"],
+  "exclude": ["node_modules"]
 }

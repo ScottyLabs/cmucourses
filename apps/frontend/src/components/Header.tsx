@@ -41,10 +41,8 @@ export default function Header(): ReactElement {
   return (
     <div className="">
       <div className="lg:p-1.5 md:p-2 p-3 lg:text-lg md:text-base text-xs text-white text-center bg-[#007fff] h-10">
-        ‼️ Sign up for {' '}
-        <Link
-          href="https://go.scottylabs.org/tartanhacks-cmucourses"
-        >
+        ‼️ Sign up for{" "}
+        <Link href="https://go.scottylabs.org/tartanhacks-cmucourses">
           <strong>TartanHacks</strong>
         </Link>
         , Pittsburgh&apos;s largest hackathon now! 🖥️
@@ -65,11 +63,10 @@ export default function Header(): ReactElement {
           </Link>
         </div>
         <div className="flex flex-row items-center justify-between gap-x-2 text-gray-600">
-          <DarkModeButton/>
-          <LogInButton/>
+          <DarkModeButton />
+          <LogInButton />
         </div>
       </div>
-
     </div>
   );
 }

@@ -16,9 +16,9 @@ const defaultValue = (info: any) => {
   if (val) {
     return <p className="text-center">{val}</p>;
   } else {
-    return <p className="text-center">-</p>
+    return <p className="text-center">-</p>;
   }
-}
+};
 
 const columns: ColumnDef<Gened>[] = [
   {
@@ -29,12 +29,12 @@ const columns: ColumnDef<Gened>[] = [
       const id = `geneds-table-${courseID}`;
       return (
         <>
-          <Link href={`/course/${courseID}`} data-tooltip-id={id} >
+          <Link href={`/course/${courseID}`} data-tooltip-id={id}>
             {courseID}
           </Link>
           <GetTooltip id={id} children={info.row.original.desc as string} />
         </>
-      )
+      );
     },
   },
   {
@@ -46,14 +46,17 @@ const columns: ColumnDef<Gened>[] = [
       if (name) {
         return (
           <>
-            <Link href={`/course/${info.row.original.courseID as string}`} data-tooltip-id={id} >
+            <Link
+              href={`/course/${info.row.original.courseID as string}`}
+              data-tooltip-id={id}
+            >
               <span className="text-wrap">{name}</span>
             </Link>
             <GetTooltip id={id} children={info.row.original.desc as string} />
           </>
-        )
+        );
       }
-      return <p>-</p>
+      return <p>-</p>;
     },
   },
   {
@@ -64,7 +67,7 @@ const columns: ColumnDef<Gened>[] = [
       if (instructor) {
         return <Link href={`/instructor/${instructor}`}>{instructor}</Link>;
       } else {
-        return <p>-</p>
+        return <p>-</p>;
       }
     },
   },
@@ -94,21 +97,15 @@ const columns: ColumnDef<Gened>[] = [
     cell: (info) => {
       const tags = info.getValue() as string[];
       if (tags) {
-        return (
-            <div className="text-wrap text">{tags.join(", ")}</div>
-          )
+        return <div className="text-wrap text">{tags.join(", ")}</div>;
       } else {
-        return <p>-</p>
+        return <p>-</p>;
       }
     },
-  }
+  },
 ];
 
-export const GenedsDataTable = ({
-  data,
-}: {
-  data: Gened[];
-}) => {
+export const GenedsDataTable = ({ data }: { data: Gened[] }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
@@ -134,9 +131,20 @@ export const GenedsDataTable = ({
                 key={header.id}
                 onClick={header.column.getToggleSortingHandler()}
               >
-                {header.column.getIsSorted() ?
-                  <b> {flexRender(header.column.columnDef.header, header.getContext())} </b> :
-                  flexRender(header.column.columnDef.header, header.getContext())}
+                {header.column.getIsSorted() ? (
+                  <b>
+                    {" "}
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}{" "}
+                  </b>
+                ) : (
+                  flexRender(
+                    header.column.columnDef.header,
+                    header.getContext()
+                  )
+                )}
                 {{
                   asc: " ⏶",
                   desc: " ⏷",

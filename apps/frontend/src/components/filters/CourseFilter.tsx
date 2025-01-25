@@ -22,8 +22,14 @@ const CourseFilter = ({ name }: Props) => {
   );
 
   const { isSignedIn, getToken } = useAuth();
-  const { data: fces } = useFetchFCEInfosByInstructor(name, isSignedIn, getToken);
-  const courses = getUnique(fces?.fces?.map((fce) => fce.courseID).sort() || []);
+  const { data: fces } = useFetchFCEInfosByInstructor(
+    name,
+    isSignedIn,
+    getToken
+  );
+  const courses = getUnique(
+    fces?.fces?.map((fce) => fce.courseID).sort() || []
+  );
 
   useEffect(() => {
     dispatch(

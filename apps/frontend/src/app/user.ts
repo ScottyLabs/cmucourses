@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { addToSet, removeFromSet } from "./utils";
-import {CAL_VIEW, SCHED_VIEW, SEMESTERS_COUNTED} from "./constants";
+import { CAL_VIEW, SCHED_VIEW, SEMESTERS_COUNTED } from "./constants";
 import { Semester } from "./types";
 
 export interface UserState {
@@ -24,7 +24,7 @@ export interface UserState {
       type: string;
       courses: string[];
       instructors: string[];
-    }
+    };
   };
   selectedSchool: string;
   selectedTags: string[];
@@ -81,7 +81,7 @@ export const userSlice = createSlice({
     showSchedules: (state, action: PayloadAction<boolean>) => {
       state.showSchedules = action.payload;
     },
-    showAll : (state, action: PayloadAction<boolean>) => {
+    showAll: (state, action: PayloadAction<boolean>) => {
       state.showAll = action.payload;
     },
     savedShowFCEs: (state, action: PayloadAction<boolean>) => {
@@ -93,7 +93,7 @@ export const userSlice = createSlice({
     savedShowSchedules: (state, action: PayloadAction<boolean>) => {
       state.savedShowSchedules = action.payload;
     },
-    savedShowAll : (state, action: PayloadAction<boolean>) => {
+    savedShowAll: (state, action: PayloadAction<boolean>) => {
       state.savedShowAll = action.payload;
     },
     updateSemestersCounted: (
@@ -109,7 +109,10 @@ export const userSlice = createSlice({
       if (isNaN(newNumSemesters)) return;
       state.fceAggregation.numSemesters = newNumSemesters;
     },
-    setFilters: (state, action: PayloadAction<UserState["fceAggregation"]["filters"]>) => {
+    setFilters: (
+      state,
+      action: PayloadAction<UserState["fceAggregation"]["filters"]>
+    ) => {
       state.fceAggregation.filters = action.payload;
     },
     resetFilters: (state) => {
@@ -126,7 +129,8 @@ export const userSlice = createSlice({
       state.selectedTags = action.payload;
     },
     toggleScheduleView: (state) => {
-      state.scheduleView = state.scheduleView === CAL_VIEW ? SCHED_VIEW : CAL_VIEW;
+      state.scheduleView =
+        state.scheduleView === CAL_VIEW ? SCHED_VIEW : CAL_VIEW;
     },
   },
 });

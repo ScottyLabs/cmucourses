@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addToSet, getCalendarColor, removeFromSet, sessionToString } from "./utils";
+import {
+  addToSet,
+  getCalendarColor,
+  removeFromSet,
+  sessionToString,
+} from "./utils";
 import { Session } from "./types";
 import { v4 as uuidv4 } from "uuid";
 import { RootState } from "./store";
@@ -37,7 +42,7 @@ const initialState: UserSchedulesState = {
   saved: {},
 };
 
-const getNewUserSchedule = (courseIDs: string[], id: string) : UserSchedule => {
+const getNewUserSchedule = (courseIDs: string[], id: string): UserSchedule => {
   return {
     name: "My Schedule",
     courses: courseIDs,
@@ -47,13 +52,20 @@ const getNewUserSchedule = (courseIDs: string[], id: string) : UserSchedule => {
       year: "",
       semester: "",
     },
-    courseSessions: courseIDs.reduce((acc: CourseSessions, courseID, i: number) => {
-      acc[courseID] = {Lecture: "", Section: "", Color: getCalendarColor(i)};
-      return acc;
-    }, {}),
+    courseSessions: courseIDs.reduce(
+      (acc: CourseSessions, courseID, i: number) => {
+        acc[courseID] = {
+          Lecture: "",
+          Section: "",
+          Color: getCalendarColor(i),
+        };
+        return acc;
+      },
+      {}
+    ),
     numColors: courseIDs.length,
   };
-}
+};
 
 export const userSchedulesSlice = createSlice({
   name: "userSchedules",
@@ -78,8 +90,15 @@ export const userSchedulesSlice = createSlice({
       );
 
       if (!state.saved[state.active].courseSessions)
-        state.saved[state.active] = getNewUserSchedule(state.saved[state.active].courses, state.active);
-      state.saved[state.active].courseSessions[action.payload] = {Lecture: "", Section: "", Color: getCalendarColor(state.saved[state.active].numColors)};
+        state.saved[state.active] = getNewUserSchedule(
+          state.saved[state.active].courses,
+          state.active
+        );
+      state.saved[state.active].courseSessions[action.payload] = {
+        Lecture: "",
+        Section: "",
+        Color: getCalendarColor(state.saved[state.active].numColors),
+      };
       state.saved[state.active].numColors += 1;
     },
     removeCourseFromActiveSchedule: (state, action: PayloadAction<string>) => {
@@ -94,9 +113,11 @@ export const userSchedulesSlice = createSlice({
       );
 
       if (!state.saved[state.active].courseSessions)
-        state.saved[state.active] = getNewUserSchedule(state.saved[state.active].courses, state.active);
-      else
-        delete state.saved[state.active].courseSessions[action.payload];
+        state.saved[state.active] = getNewUserSchedule(
+          state.saved[state.active].courses,
+          state.active
+        );
+      else delete state.saved[state.active].courseSessions[action.payload];
     },
     selectCourseInActiveSchedule: (state, action: PayloadAction<string>) => {
       if (state.active === null) return;
@@ -153,18 +174,33 @@ export const userSchedulesSlice = createSlice({
     },
     updateActiveScheduleSemester: (state, action: PayloadAction<Session>) => {
       if (!state.saved[state.active].courseSessions)
-        state.saved[state.active] = getNewUserSchedule(state.saved[state.active].courses, state.active);
+        state.saved[state.active] = getNewUserSchedule(
+          state.saved[state.active].courses,
+          state.active
+        );
 
       if (state.active !== null) {
         state.saved[state.active].session = action.payload;
       }
     },
-    updateActiveScheduleCourseSession: (state, action: PayloadAction<{ courseID: string, sessionType: string, session: string }>) => {
+    updateActiveScheduleCourseSession: (
+      state,
+      action: PayloadAction<{
+        courseID: string;
+        sessionType: string;
+        session: string;
+      }>
+    ) => {
       if (state.active !== null) {
-        state.saved[state.active].courseSessions[action.payload.courseID][action.payload.sessionType] = action.payload.session
+        state.saved[state.active].courseSessions[action.payload.courseID][
+          action.payload.sessionType
+        ] = action.payload.session;
       }
     },
-    setHoverSession: (state, action: PayloadAction<{ courseID: string, [sessionType: string]: string }>) => {
+    setHoverSession: (
+      state,
+      action: PayloadAction<{ courseID: string; [sessionType: string]: string }>
+    ) => {
       if (state.active !== null) {
         state.saved[state.active].hoverSession = action.payload;
       }
@@ -189,9 +225,7 @@ export const selectSelectedCoursesInActiveSchedule = (
   return state.schedules.saved[state.schedules.active].selected;
 };
 
-export const selectSessionInActiveSchedule = (
-  state: RootState
-): string => {
+export const selectSessionInActiveSchedule = (state: RootState): string => {
   if (state.schedules.active === null) return "";
   const session = state.schedules.saved[state.schedules.active].session;
   if (session?.semester === "") return "";
@@ -207,7 +241,7 @@ export const selectCourseSessionsInActiveSchedule = (
 
 export const selectHoverSessionInActiveSchedule = (
   state: RootState
-): { courseID: string, [sessionType: string]: string } | undefined => {
+): { courseID: string; [sessionType: string]: string } | undefined => {
   if (state.schedules.active === null) return undefined;
   return state.schedules.saved[state.schedules.active].hoverSession;
 };

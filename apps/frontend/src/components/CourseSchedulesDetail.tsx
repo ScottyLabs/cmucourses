@@ -10,7 +10,10 @@ const getInstructors = (instructors: string[]) => {
       {instructors.map((instructor, index) => {
         if (index === instructors.length - 1)
           return (
-            <Link key={`${instructor}-${index}`} href={`/instructor/${instructor.toUpperCase()}`}>
+            <Link
+              key={`${instructor}-${index}`}
+              href={`/instructor/${instructor.toUpperCase()}`}
+            >
               {instructor}
             </Link>
           );
@@ -47,11 +50,17 @@ const LectureViewer = ({
         </div>
         <div className="contents flex-col text-sm">
           {lectureInfo.times.map((time, i) => (
-            <div className="contents" key={`${courseID}-lecture-${timeArrToString([time])}-${i}`}>
+            <div
+              className="contents"
+              key={`${courseID}-lecture-${timeArrToString([time])}-${i}`}
+            >
               <div className="col-span-1 col-start-3">
                 {timeArrToString([time])}
               </div>
-              <Link href={`https://maps.scottylabs.org/${time.building}-${time.room}`} openInNewTab = {true}>
+              <Link
+                href={`https://maps.scottylabs.org/${time.building}-${time.room}`}
+                openInNewTab={true}
+              >
                 {time.building} {time.room}
               </Link>
             </div>
@@ -70,11 +79,17 @@ const LectureViewer = ({
           </div>
           <div className="contents text-sm">
             {section.times.map((time, i) => (
-              <div className="contents" key={`${courseID}-section-${timeArrToString([time])}-${i}`}>
+              <div
+                className="contents"
+                key={`${courseID}-section-${timeArrToString([time])}-${i}`}
+              >
                 <div className="col-span-1 col-start-3">
                   {timeArrToString([time])}
                 </div>
-                <Link href={`https://maps.scottylabs.org/${time.building}-${time.room}`} openInNewTab = {true}>
+                <Link
+                  href={`https://maps.scottylabs.org/${time.building}-${time.room}`}
+                  openInNewTab={true}
+                >
                   {time.building} {time.room}
                 </Link>
               </div>

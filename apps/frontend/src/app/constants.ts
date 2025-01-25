@@ -132,7 +132,8 @@ export const GENED_SOURCES = {
   SCS: "http://coursecatalog.web.cmu.edu/schools-colleges/schoolofcomputerscience/#genedtextcontainer",
   CIT: "https://engineering.cmu.edu/education/undergraduate-studies/curriculum/general-education/index.html",
   MCS: "http://coursecatalog.web.cmu.edu/schools-colleges/melloncollegeofscience/#generaleducationrequirementstextcontainer",
-  Dietrich: "https://www.cmu.edu/dietrich/gened/fall-2021-and-beyond/course-options/index.html",
+  Dietrich:
+    "https://www.cmu.edu/dietrich/gened/fall-2021-and-beyond/course-options/index.html",
 };
 
 export const STALE_TIME = 1000 * 60 * 60 * 24; // 1 day
@@ -150,7 +151,7 @@ export const CALENDAR_COLORS = [
   "#FFC4E1", // Pink
   "#C4E1FF", // Sky Blue
   "#E1FFC4", // Lime
-  "#FFF4BA"  // Cream
+  "#FFF4BA", // Cream
 ];
 
 export const CALENDAR_COLORS_LIGHT = [
@@ -163,5 +164,5 @@ export const CALENDAR_COLORS_LIGHT = [
   "#FFE7F3", // Light Pink
   "#E7F3FF", // Light Sky Blue
   "#F3FFE7", // Light Lime
-  "#FFFBE3"  // Light Cream
+  "#FFFBE3", // Light Cream
 ];

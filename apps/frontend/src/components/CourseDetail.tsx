@@ -26,7 +26,9 @@ const CourseDetail = ({ courseID }: Props) => {
       {fces && <FCECard fces={fces} />}
       {info.schedules && (
         <SchedulesCard
-          scheduleInfos={filterSessions([...info.schedules]).sort(compareSessions)}
+          scheduleInfos={filterSessions([...info.schedules]).sort(
+            compareSessions
+          )}
         />
       )}
       {info.prereqs && requisites.prereqRelations && requisites.postreqs && (

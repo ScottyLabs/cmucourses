@@ -2,7 +2,10 @@ import React, { useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import CourseCard from "./CourseCard";
 import Loading from "./Loading";
-import { useFetchCourseInfos, useFetchCourseInfosByPage } from "~/app/api/course";
+import {
+  useFetchCourseInfos,
+  useFetchCourseInfosByPage,
+} from "~/app/api/course";
 import { Pagination } from "./Pagination";
 import { filtersSlice } from "~/app/filters";
 
@@ -36,7 +39,7 @@ const CoursePage = () => {
     }
   }, [exactResultsCourses, docs, page]);
 
-  const results =  useFetchCourseInfos(coursesToShow);
+  const results = useFetchCourseInfos(coursesToShow);
 
   return (
     <div className="space-y-4">
@@ -56,7 +59,7 @@ const CoursePage = () => {
 
 const CourseSearchList = () => {
   const curPage = useAppSelector((state) => state.filters.page);
-  const { isPending, data: { totalPages } = {}  } = useFetchCourseInfosByPage();
+  const { isPending, data: { totalPages } = {} } = useFetchCourseInfosByPage();
 
   const dispatch = useAppDispatch();
 

@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import React from "react";
 import CourseList from "~/components/CourseList";
 import Aggregate from "~/components/Aggregate";
-import ShowFilter from "~/components/ShowFilter"
+import ShowFilter from "~/components/ShowFilter";
 import { useAppSelector } from "~/app/hooks";
 import { Page } from "~/components/Page";
 

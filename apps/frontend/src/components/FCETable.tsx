@@ -1,6 +1,15 @@
 import React from "react";
-import { AggregatedFCEs, aggregateFCEs, AggregateFCEsOptions, filterFCEs } from "~/app/fce";
-import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  AggregatedFCEs,
+  aggregateFCEs,
+  AggregateFCEsOptions,
+  filterFCEs,
+} from "~/app/fce";
+import {
+  ColumnDef,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { FCE } from "~/app/types";
 import { responseRateZero, sessionToString } from "~/app/utils";
 import { StarRating } from "./StarRating";
@@ -23,19 +32,20 @@ const columns: ColumnDef<FCEDetailRow>[] = [
       const { data } = useFetchCourseInfo(courseID);
       const courseName = data?.name as string;
       const desc = data?.desc as string;
-      const tooltipText =
+      const tooltipText = (
         <>
           <b>{courseName}</b>
           <div>{desc}</div>
-        </>;
+        </>
+      );
       return (
         <>
-          <Link href={`/course/${courseID}`} data-tooltip-id={id} >
+          <Link href={`/course/${courseID}`} data-tooltip-id={id}>
             {courseID}
           </Link>
-          <GetTooltip id={id} children={tooltipText}/>
+          <GetTooltip id={id} children={tooltipText} />
         </>
-      )
+      );
     },
   },
   {
@@ -114,7 +124,6 @@ export const FCEDataTable = ({
 
   return getTable(table);
 };
-
 
 export const FCETable = ({
   fces,

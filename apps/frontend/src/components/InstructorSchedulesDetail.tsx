@@ -3,7 +3,11 @@ import { Tab } from "@headlessui/react";
 import Link from "./Link";
 import { compareSessions, stringToSession } from "~/app/utils";
 import { useFetchCourseInfos } from "~/app/api/course";
-import { ColumnDef, getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  getCoreRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
 import { Course } from "~/app/types";
 import { getTable } from "~/components/GetTable";
 import { GetTooltip } from "~/components/GetTooltip";
@@ -22,7 +26,7 @@ const columns: ColumnDef<Course>[] = [
           </Link>
           <GetTooltip id={id} children={info.row.original.desc} />
         </>
-      )
+      );
     },
   },
   {
@@ -35,14 +39,17 @@ const columns: ColumnDef<Course>[] = [
       if (name) {
         return (
           <>
-            <Link href={`/course/${info.row.original.courseID}`} data-tooltip-id={id} >
+            <Link
+              href={`/course/${info.row.original.courseID}`}
+              data-tooltip-id={id}
+            >
               <span className="text-wrap">{name}</span>
             </Link>
             <GetTooltip id={id} children={info.row.original.desc} />
           </>
-        )
+        );
       }
-      return <p>-</p>
+      return <p>-</p>;
     },
   },
   {
@@ -62,11 +69,7 @@ const ScheduleViewer = ({ courseIDs }: { courseIDs: string[] }) => {
     getCoreRowModel: getCoreRowModel(),
   });
 
-  return (
-    <div className="p-3">
-      {getTable(table)}
-    </div>
-  );
+  return <div className="p-3">{getTable(table)}</div>;
 };
 
 interface ScheduleInfos {

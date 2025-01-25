@@ -4,8 +4,8 @@ import db from "@cmucourses/db";
 
 type GetAllInstructorsDbQuery = {
   select: {
-    instructor: true,
-  },
+    instructor: true;
+  };
 };
 
 export interface GetInstructors {

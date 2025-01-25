@@ -22,9 +22,7 @@ export default class MyDocument extends Document {
               });
             `}
           </Script>
-          {
-            <script dangerouslySetInnerHTML={{ __html: nightwind.init() }} />
-          }
+          {<script dangerouslySetInnerHTML={{ __html: nightwind.init() }} />}
           <meta
             name="viewport"
             content="width=device-width, user-scalable=no"

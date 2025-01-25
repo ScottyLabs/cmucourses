@@ -1,5 +1,10 @@
 import React, { useMemo } from "react";
-import { Calendar, DateLocalizer, momentLocalizer, TimeGrid } from "react-big-calendar";
+import {
+  Calendar,
+  DateLocalizer,
+  momentLocalizer,
+  TimeGrid,
+} from "react-big-calendar";
 import PropTypes from "prop-types";
 import * as dates from "date-arithmetic";
 import Toolbar from "react-big-calendar/lib/Toolbar";
@@ -85,7 +90,7 @@ const getTime = (day: number, time: string) => {
   if (h && time.slice(-2) === "PM" && time.slice(0, 2) !== "12") {
     hour = (parseInt(h) + 12).toString();
   }
-  
+
   return new Date(
     2024,
     8,

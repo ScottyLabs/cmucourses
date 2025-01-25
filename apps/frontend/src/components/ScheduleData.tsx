@@ -27,9 +27,13 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
   const selected = useAppSelector(selectSelectedCoursesInActiveSchedule);
   const options = useAppSelector((state) => state.user.fceAggregation);
 
-  const { isSignedIn, getToken } = useAuth()
-  const scheduledResults =  useFetchCourseInfos(scheduled);
-  const scheduledFCEs = useFetchFCEInfosByCourse(scheduled, isSignedIn, getToken);
+  const { isSignedIn, getToken } = useAuth();
+  const scheduledResults = useFetchCourseInfos(scheduled);
+  const scheduledFCEs = useFetchFCEInfosByCourse(
+    scheduled,
+    isSignedIn,
+    getToken
+  );
 
   const open = useAppSelector((state) => state.ui.schedulesTopbarOpen);
 

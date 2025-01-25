@@ -22,8 +22,13 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
   );
 
   const { isSignedIn, getToken } = useAuth();
-  const { isPending: isFCEsPending, data: fces } = useFetchFCEInfosByInstructor(name, isSignedIn, getToken);
-  const { isPending: isSchedulesPending, data: schedules } = useFetchSchedulesByInstructor(name);
+  const { isPending: isFCEsPending, data: fces } = useFetchFCEInfosByInstructor(
+    name,
+    isSignedIn,
+    getToken
+  );
+  const { isPending: isSchedulesPending, data: schedules } =
+    useFetchSchedulesByInstructor(name);
 
   if (isFCEsPending || isSchedulesPending || !fces || !schedules) {
     return (
@@ -38,7 +43,7 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
   }
 
   const scheduleInfos: { [session: string]: string[] } = {};
-  const filteredSchedules = filterSessions(schedules.schedules || [])
+  const filteredSchedules = filterSessions(schedules.schedules || []);
   filteredSchedules.forEach((schedule) => {
     const session = sessionToString(schedule);
     if (!scheduleInfos[session]) {
@@ -65,9 +70,11 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
           extraFilters={extraFilters}
         />
       </div>
-      {schedules.schedules.length > 0 && (<div className="pt-1">
-        <InstructorSchedulesDetail scheduleInfos={scheduleInfos} />
-      </div>)}
+      {schedules.schedules.length > 0 && (
+        <div className="pt-1">
+          <InstructorSchedulesDetail scheduleInfos={scheduleInfos} />
+        </div>
+      )}
     </Card>
   );
 };

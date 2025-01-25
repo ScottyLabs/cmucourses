@@ -4,7 +4,11 @@ import { GetToken } from "@clerk/types";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { STALE_TIME } from "~/app/constants";
 
-const fetchGenedsBySchool = async (selectedSchool: string, isSignedIn: boolean | undefined, getToken: GetToken): Promise<Gened[]> => {
+const fetchGenedsBySchool = async (
+  selectedSchool: string,
+  isSignedIn: boolean | undefined,
+  getToken: GetToken
+): Promise<Gened[]> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/geneds`;
 
   const params = new URLSearchParams();
@@ -13,12 +17,16 @@ const fetchGenedsBySchool = async (selectedSchool: string, isSignedIn: boolean |
   const token = await getToken();
 
   if (isSignedIn && token) {
-    const response = await axios.post(url, { token }, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      params,
-    });
+    const response = await axios.post(
+      url,
+      { token },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params,
+      }
+    );
     return response.data;
   } else {
     const response = await axios.get(url, {
@@ -31,7 +39,11 @@ const fetchGenedsBySchool = async (selectedSchool: string, isSignedIn: boolean |
   }
 };
 
-export const useFetchGenedsBySchool = (selectedSchool: string, isSignedIn: boolean | undefined, getToken: GetToken) => {
+export const useFetchGenedsBySchool = (
+  selectedSchool: string,
+  isSignedIn: boolean | undefined,
+  getToken: GetToken
+) => {
   return useQuery({
     queryKey: ["geneds", { selectedSchool, isSignedIn }],
     queryFn: () => fetchGenedsBySchool(selectedSchool, isSignedIn, getToken),

@@ -8,8 +8,7 @@
     "start": "next start",
     "type-check": "tsc",
     "test": "jest",
-    "lint": "next lint",
-    "format": "prettier --write . --ignore-path .gitignore"
+    "lint": "next lint"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.0.6",
