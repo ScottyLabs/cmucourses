@@ -1,12 +1,8 @@
 import React, { useMemo } from "react";
-import {
-  Calendar,
-  DateLocalizer,
-  momentLocalizer,
-  TimeGrid,
-} from "react-big-calendar";
+import { Calendar, DateLocalizer, momentLocalizer } from "react-big-calendar";
 import PropTypes from "prop-types";
 import * as dates from "date-arithmetic";
+import TimeGrid from "react-big-calendar/lib/TimeGrid";
 import Toolbar from "react-big-calendar/lib/Toolbar";
 import style from "react-big-calendar/lib/css/react-big-calendar.css";
 import moment from "moment";
