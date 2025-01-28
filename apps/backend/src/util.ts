@@ -5,6 +5,10 @@ export const standardizeID = (id: string): string => {
   return id;
 };
 
+export const cleanID = (id: string): string => {
+  return id.replace("-", "");
+}
+
 export type SingleOrArray<T> = T | T[];
 
 export function singleToArray<T>(param: SingleOrArray<T>): T[] {
