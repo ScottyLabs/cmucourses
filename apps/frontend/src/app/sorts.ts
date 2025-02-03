@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-enum SortType {
+export enum SortType {
   Ascending,
   Descending,
 }
 
-enum SortOption {
-  FCE,
-  TeachingRate,
-  CourseRate,
-  Units,
-  CourseNumber,
+export enum SortOption {
+  FCE = "FCE",
+  TeachingRate = "Teaching Rate",
+  CourseRate = "Course Rate",
+  Units = "Units",
+  CourseNumber = "Course Number",
 }
 
 export interface Sort {
@@ -23,7 +23,13 @@ export interface SortState {
 }
 
 const initialState: SortState = {
-  sorts: [],
+  sorts: [
+    { type: SortType.Ascending, option: SortOption.FCE },
+    { type: SortType.Ascending, option: SortOption.TeachingRate },
+    { type: SortType.Ascending, option: SortOption.CourseRate },
+    { type: SortType.Ascending, option: SortOption.Units },
+    { type: SortType.Ascending, option: SortOption.CourseNumber },
+  ],
 };
 
 export const sortSlice = createSlice({
@@ -34,25 +40,28 @@ export const sortSlice = createSlice({
       state.sorts.push(action.payload);
     },
     removeSort(state, action: PayloadAction<Sort>) {
-      state.sorts = state.sorts.filter((sort) => sort !== action.payload);
+      state.sorts = state.sorts.filter(
+        (sort) => sort.option !== action.payload.option
+      );
     },
-    clearSorts(state) {
-      state.sorts = [];
+    resetSorts(state) {
+      state.sorts = initialState.sorts;
     },
     updateSorts(state, action: PayloadAction<Sort[]>) {
-      state.sorts = action.payload;
+      state.sorts = [...action.payload];
     },
-    updateSortType(
-      state,
-      action: PayloadAction<{ sort: Sort; type: SortType }>
-    ) {
-      const { sort, type } = action.payload;
-      const index = state.sorts.indexOf(sort);
-      const selected = state.sorts[index];
-
-      if (selected) {
-        selected.type = type;
-      }
+    toggleSortType(state, action: PayloadAction<Sort>) {
+      state.sorts = state.sorts.map((sort) =>
+        sort.option === action.payload.option
+          ? {
+              ...sort,
+              type:
+                sort.type === SortType.Ascending
+                  ? SortType.Descending
+                  : SortType.Ascending,
+            }
+          : sort
+      );
     },
   },
 });
