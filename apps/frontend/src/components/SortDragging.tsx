@@ -14,14 +14,16 @@ import {
   horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { SortOptionPill } from "./SortOptionPill";
-import { useAppDispatch, useAppSelector } from "~/app/hooks";
-import { sortSlice } from "~/app/sorts";
+import { useAppDispatch } from "~/app/hooks";
+import { type Sort, type SortOption, sortSlice } from "~/app/sorts";
 
-export const SortDragging = () => {
+interface SortDraggingProps {
+  sorts: Sort[];
+  items: SortOption[];
+}
+
+export const SortDragging = ({ sorts, items }: SortDraggingProps) => {
   const dispatch = useAppDispatch();
-
-  const { sorts } = useAppSelector((state) => state.sorts);
-  const items = sorts.map((sort) => sort.option);
 
   const { setNodeRef } = useDroppable({ id: "droppable" });
   const sensors = useSensors(
@@ -66,7 +68,7 @@ export const SortDragging = () => {
               />
             ))
           ) : (
-            <p className="text-gray-600 p-2">
+            <p className="text-gray-600 p-2 text-sm">
               Select sort heuristics below, drag to reorder them, and press to
               toggle between ascending and descending.
             </p>

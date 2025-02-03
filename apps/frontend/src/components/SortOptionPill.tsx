@@ -35,7 +35,7 @@ export const SortOptionPill = ({ id, sort }: SortOptionPillProps) => {
   const removeSort: MouseEventHandler<SVGSVGElement> = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    dispatch(sortSlice.actions.removeSort(sort));
+    dispatch(sortSlice.actions.removeSortByOption(sort.option));
   };
 
   const ArrowIcon =
