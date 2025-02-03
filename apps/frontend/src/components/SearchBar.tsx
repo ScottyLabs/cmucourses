@@ -214,7 +214,7 @@ const SearchBar = () => {
           type="search"
           value={search}
           onChange={onChange}
-          placeholder="Search courses by ID, description, name or keyword..."
+          placeholder="Search courses by ID, description, name, or keyword..."
         />
       </div>
       <div className="flex justify-between">
