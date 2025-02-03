@@ -12,12 +12,15 @@ const Filter = () => {
   return (
     <div>
       <div className="mb-3 text-lg">Filter by</div>
-      <div className="space-y-4 text-sm">
-        <DepartmentFilter />
-        <UnitsFilter />
-        <SemestersOfferedFilter />
-        <LevelFilter />
-        <div className="flex justify-end">
+      <div className="text-sm">
+        <div className="space-y-4">
+          <DepartmentFilter />
+          <UnitsFilter />
+          <SemestersOfferedFilter />
+          <LevelFilter />
+        </div>
+
+        <div className="flex mt-4 -mb-8 justify-end">
           <span
             className="text-gray-700 underline cursor-pointer"
             onClick={() => dispatch(filtersSlice.actions.resetFilters())}
