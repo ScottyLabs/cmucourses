@@ -23,13 +23,7 @@ export interface SortState {
 }
 
 const initialState: SortState = {
-  sorts: [
-    { type: SortType.Ascending, option: SortOption.FCE },
-    { type: SortType.Ascending, option: SortOption.TeachingRate },
-    { type: SortType.Ascending, option: SortOption.CourseRate },
-    { type: SortType.Ascending, option: SortOption.Units },
-    { type: SortType.Ascending, option: SortOption.CourseNumber },
-  ],
+  sorts: [],
 };
 
 export const sortSlice = createSlice({
@@ -39,13 +33,19 @@ export const sortSlice = createSlice({
     addSort(state, action: PayloadAction<Sort>) {
       state.sorts.push(action.payload);
     },
-    removeSort(state, action: PayloadAction<Sort>) {
+    removeSortByOption(state, action: PayloadAction<SortOption>) {
       state.sorts = state.sorts.filter(
-        (sort) => sort.option !== action.payload.option
+        (sort) => sort.option !== action.payload
       );
     },
     resetSorts(state) {
       state.sorts = initialState.sorts;
+    },
+    updateSortsByOption(state, action: PayloadAction<SortOption[]>) {
+      state.sorts = action.payload.map((option) => {
+        const sort = state.sorts.find((sort) => sort.option === option);
+        return sort ? sort : { option, type: SortType.Descending };
+      });
     },
     updateSorts(state, action: PayloadAction<Sort[]>) {
       state.sorts = [...action.payload];
