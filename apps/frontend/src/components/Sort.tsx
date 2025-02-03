@@ -6,8 +6,9 @@ import { classNames } from "~/app/utils";
 import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Listbox } from "@headlessui/react";
 import { type MouseEventHandler } from "react";
+import { useAuth } from "@clerk/nextjs";
 
-const options = [
+const OPTIONS = [
   SortOption.FCE,
   SortOption.TeachingRate,
   SortOption.CourseRate,
@@ -15,8 +16,15 @@ const options = [
   SortOption.CourseNumber,
 ];
 
+const RESTRICTED_OPTIONS = [
+  SortOption.FCE,
+  SortOption.TeachingRate,
+  SortOption.CourseRate,
+];
+
 const Sort = () => {
   const dispatch = useAppDispatch();
+  const { isSignedIn } = useAuth();
 
   const { sorts } = useAppSelector((state) => state.sorts);
   const items = sorts.map((sort) => sort.option);
@@ -25,6 +33,9 @@ const Sort = () => {
     e.preventDefault();
     dispatch(sortSlice.actions.resetSorts());
   };
+
+  const isDisabled = (option: SortOption) =>
+    !isSignedIn && RESTRICTED_OPTIONS.includes(option);
 
   return (
     <div>
@@ -58,9 +69,10 @@ const Sort = () => {
         </div>
         <div className="relative bg-white mt-1 w-full rounded shadow-lg">
           <Listbox.Options className="shadow-xs bg-white relative z-50 w-full max-h-60 overflow-auto rounded py-1 text-base leading-6 focus:outline-none sm:text-sm sm:leading-5">
-            {options.map((option) => (
+            {OPTIONS.map((option) => (
               <Listbox.Option
                 key={option}
+                disabled={isDisabled(option)}
                 value={option}
                 className={({ active }) => {
                   return classNames(
@@ -72,9 +84,12 @@ const Sort = () => {
                 {({ selected }) => (
                   <>
                     <span
+                      aria-disabled={isDisabled(option)}
                       className={classNames(
                         "text-gray-700 ml-1",
-                        selected ? "font-semibold" : "font-normal"
+                        selected
+                          ? "font-semibold"
+                          : "font-normal aria-disabled:text-gray-400"
                       )}
                     >
                       {option}
