@@ -56,7 +56,7 @@ export const SortOptionPill = ({ id, sort }: SortOptionPillProps) => {
       {...attributes}
     >
       <ArrowIcon className="size-4" />
-      <span>{sort.option}</span>
+      <span className="text-sm">{sort.option}</span>
       <XMarkIcon className="size-3 cursor-pointer" onClick={removeSort} />
     </span>
   );
