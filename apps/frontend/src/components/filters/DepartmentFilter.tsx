@@ -68,7 +68,6 @@ const DepartmentFilter = () => {
           Department
         </Combobox.Label>
         <div className="flex flex-row gap-x-2">
-
           <Combobox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
             <span className="flex flex-wrap gap-1">
               {names.length === 0
