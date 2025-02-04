@@ -114,7 +114,7 @@ const AppliedFilters = () => {
         <>
           <div className="flex flex-wrap gap-x-1 gap-y-1.5">{badges}</div>
           <div
-            className="hover:underline hover:text-blue-500"
+            className="hover:underline hover:text-blue-500 cursor-pointer"
             onClick={() => {
               dispatch(filtersSlice.actions.resetFilters());
             }}
