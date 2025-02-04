@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export enum SortType {
-  Ascending,
-  Descending,
+  Ascending = 1,
+  Descending = -1,
 }
 
 export enum SortOption {
