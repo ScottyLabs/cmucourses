@@ -67,7 +67,9 @@ const fetchCourseInfosByPage = async (
   }
 
   params.append("numSemesters", fceAggregation.numSemesters.toString());
-  params.append("counted", JSON.stringify(fceAggregation.counted));
+  params.append("spring", fceAggregation.counted.spring.toString());
+  params.append("summer", fceAggregation.counted.summer.toString());
+  params.append("fall", fceAggregation.counted.fall.toString());
 
   const response = await axios.get(url, {
     headers: {
