@@ -10,8 +10,8 @@ import {
 } from "~/util";
 import { RequestHandler } from "express";
 import db, { Prisma } from "@cmucourses/db";
-import { SortOption, SortType, type Sort } from "~/../../apps/frontend/src/app/sorts";
-import { initialState } from "~/../../apps/frontend/src/app/user";
+import { SortOption, type Sort } from "~/../../apps/frontend/src/app/sorts";
+// import { initialState } from "~/../../apps/frontend/src/app/user";
 
 const projection = { _id: false, __v: false };
 const MAX_LIMIT = 10;
@@ -202,10 +202,10 @@ export const getFilteredCourses: RequestHandler<
   pipeline.push({ $project: projection as Prisma.InputJsonValue });
 
   if (req.query.sort !== undefined) {
-    const numSemesters = parseOptionalInt(req.query.numSemesters, initialState.fceAggregation.numSemesters);
-    const spring = !req.query.spring ? initialState.fceAggregation.counted.spring : fromBoolLiteral(req.query.spring);
-    const summer = !req.query.summer ? initialState.fceAggregation.counted.summer : fromBoolLiteral(req.query.summer);
-    const fall = !req.query.fall ? initialState.fceAggregation.counted.fall : fromBoolLiteral(req.query.fall);
+    // const numSemesters = parseOptionalInt(req.query.numSemesters, initialState.fceAggregation.numSemesters);
+    // const spring = !req.query.spring ? initialState.fceAggregation.counted.spring : fromBoolLiteral(req.query.spring);
+    // const summer = !req.query.summer ? initialState.fceAggregation.counted.summer : fromBoolLiteral(req.query.summer);
+    // const fall = !req.query.fall ? initialState.fceAggregation.counted.fall : fromBoolLiteral(req.query.fall);
 
     // Add a $lookup stage to join the fces collection
     pipeline.push({
@@ -225,18 +225,20 @@ export const getFilteredCourses: RequestHandler<
       },
     });
 
+    // TODO: This works, but it's not efficient
+
     // Filter FCEs based on the counted settings
-    pipeline.push({
-      $match: {
-        $expr: {
-          $or: [
-            { $and: [{ $eq: ["$fces.semester", "spring"] }, { $eq: [spring, true] }] },
-            { $and: [{ $eq: ["$fces.semester", "summer"] }, { $eq: [summer, true] }] },
-            { $and: [{ $eq: ["$fces.semester", "fall"] }, { $eq: [fall, true] }] },
-          ],
-        },
-      },
-    });
+    // pipeline.push({
+    //   $match: {
+    //     $expr: {
+    //       $or: [
+    //         { $and: [{ $eq: ["$fces.semester", "spring"] }, { $eq: [spring, true] }] },
+    //         { $and: [{ $eq: ["$fces.semester", "summer"] }, { $eq: [summer, true] }] },
+    //         { $and: [{ $eq: ["$fces.semester", "fall"] }, { $eq: [fall, true] }] },
+    //       ],
+    //     },
+    //   },
+    // });
 
     // TODO: These take a long time to run and then return a 304 with no results
     // So only the seasons from fceAggregation.counted are respected for now
