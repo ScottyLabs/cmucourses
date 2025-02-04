@@ -3,8 +3,10 @@ import { useQuery, useQueries, keepPreviousData } from "@tanstack/react-query";
 import { create, windowScheduler, keyResolver } from "@yornaath/batshit";
 import { Course, Session } from "~/app/types";
 import { STALE_TIME } from "~/app/constants";
-import { FiltersState } from "~/app/filters";
+import { type FiltersState } from "~/app/filters";
+import { type SortState } from "~/app/sorts";
 import { useAppSelector } from "~/app/hooks";
+import { UserState } from "../user";
 
 export type FetchCourseInfosByPageResult = {
   docs: Course[];
@@ -20,7 +22,9 @@ export type FetchCourseInfosByPageResult = {
 };
 
 const fetchCourseInfosByPage = async (
-  filters: FiltersState
+  filters: FiltersState,
+  { sorts }: SortState,
+  fceAggregation: UserState["fceAggregation"],
 ): Promise<FetchCourseInfosByPageResult> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/search?`;
   const params = new URLSearchParams({
@@ -56,6 +60,15 @@ const fetchCourseInfosByPage = async (
     if (value) params.append("levels", value);
   }
 
+  if (sorts.length > 0) {
+    sorts.forEach((sort) => {
+      params.append("sort", JSON.stringify(sort));
+    });
+  }
+
+  params.append("numSemesters", fceAggregation.numSemesters.toString());
+  params.append("counted", JSON.stringify(fceAggregation.counted));
+
   const response = await axios.get(url, {
     headers: {
       "Content-Type": "application/json",
@@ -68,10 +81,12 @@ const fetchCourseInfosByPage = async (
 
 export const useFetchCourseInfosByPage = () => {
   const filters = useAppSelector((state) => state.filters);
+  const sorts = useAppSelector((state) => state.sorts);
+  const fceAggregation = useAppSelector((state) => state.user.fceAggregation);
 
   return useQuery({
-    queryKey: ["courseInfosByPage", filters],
-    queryFn: () => fetchCourseInfosByPage(filters),
+    queryKey: ["courseInfosByPage", filters, sorts, fceAggregation],
+    queryFn: () => fetchCourseInfosByPage(filters, sorts, fceAggregation),
     staleTime: STALE_TIME,
     placeholderData: keepPreviousData,
   });
