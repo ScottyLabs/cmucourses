@@ -39,7 +39,7 @@ const BookmarkButton = ({ courseID }: Props) => {
   return (
     <div>
       <PlusIcon
-        className="h-6 w-6"
+        className="h-6 w-6 dark:fill-white"
         data-tooltip-id={id}
         data-tooltip-place="bottom-end"
       />
