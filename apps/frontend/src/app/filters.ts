@@ -125,6 +125,7 @@ export const filtersSlice = createSlice({
       state.semesters.sessions = initialState.semesters.sessions;
     },
     resetFilters: (state) => {
+      // this will also reset the query through departments
       state.departments = initialState.departments;
       state.levels = initialState.levels;
       state.units = initialState.units;
