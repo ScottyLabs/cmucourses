@@ -53,6 +53,11 @@ const AppliedFilters = () => {
           className="text-blue-800 bg-blue-50"
           onDelete={() => {
             dispatch(filtersSlice.actions.deleteDepartment(department));
+
+            // if there are none left, disable the filter
+            if (filter.departments.names.length === 1) {
+              dispatch(filtersSlice.actions.updateDepartmentsActive(false));
+            }
           }}
           key={`department-${department}`}
         >
@@ -83,6 +88,11 @@ const AppliedFilters = () => {
           className="text-yellow-800 bg-yellow-50"
           onDelete={() => {
             dispatch(filtersSlice.actions.deleteSemester(session));
+
+            // if there are none left, disable the filter
+            if (filter.semesters.sessions.length === 1) {
+              dispatch(filtersSlice.actions.updateSemestersActive(false));
+            }
           }}
           key={`session-${sessionToShortString(session)}`}
         >
@@ -99,6 +109,20 @@ const AppliedFilters = () => {
           className="text-red-800 bg-red-50"
           onDelete={() => {
             dispatch(filtersSlice.actions.deleteLevel(levels));
+
+            // levels is what was removed,
+            // filter.levels.selected is what was there before (as a list of booleans)
+            // if only the contents of levels were true in filter.levels.selected,
+            // then we should disable the filter
+            for (let i = 0; i < 10; i++) {
+              if (levels.includes(i) && !filter.levels.selected[i]) {
+                return;
+              } else if (!levels.includes(i) && filter.levels.selected[i]) {
+                return;
+              }
+            }
+
+            dispatch(filtersSlice.actions.updateLevelsActive(false));
           }}
           key={`session-${levels.toString()}`}
         >
