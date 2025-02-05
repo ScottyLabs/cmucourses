@@ -115,9 +115,7 @@ const AppliedFilters = () => {
             // if only the contents of levels were true in filter.levels.selected,
             // then we should disable the filter
             for (let i = 0; i < 10; i++) {
-              if (levels.includes(i) && !filter.levels.selected[i]) {
-                return;
-              } else if (!levels.includes(i) && filter.levels.selected[i]) {
+              if (levels.includes(i) !== filter.levels.selected[i]) {
                 return;
               }
             }
