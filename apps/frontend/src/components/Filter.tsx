@@ -22,7 +22,7 @@ const Filter = () => {
 
         <div className="flex mt-4 -mb-8 justify-end">
           <span
-            className="text-gray-700 underline cursor-pointer"
+            className="text-gray-700 hover:text-blue-500 underline cursor-pointer"
             onClick={() => dispatch(filtersSlice.actions.resetFilters())}
           >
             clear all
