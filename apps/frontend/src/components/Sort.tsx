@@ -3,7 +3,12 @@ import { SortOption, sortSlice } from "~/app/sorts";
 import { SortDragging } from "./SortDragging";
 import { CheckIcon } from "@heroicons/react/20/solid";
 import { classNames } from "~/app/utils";
-import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Tooltip } from "react-tooltip";
+import {
+  ChevronUpDownIcon,
+  XMarkIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/24/outline";
 import { Listbox } from "@headlessui/react";
 import { type MouseEventHandler } from "react";
 import { useAuth } from "@clerk/nextjs";
@@ -39,7 +44,19 @@ const Sort = () => {
 
   return (
     <div>
-      <div className="text-lg mb-4">Sort by</div>
+      <div className="mb-4 flex flex-row gap-x-1">
+        <p className="text-lg">Sort by</p>
+        <InformationCircleIcon
+          data-tooltip-id="info-tooltip"
+          data-tooltip-content="FCE, Teaching Rate, and Course Rate do not currently respect your “Semesters to Show” setting. The sort order may not perfectly agree with the data visible to you."
+          className="size-5 my-auto"
+        />
+        <Tooltip
+          id="info-tooltip"
+          style={{ maxWidth: "300px", whiteSpace: "normal" }}
+        />
+      </div>
+
       <SortDragging sorts={sorts} items={items} />
       <Listbox
         value={items}
