@@ -39,11 +39,6 @@ Ensure both 3000 and 3010 ports are set to public visibility.
 
 Preview the local version of the code by right clicking on the 3010 port and view CMUcourses on your browser.
 
-### Scrapers
-
-More information about the scrapers used to collect the data may be found
-at [this repo](https://github.com/ScottyLabs/course-scraper/).
-
 ## Technologies
 
 The Course Tool is built with several technologies.
