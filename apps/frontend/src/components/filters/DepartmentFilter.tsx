@@ -16,11 +16,18 @@ const DepartmentFilter = () => {
 
   const setDepartments = (departments: string[]) => {
     dispatch(filtersSlice.actions.updateDepartments(departments));
-    dispatch(filtersSlice.actions.updateDepartmentsActive(true));
+
+    // if there are any, enable the filter
+    dispatch(filtersSlice.actions.updateDepartmentsActive(departments.length > 0));
   };
 
   const deleteDepartment = (department: string) => {
     dispatch(filtersSlice.actions.deleteDepartment(department));
+
+    // if there are none left, disable the filter
+    if (names.length === 1) {
+      dispatch(filtersSlice.actions.updateDepartmentsActive(false));
+    }
   };
 
   const searchDepartments = (department: {
@@ -36,6 +43,11 @@ const DepartmentFilter = () => {
       department.prefix.toLowerCase().includes(searchTerm)
     );
   };
+
+  const clearDepartments = () => {
+    dispatch(filtersSlice.actions.resetDepartments());
+    dispatch(filtersSlice.actions.updateDepartmentsActive(false));
+  }
 
   return (
     <div className="relative mt-1">
@@ -55,65 +67,74 @@ const DepartmentFilter = () => {
           </div>
           Department
         </Combobox.Label>
-        <Combobox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
-          <span className="flex flex-wrap gap-1">
-            {names.length === 0
-              ? query.length === 0 && <span className="p-0.5">None</span>
-              : names.map((department) => (
-                  <span
-                    key={department}
-                    className="flex items-center gap-1 rounded px-2 py-0.5 text-blue-800 bg-blue-50"
-                  >
-                    <span>{getDepartmentByName(department).shortName}</span>
-                    <XMarkIcon
-                      className="h-3 w-3 cursor-pointer"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        deleteDepartment(department);
-                      }}
-                    />
-                  </span>
-                ))}
-            <Combobox.Input
-              className="shadow-xs flex rounded py-0.5 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5"
-              onChange={(e) =>
-                dispatch(
-                  filtersSlice.actions.updateDepartmentsQuery(e.target.value)
-                )
-              }
-              onKeyDown={(e: React.KeyboardEvent) => {
-                if (
-                  e.key === "Backspace" &&
-                  query.length === 0 &&
-                  names.length > 0
-                ) {
-                  deleteDepartment(names[names.length - 1]);
-                } else if (e.key === " ") {
+        <div className="flex flex-row gap-x-2">
+          <Combobox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
+            <span className="flex flex-wrap gap-1">
+              {names.length === 0
+                ? query.length === 0 && <span className="p-0.5">None</span>
+                : names.map((department) => (
+                    <span
+                      key={department}
+                      className="flex items-center gap-1 rounded px-2 py-0.5 text-blue-800 bg-blue-50"
+                    >
+                      <span>{getDepartmentByName(department).shortName}</span>
+                      <XMarkIcon
+                        className="h-3 w-3 cursor-pointer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          deleteDepartment(department);
+                        }}
+                      />
+                    </span>
+                  ))}
+              <Combobox.Input
+                className="shadow-xs flex rounded py-0.5 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5"
+                onChange={(e) =>
                   dispatch(
-                    filtersSlice.actions.updateDepartmentsQuery(
-                      query + " science"
-                    )
-                  );
-                } else if (e.key === "Tab") {
-                  const department =
-                    DEPARTMENTS.filter(searchDepartments)[0].name;
-                  if (!names.includes(department)) {
-                    setDepartments(names.concat([department]));
+                    filtersSlice.actions.updateDepartmentsQuery(e.target.value)
+                  )
+                }
+                onKeyDown={(e: React.KeyboardEvent) => {
+                  if (
+                    e.key === "Backspace" &&
+                    query.length === 0 &&
+                    names.length > 0
+                  ) {
+                    deleteDepartment(names[names.length - 1]);
+                  } else if (e.key === " ") {
+                    dispatch(
+                      filtersSlice.actions.updateDepartmentsQuery(
+                        query + " science"
+                      )
+                    );
+                  } else if (e.key === "Tab") {
+                    const department =
+                      DEPARTMENTS.filter(searchDepartments)[0].name;
+                    if (!names.includes(department)) {
+                      setDepartments(names.concat([department]));
+                    }
                   }
-                }
-              }}
-              onKeyUp={(e: React.KeyboardEvent) => {
-                if (e.key === " ") {
-                  e.preventDefault();
-                }
-              }}
-            />
-          </span>
-          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
-          </span>
-        </Combobox.Button>
+                }}
+                onKeyUp={(e: React.KeyboardEvent) => {
+                  if (e.key === " ") {
+                    e.preventDefault();
+                  }
+                }}
+              />
+            </span>
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+              <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
+            </span>
+          </Combobox.Button>
+
+          <button
+            className="rounded border border-gray-200 size-[calc(2rem+2px)] mt-2 mb-auto justify-center items-center flex"
+            onClick={clearDepartments}
+          >
+            <XMarkIcon className="h-5 w-5" />
+          </button>
+        </div>
         <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
           <Combobox.Options className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
             {DEPARTMENTS.filter(searchDepartments).map(({ name, prefix }) => (
