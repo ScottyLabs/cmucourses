@@ -3,10 +3,8 @@ import { useQuery, useQueries, keepPreviousData } from "@tanstack/react-query";
 import { create, windowScheduler, keyResolver } from "@yornaath/batshit";
 import { Course, Session } from "~/app/types";
 import { STALE_TIME } from "~/app/constants";
-import { type FiltersState } from "~/app/filters";
-import { type SortState } from "~/app/sorts";
+import { FiltersState } from "~/app/filters";
 import { useAppSelector } from "~/app/hooks";
-import { UserState } from "../user";
 
 export type FetchCourseInfosByPageResult = {
   docs: Course[];
@@ -22,9 +20,7 @@ export type FetchCourseInfosByPageResult = {
 };
 
 const fetchCourseInfosByPage = async (
-  filters: FiltersState,
-  { sorts }: SortState,
-  fceAggregation: UserState["fceAggregation"],
+  filters: FiltersState
 ): Promise<FetchCourseInfosByPageResult> => {
   const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/search?`;
   const params = new URLSearchParams({
@@ -60,17 +56,6 @@ const fetchCourseInfosByPage = async (
     if (value) params.append("levels", value);
   }
 
-  if (sorts.length > 0) {
-    sorts.forEach((sort) => {
-      params.append("sort", JSON.stringify(sort));
-    });
-  }
-
-  params.append("numSemesters", fceAggregation.numSemesters.toString());
-  params.append("spring", fceAggregation.counted.spring.toString());
-  params.append("summer", fceAggregation.counted.summer.toString());
-  params.append("fall", fceAggregation.counted.fall.toString());
-
   const response = await axios.get(url, {
     headers: {
       "Content-Type": "application/json",
@@ -83,12 +68,10 @@ const fetchCourseInfosByPage = async (
 
 export const useFetchCourseInfosByPage = () => {
   const filters = useAppSelector((state) => state.filters);
-  const sorts = useAppSelector((state) => state.sorts);
-  const fceAggregation = useAppSelector((state) => state.user.fceAggregation);
 
   return useQuery({
-    queryKey: ["courseInfosByPage", filters, sorts, fceAggregation],
-    queryFn: () => fetchCourseInfosByPage(filters, sorts, fceAggregation),
+    queryKey: ["courseInfosByPage", filters],
+    queryFn: () => fetchCourseInfosByPage(filters),
     staleTime: STALE_TIME,
     placeholderData: keepPreviousData,
   });

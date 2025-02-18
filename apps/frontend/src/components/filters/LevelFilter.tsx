@@ -121,11 +121,6 @@ const LevelFilter = () => {
 
   const removeLevel = (levels: number[]) => {
     dispatch(filtersSlice.actions.deleteLevel(levels));
-
-    // if there are none left, disable the filter
-    if (listboxValue.length === 1) {
-      dispatch(filtersSlice.actions.updateLevelsActive(false));
-    }
   };
 
   const updateListboxValue = (newListboxValue: number[][]) => {
@@ -147,17 +142,7 @@ const LevelFilter = () => {
       // find the removed level
       const delta = listboxValue.filter((x) => !newListboxValue.includes(x))[0];
       removeLevel(delta);
-
-      // this is a hack to detect when the last heading is removed
-      if (newListboxValue.length === 2 && listboxValue.length === 3) {
-        dispatch(filtersSlice.actions.updateLevelsActive(false));
-      }
     }
-  };
-
-  const clearLevels = () => {
-    dispatch(filtersSlice.actions.resetLevels());
-    dispatch(filtersSlice.actions.updateLevelsActive(false));
   };
 
   const pillboxes = getPillboxes(selected);
@@ -180,49 +165,33 @@ const LevelFilter = () => {
           </div>
           Course Level
         </Listbox.Label>
-        <div className="flex flex-row gap-x-2">
-          <Listbox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
-            <span className="flex flex-wrap gap-1">
-              {pillboxes.length === 0 ? (
-                <span className="p-0.5">None</span>
-              ) : (
-                pillboxes.map(({ levels, content }) => (
-                  <span
-                    key={levels.toString()}
-                    className="flex items-center gap-1 rounded px-2 py-0.5 text-red-800 bg-red-50"
-                  >
-                    <span>{content}</span>
-                    <XMarkIcon
-                      className="h-3 w-3 cursor-pointer"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        removeLevel(levels);
-
-                        // if there are none left, disable the filter
-                        if (pillboxes.length === 1) {
-                          dispatch(
-                            filtersSlice.actions.updateLevelsActive(false)
-                          );
-                        }
-                      }}
-                    />
-                  </span>
-                ))
-              )}
-            </span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
-            </span>
-          </Listbox.Button>
-
-          <button
-            className="rounded border border-gray-200 size-[calc(2rem+2px)] mb-auto mt-2 justify-center items-center flex"
-            onClick={clearLevels}
-          >
-            <XMarkIcon className="h-5 w-5" />
-          </button>
-        </div>
+        <Listbox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
+          <span className="block flex flex-wrap gap-1">
+            {pillboxes.length === 0 ? (
+              <span className="p-0.5">None</span>
+            ) : (
+              pillboxes.map(({ levels, content }) => (
+                <span
+                  key={levels.toString()}
+                  className="flex items-center gap-1 rounded px-2 py-0.5 text-red-800 bg-red-50"
+                >
+                  <span>{content}</span>
+                  <XMarkIcon
+                    className="h-3 w-3 cursor-pointer"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      e.preventDefault();
+                      removeLevel(levels);
+                    }}
+                  />
+                </span>
+              ))
+            )}
+          </span>
+          <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
+          </span>
+        </Listbox.Button>
         <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
           <Listbox.Options className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
             {levelOptions.map(({ content, heading, value }, index) => (

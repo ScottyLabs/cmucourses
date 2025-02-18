@@ -1,5 +1,13 @@
 {
   "name": "cmucourses",
+  "private": true,
+  "packageManager": "bun@1.1.22",
+  "scripts": {
+    "dev": "nx run-many -c development -t dev --parallel",
+    "build": "nx run-many -t build --parallel",
+    "start": "nx run-many -t start --parallel",
+    "format": "prettier --write . --ignore-path .gitignore"
+  },
   "devDependencies": {
     "@nx/next": "19.6.3",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
@@ -8,14 +16,6 @@
     "nx": "19.6.3",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2"
-  },
-  "packageManager": "bun@1.1.22",
-  "private": true,
-  "scripts": {
-    "dev": "nx run-many -c development -t dev --parallel",
-    "build": "nx run-many -t build --parallel",
-    "start": "nx run-many -t start --parallel",
-    "format": "prettier --write . --ignore-path .gitignore"
   },
   "workspaces": [
     "apps/*",

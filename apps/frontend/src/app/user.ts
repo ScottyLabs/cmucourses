@@ -31,7 +31,7 @@ export interface UserState {
   scheduleView: string;
 }
 
-export const initialState: UserState = {
+const initialState: UserState = {
   bookmarked: [],
   showFCEs: false,
   showCourseInfos: true,
