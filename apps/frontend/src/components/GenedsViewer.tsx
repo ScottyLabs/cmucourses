@@ -265,7 +265,7 @@ const GenedsViewer = () => {
         >
           <Combobox.Label className="flex pt-2 text-gray-700 dark:text-zinc-600">Search</Combobox.Label>
           <Combobox.Input
-            className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-0 ease-in-out border-gray-200 sm:text-sm sm:leading-5 bg-white dark:stroke-bg-black text-gray-600 placeholder-gray-400 dark:placeholder-zinc-600"
+            className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5 bg-transparent text-gray-600 placeholder-gray-400 dark:placeholder-zinc-600"
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search courses by ID, description, instructor, name, or tag..."
           />
