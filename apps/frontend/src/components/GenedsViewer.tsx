@@ -134,17 +134,17 @@ const GenedsViewer = () => {
             setSearchQuery("");
           }}
         >
-          <Combobox.Label className="flex">School</Combobox.Label>
-          <Combobox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
+          <Combobox.Label className="flex text-gray-700 dark:text-zinc-600">School</Combobox.Label>
+          <Combobox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5 ">
             <span className="flex flex-wrap gap-1">
-              <span className="p-0.5">{selectedSchool}</span>
+              <span className="p-0.5 text-gray-500 dark:text-zinc-400">{selectedSchool}</span>
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
               <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
             </span>
           </Combobox.Button>
           <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
-            <Combobox.Options className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5">
+            <Combobox.Options className="shadow-xs relative z-50 max-h-60 overflow-auto rounded py-1 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5 text-gray-500 dark:text-zinc-400">
               {GENED_SCHOOLS.map((school) => (
                 <Combobox.Option
                   key={school}
@@ -164,9 +164,9 @@ const GenedsViewer = () => {
           }
           multiple
         >
-          <Combobox.Label className="flex pt-2">Tags</Combobox.Label>
+          <Combobox.Label className="flex pt-2 text-gray-700 dark:text-zinc-600">Tags</Combobox.Label>
 
-          <Combobox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5">
+          <Combobox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5 text-gray-500 dark:text-zinc-400">
             <span className="flex flex-wrap gap-1">
               {selectedTags.length === 0
                 ? selectedTags.length === 0 && (
@@ -263,9 +263,9 @@ const GenedsViewer = () => {
           value={searchQuery}
           onChange={(payload) => setSearchQuery(payload)}
         >
-          <Combobox.Label className="flex pt-2">Search</Combobox.Label>
+          <Combobox.Label className="flex pt-2 text-gray-700 dark:text-zinc-600">Search</Combobox.Label>
           <Combobox.Input
-            className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5"
+            className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-0 ease-in-out border-gray-200 sm:text-sm sm:leading-5 bg-white dark:stroke-bg-black text-gray-600 placeholder-gray-400 dark:placeholder-zinc-600"
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search courses by ID, description, instructor, name, or tag..."
           />
