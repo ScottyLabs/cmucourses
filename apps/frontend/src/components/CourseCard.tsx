@@ -16,6 +16,7 @@ import { CourseSchedulesDetail } from "./CourseSchedulesDetail";
 import { useFetchCourseInfo } from "~/app/api/course";
 import { useFetchFCEInfoByCourse } from "~/app/api/fce";
 import { useAuth } from "@clerk/nextjs";
+// import { useFetchSyllabus } from "~/app/api/syllabi";
 
 interface Props {
   courseID: string;
@@ -35,9 +36,11 @@ const CourseCard = ({
     useFetchCourseInfo(courseID);
   const { isPending: isFCEInfoPending, data: { fces } = {} } =
     useFetchFCEInfoByCourse(courseID);
+  // const { isPending: isSyllabusPending, data: syllabi } = 
+  //   useFetchSyllabus(courseID);
   const options = useAppSelector((state) => state.user.fceAggregation);
 
-  if (isCourseInfoPending || isFCEInfoPending || !info) {
+  if (isCourseInfoPending || isFCEInfoPending /*|| isSyllabusPending*/ || !info) {
     return <></>;
   }
 
@@ -110,6 +113,12 @@ const CourseCard = ({
                 <div className="font-semibold">Crosslisted</div>
                 <div className="text-md text-gray-500">
                   {injectLinks(courseListToString(info.crosslisted))}
+                </div>
+              </div>
+              <div>
+                <div className="font-semibold">Syllabi</div>
+                <div className="text-md text-gray-500">
+                  None
                 </div>
               </div>
             </div>
