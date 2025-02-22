@@ -17,6 +17,9 @@ const DepartmentFilter = () => {
   const setDepartments = (departments: string[]) => {
     dispatch(filtersSlice.actions.updateDepartments(departments));
     dispatch(filtersSlice.actions.updateDepartmentsActive(true));
+    setTimeout(() => {
+      dispatch(filtersSlice.actions.updateDepartmentsQuery(""));
+    }, 0);
   };
 
   const deleteDepartment = (department: string) => {
@@ -77,6 +80,7 @@ const DepartmentFilter = () => {
                 ))}
             <Combobox.Input
               className="shadow-xs flex rounded py-0.5 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5"
+              value={query} 
               onChange={(e) =>
                 dispatch(
                   filtersSlice.actions.updateDepartmentsQuery(e.target.value)
