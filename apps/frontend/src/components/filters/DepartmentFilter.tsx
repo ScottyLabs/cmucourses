@@ -17,9 +17,7 @@ const DepartmentFilter = () => {
   const setDepartments = (departments: string[]) => {
     dispatch(filtersSlice.actions.updateDepartments(departments));
     dispatch(filtersSlice.actions.updateDepartmentsActive(true));
-    setTimeout(() => {
-      dispatch(filtersSlice.actions.updateDepartmentsQuery(""));
-    }, 0);
+    dispatch(filtersSlice.actions.updateDepartmentsQuery(""));
   };
 
   const deleteDepartment = (department: string) => {
