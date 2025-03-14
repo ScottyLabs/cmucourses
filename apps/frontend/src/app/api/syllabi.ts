@@ -4,17 +4,43 @@ import { create, windowScheduler, keyResolver } from "@yornaath/batshit";
 import { STALE_TIME } from "~/app/constants";
 import { Syllabus } from "~/app/types";
 
-export type FetchAllSyllabiResult = {
-  number: string;
-  name: string;
-}[];
+export type FetchAllSyllabiResult = Syllabus[];
+
+// const fetchSyllabi = async (numbers: string[]): Promise<Syllabus[]> => {
+//   try {
+//     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/syllabi`;
+//     console.log("the ", numbers);
+//     const params = new URLSearchParams(
+//       numbers.map((number) => ["number", number])
+//     );
+
+//     const response = await axios.get(url, {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       params,
+//     });
+
+//     return response.data;
+//   } catch (error) {
+//     console.error("Error fetching syllabi:", error);
+//     return [];
+//   }
+// };
 
 const fetchSyllabi = async (numbers: string[]): Promise<Syllabus[]> => {
   try {
     const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/syllabi`;
     
+    console.log("Original numbers (with types):", numbers.map(n => `${n} (${typeof n})`));
+    
+    // Ensure numbers are always strings and padded to 5 digits
+    const paddedNumbers = numbers.map(num => String(num).padStart(5, '0'));
+    
+    console.log("Padded numbers:", paddedNumbers);
+    
     const params = new URLSearchParams(
-      numbers.map((number) => ["number", number])
+      paddedNumbers.map((number) => ["number", number])
     );
 
     const response = await axios.get(url, {

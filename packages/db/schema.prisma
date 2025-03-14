@@ -140,7 +140,7 @@ model syllabi {
   year    Int
   number  String
   section String
-  url     String
+  url     String?
 
   @@index([year, number, section, season])
 }

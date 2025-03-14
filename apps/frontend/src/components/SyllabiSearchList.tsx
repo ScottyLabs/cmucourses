@@ -43,7 +43,17 @@ const SyllabiSearchList: React.FC = () => {
         {firstFive.map((syllabus, index) => (
           <div key={index} className="p-2 bg-gray-100 rounded">
             <div><strong>Course:</strong> {syllabus.number}</div>
-            <div><strong>Name:</strong> {syllabus.name}</div>
+            <div>
+              <strong>Link:</strong>{" "}
+              <a 
+                href={syllabus.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                View Syllabus
+              </a>
+            </div>
             <pre className="text-xs mt-2 overflow-x-auto">
               {JSON.stringify(syllabus, null, 2)}
             </pre>

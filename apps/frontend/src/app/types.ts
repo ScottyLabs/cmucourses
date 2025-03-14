@@ -35,10 +35,8 @@ export interface Course {
 export interface Syllabus {
   season: string;
   year: number;
-  department: string;
   number: string;
   section: string;
-  name: string;
   url: string;
 }
 

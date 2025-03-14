@@ -7,7 +7,6 @@ import { FCECard } from "./FCECard";
 import { useFetchCourseInfo, useFetchCourseRequisites } from "~/app/api/course";
 import ReqTreeCard from "./ReqTreeCard";
 import SyllabusCard from "./SyllabusCard";
-import SimpleSyllabiDisplay from "./SimpleSyllabiDisplay"; // Import the debug component
 
 type Props = {
   courseID: string;
@@ -22,8 +21,10 @@ const CourseDetail = ({ courseID }: Props) => {
     return <div>Loading...</div>;
   }
 
-  // Get course number from courseID (e.g., "15-112" -> "112")
-  const number = courseID.split("-")[1] || "";
+  const parts = courseID.split("-");
+  const department = parts[0] || "";
+  const courseNumber = parts[1] || "";
+  const fullNumber = department + courseNumber;
 
   return (
     <div className="m-auto space-y-4 p-6">
@@ -45,11 +46,7 @@ const CourseDetail = ({ courseID }: Props) => {
         />
       )}
       
-      <SyllabusCard 
-        department={info.department || ""} 
-        number={number} 
-      />
-      
+      <SyllabusCard number={fullNumber} />
     </div>
   );
 };
