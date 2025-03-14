@@ -11,7 +11,7 @@ export interface GetSyllabi {
   };
 }
 
-export const getSyllabi: RequestHandler<
+export const getSyllabi: RequestHandler <
   GetSyllabi["params"],
   GetSyllabi["resBody"],
   GetSyllabi["reqBody"],
@@ -19,15 +19,20 @@ export const getSyllabi: RequestHandler<
 > = async (req, res, next) => {
   const numbers = singleToArray(req.query.number).map(cleanID);
   
+  console.log('Fetching syllabi for numbers:', numbers); // Debugging line, delete later
+  
   try {
     const syllabi = await db.syllabi.findMany({
       where: {
         number: { in: numbers },
       }
     });
+    
+    console.log(`Found ${syllabi.length} syllabi`); // Debugging line, delete later
     res.json(syllabi);
   } catch (e) {
-    next(e);
+    console.error('Error fetching syllabi:', e);
+    res.json([]);
   }
 };
 
@@ -60,14 +65,18 @@ export const getAllSyllabi: RequestHandler<
 > = async (req, res, next) => {
   if (new Date().valueOf() - allSyllabiEntry.lastCached.valueOf() > 1000 * 60 * 60 * 24) {
     try {
-      const syllabi = await db.syllabi.findMany(getAllSyllabiDbQuery);
+      const syllabi = await db.syllabi.findMany({
+        select: getAllSyllabiDbQuery.select
+      });
   
+      console.log(`Fetched ${syllabi.length} syllabi for 'all' endpoint`);
       allSyllabiEntry.lastCached = new Date();
       allSyllabiEntry.allSyllabi = syllabi;
     
       res.json(syllabi);
     } catch (e) {
-      next(e);
+      console.error('Error fetching all syllabi:', e);
+      res.json([]);
     }
   } else {
     res.json(allSyllabiEntry.allSyllabi);

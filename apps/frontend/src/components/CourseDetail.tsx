@@ -6,6 +6,8 @@ import { SchedulesCard } from "./SchedulesCard";
 import { FCECard } from "./FCECard";
 import { useFetchCourseInfo, useFetchCourseRequisites } from "~/app/api/course";
 import ReqTreeCard from "./ReqTreeCard";
+import SyllabusCard from "./SyllabusCard";
+import SimpleSyllabiDisplay from "./SimpleSyllabiDisplay"; // Import the debug component
 
 type Props = {
   courseID: string;
@@ -19,6 +21,9 @@ const CourseDetail = ({ courseID }: Props) => {
   if (!info || !requisites) {
     return <div>Loading...</div>;
   }
+
+  // Get course number from courseID (e.g., "15-112" -> "112")
+  const number = courseID.split("-")[1] || "";
 
   return (
     <div className="m-auto space-y-4 p-6">
@@ -39,6 +44,12 @@ const CourseDetail = ({ courseID }: Props) => {
           postreqs={requisites.postreqs}
         />
       )}
+      
+      <SyllabusCard 
+        department={info.department || ""} 
+        number={number} 
+      />
+      
     </div>
   );
 };
