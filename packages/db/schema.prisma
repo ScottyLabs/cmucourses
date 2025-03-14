@@ -135,14 +135,12 @@ model geneds {
 }
 
 model syllabi {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  season     String
-  year       Int
-  department String
-  number     String
-  section    String
-  name       String
-  url        String
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  season  String
+  year    Int
+  number  String
+  section String
+  url     String
 
-  @@fulltext([name, number], map: "text")
+  @@index([year, number, section, season])
 }
