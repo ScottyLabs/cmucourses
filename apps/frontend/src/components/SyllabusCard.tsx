@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Card } from "./Card";
 import { useFetchSyllabi } from "~/app/api/syllabi";
 import { Syllabus } from "~/app/types";
@@ -8,20 +8,12 @@ interface SyllabusCardProps {
 }
 
 const SyllabusCard: React.FC<SyllabusCardProps> = ({ number }) => {
-  const adjustedNumber = useMemo(() => {
-    const trimmed = number.trim();
-    return trimmed;
-  }, [number]);
+  const trimmedNumber = number.trim().toLowerCase();
+  const { data: syllabi, isLoading, error } = useFetchSyllabi([trimmedNumber]);
 
-  const { data: syllabi, isLoading, error } = useFetchSyllabi([adjustedNumber]);
-  
-  const courseSyllabi = useMemo(() => {
-    if (!syllabi) return [];
-    return syllabi.filter((syllabus) => {
-      const syllabusNum = (syllabus.number || "").trim().toLowerCase();
-      return syllabusNum === adjustedNumber.toLowerCase();
-    });
-  }, [syllabi, adjustedNumber]);
+  const courseSyllabi = !syllabi ? [] : syllabi.filter((syllabus: Syllabus) => 
+    (syllabus.number || "").trim().toLowerCase() === trimmedNumber
+  );
 
   if (isLoading) {
     return (
@@ -51,13 +43,13 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ number }) => {
   }
 
   // Show the URL of the first matching syllabus
-  const syllabus = courseSyllabi[0];
+  const selectedSyllabus = courseSyllabi[0] as Syllabus;
 
   return (
     <Card>
       <Card.Header>Course Syllabus</Card.Header>
       <a
-        href={syllabus.url || "#"}
+        href={selectedSyllabus.url || "#"}
         target="_blank"
         rel="noopener noreferrer"
         className="text-blue-600 hover:underline block p-4"

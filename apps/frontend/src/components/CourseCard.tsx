@@ -6,6 +6,7 @@ import {
   filterSessions,
   injectLinks,
   sessionToShortString,
+  cleanID,
 } from "~/app/utils";
 import { useAppSelector } from "~/app/hooks";
 import BookmarkButton from "./BookmarkButton";
@@ -16,7 +17,7 @@ import { CourseSchedulesDetail } from "./CourseSchedulesDetail";
 import { useFetchCourseInfo } from "~/app/api/course";
 import { useFetchFCEInfoByCourse } from "~/app/api/fce";
 import { useAuth } from "@clerk/nextjs";
-// import { useFetchSyllabus } from "~/app/api/syllabi";
+import { useFetchSyllabus } from "~/app/api/syllabi";
 
 interface Props {
   courseID: string;
@@ -36,13 +37,18 @@ const CourseCard = ({
     useFetchCourseInfo(courseID);
   const { isPending: isFCEInfoPending, data: { fces } = {} } =
     useFetchFCEInfoByCourse(courseID);
-  // const { isPending: isSyllabusPending, data: syllabi } = 
-  //   useFetchSyllabus(courseID);
+  const cleanedCourseID = cleanID(courseID);
+  const { isPending: isSyllabiPending, data: syllabi } = 
+    useFetchSyllabus(cleanedCourseID);
   const options = useAppSelector((state) => state.user.fceAggregation);
 
   if (isCourseInfoPending || isFCEInfoPending /*|| isSyllabusPending*/ || !info) {
     return <></>;
   }
+
+  const courseSyllabus = syllabi 
+  ? (cleanID(syllabi.number || "") === cleanedCourseID ? syllabi : undefined)
+  : undefined;
 
   const sortedSchedules = filterSessions(info.schedules || []).sort(
     compareSessions
@@ -116,9 +122,15 @@ const CourseCard = ({
                 </div>
               </div>
               <div>
-                <div className="font-semibold">Syllabi</div>
+                <div className="font-semibold">Syllabus</div>
                 <div className="text-md text-gray-500">
-                  None
+                  {courseSyllabus ? (
+                    <Link href={courseSyllabus.url || "#"} target="_blank" rel="noopener noreferrer">
+                      Download
+                    </Link>
+                  ) : (
+                    "None"
+                  )}
                 </div>
               </div>
             </div>

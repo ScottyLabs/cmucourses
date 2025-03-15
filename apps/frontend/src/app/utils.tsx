@@ -24,6 +24,10 @@ export const standardizeIdsInString = (str: string) => {
   return str.replaceAll(courseIdRegex, standardizeId);
 };
 
+export const cleanID = (id: string): string => {
+  return id.replace("-", "");
+}
+
 export const sessionToString = (sessionInfo: Session | FCE | Schedule) => {
   if (!sessionInfo) return "";
 
