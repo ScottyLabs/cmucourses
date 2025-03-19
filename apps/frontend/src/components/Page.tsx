@@ -42,13 +42,13 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
   }, [posthog, isSignedIn, userId]);
 
   return (
-    <div className="accent-blue-600 dark:accent-blue-800">
+    <div className="accent-blue-600 dark:accent-blue-800 flex flex-col md:h-screen min-h-screen">
       <LoginModal />
       <Toaster position="bottom-right" />
-      <header className="fixed inset-x-0 top-0 z-40 h-16 border-b drop-shadow bg-gray-50 border-gray-200 dark:bg-zinc-800">
+      <header className="sticky top-0 border-b drop-shadow bg-gray-50 border-gray-200 dark:bg-zinc-800 z-10">
         <Header />
       </header>
-      <main className="relative flex min-h-full flex-col pt-[104px] md:h-screen md:flex-row md:justify-around">
+      <main className="relative flex flex-1 flex-col md:flex-row md:justify-around md:overflow-hidden">
         <SideNav activePage={activePage} />
         {sidebar && <Sidebar>{sidebar}</Sidebar>}
         <div
@@ -59,8 +59,8 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
           {content}
         </div>
       </main>
-      <footer className="min-h-28 z-50 border-t p-8 text-sm text-gray-500 bg-gray-50 border-gray-100">
-        <div className="mx-auto max-w-4xl">
+      <footer className="border-t lg:px-8 md:py-5 md:px-4 p-4 pb-8 text-sm text-gray-500 bg-gray-50 border-gray-100">
+        <div className="max-w-4xl">
           <p>
             Designed, developed and maintained with ❤️ by{" "}
             <Link href="https://scottylabs.org">ScottyLabs</Link>.

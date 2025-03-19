@@ -19,6 +19,7 @@ const DepartmentFilter = () => {
 
     // if there are any, enable the filter
     dispatch(filtersSlice.actions.updateDepartmentsActive(departments.length > 0));
+    dispatch(filtersSlice.actions.updateDepartmentsQuery(""));
   };
 
   const deleteDepartment = (department: string) => {

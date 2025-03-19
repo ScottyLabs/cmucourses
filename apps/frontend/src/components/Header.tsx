@@ -39,33 +39,24 @@ export default function Header(): ReactElement {
   }, [darkMode]);
 
   return (
-    <div className="">
-      <div className="lg:p-1.5 md:p-2 p-3 lg:text-lg md:text-base text-xs text-white text-center bg-[#007fff] h-10">
-        ‼️ Sign up for{" "}
-        <Link href="https://go.scottylabs.org/tartanhacks-cmucourses">
-          <strong>TartanHacks</strong>
+    <div className="flex flex-row items-center justify-between p-6 bg-gray-50">
+      <div className="flex flex-initial cursor-pointer flex-row justify-start font-semibold text-gray-800">
+        <Link href="/">
+          <div className="flex items-center">
+            <Image
+              src="/favicon.ico"
+              className="rounded"
+              width={30}
+              height={30}
+              alt="favicon"
+            />
+            <span className="ml-2">CMU Courses</span>
+          </div>
         </Link>
-        , Pittsburgh&apos;s largest hackathon now! 🖥️
       </div>
-      <div className="flex flex-row items-center justify-between p-6 bg-gray-50 h-16">
-        <div className="flex flex-initial cursor-pointer flex-row justify-start font-semibold text-gray-800">
-          <Link href="/">
-            <div className="flex items-center">
-              <Image
-                src="/favicon.ico"
-                className="rounded"
-                width={30}
-                height={30}
-                alt="favicon"
-              />
-              <span className="ml-2">CMU Courses</span>
-            </div>
-          </Link>
-        </div>
-        <div className="flex flex-row items-center justify-between gap-x-2 text-gray-600">
-          <DarkModeButton />
-          <LogInButton />
-        </div>
+      <div className="flex flex-row items-center justify-between gap-x-2 text-gray-600">
+        <DarkModeButton />
+        <LogInButton />
       </div>
     </div>
   );
