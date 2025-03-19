@@ -1,20 +1,25 @@
-import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
+import {
+  type Action,
+  configureStore,
+  type ThunkAction,
+} from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
-import { reducer as userReducer, UserState } from "./user";
+import { reducer as userReducer, type UserState } from "./user";
 import {
   filtersSlice,
-  FiltersState,
+  type FiltersState,
   reducer as filtersReducer,
 } from "./filters";
+import { reducer as sortReducer, type SortState } from "./sorts";
 import {
   reducer as userSchedulesReducer,
   UserSchedulesState,
 } from "./userSchedules";
-import { reducer as uiReducer, UIState } from "./ui";
+import { reducer as uiReducer, type UIState } from "./ui";
 import {
   reducer as instructorsReducer,
-  InstructorsState,
+  type InstructorsState,
   instructorsSlice,
 } from "./instructors";
 import debounce from "lodash/debounce";
@@ -48,6 +53,15 @@ const reducers = combineReducers({
       stateReconciler: autoMergeLevel2,
     },
     filtersReducer
+  ),
+  sorts: persistReducer<SortState>(
+    {
+      key: "sorts",
+      version: 1,
+      storage,
+      stateReconciler: autoMergeLevel2,
+    },
+    sortReducer
   ),
   schedules: persistReducer<UserSchedulesState>(
     {
