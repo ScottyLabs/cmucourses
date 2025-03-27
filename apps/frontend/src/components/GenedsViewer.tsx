@@ -280,7 +280,9 @@ const GenedsViewer = () => {
           >
             here
           </Link>
-          . If there is anything missing, or if you would like a similar list
+          . Always check if the course you intend to take still fulfills the requirements you intend it to.
+
+          If there is anything missing, or if you would like a similar list
           for your school, do fill in the feedback form in the sidebar!
         </span>
       </div>
