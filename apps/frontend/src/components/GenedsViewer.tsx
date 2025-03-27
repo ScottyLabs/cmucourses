@@ -280,7 +280,7 @@ const GenedsViewer = () => {
           >
             here
           </Link>
-          . Always check if the course you intend to take still fulfills the requirements you intend it to.
+          . Always check with your academic advisor if the course you intend to take still fulfills the requirements you intend it to.
 
           If there is anything missing, or if you would like a similar list
           for your school, do fill in the feedback form in the sidebar!
