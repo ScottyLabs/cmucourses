@@ -46,7 +46,7 @@ const CourseDetail = ({ courseID }: Props) => {
         />
       )}
       
-      {/* <SyllabusCard number={fullNumber} /> */}
+      <SyllabusCard number={fullNumber} />
     </div>
   );
 };

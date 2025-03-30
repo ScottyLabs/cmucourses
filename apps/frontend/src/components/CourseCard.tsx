@@ -125,8 +125,8 @@ const CourseCard = ({
                 <div className="font-semibold">Syllabus</div>
                 <div className="text-md text-gray-500">
                   {courseSyllabus ? (
-                    <Link href={courseSyllabus.url || "#"} target="_blank" rel="noopener noreferrer">
-                      Download
+                    <Link href={`/syllabi?course=${cleanedCourseID}`} className="text-blue-600 hover:underline">
+                      View All Syllabi
                     </Link>
                   ) : (
                     "None"

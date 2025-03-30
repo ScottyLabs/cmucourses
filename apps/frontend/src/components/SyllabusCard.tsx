@@ -42,20 +42,29 @@ const SyllabusCard: React.FC<SyllabusCardProps> = ({ number }) => {
     );
   }
 
-  // Show the URL of the first matching syllabus
-  const selectedSyllabus = courseSyllabi[0] as Syllabus;
+  const sortedSyllabi = [...courseSyllabi].sort((a, b) => {
+    if (a.year !== b.year) return b.year - a.year;
+    const seasonOrder = { "spring": 1, "fall": 0 };
+    return (seasonOrder[b.season.toLowerCase()] || 0) - (seasonOrder[a.season.toLowerCase()] || 0);
+  });
 
   return (
     <Card>
       <Card.Header>Course Syllabus</Card.Header>
-      <a
-        href={selectedSyllabus.url || "#"}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-blue-600 hover:underline block p-4"
-      >
-        View Syllabus
-      </a>
+      <div className="p-4">
+        {sortedSyllabi.map((syllabus, index) => (
+          <a
+            key={syllabus.id || index}
+            href={syllabus.url || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline block mb-2"
+          >
+            {syllabus.season} {syllabus.year} Syllabus
+            {syllabus.section ? ` (Section ${syllabus.section})` : ''}
+          </a>
+        ))}
+      </div>
     </Card>
   );
 };
