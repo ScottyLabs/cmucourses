@@ -16,6 +16,10 @@ import { CourseSchedulesDetail } from "./CourseSchedulesDetail";
 import { useFetchCourseInfo } from "~/app/api/course";
 import { useFetchFCEInfoByCourse } from "~/app/api/fce";
 import { useAuth } from "@clerk/nextjs";
+import FallingText from "./aprilfools/FallingText";
+import CircularText from "./aprilfools/CircularText";
+import CountUp from "./aprilfools/CountUp";
+import DecryptedText from "./aprilfools/DecryptedText";
 
 interface Props {
   courseID: string;
@@ -60,9 +64,10 @@ const CourseCard = ({
           <Link href={`/course/${info.courseID}`}>
             <div className="cursor-pointer text-lg text-gray-800">
               <span className="mr-2 inline-block whitespace-nowrap font-semibold">
-                {info.courseID}
+                <DecryptedText text={info.courseID} />
               </span>
-              <span className="leading-3">{info.name}</span>
+              <DecryptedText text={info.name} />
+              {/* <span className="leading-3">{info.name}</span> */}
             </div>
           </Link>
           <div className="text-sm text-gray-500">{info.department}</div>
@@ -70,21 +75,28 @@ const CourseCard = ({
 
         <div className="col-span-3 md:col-span-2">
           <div className="flex flex-row justify-between">
-            <div>
-              <div className="text-lg text-gray-700">
-                {displayUnits(info.units)} units
-              </div>
-            </div>
+            <div />
+            {/* <div className="text-lg text-gray-700">
+              {displayUnits(info.units)} units
+            </div> */}
             <div>
               <BookmarkButton courseID={info.courseID} />
             </div>
           </div>
-          {isSignedIn && hours && (
+          {/* {isSignedIn && hours && (
             <div className="text-md text-gray-500">{hours} hrs/week</div>
-          )}
+          )} */}
         </div>
 
-        <div className="col-span-full text-gray-700  md:col-span-2 md:col-start-7">
+        <div className="col-span-full text-gray-700 md:col-span-2 md:col-start-7">
+          <div className="mb-4">
+            <CircularText
+              text={`${displayUnits(info.units)} UNITS${isSignedIn && hours && ` * ${hours} HRS/WEEK * `}`}
+              onHover="goBonkers"
+              spinDuration={20}
+              className="custom-class"
+            />
+          </div>
           <div className="text-md mb-1 hidden md:block">
             {schedulesAvailableString}
           </div>
@@ -117,7 +129,17 @@ const CourseCard = ({
         </div>
         {showCourseInfo && (
           <div className="col-span-full row-span-1 row-start-3 text-sm leading-relaxed text-gray-600 md:col-span-6 md:row-start-2">
-            {injectLinks(info.desc)}
+            <FallingText
+              text={info.desc}
+              trigger="hover"
+              backgroundColor="transparent"
+              wireframes={false}
+              gravity={0.56}
+              fontSize="2rem"
+              mouseConstraintStiffness={0.9}
+            />
+
+            {/* {injectLinks(info.desc)} */}
           </div>
         )}
       </div>
