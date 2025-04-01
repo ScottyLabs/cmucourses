@@ -17,8 +17,6 @@ import { useFetchCourseInfo } from "~/app/api/course";
 import { useFetchFCEInfoByCourse } from "~/app/api/fce";
 import { useAuth } from "@clerk/nextjs";
 import FallingText from "./aprilfools/FallingText";
-import CircularText from "./aprilfools/CircularText";
-import CountUp from "./aprilfools/CountUp";
 import DecryptedText from "./aprilfools/DecryptedText";
 
 interface Props {
@@ -75,30 +73,23 @@ const CourseCard = ({
 
         <div className="col-span-3 md:col-span-2">
           <div className="flex flex-row justify-between">
-            <div />
-            {/* <div className="text-lg text-gray-700">
-              {displayUnits(info.units)} units
-            </div> */}
+            <div className="text-lg text-gray-700">
+              <DecryptedText text={`${displayUnits(info.units)} units`} />
+            </div>
             <div>
               <BookmarkButton courseID={info.courseID} />
             </div>
           </div>
-          {/* {isSignedIn && hours && (
-            <div className="text-md text-gray-500">{hours} hrs/week</div>
-          )} */}
+          {isSignedIn && hours && (
+            <div className="text-md text-gray-500">
+              <DecryptedText text={`${hours} hrs/week`} />
+            </div>
+          )}
         </div>
 
         <div className="col-span-full text-gray-700 md:col-span-2 md:col-start-7">
-          <div className="mb-4">
-            <CircularText
-              text={`${displayUnits(info.units)} UNITS${isSignedIn && hours && ` * ${hours} HRS/WEEK * `}`}
-              onHover="goBonkers"
-              spinDuration={20}
-              className="custom-class"
-            />
-          </div>
           <div className="text-md mb-1 hidden md:block">
-            {schedulesAvailableString}
+            <DecryptedText text={schedulesAvailableString} />
           </div>
           {showCourseInfo && (
             <div className="flex flex-row justify-between space-x-4 md:flex-col md:space-x-0 md:space-y-2">
