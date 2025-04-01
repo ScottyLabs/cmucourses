@@ -210,12 +210,20 @@ const SearchBar = () => {
         </span>
         <input
           autoFocus
-          className="flex-1 py-2 pl-7 text-xl placeholder-gray-300 bg-transparent focus:outline-none dark:placeholder-zinc-500"
+          className="[&::-webkit-search-cancel-button]:appearance-none flex-1 py-2 pl-7 pr-7 text-xl placeholder-gray-300 bg-transparent focus:outline-none dark:placeholder-zinc-500"
           type="search"
           value={search}
           onChange={onChange}
           placeholder="Search courses by ID, description, name or keyword..."
         />
+        {search && (
+          <button
+            onClick={() => setSearch("")}
+            className="absolute inset-y-0 right-0 flex items-center text-gray-500 hover:text-gray-700 dark:text-zinc-600 dark:hover:text-zinc-700"
+          >
+            <XMarkIcon className="h-5 w-5" />
+          </button>
+        )}
       </div>
       <div className="flex justify-between">
         <div className="mt-3 text-sm text-gray-500">
