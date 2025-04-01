@@ -47,8 +47,8 @@ export default function Header(): ReactElement {
 
   return (
     <div className="">
-      <div className="lg:p-1.5 md:p-2 p-3 lg:text-lg md:text-base text-xs text-black invert text-center bg-[#fb406c] h-10">
-        <span className="text-sm my-auto ml-2 italic">
+      <div className="p-2 text-[11px] sm:text-xs md:text-sm text-black invert text-center bg-[#fb406c]">
+        <span className="italic">
           happy april fool&apos;s! try hovering over stuff (especially course
           descriptions){" "}
           <a
@@ -59,7 +59,7 @@ export default function Header(): ReactElement {
           </a>
         </span>
       </div>
-      <div className="flex flex-row items-center justify-between p-6 bg-gray-50 h-16">
+      <div className="flex flex-row items-center justify-between p-4 md:p-6 bg-gray-50 h-16">
         <div className="flex flex-initial cursor-pointer flex-row justify-start font-semibold text-gray-800">
           <Link href="/">
             <div className="flex items-center">
