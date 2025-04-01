@@ -14,6 +14,7 @@ import {
   SignInButton,
   SignOutButton,
 } from "@clerk/nextjs";
+import { useAprilFools } from "./aprilfools/AprilFoolsContext";
 
 const LogInButton = () => {
   return (
@@ -33,17 +34,29 @@ const LogInButton = () => {
 };
 
 export default function Header(): ReactElement {
+  const { enabled, setEnabled } = useAprilFools();
+
   const darkMode = useAppSelector((state) => state.ui.darkMode);
   useEffect(() => {
     nightwind.enable(darkMode);
   }, [darkMode]);
+
+  const toggleHandler = () => {
+    setEnabled(!enabled);
+  };
 
   return (
     <div className="">
       <div className="lg:p-1.5 md:p-2 p-3 lg:text-lg md:text-base text-xs text-black invert text-center bg-[#fb406c] h-10">
         <span className="text-sm my-auto ml-2 italic">
           happy april fool&apos;s! try hovering over stuff (especially course
-          descriptions)
+          descriptions){" "}
+          <a
+            className="text-muted underline font-black cursor-pointer"
+            onClick={toggleHandler}
+          >
+            press me to toggle!!!
+          </a>
         </span>
       </div>
       <div className="flex flex-row items-center justify-between p-6 bg-gray-50 h-16">

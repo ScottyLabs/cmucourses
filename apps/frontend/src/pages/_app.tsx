@@ -13,6 +13,7 @@ import { PHProvider } from "~/app/providers";
 import PostHogPageView from "~/app/PostHogPageView";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { AprilFoolsProvider } from "~/components/aprilfools/AprilFoolsContext";
 
 const queryClient = new QueryClient();
 
@@ -35,7 +36,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <PostHogPageView />
-              <Component {...pageProps} />
+              <AprilFoolsProvider>
+                <Component {...pageProps} />
+              </AprilFoolsProvider>
             </PersistGate>
           </Provider>
         </ClerkProvider>

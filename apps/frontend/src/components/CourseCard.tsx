@@ -18,6 +18,7 @@ import { useFetchFCEInfoByCourse } from "~/app/api/fce";
 import { useAuth } from "@clerk/nextjs";
 import FallingText from "./aprilfools/FallingText";
 import DecryptedText from "./aprilfools/DecryptedText";
+import { useAprilFools } from "./aprilfools/AprilFoolsContext";
 
 interface Props {
   courseID: string;
@@ -38,6 +39,8 @@ const CourseCard = ({
   const { isPending: isFCEInfoPending, data: { fces } = {} } =
     useFetchFCEInfoByCourse(courseID);
   const options = useAppSelector((state) => state.user.fceAggregation);
+
+  const { enabled, setEnabled } = useAprilFools();
 
   if (isCourseInfoPending || isFCEInfoPending || !info) {
     return <></>;
@@ -62,10 +65,17 @@ const CourseCard = ({
           <Link href={`/course/${info.courseID}`}>
             <div className="cursor-pointer text-lg text-gray-800">
               <span className="mr-2 inline-block whitespace-nowrap font-semibold">
-                <DecryptedText text={info.courseID} />
+                {enabled ? (
+                  <DecryptedText text={info.courseID} />
+                ) : (
+                  info.courseID
+                )}
               </span>
-              <DecryptedText text={info.name} />
-              {/* <span className="leading-3">{info.name}</span> */}
+              {enabled ? (
+                <DecryptedText text={info.name} />
+              ) : (
+                <span className="leading-3">{info.name}</span>
+              )}
             </div>
           </Link>
           <div className="text-sm text-gray-500">{info.department}</div>
@@ -74,7 +84,11 @@ const CourseCard = ({
         <div className="col-span-3 md:col-span-2">
           <div className="flex flex-row justify-between">
             <div className="text-lg text-gray-700">
-              <DecryptedText text={`${displayUnits(info.units)} units`} />
+              {enabled ? (
+                <DecryptedText text={`${displayUnits(info.units)} units`} />
+              ) : (
+                `${displayUnits(info.units)} units`
+              )}
             </div>
             <div>
               <BookmarkButton courseID={info.courseID} />
@@ -82,14 +96,22 @@ const CourseCard = ({
           </div>
           {isSignedIn && hours && (
             <div className="text-md text-gray-500">
-              <DecryptedText text={`${hours} hrs/week`} />
+              {enabled ? (
+                <DecryptedText text={`${hours} hrs/week`} />
+              ) : (
+                `${hours} hrs/week`
+              )}
             </div>
           )}
         </div>
 
         <div className="col-span-full text-gray-700 md:col-span-2 md:col-start-7">
           <div className="text-md mb-1 hidden md:block">
-            <DecryptedText text={schedulesAvailableString} />
+            {enabled ? (
+              <DecryptedText text={schedulesAvailableString} />
+            ) : (
+              schedulesAvailableString
+            )}
           </div>
           {showCourseInfo && (
             <div className="flex flex-row justify-between space-x-4 md:flex-col md:space-x-0 md:space-y-2">
@@ -120,17 +142,19 @@ const CourseCard = ({
         </div>
         {showCourseInfo && (
           <div className="col-span-full row-span-1 row-start-3 text-sm leading-relaxed text-gray-600 md:col-span-6 md:row-start-2">
-            <FallingText
-              text={info.desc}
-              trigger="hover"
-              backgroundColor="transparent"
-              wireframes={false}
-              gravity={0.56}
-              fontSize="2rem"
-              mouseConstraintStiffness={0.9}
-            />
-
-            {/* {injectLinks(info.desc)} */}
+            {enabled ? (
+              <FallingText
+                text={info.desc}
+                trigger="hover"
+                backgroundColor="transparent"
+                wireframes={false}
+                gravity={0.56}
+                fontSize="2rem"
+                mouseConstraintStiffness={0.9}
+              />
+            ) : (
+              injectLinks(info.desc)
+            )}
           </div>
         )}
       </div>
