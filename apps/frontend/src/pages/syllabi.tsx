@@ -8,9 +8,14 @@ import SyllabiSearch from "~/components/SyllabiSearchList";
 const SyllabiPage: NextPage = () => {
   return (
     <Page
+      sidebar={
+        <>
+          <Aggregate />
+        </>
+      }
       content={
         <>
-            <SyllabiSearch />
+          <SyllabiSearch />
         </>
       }
       activePage="syllabi"
