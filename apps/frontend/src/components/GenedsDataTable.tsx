@@ -161,7 +161,7 @@ export const GenedsDataTable = ({ data }: { data: Gened[] }) => {
             <tr key={row.id} className={`${bgColor} hover:bg-gray-100 dark:hover:bg-gray-200`}>
               {row.getVisibleCells().map((cell) => (
                 <td
-                  className="whitespace-nowrap px-2 text-sm text-gray-600"
+                  className="whitespace-nowrap px-3 py-1 text-sm text-gray-600"
                   key={cell.id}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
