@@ -21,6 +21,7 @@ export const DEPARTMENTS: Department[] = [
   },
   { name: "Center for the Arts in Society", shortName: "CAS", prefix: "64" },
   { name: "Chemical Engineering", shortName: "ChemE", prefix: "06" },
+  { name: "Chemistry", shortName: "Chemistry", prefix: "09" },
   {
     name: "Civil & Environmental Engineering",
     shortName: "CEE",
