@@ -286,7 +286,8 @@ const ScheduleCalendar = ({ courseIDs }: Props) => {
         },
         eventPropGetter: (event: Event) => ({
           style: {
-            color: "#030712",
+            color: "#374151", //text-gray-700
+            border: "1px solid #1f2937", //border-gray-800
             backgroundColor: event.color,
           },
         }),
@@ -294,7 +295,7 @@ const ScheduleCalendar = ({ courseIDs }: Props) => {
     }, []);
 
   return (
-    <div className="m-6 p-4 bg-white rounded-md">
+    <div className="m-6 p-4 bg-white text-gray-700 rounded-md"> 
       <Calendar
         defaultDate={defaultDate}
         defaultView="week"
