@@ -247,4 +247,8 @@ export const selectHoverSessionInActiveSchedule = (
 };
 
 export const reducer = userSchedulesSlice.reducer;
-export const { setHoverSession, clearHoverSession } = userSchedulesSlice.actions;
+export const {
+  setHoverSession,
+  clearHoverSession,
+  removeCourseFromActiveSchedule,
+} = userSchedulesSlice.actions;
