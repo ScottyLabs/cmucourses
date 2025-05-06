@@ -103,13 +103,46 @@ const columns: ColumnDef<Gened>[] = [
       }
     },
   },
+  {
+    header: "Starts Counting",
+    accessorKey: "startsCounting",
+    cell: (info) => {
+      const startsCounting = info.getValue() as string;
+      if (startsCounting) {
+        return <p>{startsCounting}</p>;
+      } else {
+        return <p>-</p>;
+      }
+    },
+    meta: { hidden: true },
+  },
+  {
+    header: "Stops Counting",
+    accessorKey: "stopsCounting",
+    cell: (info) => {
+      const stopsCounting = info.getValue() as string;
+      if (stopsCounting && stopsCounting !== "Fall 2099") {
+        return <p>{stopsCounting}</p>;
+      } else{
+        return <p>-</p>;
+      }
+    },
+    meta: { hidden: true },
+  },
 ];
 
 export const GenedsDataTable = ({ data }: { data: Gened[] }) => {
+  let visibleColumns;
+  if (!data[0]?.startsCounting) {
+    visibleColumns = columns.filter((col) => !col.meta?.hidden);
+  } else {
+    visibleColumns = columns;
+  }
+
   const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
-    columns,
+    columns: visibleColumns,
     data,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
