@@ -88,6 +88,8 @@ export interface Gened {
   desc?: string | undefined;
   tags?: string[] | undefined;
   fces: FCE[];
+  startsCounting?: string;
+  stopsCounting?: string;
 }
 
 export interface TreeNode {

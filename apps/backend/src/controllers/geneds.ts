@@ -43,6 +43,8 @@ export const getGeneds: RequestHandler<
         select: {
           courseID: true,
           tags: true,
+          startsCounting: true,
+          stopsCounting: true,
         },
         where: {
           school,
@@ -84,7 +86,9 @@ export const getGeneds: RequestHandler<
         const course = processedCourses[courseID];
         const fce = fces ? fces.filter((fce) => fce.courseID === courseID) : [];
         const tags = proccesedGeneds[courseID]?.tags;
-        results.push({ ...course, tags, fces: fce, courseID });
+        const startsCounting = proccesedGeneds[courseID]?.startsCounting;
+        const stopsCounting = proccesedGeneds[courseID]?.stopsCounting;
+        results.push({ ...course, tags, fces: fce, courseID, startsCounting, stopsCounting });
       }
 
       res.json(results);
