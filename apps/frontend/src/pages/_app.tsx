@@ -20,7 +20,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <PHProvider>
-        <ClerkProvider>
+        <ClerkProvider
+          allowedRedirectOrigins={[
+            "https://www.cmucourses.com",
+            "https://cmucourses.com",
+          ]}
+        >
           <Head>
             <title>CMU Courses</title>
             <meta
