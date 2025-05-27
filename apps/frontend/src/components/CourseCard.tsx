@@ -79,7 +79,7 @@ const CourseCard = ({
               <BookmarkButton courseID={info.courseID} />
             </div>
           </div>
-          {isSignedIn && hours && (
+          {isSignedIn && !!hours && (
             <div className="text-md text-gray-500">{hours} hrs/week</div>
           )}
         </div>
