@@ -43,7 +43,7 @@ const SemestersOfferedFilter = () => {
   };
 
   return (
-    <div className="relative mt-1">
+    <div className="relative mt-1 text-gray-500 text-sm">
       <Listbox value={sessions} onChange={setSessions} multiple>
         <Listbox.Label className="flex">
           <div>

@@ -148,7 +148,7 @@ const LevelFilter = () => {
   const pillboxes = getPillboxes(selected);
 
   return (
-    <div className="relative mt-1">
+    <div className="relative mt-1 text-gray-500 text-sm">
       <Listbox value={listboxValue} onChange={updateListboxValue} multiple>
         <Listbox.Label className="flex">
           <div>

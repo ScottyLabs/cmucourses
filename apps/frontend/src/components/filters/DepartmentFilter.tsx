@@ -39,7 +39,7 @@ const DepartmentFilter = () => {
   };
 
   return (
-    <div className="relative mt-1">
+    <div className="relative mt-1 text-gray-500 text-sm">
       <Combobox value={names} onChange={setDepartments} multiple>
         <Combobox.Label className="flex">
           <div>

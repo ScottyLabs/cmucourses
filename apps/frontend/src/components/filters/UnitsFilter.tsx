@@ -15,7 +15,7 @@ const UnitsFilter = () => {
   }, [min, max, init]);
 
   return (
-    <div className="mt-2 flex">
+    <div className="mt-2 flex text-gray-500 text-sm">
       <div>
         <input
           type="checkbox"

@@ -229,7 +229,7 @@ const SearchBar = () => {
         <div className="mt-3 text-sm text-gray-500">
           {numResults || 0} results
         </div>
-        <div className="mt-3 flex justify-end text-gray-500">
+        <div className="mt-3 flex justify-end text-gray-500 text-sm">
           <div className="mr-6 hidden md:block">Show</div>
           <div className="mr-6">
             <input
