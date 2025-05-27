@@ -151,10 +151,11 @@ export function filterSessions<T extends Session>(sessions: T[]): T[] {
 }
 
 export const displayUnits = (units: string): string => {
+  // All units are numbers, except for "Variable" (VAR), and strings like "1-4" or "3,5,9" which are fine to show.
   if (units.match(/[0-9]+\.[0-9]*/)) {
     return `${parseFloat(units).toString()}`;
   } else {
-    return units;
+    return units == "VAR" ? "Variable" : units; 
   }
 };
 
