@@ -8,6 +8,7 @@ import { Session } from "~/app/types";
 import { classNames, sessionToShortString, sessionToString } from "~/app/utils";
 
 const SESSIONS: Session[] = [
+  { year: "2025", semester: "fall" },
   { year: "2025", semester: "summer" },
   { year: "2025", semester: "spring" },
   { year: "2024", semester: "fall" },

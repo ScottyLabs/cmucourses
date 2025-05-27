@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev -p 3010 -H 0.0.0.0",
+    "dev": "next dev -p 3010 -H 0.0.0.0 --turbopack",
     "build": "next build",
     "start": "next start",
     "type-check": "tsc",
@@ -39,7 +39,6 @@
     "passlink": "^1.1.0",
     "posthog-js": "^1.194.1",
     "react": "^18.2.0",
-    "react-big-calendar": "^1.15.0",
     "react-dom": "^18.2.0",
     "react-headless-pagination": "^0.1.0",
     "react-hot-toast": "^2.2.0",

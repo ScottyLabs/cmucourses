@@ -144,25 +144,51 @@ export const getFilteredCourses: RequestHandler<
   const unitsMax = req.query.unitsMax === undefined ? undefined : parseInt(req.query.unitsMax);
 
   if (unitsMin !== undefined || unitsMax !== undefined) {
+    // Split units (possibly a range like "1,3,5" or "1-5") into an array
+    pipeline.push(
+      {$addFields:
+        { unitsRange: {
+            $cond: [
+              {  $regexMatch: { input: "$units", regex: "/,/" }  },
+              {  $split: ["$units", ","]  },
+              {  $split: ["$units", "-"]  }
+            ]
+        } }
+      }
+    );
+
     pipeline.push({
       $addFields: {
         unitsDecimal: {
-          $convert: {
-            input: "$units",
-            to: "decimal",
-            onError: null,
-            onNull: null,
-          },
+          $cond: [
+            { $isArray: "$unitsRange" },
+            { $map: { input: "$unitsRange", as: "unit", in: { $convert: { input: "$$unit", to: "decimal", onError: 9.0 }, }}},
+            { $convert: { input: "$unitsRange", to: "decimal", onError: 9.0 } },
+          ],
+        },
+      },
+    });
+
+
+    pipeline.push({
+      $addFields: {
+        unitRangeMin: {
+          $cond: [ { $isArray: "$unitsDecimal" }, { $min: "$unitsDecimal" }, "$unitsDecimal" ],
+        },
+        unitRangeMax: {
+          $cond: [ { $isArray: "$unitsDecimal" }, { $max: "$unitsDecimal" }, "$unitsDecimal", ],
         },
       },
     });
 
     pipeline.push({
       $match: {
-        unitsDecimal: {
+        unitRangeMax: {
           $gte: unitsMin,
-          $lte: unitsMax,
         },
+        unitRangeMin: {
+          $lte: unitsMax,
+        }
       },
     });
   }
