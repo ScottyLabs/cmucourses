@@ -80,7 +80,7 @@ const Aggregate = () => {
     <div>
       <div className="text-lg">Aggregate FCEs</div>
       <div className="mt-3 space-y-3">
-        <div className="flex items-baseline">
+        <div className="flex items-baseline text-gray-500 text-sm">
           <div className="mr-4 whitespace-nowrap text-sm">
             Semesters to Show
           </div>
@@ -90,7 +90,7 @@ const Aggregate = () => {
             onChange={setNumSemesters}
           />
         </div>
-        <div className="flex flex-row justify-between text-sm">
+        <div className="flex flex-row justify-between text-gray-500 text-sm">
           {SEMESTERS_COUNTED.map((sem) => (
             <label className="capitalize" key={sem}>
               <input
