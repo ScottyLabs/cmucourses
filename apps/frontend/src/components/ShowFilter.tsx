@@ -64,8 +64,8 @@ const ShowFilter = () => {
     <div>
       <div className="mb-3 text-lg">Show</div>
       <div className="space-y-4 text-sm">
-        <div className="mt-3 flex justify-end text-gray-500">
-          <div className="mr-6">
+        <div className="mt-3 grid grid-flow-row-dense grid-cols-2 text-gray-500 text-sm md:flex md:justify-end">
+          <div className="mr-2 md:mr-6">
             <input
               id="selectAll"
               type="checkbox"
@@ -76,7 +76,7 @@ const ShowFilter = () => {
             />
             <span>All</span>
           </div>
-          <div className="mr-6">
+          <div className="mr-2 md:mr-6">
             <input
               type="checkbox"
               className="mr-2"
@@ -86,16 +86,16 @@ const ShowFilter = () => {
             />
             <span>FCEs</span>
           </div>
-          <div className="mr-6">
+          <div className="mr-2 md:mr-6">
             <input
               type="checkbox"
               className="mr-2"
               onChange={setShowCourseInfos}
               checked={showCourseInfos}
             />
-            <span>Course Info</span>
+            <span>Course&nbsp;Info</span>
           </div>
-          <div>
+          <div className="mr-2 md:mr-6">
             <input
               type="checkbox"
               className="mr-2"
