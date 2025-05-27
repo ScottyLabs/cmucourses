@@ -226,7 +226,12 @@ export const getFilteredCourses: RequestHandler<
 
   pipeline.push({ $addFields: addedFields as Prisma.InputJsonValue });
   pipeline.push({ $project: projection as Prisma.InputJsonValue });
-
+  // Sort by best relevance, with lowest priority vs other sorts
+  pipeline.push({
+    $sort: {
+      relevance: -1, 
+    }
+  });
   if (req.query.sort !== undefined) {
     // const numSemesters = parseOptionalInt(req.query.numSemesters, initialState.fceAggregation.numSemesters);
     const spring = !req.query.spring ? initialState.fceAggregation.counted.spring : fromBoolLiteral(req.query.spring);
@@ -403,6 +408,7 @@ export const getFilteredCourses: RequestHandler<
       }
     });
   }
+
 
   const page = parseOptionalInt(req.query.page, 1);
   const pageSize = Math.min(parseOptionalInt(req.query.pageSize, MAX_LIMIT), MAX_LIMIT);
