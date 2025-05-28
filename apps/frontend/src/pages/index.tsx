@@ -6,6 +6,7 @@ import SearchBar from "~/components/SearchBar";
 import CourseSearchList from "~/components/CourseSearchList";
 import React from "react";
 import { Page } from "~/components/Page";
+import Sort from "~/components/Sort";
 
 const IndexPage: NextPage = () => {
   return (
@@ -13,6 +14,7 @@ const IndexPage: NextPage = () => {
       sidebar={
         <>
           <Filter />
+          <Sort />
           <Aggregate />
         </>
       }

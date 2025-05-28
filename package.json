@@ -1,7 +1,7 @@
 {
   "name": "cmucourses",
   "private": true,
-  "packageManager": "bun@1.2.3",
+  "packageManager": "bun@1.2.5",
   "scripts": {
     "dev": "nx run-many -c development -t dev --parallel",
     "build": "nx run-many -t build --parallel",

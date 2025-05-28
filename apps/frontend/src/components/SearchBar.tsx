@@ -53,6 +53,11 @@ const AppliedFilters = () => {
           className="text-blue-800 bg-blue-50"
           onDelete={() => {
             dispatch(filtersSlice.actions.deleteDepartment(department));
+
+            // if there are none left, disable the filter
+            if (filter.departments.names.length === 1) {
+              dispatch(filtersSlice.actions.updateDepartmentsActive(false));
+            }
           }}
           key={`department-${department}`}
         >
@@ -83,6 +88,11 @@ const AppliedFilters = () => {
           className="text-yellow-800 bg-yellow-50"
           onDelete={() => {
             dispatch(filtersSlice.actions.deleteSemester(session));
+
+            // if there are none left, disable the filter
+            if (filter.semesters.sessions.length === 1) {
+              dispatch(filtersSlice.actions.updateSemestersActive(false));
+            }
           }}
           key={`session-${sessionToShortString(session)}`}
         >
@@ -99,6 +109,18 @@ const AppliedFilters = () => {
           className="text-red-800 bg-red-50"
           onDelete={() => {
             dispatch(filtersSlice.actions.deleteLevel(levels));
+
+            // levels is what was removed,
+            // filter.levels.selected is what was there before (as a list of booleans)
+            // if only the contents of levels were true in filter.levels.selected,
+            // then we should disable the filter
+            for (let i = 0; i < 10; i++) {
+              if (levels.includes(i) !== filter.levels.selected[i]) {
+                return;
+              }
+            }
+
+            dispatch(filtersSlice.actions.updateLevelsActive(false));
           }}
           key={`session-${levels.toString()}`}
         >
@@ -114,12 +136,12 @@ const AppliedFilters = () => {
         <>
           <div className="flex flex-wrap gap-x-1 gap-y-1.5">{badges}</div>
           <div
-            className="hover:underline hover:text-blue-500"
+            className="text-sm text-gray-700 hover:text-blue-500 underline cursor-pointer"
             onClick={() => {
               dispatch(filtersSlice.actions.resetFilters());
             }}
           >
-            Reset
+            reset
           </div>
         </>
       )}
@@ -214,7 +236,7 @@ const SearchBar = () => {
           type="search"
           value={search}
           onChange={onChange}
-          placeholder="Search courses by ID, description, name or keyword..."
+          placeholder="Search courses by ID, description, name, or keyword..."
         />
         {search && (
           <button
