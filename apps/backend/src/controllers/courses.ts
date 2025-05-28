@@ -144,39 +144,41 @@ export const getFilteredCourses: RequestHandler<
   const unitsMax = req.query.unitsMax === undefined ? undefined : parseInt(req.query.unitsMax);
 
   if (unitsMin !== undefined || unitsMax !== undefined) {
-    // Split units (possibly a range like "1,3,5" or "1-5") into an array
-    pipeline.push(
-      {$addFields:
-        { unitsRange: {
-            $cond: [
-              {  $regexMatch: { input: "$units", regex: "/,/" }  },
-              {  $split: ["$units", ","]  },
-              {  $split: ["$units", "-"]  }
-            ]
-        } }
-      }
-    );
-
-    pipeline.push({
-      $addFields: {
-        unitsDecimal: {
-          $cond: [
-            { $isArray: "$unitsRange" },
-            { $map: { input: "$unitsRange", as: "unit", in: { $convert: { input: "$$unit", to: "decimal", onError: 9.0 }, }}},
-            { $convert: { input: "$unitsRange", to: "decimal", onError: 9.0 } },
-          ],
-        },
-      },
-    });
-
-
     pipeline.push({
       $addFields: {
         unitRangeMin: {
-          $cond: [ { $isArray: "$unitsDecimal" }, { $min: "$unitsDecimal" }, "$unitsDecimal" ],
+          $cond: {
+            if: { $or: [{ $eq: ["$units", ""] }, { $eq: ["$units", "VAR"] }] },
+            then: 0,
+            else: {
+              $toDouble: {
+                $trim: {
+                  input: {
+                    // Some courses have units listed as 0-48 for example
+                    // We don't want to complicate the pipeline, so just take the lower bound
+                    $arrayElemAt: [{ $split: [{ $arrayElemAt: [{ $split: ["$units", "-"] }, 0] }, ","] }, 0],
+                  },
+                },
+              },
+            },
+          },
         },
         unitRangeMax: {
-          $cond: [ { $isArray: "$unitsDecimal" }, { $max: "$unitsDecimal" }, "$unitsDecimal", ],
+          $cond: {
+            if: { $or: [{ $eq: ["$units", ""] }, { $eq: ["$units", "VAR"] }] },
+            then: 50, // Default max units if not specified
+            else: {
+              $toDouble: {
+                $trim: {
+                  input: {
+                    // Some courses have units listed as 0-48 for example
+                    // We don't want to complicate the pipeline, so just take the lower bound
+                    $arrayElemAt: [{ $split: [{ $arrayElemAt: [{ $split: ["$units", "-"] }, -1] }, ","] }, -1],
+                  },
+                },
+              },
+            },
+          },
         },
       },
     });
