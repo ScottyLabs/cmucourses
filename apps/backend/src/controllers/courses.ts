@@ -176,12 +176,13 @@ export const getFilteredCourses: RequestHandler<
     const sessions = singleToArray(req.query.session).flatMap((serializedSession) => {
       try {
         const session = JSON.parse(serializedSession);
-        return [{ year: parseInt(session.year), semester: session.semester }];
+        return [{ year: parseInt(session.year), semester: session.semester, session: session.session }];
       } catch {
         // SyntaxError
         return [];
       }
     });
+
     pipeline.push({
       $match: {
         schedules: {
