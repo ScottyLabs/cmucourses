@@ -8,7 +8,7 @@ export default clerkMiddleware((auth, req) => {
     req.nextUrl.searchParams.has("__clerk_status")
   ) {
     return NextResponse.redirect(
-      new URL("https://www.cmucourses.com", req.url)
+      new URL("https://courses.scottylabs.org", req.url)
     );
   }
 });
