@@ -40,7 +40,7 @@
     "posthog-js": "^1.260.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-headless-pagination": "^1.1.6",
+    "react-headless-pagination": "^0.1.0",
     "react-hot-toast": "^2.6.0",
     "react-redux": "^9.2.0",
     "react-spinners": "^0.17.0",
