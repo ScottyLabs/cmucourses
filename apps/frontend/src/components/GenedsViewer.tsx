@@ -81,7 +81,7 @@ const GenedsViewer = () => {
   };
 
   useEffect(() => {
-    if (geneds && geneds.length > 0) {
+    if (geneds && geneds.length > 0 && geneds.map) {
       let mappedGeneds = geneds.map((gened) => {
         const filtered = filterFCEs(gened.fces, aggregationOptions);
         const instructor = filtered[0]?.instructor;
