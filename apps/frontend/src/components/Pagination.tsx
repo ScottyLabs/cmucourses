@@ -24,7 +24,7 @@ export const Pagination = ({
 
       <div className="flex items-center align-baseline">
         <HeadlessPagination.PageButton
-          activeClassName="bg-gray-100 dark:bg-zinc-800"
+          activeClassName="bg-gray-300"
           inactiveClassName=""
           className="mx-3 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-white"
         />
