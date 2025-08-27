@@ -204,13 +204,13 @@ const SearchBar = () => {
 
   return (
     <>
-      <div className="relative flex border-b border-b-gray-500 text-gray-500 dark:border-b-zinc-400 dark:text-zinc-600">
+      <div className="relative flex border-b border-b-gray-500 text-gray-500">
         <span className="absolute inset-y-0 left-0 flex items-center">
           <MagnifyingGlassIcon className="h-5 w-5" />
         </span>
         <input
           autoFocus
-          className="[&::-webkit-search-cancel-button]:appearance-none flex-1 py-2 pl-7 pr-7 text-xl placeholder-gray-300 bg-transparent focus:outline-none dark:placeholder-zinc-500"
+          className="[&::-webkit-search-cancel-button]:appearance-none flex-1 py-2 pl-7 pr-7 text-xl placeholder-gray-300 bg-transparent focus:outline-none "
           type="search"
           value={search}
           onChange={onChange}
@@ -219,7 +219,7 @@ const SearchBar = () => {
         {search && (
           <button
             onClick={() => setSearch("")}
-            className="absolute inset-y-0 right-0 flex items-center text-gray-500 hover:text-gray-700 dark:text-zinc-600 dark:hover:text-zinc-700"
+            className="absolute inset-y-0 right-0 flex items-center text-gray-500 hover:text-gray-700 "
           >
             <XMarkIcon className="h-5 w-5" />
           </button>

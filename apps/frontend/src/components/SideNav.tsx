@@ -28,10 +28,10 @@ const SideNavItem = ({
     <div className="group flex cursor-pointer flex-col items-center lg:flex-row">
       <div className="flex">
         <Icon
-          className={`h-7 w-7 group-hover:stroke-blue-500 group-hover:dark:stroke-blue-500 lg:h-6 lg:w-6 ${
+          className={`h-7 w-7 group-hover:stroke-blue-500 lg:h-6 lg:w-6 ${
             active
-              ? "stroke-blue-600 dark:stroke-blue-400"
-              : "stroke-gray-500 dark:stroke-zinc-400"
+              ? "stroke-blue-600 "
+              : "stroke-gray-500 "
           }`}
         />
       </div>
@@ -56,7 +56,7 @@ const SideNavItem = ({
 
 export const SideNav = ({ activePage }) => {
   return (
-    <div className="bg-white border-gray-100 flex flex-row items-center justify-between gap-y-10 border-r px-6 py-6 md:flex-col md:justify-start lg:items-start lg:gap-y-6 lg:pr-10 lg:pl-6">
+    <div className="bg-white border-gray-100 flex flex-row justify-between gap-y-10 border-r px-6 py-6 md:flex-col md:justify-start lg:items-start lg:gap-y-6 lg:pr-10 lg:pl-6">
       <SideNavItem
         icon={MagnifyingGlassIcon}
         text="Search"

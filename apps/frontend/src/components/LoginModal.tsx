@@ -31,7 +31,7 @@ export const LoginModal = () => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 z-40 bg-opacity-40 bg-black dark:bg-opacity-80 dark:bg-black" />
+            <div className="fixed inset-0 z-40 bg-opacity-40 bg-black " />
           </Transition.Child>
 
           <div className="fixed inset-0 z-50 overflow-y-auto">

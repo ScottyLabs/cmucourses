@@ -17,9 +17,9 @@ const DarkModeButton = () => {
       className="cursor-pointer rounded-full p-2 bg-gray-50"
     >
       {darkMode ? (
-        <SunIcon className="h-4 w-4 stroke-gray-600 dark:stroke-zinc-400" />
+        <SunIcon className="h-4 w-4 stroke-gray-600 " />
       ) : (
-        <MoonIcon className="h-4 w-4 stroke-gray-600 dark:stroke-zinc-400" />
+        <MoonIcon className="h-4 w-4 stroke-gray-600" />
       )}
     </div>
   );

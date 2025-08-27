@@ -43,11 +43,11 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
   }, [posthog, isSignedIn, userId]);
 
   return (
-    <div className="accent-blue-600 dark:accent-blue-800 flex flex-col md:h-screen min-h-screen">
+    <div className="accent-blue-600 flex flex-col md:h-screen min-h-screen">
       <LoginModal />
       <Toaster position="bottom-right" />
       <Banner projectName="CMU Courses"/>
-      <header className="sticky top-0 border-b drop-shadow bg-gray-50 border-gray-200 dark:bg-zinc-800 z-10">
+      <header className="sticky top-0 border-b drop-shadow bg-gray-50 border-gray-200 zinc-800 z-10">
         <Header />
       </header>
       <main className="relative flex flex-1 flex-col md:flex-row md:justify-around md:overflow-hidden">
@@ -61,7 +61,7 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
           {content}
         </div>
       </main>
-      <footer className="border-t lg:px-8 md:py-5 md:px-4 p-4 pb-8 text-sm text-gray-500 bg-gray-50 border-gray-100">
+      <footer className="border-t lg:px-8 md:py-4 md:px-4 p-4 pb-8 text-sm text-gray-500 bg-gray-50 border-gray-100">
         <div className="max-w-4xl">
           <p>
             Designed, developed and maintained with ❤️ by{" "}

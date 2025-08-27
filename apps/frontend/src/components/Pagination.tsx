@@ -19,19 +19,19 @@ export const Pagination = ({
       className="text-gray-600 flex w-full justify-center"
     >
       <HeadlessPagination.PrevButton className="">
-        <ChevronLeftIcon className="h-5 w-5 dark:stroke-zinc-300" />
+        <ChevronLeftIcon className="h-5 w-5 " />
       </HeadlessPagination.PrevButton>
 
       <div className="flex items-center align-baseline">
         <HeadlessPagination.PageButton
-          activeClassName="bg-gray-100 dark:bg-zinc-800"
+          activeClassName="bg-gray-300"
           inactiveClassName=""
           className="mx-3 inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full hover:bg-white"
         />
       </div>
 
       <HeadlessPagination.NextButton>
-        <ChevronRightIcon className="h-5 w-5 dark:stroke-zinc-300" />
+        <ChevronRightIcon className="h-5 w-5 " />
       </HeadlessPagination.NextButton>
     </HeadlessPagination>
   );

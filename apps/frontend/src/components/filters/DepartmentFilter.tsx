@@ -78,7 +78,7 @@ const DepartmentFilter = () => {
                 ))}
             <Combobox.Input
               className="shadow-xs flex rounded py-0.5 text-base leading-6 bg-white focus:outline-none sm:text-sm sm:leading-5"
-              value={query} 
+              value={query}
               onChange={(e) =>
                 dispatch(
                   filtersSlice.actions.updateDepartmentsQuery(e.target.value)
@@ -113,7 +113,7 @@ const DepartmentFilter = () => {
             />
           </span>
           <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
+            <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 " />
           </span>
         </Combobox.Button>
         <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
