@@ -23,7 +23,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
             <div className="mr-1">Hide</div>
             <ChevronLeftIcon className="h-5 w-5" />
           </div>
-          <div className="flex items-center md:hidden">
+          <div className="max-md:flex items-center md:hidden">
             <div className="mr-2">Hide</div>
             <ChevronUpIcon className="h-5 w-5" />
           </div>
@@ -42,7 +42,7 @@ const Sidebar = ({ children }: { children: React.ReactNode }) => {
           <div className="hidden md:block">
             <ChevronRightIcon className="h-5 w-5" />
           </div>
-          <div className="flex items-center md:hidden">
+          <div className="max-md:flex items-center md:hidden">
             <div className="mr-1">Show</div>
             <ChevronDownIcon className="h-5 w-5" />
           </div>
