@@ -100,7 +100,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
               )}
             </span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 dark:stroke-zinc-400" />
+              <ChevronUpDownIcon className="h-5 w-5 stroke-gray-500 " />
             </span>
           </Listbox.Button>
           <div className="absolute mt-1 w-full rounded shadow-lg bg-white">
@@ -175,13 +175,13 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
             return (
               <div
                 key={courseID}
-                className="relative mb-4 p-3 rounded-md border border-gray-800 dark:border-gray-200"
+                className="relative mb-4 p-3 rounded-md border border-gray-800 "
                 style={{
                   backgroundColor:
                     selectedCourseSessions[courseID]?.Color || "",
                 }}
               >
-                <div className="flex justify-between text-lg text-gray-700 dark:text-gray-300">
+                <div className="flex justify-between text-lg text-gray-700 ">
                   {courseID} (Select {sessionType})
                   <span
                     className="cursor-pointer"
@@ -199,7 +199,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                 </div>
                 <div>
                   <RadioGroup
-                    className="grid grid-flow-col divide-x divide-gray-400 dark:divide-gray-400 justify-stretch rounded-md border border-gray-800 dark:border-gray-200 overflow-x-auto"
+                    className="grid grid-flow-col divide-x divide-gray-400 justify-stretch rounded-md border border-gray-800 order-gray-200 overflow-x-auto"
                     value={selectedCourseSession}
                     onChange={(payload) => {
                       if (sessionType === "Section") {
@@ -242,7 +242,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                         className={({ active }) => {
                           return classNames(
                             "flex relative justify-center cursor-pointer select-none focus:outline-none",
-                            "hover:bg-gray-200 dark:hover:bg-gray-700 p-1",
+                            "hover:bg-gray-200 p-1",
                             i === 0 ? "rounded-l-md pl-1" : "",
                             i === sessions.length - 1
                               ? "rounded-r-md pr-1"
@@ -280,7 +280,7 @@ const SectionSelector = ({ courseIDs }: { courseIDs: string[] }) => {
                           <span className="block truncate">
                             <span
                               className={classNames(
-                                "text-gray-700 dark:text-gray-300",
+                                "text-gray-700 ",
                                 checked ? "font-semibold" : "font-normal"
                               )}
                             >

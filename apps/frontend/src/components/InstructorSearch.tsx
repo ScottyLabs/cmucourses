@@ -19,13 +19,13 @@ const InstructorSearch = () => {
 
   return (
     <>
-      <div className="relative flex border-b border-b-gray-500 text-gray-500 dark:border-b-zinc-400 dark:text-zinc-300">
+      <div className="relative flex border-b border-b-gray-500 text-gray-500 ">
         <span className="absolute inset-y-0 left-0 flex items-center">
           <MagnifyingGlassIcon className="h-5 w-5" />
         </span>
         <input
           autoFocus
-          className="flex-1 py-2 pl-7 text-xl placeholder-gray-300 bg-transparent focus:outline-none dark:placeholder-zinc-500"
+          className="flex-1 py-2 pl-7 text-xl placeholder-gray-300 bg-transparent focus:outline-none"
           type="search"
           value={search}
           onChange={onChange}

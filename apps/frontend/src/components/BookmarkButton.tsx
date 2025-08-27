@@ -39,7 +39,7 @@ const BookmarkButton = ({ courseID }: Props) => {
   return (
     <div>
       <PlusIcon
-        className="h-6 w-6 dark:fill-white"
+        className="h-6 w-6 "
         data-tooltip-id={id}
         data-tooltip-place="bottom-end"
       />
@@ -58,9 +58,9 @@ const BookmarkButton = ({ courseID }: Props) => {
               onClick={bookmarkCourse}
             >
               {bookmarked ? (
-                <StarIcon className="h-5 w-5 fill-yellow-500 stroke-yellow-500 dark:stroke-yellow-500 pr-1" />
+                <StarIcon className="h-5 w-5 fill-yellow-500 stroke-yellow-500 pr-1" />
               ) : (
-                <StarIcon className="h-5 w-5 fill-transparent stroke-gray-300 dark:stroke-zinc-400 pr-1" />
+                <StarIcon className="h-5 w-5 fill-transparent stroke-gray-300 pr-1" />
               )}
               Saved
             </li>
@@ -87,7 +87,7 @@ const BookmarkButton = ({ courseID }: Props) => {
                 );
               }}
             >
-              <PlusCircleIcon className="h-5 w-5 fill-transparent stroke-gray-300 dark:stroke-zinc-400 pr-1" />
+              <PlusCircleIcon className="h-5 w-5 fill-transparent stroke-gray-300 pr-1" />
               Create new schedule
             </li>
           </ul>

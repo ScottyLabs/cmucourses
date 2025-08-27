@@ -19,7 +19,7 @@ export const Pagination = ({
       className="text-gray-600 flex w-full justify-center"
     >
       <HeadlessPagination.PrevButton className="">
-        <ChevronLeftIcon className="h-5 w-5 dark:stroke-zinc-300" />
+        <ChevronLeftIcon className="h-5 w-5 " />
       </HeadlessPagination.PrevButton>
 
       <div className="flex items-center align-baseline">
@@ -31,7 +31,7 @@ export const Pagination = ({
       </div>
 
       <HeadlessPagination.NextButton>
-        <ChevronRightIcon className="h-5 w-5 dark:stroke-zinc-300" />
+        <ChevronRightIcon className="h-5 w-5 " />
       </HeadlessPagination.NextButton>
     </HeadlessPagination>
   );

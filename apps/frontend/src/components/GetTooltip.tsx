@@ -17,7 +17,7 @@ export const GetTooltip = ({
       style={{ padding: 0 }}
       clickable={true}
     >
-      <div className="flex flex-col bg-gray-50 text-gray-800 -m-1 p-3 rounded border dark:border-transparent">
+      <div className="flex flex-col bg-gray-50 text-gray-800 -m-1 p-3 rounded border ">
         <span className="text-wrap text-sm">{children}</span>
       </div>
     </Tooltip>
