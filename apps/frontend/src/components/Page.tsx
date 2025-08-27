@@ -61,7 +61,7 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
           {content}
         </div>
       </main>
-      <footer className="border-t lg:px-8 md:py-5 md:px-4 p-4 pb-8 text-sm text-gray-500 bg-gray-50 border-gray-100">
+      <footer className="border-t lg:px-8 md:py-4 md:px-4 p-4 pb-8 text-sm text-gray-500 bg-gray-50 border-gray-100">
         <div className="max-w-4xl">
           <p>
             Designed, developed and maintained with ❤️ by{" "}

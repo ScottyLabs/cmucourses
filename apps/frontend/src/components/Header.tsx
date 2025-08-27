@@ -39,7 +39,7 @@ export default function Header(): ReactElement {
   }, [darkMode]);
 
   return (
-    <div className="flex flex-row items-center justify-between p-6 bg-gray-50">
+    <div className="flex flex-row items-center justify-between px-6 py-4 bg-gray-50">
       <div className="flex flex-initial cursor-pointer flex-row justify-start font-semibold text-gray-800">
         <Link href="/">
           <div className="flex items-center">
