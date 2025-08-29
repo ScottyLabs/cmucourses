@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { instructorsSlice } from "~/app/instructors";
 import { throttledInstructorFilter } from "~/app/store";
+import { useAuth } from "@clerk/nextjs";
 
 const InstructorSearch = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,8 @@ const InstructorSearch = () => {
     if (page !== 1) dispatch(instructorsSlice.actions.setInstructorPage(1));
     throttledInstructorFilter(e.target.value);
   };
+
+  const { isSignedIn } = useAuth();
 
   return (
     <>
@@ -33,7 +36,13 @@ const InstructorSearch = () => {
         />
       </div>
       <div className="flex justify-between">
-        <div className="mt-3 text-sm text-gray-400">{numResults} results</div>
+        <div className="mt-3 text-sm text-gray-400">
+          {
+            !isSignedIn
+              ? "Sign in to view instructors" :
+              numResults + " results"
+          }
+          </div>
       </div>
     </>
   );
