@@ -41,6 +41,10 @@ const GenedsViewer = () => {
   };
 
   const getGenedTable = () => {
+    if (!isSignedIn) {
+      return <></>
+    }
+
     if (isPending) {
       return (
         <div className="py-4 text-center text-gray-500 ">
@@ -288,7 +292,7 @@ const GenedsViewer = () => {
       </div>
       {!isSignedIn && (
         <div className="flex justify-center">
-          <div className="px-4 py-2 mt-4 text-sm font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+          <div className="px-4 py-2 my-4 text-sm font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
             <SignInButton>Sign in to see FCE data</SignInButton>
           </div>
         </div>
