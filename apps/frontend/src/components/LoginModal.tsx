@@ -60,8 +60,8 @@ export const LoginModal = () => {
                       Your feedback is appreciated.
                     </p>
                     <p className="mt-3 text-sm text-gray-600">
-                      You are currently logged out, so you can&apos;t access FCE
-                      data.
+                      You are currently logged out, so you can&apos;t access
+                      course FCEs, instructors, or locations.
                     </p>
                   </div>
 
