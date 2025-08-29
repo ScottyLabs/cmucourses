@@ -39,8 +39,8 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
 
   if (!isSignedIn) {
     return (
-      <div className="z-10 bg-white text-gray-700">
-        <p>Log in to view FCE results.</p>
+      <div className="text-sm text-gray-400">
+        <p>Sign in to view FCE results.</p>
       </div>
     );
   }
