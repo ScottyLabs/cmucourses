@@ -3,6 +3,7 @@ import React from "react";
 import { Tab } from "@headlessui/react";
 import { Lecture, Schedule, Section } from "~/app/types";
 import Link from "./Link";
+import { useAuth } from "@clerk/nextjs";
 
 const getInstructors = (instructors: string[]) => {
   return (
@@ -39,6 +40,8 @@ const LectureViewer = ({
   sections: Section[];
   courseID: string;
 }) => {
+  const { isSignedIn } = useAuth();
+
   return (
     <>
       <div className="contents rounded text-gray-700 hover:bg-gray-50">
@@ -46,7 +49,7 @@ const LectureViewer = ({
           {lectureInfo.name}
         </div>
         <div className="col-span-1 text-sm">
-          {getInstructors(lectureInfo.instructors)}
+          {isSignedIn ? getInstructors(lectureInfo.instructors) : "Sign in to view instructors"}
         </div>
         <div className="contents flex-col text-sm">
           {lectureInfo.times.map((time, i) => (
@@ -57,12 +60,16 @@ const LectureViewer = ({
               <div className="col-span-1 col-start-3">
                 {timeArrToString([time])}
               </div>
-              <Link
-                href={`https://maps.scottylabs.org/${time.building}-${time.room}`}
-                openInNewTab={true}
-              >
-                {time.building} {time.room}
-              </Link>
+              {
+                isSignedIn ? (
+                  <Link
+                    href={`https://maps.scottylabs.org/${time.building}-${time.room}`}
+                    openInNewTab={true}
+                  >
+                    {time.building} {time.room}
+                  </Link>
+                ) : "Sign in to view location"
+              }
             </div>
           ))}
         </div>
