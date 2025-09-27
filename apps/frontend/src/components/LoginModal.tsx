@@ -1,26 +1,26 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useAppDispatch, useAppSelector } from "~/app/hooks";
-import { uiSlice } from "~/app/ui";
 import Link from "./Link";
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton, useAuth } from "@clerk/nextjs";
 
 export const LoginModal = () => {
-  const isOpen = useAppSelector((state) => state.ui.session.loginModalOpen);
-  const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false);
+  const { isSignedIn, isLoaded } = useAuth();
 
-  function closeModal() {
-    dispatch(uiSlice.actions.closeLoginModal());
-  }
+  useEffect(() => {
+    if (isLoaded) {
+      setOpen(!isSignedIn);
+    }
+  }, [isSignedIn]);
 
   return (
     <>
-      <Transition appear show={isOpen} as={Fragment}>
+      <Transition appear show={open} as={Fragment}>
         <Dialog
           as="div"
           className="relative z-50"
-          onClose={closeModal}
-          open={isOpen}
+          onClose={() => setOpen(false)}
+          open={open}
         >
           <Transition.Child
             as={Fragment}
@@ -69,7 +69,7 @@ export const LoginModal = () => {
                     <button
                       type="button"
                       className="rounded border px-4 py-2 text-sm text-gray-500 hover:bg-gray-50"
-                      onClick={closeModal}
+                      onClick={() => setOpen(false)}
                     >
                       Continue without logging in
                     </button>

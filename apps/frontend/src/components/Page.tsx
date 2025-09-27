@@ -2,8 +2,7 @@ import React, { useEffect } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { LoginModal } from "./LoginModal";
-import { useAppDispatch, useAppSelector } from "~/app/hooks";
-import { uiSlice } from "~/app/ui";
+import { useAppDispatch } from "~/app/hooks";
 import { Toaster } from "react-hot-toast";
 import { SideNav } from "./SideNav";
 import Link from "./Link";
@@ -19,18 +18,7 @@ type Props = {
 
 export const Page = ({ sidebar, content, activePage }: Props) => {
   const { isSignedIn, userId } = useAuth();
-  const modalShown = useAppSelector(
-    (state) => state.ui.session.loginModalShown
-  );
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!isSignedIn && !modalShown) {
-      dispatch(uiSlice.actions.openLoginModal());
-    } else if (isSignedIn) {
-      dispatch(uiSlice.actions.closeLoginModal());
-    }
-  }, [dispatch, isSignedIn, modalShown]);
 
   const posthog = usePostHog();
 
