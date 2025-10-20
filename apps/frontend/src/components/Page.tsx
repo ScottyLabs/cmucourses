@@ -2,13 +2,11 @@ import React, { useEffect } from "react";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import { LoginModal } from "./LoginModal";
-import { useAppDispatch } from "~/app/hooks";
 import { Toaster } from "react-hot-toast";
 import { SideNav } from "./SideNav";
 import Link from "./Link";
 import { useAuth } from "@clerk/nextjs";
 import { usePostHog } from "posthog-js/react";
-import { Banner } from "@scottylabs/corgi";
 
 type Props = {
   sidebar?: React.ReactNode;
@@ -18,8 +16,6 @@ type Props = {
 
 export const Page = ({ sidebar, content, activePage }: Props) => {
   const { isSignedIn, userId } = useAuth();
-  const dispatch = useAppDispatch();
-
   const posthog = usePostHog();
 
   useEffect(() => {
@@ -34,7 +30,6 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
     <div className="accent-blue-600 flex flex-col md:h-screen min-h-screen">
       <LoginModal />
       <Toaster position="bottom-right" />
-      <Banner projectName="CMU Courses"/>
       <header className="sticky top-0 border-b drop-shadow bg-gray-50 border-gray-200 zinc-800 z-10">
         <Header />
       </header>
