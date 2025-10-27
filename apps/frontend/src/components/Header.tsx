@@ -41,7 +41,7 @@ export default function Header(): ReactElement {
   return (
     <div className="">
       <div className="lg:p-1.5 md:p-2 p-3 lg:text-lg md:text-base text-xs text-white text-center bg-[#007fff]">
-        Spring 2026 courses temporarily unavailable to changes in the{" "}
+        Spring 2026 courses temporarily unavailable due to changes in the{" "}
         <Link href="https://enr-apps.as.cmu.edu/open/SOC/SOCServlet/search">
           <strong>Schedule of Classes</strong>
         </Link>
