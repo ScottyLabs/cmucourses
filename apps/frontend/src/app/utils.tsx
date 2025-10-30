@@ -1,6 +1,6 @@
 import reactStringReplace from "react-string-replace";
 import Link from "~/components/Link";
-import { FCE, Schedule, Session, Time } from "./types";
+import { FCE, Schedule, Session, Time, Syllabus } from "./types";
 import { AggregateFCEsOptions, filterFCEs } from "./fce";
 import {
   DEPARTMENT_MAP_NAME,
@@ -23,6 +23,10 @@ export const standardizeId = (id: string) => {
 export const standardizeIdsInString = (str: string) => {
   return str.replaceAll(courseIdRegex, standardizeId);
 };
+
+export const cleanID = (id: string): string => {
+  return id.replace("-", "");
+}
 
 export const sessionToString = (sessionInfo: Session | FCE | Schedule) => {
   if (!sessionInfo) return "";
@@ -283,4 +287,39 @@ export const getCalendarColor = (i: number) =>
 export const getCalendarColorLight = (color: string) => {
   const index = CALENDAR_COLORS.indexOf(color);
   return CALENDAR_COLORS_LIGHT[index];
+};
+
+export const getCanvasLinkFromDownloadLink = (downloadLink: string): string => {
+ if (!downloadLink || downloadLink === "#") return "#";
+  try {
+   const fileIdMatch = downloadLink.match(/\/files\/(\d+)/);
+   const verifierMatch = downloadLink.match(/verifier=([^&]+)/);
+  
+   if (fileIdMatch && verifierMatch) {
+     const fileId = fileIdMatch[1];
+     const verifier = verifierMatch[1];
+     return `https://canvas.cmu.edu/files/${fileId}/?verifier=${verifier}`;
+   }
+   return downloadLink;
+ } catch (e) {
+   console.error("Error parsing download link:", e);
+   return downloadLink;
+ }
+};
+
+export const groupSyllabiByNumber = (syllabi: Syllabus[]) => {
+ return syllabi.reduce((groups, syllabus) => {
+   const num = syllabus.number?.trim().toLowerCase() || '';
+   if (!groups[num]) groups[num] = [];
+   groups[num].push(syllabus);
+   return groups;
+ }, {} as Record<string, Syllabus[]>);
+};
+
+export const sortSyllabi = (syllabi: Syllabus[]) => {
+ return [...syllabi].sort((a, b) => {
+   if (a.year !== b.year) return b.year - a.year;
+   const seasonOrder: Record<string, number> = { "spring": 1, "fall": 0 };
+   return (seasonOrder[b.season.toLowerCase()] || 0) - (seasonOrder[a.season.toLowerCase()] || 0);
+ });
 };
