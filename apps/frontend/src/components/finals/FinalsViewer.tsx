@@ -30,6 +30,7 @@ type RawFinal = {
 
 type FinalExamRow = {
     course: string;
+    section: string
     day: string;
     start: string;
     end: string;
@@ -59,7 +60,8 @@ const FINALS_ROWS: FinalExamRow[] = (finalsData as RawFinal[])
         const end = new Date(Math.floor(exam.end_time) * 1000);
 
         return {
-            course: exam.course,
+            course: exam.course.slice(0, 5),
+            section: exam.course.slice(5),
             day: DATE_FORMATTER.format(start),
             start: TIME_FORMATTER.format(start),
             end: TIME_FORMATTER.format(end),
@@ -69,10 +71,26 @@ const FINALS_ROWS: FinalExamRow[] = (finalsData as RawFinal[])
     })
     .sort((a, b) => a.startTimestamp - b.startTimestamp);
 
+const formatCourseCode = (courseCode: string) => {
+    if (courseCode.length === 5) {
+        return `${courseCode.slice(0, 2)}-${courseCode.slice(2)}`;
+    }
+    return courseCode;
+};
+
 const columns: ColumnDef<FinalExamRow>[] = [
     {
         accessorKey: "course",
         header: "Course",
+        cell: ({ row }) => {
+            const courseCode = row.original.course;
+            const formattedCourseCode = formatCourseCode(courseCode);
+            return <Link href={`/course/${formattedCourseCode}`}>{formattedCourseCode}</Link>;
+        },
+    },
+    {
+        accessorKey: "section",
+        header: "Section",
     },
     {
         accessorKey: "day",
@@ -111,14 +129,14 @@ export default function FinalsViewer() {
         if (showOwn && ownCourses.length > 0) {
             return FINALS_ROWS.filter((row) => {
                 return (
-                    row.course.toLowerCase().includes(normalized) &&
-                    ownCourses.includes(row.course)
+                    (row.course + row.section).toLowerCase().includes(normalized) &&
+                    ownCourses.includes(row.course + row.section)
                 );
             });
         }
         return FINALS_ROWS.filter((row) => {
             return (
-                row.course.toLowerCase().includes(normalized)
+                (row.course + row.section).toLowerCase().includes(normalized)
             );
         });
     }, [search, showOwn, ownCourses]);
