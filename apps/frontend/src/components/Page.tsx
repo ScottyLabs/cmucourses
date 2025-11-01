@@ -38,7 +38,7 @@ export const Page = ({ sidebar, content, activePage }: Props) => {
         {sidebar && <Sidebar>{sidebar}</Sidebar>}
         <div
           className={`flex-1 overflow-y-auto md:h-full ${
-            !sidebar ? "max-w-7xl" : ""
+            !sidebar ? "" : ""
           }`}
         >
           {content}

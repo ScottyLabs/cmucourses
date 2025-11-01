@@ -1,0 +1,3440 @@
+[
+    {
+        "course": "48321A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "48353A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "48432A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "Remote To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "48543A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "486291",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "48643A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "48653A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "48655A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "Remote To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "48729A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "48764A2",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "48798A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60108A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60125A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60136A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60136B",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60140A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60141B",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60141C",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60142A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60150C",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60157A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60157B",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60212A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60224A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60350A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60428A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "60728A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03121A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03121B",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "031241",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03125A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03140A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "031511",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "032201",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03320A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03362A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03435A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03511A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "036221",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03662A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03709A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "03711A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "42202A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "42401A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "42631A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "42640A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "42649A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "42675A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "42722A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70106A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70106B",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70106C",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70106D",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "701221",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "701222",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "701223",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "701224",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "702071",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "702072",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "702081",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70302A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70340A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70340B",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70340C",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70340D",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70340E",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70378A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70381A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70381B",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70381C",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70428A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70464A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70467A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70467B",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70491A2",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "70497A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "84101A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "84393A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "62140A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "62141A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "62141B",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "62150A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "62232A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "62661A2",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "061001",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06223A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06310A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06323A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06326A2",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06423A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06423B",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06423C",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06423D",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06621A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06663A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06707A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06722A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "06731A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "091051",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "091061",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "091071",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "091111",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "092171",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "092191",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "092211",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "093211",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "09507A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "09707A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "097601",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "39602A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12212A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12351A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12351B",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12355A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12355B",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12355C",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12652A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12657A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12704A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12722A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12741A2",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "12757A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "021201",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "022611",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "026131",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "026801",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "151041",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "151101",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "151102",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "151121",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "151122",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "151211",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "151221",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "151222",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "151501",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "151511",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "152101",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "152102",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "152131",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "152511",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "152591",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "152811",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "153121",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "153171",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "153461",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "153511",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15356A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "153621",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15369A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15387A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15410A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15414A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15418A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "154401",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15445A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "154511",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15473A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15482A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15495A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15513A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "155591",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15605A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15614A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15618A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "156401",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15645A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "156501",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "156511",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "156521",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "156571",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15661A2",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "156621",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15669A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15673A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15721A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15769A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15795A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15826A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15856A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "15883A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "65101A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "65200A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "65201A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "66118A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "66131A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "66146A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "66148A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "51316A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "51441A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "54476A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "54476B",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "54779A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person PCA 308"
+    },
+    {
+        "course": "54976A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "54976B",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "731021",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "731022",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "731031",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "731041",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "731042",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "732401",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "732651",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "73374A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "73497A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18095A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18095B",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "181001",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "182021",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "182131",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "182201",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "182401",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "182901",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18300A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "183201",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18340TA",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18349A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18370A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "184221",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18444C",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18453A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18461A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "184911",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "185001",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "186131",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "186132",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "186221",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18640RW",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18640TA",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18648A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18650A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18654SV",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18656SV",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18658SV",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18661A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18661RW",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18661SV",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18664SV",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18681A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18681RW",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "186911",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18719A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18751A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18765TA",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18785A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18785K",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18785R",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18844C",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18848D",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18853A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18862A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "18862RW",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "19301A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "19608RW",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "19677A2",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "19684A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "19685A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "19713A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "19785A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "76259A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "76292A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "76391A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "76791A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "76839A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "53353A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "53362A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "53451A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "53571A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "53613A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "53626A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "53751A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "53762A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "90806A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79106A2",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79124A2",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79175A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79175B",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79178A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79223A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79234A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79239A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79249A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79261A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79265A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79270A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79296A2",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79300A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79317A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79331A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79355A2",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79449A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79492A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "79781A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "05319A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "05332A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "05391C",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "054311",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "05619A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "056311",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "05632A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "056351",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "05738A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "05863A2",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "05891C",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "145131",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "147411",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "672621",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "672622",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "672623",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "672625",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "67336A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "67348A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "Remote To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "674431",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "674432",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82101A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82103A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82111A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82113A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82141A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82142A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82151A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82151B",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82161A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82191A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82211A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82241B",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82242A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82248A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82283D",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82303A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82304A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82320A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82345A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82415A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "82439A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11324A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11411A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11411B",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11601A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11611A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11611R",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "Remote To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11624A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11664A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11667A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11673A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "Remote To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11724A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "11763A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10301A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10301B",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10423A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10601A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10601B",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10623A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10701A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10703A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10708A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10715A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10723A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10726A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "10905A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "271001",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "272011",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27211A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27215A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27301A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27503A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27508A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27533A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27577A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27676A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27676B",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27703A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27708A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27733A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27766A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27777A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27796A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "27798A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "210901",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "211201",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "211202",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "211221",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "211222",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "211271",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "211272",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "211273",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "211274",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "211281",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212281",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212351",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212371",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212401",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212411",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212412",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212413",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212414",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212415",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212416",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212421",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212541",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212542",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212561",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212562",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212591",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212592",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212593",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212601",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212602",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212603",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "212611",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21300A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21325C",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21325D",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21326A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21341A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21355A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21355B",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21355C",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21356A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "213691",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "213692",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21370A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21371A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21373A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21373B",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21441A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "214691",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21632A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21671A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21701A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21720A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "21737A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "38402A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "38614A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "242211",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24251A2",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "243221",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "243511",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "243521",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "243701",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24451A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24651A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24658A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24664A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "246771",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24685A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24691A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24693A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24704A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "247181",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24774A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "24785A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57149A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57149B",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "571511",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57152A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57152B",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57152C",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57173A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "571891",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57284A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "572891",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57480A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57480B",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57780A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "57780B",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "86631A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "86675A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80180A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80210A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80210B",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80250A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80255A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80287A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80310A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80413A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80449A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80610A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "80713A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "331151",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33120A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "331211",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "331221",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "331411",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "331421",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "331511",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33211A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "332241",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33225A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33231A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33338A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33341A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "333551",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33445A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33658A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33755A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33757A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33761A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33769A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33777A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "33779A",
+        "start_time": 1765200600.0,
+        "end_time": 1765211400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "851001",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85108A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85110A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85130A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85150A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85170A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85190A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85213A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85300A",
+        "start_time": 1765216800.0,
+        "end_time": 1765227600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85310A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85413A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85417A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85421A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85503A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85530A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85590A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85721A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85800A",
+        "start_time": 1765735200.0,
+        "end_time": 1765746000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "85813A",
+        "start_time": 1765719000.0,
+        "end_time": 1765729800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "16211A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "16220A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "16384A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "16450A",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "16701A2",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "16702A2",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "16722A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "16879A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "172141",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "173131",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17320A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17331A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17331B",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17333A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "173551",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "173631",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17437A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "174451",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "175141",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "1762442",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17631A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17637A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "176451",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "176631",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "176651",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17683A2",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17720A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17733A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "17733B",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "177701",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "178191",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "07128A",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "88120A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "88130A",
+        "start_time": 1765751400.0,
+        "end_time": 1765762200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "88150A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "88230A",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "88230B",
+        "start_time": 1765476000.0,
+        "end_time": 1765486800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "88251A",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "88302A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "88411A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "362001",
+        "start_time": 1765233000.0,
+        "end_time": 1765243800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "362021",
+        "start_time": 1765303200.0,
+        "end_time": 1765314000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "362181",
+        "start_time": 1765546200.0,
+        "end_time": 1765557000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "36220A",
+        "start_time": 1765578600.0,
+        "end_time": 1765589400.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "362251",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "362351",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "363091",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "36350A",
+        "start_time": 1765287000.0,
+        "end_time": 1765297800.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "36401A",
+        "start_time": 1765459800.0,
+        "end_time": 1765470600.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "36466A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "36666A",
+        "start_time": 1765562400.0,
+        "end_time": 1765573200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "36700A",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "36705A",
+        "start_time": 1765492200.0,
+        "end_time": 1765503000.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "47785A2",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    },
+    {
+        "course": "99361C",
+        "start_time": 1765319400.0,
+        "end_time": 1765330200.0,
+        "location": "In Person To Be Scheduled after the Mini-2 Add Deadline"
+    }
+]
