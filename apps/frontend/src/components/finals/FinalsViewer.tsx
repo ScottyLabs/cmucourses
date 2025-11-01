@@ -12,7 +12,9 @@ import {
 import finalsData from "./finals.json";
 import {
     ColumnDef,
+    SortingState,
     getCoreRowModel,
+    getSortedRowModel,
     useReactTable,
 } from "@tanstack/react-table";
 import DataTable from "./datatable";
@@ -131,10 +133,17 @@ export default function FinalsViewer() {
         }
     }, [filteredRows.length, numResults]);
 
+    const [sorting, setSorting] = useState<SortingState>([]);
+
     const table = useReactTable({
         data: filteredRows,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        onSortingChange: setSorting,
+        state: {
+            sorting,
+        },
     });
 
     const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -261,7 +270,9 @@ export default function FinalsViewer() {
                             "transition-colors"
                         )}
                     >
-                        <DataTable columns={columns} table={table} />
+                        <div className="p-2 mt-4 ml-2 mr-2 overflow-x-auto bg-gray-50 rounded-md">
+                            <DataTable columns={columns} table={table} />
+                        </div>
                     </div>
                 </Card>
             </div>

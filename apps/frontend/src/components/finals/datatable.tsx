@@ -1,11 +1,3 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "./ui/table"
 import { type ColumnDef, flexRender, type Table as TableType } from "@tanstack/react-table"
 
 interface DataTableProps<TData, TValue> {
@@ -15,49 +7,61 @@ interface DataTableProps<TData, TValue> {
 
 function DataTable<TData, TValue>({table, columns}: DataTableProps<TData, TValue>) {
     return (
-    <div className="rounded-md border w-full overflow-auto">
-      <Table>
-        <TableHeader>
+    <div className="w-full min-w-0 overflow-x-auto">
+      <table className="w-full min-w-fit table-auto">
+        <thead>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
+                if (header.isPlaceholder) {
+                  return <th key={header.id} />;
+                }
+
+                const canSort = header.column.getCanSort();
+                const sorting = header.column.getIsSorted();
+                const sortIndicator =
+                  sorting === "asc" ? " ⏶" : sorting === "desc" ? " ⏷" : null;
+
                 return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                )
+                  <th
+                    key={header.id}
+                    className={`whitespace-nowrap px-2 text-left text-sm font-semibold text-gray-700 ${canSort ? "cursor-pointer select-none" : ""}`}
+                    onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
+                  >
+                    {flexRender(
+                      header.column.columnDef.header,
+                      header.getContext()
+                    )}
+                    {sortIndicator}
+                  </th>
+                );
               })}
-            </TableRow>
+            </tr>
           ))}
-        </TableHeader>
-        <TableBody>
+        </thead>
+        <tbody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
+              <tr key={row.id} className="hover:bg-white">
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <td
+                    key={cell.id}
+                    className="whitespace-nowrap px-2 text-sm text-gray-600"
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+                  </td>
                 ))}
-              </TableRow>
+              </tr>
             ))
           ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
+            <tr>
+              <td colSpan={columns.length} className="px-2 py-6 text-center text-sm text-gray-500">
                 No results.
-              </TableCell>
-            </TableRow>
+              </td>
+            </tr>
           )}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
     </div>
     )
 }
