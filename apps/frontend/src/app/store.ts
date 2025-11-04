@@ -29,6 +29,7 @@ import {
   REHYDRATE,
 } from "redux-persist";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
+import { reducer as finalsReducer, FinalsState, finalsSlice } from "./finals";
 
 const reducers = combineReducers({
   user: persistReducer<UserState>(
@@ -77,6 +78,16 @@ const reducers = combineReducers({
     },
     instructorsReducer
   ),
+  finals: persistReducer<FinalsState>(
+    {
+      key: "finals",
+      version: 1,
+      storage,
+      stateReconciler: autoMergeLevel2,
+    },
+    finalsReducer
+  ),
+  
 });
 
 export const store = configureStore({

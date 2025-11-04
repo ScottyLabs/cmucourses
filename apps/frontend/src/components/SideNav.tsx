@@ -5,6 +5,7 @@ import {
   StarIcon,
   UserCircleIcon,
   BookOpenIcon,
+  CalendarDaysIcon
 } from "@heroicons/react/24/outline";
 import React from "react";
 import Link from "next/link";
@@ -86,6 +87,12 @@ export const SideNav = ({ activePage }) => {
         text="Geneds"
         link="/geneds"
         active={activePage === "geneds"}
+      />
+      <SideNavItem
+        icon={CalendarDaysIcon}
+        text="Finals"
+        link="/finals"
+        active={activePage === "finals"}
       />
       <SideNavItem
         icon={ChatBubbleBottomCenterTextIcon}
