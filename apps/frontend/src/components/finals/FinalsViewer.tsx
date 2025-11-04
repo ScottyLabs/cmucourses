@@ -20,15 +20,19 @@ import {
 import DataTable from "./datatable";
 import { classNames } from "~/app/utils";
 import ICAL from "ical.js";
+import { GetTooltip } from "~/components/GetTooltip";
 
 type RawFinal = {
     course: string;
     start_time: number;
     end_time: number;
     location: string;
+    desc: string;
+    name: string;
 };
 
 type FinalExamRow = {
+    name: string;
     course: string;
     section: string
     day: string;
@@ -36,6 +40,7 @@ type FinalExamRow = {
     end: string;
     location: string;
     startTimestamp: number;
+    desc: string;
 };
 
 const TIMEZONE = "America/New_York";
@@ -67,6 +72,8 @@ const FINALS_ROWS: FinalExamRow[] = (finalsData as RawFinal[])
             end: TIME_FORMATTER.format(end),
             location: exam.location,
             startTimestamp: exam.start_time,
+            desc: exam.desc,
+            name: exam.name
         };
     })
     .sort((a, b) => a.startTimestamp - b.startTimestamp);
@@ -85,7 +92,9 @@ const columns: ColumnDef<FinalExamRow>[] = [
         cell: ({ row }) => {
             const courseCode = row.original.course;
             const formattedCourseCode = formatCourseCode(courseCode);
-            return <Link href={`/course/${formattedCourseCode}`}>{formattedCourseCode}</Link>;
+            const id = `finals-table-${courseCode}`;
+
+            return <><Link data-tooltip-id={id} href={`/course/${formattedCourseCode}`}>{formattedCourseCode}</Link><GetTooltip id={id} children={<><b>{row.original.name as string}</b> <br />{row.original.desc as string}</>} /></>;
         },
     },
     {
