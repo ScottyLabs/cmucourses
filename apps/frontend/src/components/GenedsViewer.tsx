@@ -42,15 +42,11 @@ const GenedsViewer = () => {
 
   const getGenedTable = () => {
     if (!isSignedIn) {
-      return <></>
+      return <></>;
     }
 
     if (isPending) {
-      return (
-        <div className="py-4 text-center text-gray-500 ">
-          Loading...
-        </div>
-      );
+      return <div className="py-4 text-center text-gray-500 ">Loading...</div>;
     }
 
     if (error) {
@@ -138,7 +134,9 @@ const GenedsViewer = () => {
             setSearchQuery("");
           }}
         >
-          <Combobox.Label className="flex text-gray-700 ">School</Combobox.Label>
+          <Combobox.Label className="flex text-gray-700 ">
+            School
+          </Combobox.Label>
           <Combobox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5 ">
             <span className="flex flex-wrap gap-1">
               <span className="p-0.5 text-gray-500 ">{selectedSchool}</span>
@@ -168,7 +166,9 @@ const GenedsViewer = () => {
           }
           multiple
         >
-          <Combobox.Label className="flex pt-2 text-gray-700 ">Tags</Combobox.Label>
+          <Combobox.Label className="flex pt-2 text-gray-700 ">
+            Tags
+          </Combobox.Label>
 
           <Combobox.Button className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5 text-gray-500 ">
             <span className="flex flex-wrap gap-1">
@@ -263,11 +263,10 @@ const GenedsViewer = () => {
             </Combobox.Options>
           </div>
         </Combobox>
-        <Combobox
-          value={searchQuery}
-          onChange={(payload) => setSearchQuery(payload)}
-        >
-          <Combobox.Label className="flex pt-2 text-gray-700">Search</Combobox.Label>
+        <Combobox value={searchQuery}>
+          <Combobox.Label className="flex pt-2 text-gray-700">
+            Search
+          </Combobox.Label>
           <Combobox.Input
             className="relative mt-2 w-full cursor-default rounded border py-1 pl-1 pr-10 text-left transition duration-150 ease-in-out border-gray-200 sm:text-sm sm:leading-5 bg-transparent text-gray-600 placeholder-gray-400 "
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -284,10 +283,10 @@ const GenedsViewer = () => {
           >
             here
           </Link>
-          . Always check with your academic advisor if the course you intend to take still fulfills the requirements you intend it to.
-
-          If there is anything missing, or if you would like a similar list
-          for your school, do fill in the feedback form in the sidebar!
+          . Always check with your academic advisor if the course you intend to
+          take still fulfills the requirements you intend it to. If there is
+          anything missing, or if you would like a similar list for your school,
+          do fill in the feedback form in the sidebar!
         </span>
       </div>
       {!isSignedIn && (
