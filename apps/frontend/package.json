@@ -31,6 +31,7 @@
     "@types/uuid": "^10.0.0",
     "@yornaath/batshit": "^0.10.1",
     "axios": "^1.11.0",
+    "dagre": "^0.8.5",
     "downshift": "^9.0.10",
     "fuse.js": "^7.1.0",
     "ical.js": "^2.2.1",
@@ -50,6 +51,7 @@
     "react-spinners": "^0.17.0",
     "react-string-replace": "^1.1.1",
     "react-tooltip": "^5.29.1",
+    "reactflow": "^11.11.4",
     "redux-persist": "^6.0.0",
     "use-deep-compare-effect": "^1.8.1",
     "uuid": "^11.1.0"
