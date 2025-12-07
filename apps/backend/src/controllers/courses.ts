@@ -321,3 +321,52 @@ export const getRequisites: RequestHandler = async (req, res, next) => {
     next(e);
   }
 };
+
+// --- Full Requisites Graph Endpoint (DAG) ---
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getRequisitesGraph = async (_req: any, res: any, next: any) => {
+  try {
+    const courses = await db.courses.findMany({
+      select: {
+        courseID: true,
+        name: true,
+        department: true,
+        units: true,
+        prereqs: true,
+      },
+    });
+
+    const nodes: Record<
+      string,
+      {
+        courseID: string;
+        name: string;
+        department: string;
+        units: string | number | null;
+      }
+    > = {};
+
+    const edges: { source: string; target: string; kind: "prereq" }[] = [];
+
+    for (const c of courses) {
+      nodes[c.courseID] = {
+        courseID: c.courseID,
+        name: c.name,
+        department: c.department,
+        units: c.units,
+      };
+
+      for (const prereq of c.prereqs ?? []) {
+        edges.push({
+          source: prereq,
+          target: c.courseID,
+          kind: "prereq",
+        });
+      }
+    }
+
+    res.json({ nodes, edges });
+  } catch (err) {
+    next(err);
+  }
+};
