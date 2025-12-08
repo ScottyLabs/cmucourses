@@ -12,11 +12,19 @@ type Props = {
   sidebar?: React.ReactNode;
   content: React.ReactNode;
   activePage?: string;
+  title?: string;
 };
 
-export const Page = ({ sidebar, content, activePage }: Props) => {
+export const Page = ({ sidebar, content, activePage,title }: Props) => {
   const { isSignedIn, userId } = useAuth();
   const posthog = usePostHog();
+
+  useEffect(() => {
+    // Set the browser tab title
+    if (title) {
+      document.title = title;
+    }
+  }, [title]);
 
   useEffect(() => {
     if (isSignedIn && userId) {

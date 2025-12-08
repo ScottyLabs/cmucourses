@@ -17,6 +17,7 @@ const PaddedInstructorDetail = (name: string) => {
 const InstructorPage: NextPage = () => {
   const router = useRouter();
   const name = router.query.name as string;
+  const pageTitle = name ? `Instructor: ${name}` : "Instructors";
 
   return (
     <Page
@@ -27,6 +28,7 @@ const InstructorPage: NextPage = () => {
           <CourseFilter name={name} />
         </>
       }
+      title={pageTitle} // Set dynamic tab title
     />
   );
 };
