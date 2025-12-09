@@ -13,6 +13,7 @@ import { filtersSlice } from "~/app/filters";
 import { getPillboxes } from "./filters/LevelFilter";
 import { useFetchCourseInfosByPage } from "~/app/api/course";
 import { useAuth } from "@clerk/nextjs";
+import { uiSlice } from "~/app/ui";
 
 const AppliedFiltersPill = ({
   className,
@@ -129,6 +130,24 @@ const AppliedFilters = () => {
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
+  const searchBarMounted = useAppSelector((state) => state.ui.searchBarMounted);
+  const [hasClaimedSlot, setHasClaimedSlot] = useState(false);
+
+  useEffect(() => {
+    // Ensure only one search bar can render at a time by claiming a global slot.
+    if (!hasClaimedSlot && !searchBarMounted) {
+      setHasClaimedSlot(true);
+      dispatch(uiSlice.actions.setSearchBarMounted(true));
+    }
+
+    return () => {
+      if (hasClaimedSlot) {
+        dispatch(uiSlice.actions.setSearchBarMounted(false));
+      }
+    };
+  }, [dispatch, hasClaimedSlot, searchBarMounted]);
+
+  if (!hasClaimedSlot && searchBarMounted) return null;
   const initialSearch = useAppSelector((state) => state.filters.search);
   const [search, setSearch] = useState(initialSearch);
 

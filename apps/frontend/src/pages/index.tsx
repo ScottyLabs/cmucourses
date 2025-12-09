@@ -21,22 +21,20 @@ const IndexPage: NextPage = () => {
       content={
         <>
           <Topbar>
-            <Topbar>
-  <div className="flex w-full items-center gap-3">
-    <div className="flex-1">
-      <SearchBar />
-    </div>
+            <div className="flex w-full items-center gap-3">
+              <div className="flex-1">
+                <SearchBar />
+              </div>
 
-    <a
-      href="/requisites"
-      className="shrink-0 rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
-    >
-      Course Requisites Graph
-    </a>
-  </div>
-</Topbar>
-            <SearchBar />
+              <a
+                href="/requisites"
+                className="shrink-0 rounded-md bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700"
+              >
+                Course Requisites Graph
+              </a>
+            </div>
           </Topbar>
+
           <CourseSearchList />
         </>
       }
@@ -44,5 +42,6 @@ const IndexPage: NextPage = () => {
     />
   );
 };
+
 
 export default IndexPage;
