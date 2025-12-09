@@ -24,7 +24,9 @@ app.route("/courses/all").get(getAllCourses);
 app.route("/courses/requisites/:courseID").get(getRequisites);
 app.route("/courses/search/").get(getFilteredCourses);
 app.route("/courses/search/").post(isUser, getFilteredCourses);
-app.route("/courses/requisites-graph").get(getRequisitesGraph);
+// app.route("/courses/requisites-graph").get(getRequisitesGraph);
+console.log("Registering /courses/requisites-graph");
+app.get("/courses/requisites-graph", getRequisitesGraph);
 
 
 app.route("/fces").post(isUser, getFCEs);

@@ -324,7 +324,7 @@ export const getRequisites: RequestHandler = async (req, res, next) => {
 
 // --- Full Requisites Graph Endpoint (DAG) ---
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getRequisitesGraph = async (_req: any, res: any, next: any) => {
+export const getRequisitesGraph: RequestHandler = async (_req, res, next) => {
   try {
     const courses = await db.courses.findMany({
       select: {
@@ -349,6 +349,7 @@ export const getRequisitesGraph = async (_req: any, res: any, next: any) => {
     const edges: { source: string; target: string; kind: "prereq" }[] = [];
 
     for (const c of courses) {
+      // node for each course
       nodes[c.courseID] = {
         courseID: c.courseID,
         name: c.name,
@@ -356,6 +357,7 @@ export const getRequisitesGraph = async (_req: any, res: any, next: any) => {
         units: c.units,
       };
 
+      // edges for each prereq
       for (const prereq of c.prereqs ?? []) {
         edges.push({
           source: prereq,
