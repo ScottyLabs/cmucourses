@@ -188,18 +188,21 @@ export const GenedsDataTable = ({ data }: { data: Gened[] }) => {
         ))}
       </thead>
       <tbody>
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id} className="hover:bg-white">
-            {row.getVisibleCells().map((cell) => (
-              <td
-                className="whitespace-nowrap px-2 text-sm text-gray-600"
-                key={cell.id}
-              >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
+        {table.getRowModel().rows.map((row,idx) => {
+          const bgColor = idx % 2 == 0 ? "bg-white" : "bg-gray-50"; 
+          return (
+            <tr key={row.id} className={`${bgColor} hover:bg-gray-100 dark:hover:bg-gray-200`}>
+              {row.getVisibleCells().map((cell) => (
+                <td
+                  className="whitespace-nowrap px-3 py-1 text-sm text-gray-600"
+                  key={cell.id}
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
