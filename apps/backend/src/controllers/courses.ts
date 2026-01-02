@@ -176,12 +176,21 @@ export const getFilteredCourses: RequestHandler<
     const sessions = singleToArray(req.query.session).flatMap((serializedSession) => {
       try {
         const session = JSON.parse(serializedSession);
-        return [{ year: parseInt(session.year), semester: session.semester }];
+        if (session.session === "summer one" || session.session === "summer two") {
+          // include summer all results when checking for summer one or two
+          return [
+            { year: parseInt(session.year), semester: "summer", session: session.session },
+            { year: parseInt(session.year), semester: "summer", session: "summer all" },
+          ];
+        }
+        // otherwise, just return the session as is (could be quatar summer)
+        return [{ year: parseInt(session.year), semester: session.semester, session: session.session }];
       } catch {
         // SyntaxError
         return [];
       }
     });
+
     pipeline.push({
       $match: {
         schedules: {
