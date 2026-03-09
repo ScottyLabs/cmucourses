@@ -19,8 +19,9 @@ export const GetTooltip = ({
       place="top"
       positionStrategy="fixed"
       clickable={true}
-    >
-      {children}
+    ><div style={{ maxWidth: '300px', whiteSpace: 'normal', wordWrap: 'break-word' }}>
+        {children}
+      </div>
     </Tooltip>
   );
 };

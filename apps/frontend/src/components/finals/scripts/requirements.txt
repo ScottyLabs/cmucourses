@@ -1,0 +1,4 @@
+pdf2image==1.17.0 # requires poppler
+pytesseract==0.3.13 # requires tesseract
+regex==2026.2.28
+Requests==2.32.5
