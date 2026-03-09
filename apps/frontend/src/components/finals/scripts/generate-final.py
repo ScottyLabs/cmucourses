@@ -10,18 +10,6 @@ import requests
 import pypdf
 import regex
 
-import json
-import datetime
-import pytesseract
-import pdf2image
-from PIL import Image
-import pickle as pkl
-import io
-from time import strptime
-import requests
-import pypdf
-import regex
-
 from pathlib import Path
 
 # Get the absolute path of the directory containing the script
@@ -29,7 +17,7 @@ dir_path = Path(__file__).parent.resolve()
 
 EXAMS_URL = "https://www.cmu.edu/hub/docs/final-exams.pdf"
 API_URL = 'https://course-tools.apis.scottylabs.org/courses/search?&page=1&schedules=true&keywords='
-USE_MANUAL_PARSE = False
+USE_MANUAL_PARSE = True
 
 
 def detect_parse_state(txt_line):
@@ -149,7 +137,7 @@ def main():
         location_str = group[5].strip()
 
         # Clean course ID (e.g., "151121" from "15112 1 ...")
-        course_id = regex.sub(r'[^a-zA-Z0-9]', '',
+        course_id = regex.sub(r'[^A-Z0-9]', '',
                               " ".join(course_str.split(" ")[:2]))
 
         # Calculate timestamps
