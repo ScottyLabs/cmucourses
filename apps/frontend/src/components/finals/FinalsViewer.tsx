@@ -21,7 +21,9 @@ import DataTable from "./datatable";
 import { classNames } from "~/app/utils";
 import ICAL from "ical.js";
 import { GetTooltip } from "~/components/GetTooltip";
-import { useFetchFinalsSearch } from "~/app/api/finals";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { STALE_TIME } from "~/app/constants";
 
 type RawFinal = {
     course: string;
@@ -122,6 +124,29 @@ const columns: ColumnDef<FinalExamRow>[] = [
 
 const SIO_CAL_EXPORT_URL = "https://s3.andrew.cmu.edu/sio/mpa/secure/export/schedule/F25_schedule.ics";
 
+// Hook to search courses via backend API
+const useFinalsCourseSearch = (keywords: string) => {
+  return useQuery({
+    queryKey: ["finalsSearch", keywords],
+    queryFn: async () => {
+      if (!keywords.trim()) return [];
+      const url = `${process.env.NEXT_PUBLIC_BACKEND_URL || ""}/courses/search?`;
+      const params = new URLSearchParams({
+        keywords,
+        page: "1",
+        pageSize: "100",
+      });
+      const response = await axios.get(url, {
+        headers: { "Content-Type": "application/json" },
+        params,
+      });
+      return response.data.docs ?? [];
+    },
+    staleTime: STALE_TIME,
+    enabled: keywords.trim().length > 0,
+  });
+};
+
 export default function FinalsViewer() {
     const dispatch = useAppDispatch();
     const ownCourses = useAppSelector((state) => state.finals.ownCourses);
@@ -131,7 +156,7 @@ export default function FinalsViewer() {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     // Fetch search results from the backend when there's a search query
-    const { data: searchResults } = useFetchFinalsSearch(search);
+    const { data: searchResults } = useFinalsCourseSearch(search);
 
     // Standardize courseID for matching (e.g., "48321A" -> "48-321")
     const standardizeCourseID = (courseCode: string): string => {
