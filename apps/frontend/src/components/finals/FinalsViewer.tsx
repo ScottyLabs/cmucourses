@@ -21,6 +21,7 @@ import DataTable from "./datatable";
 import { classNames } from "~/app/utils";
 import ICAL from "ical.js";
 import { GetTooltip } from "~/components/GetTooltip";
+import { useFetchFinalsSearch } from "~/app/api/finals";
 
 type RawFinal = {
     course: string;
@@ -129,26 +130,55 @@ export default function FinalsViewer() {
     const showOwn = useAppSelector((state) => state.finals.showOwn);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-    const filteredRows = useMemo(() => {
+    // Fetch search results from the backend when there's a search query
+    const { data: searchResults } = useFetchFinalsSearch(search);
 
-        const normalized = search.trim().toLowerCase();
+    // Standardize courseID for matching (e.g., "48321A" -> "48-321")
+    const standardizeCourseID = (courseCode: string): string => {
+        const course = courseCode.slice(0, 5);
+        if (course.length >= 5) {
+            return `${course.slice(0, 2)}-${course.slice(2)}`;
+        }
+        return course;
+    };
+
+    const filteredRows = useMemo(() => {
+        const normalized = search.trim();
+        
+        // If no search and no own courses, show all
         if (!normalized && ownCourses.length === 0) {
             return FINALS_ROWS;
         }
-        if (showOwn && ownCourses.length > 0) {
-            return FINALS_ROWS.filter((row) => {
-                return (
-                    (row.course + row.section).toLowerCase().includes(normalized) &&
-                    ownCourses.includes(row.course + row.section)
-                );
+
+        // Build set of matching course IDs from search results
+        const matchingCourseIDs = new Set<string>();
+        if (normalized && searchResults) {
+            searchResults.forEach((result) => {
+                matchingCourseIDs.add(result.courseID);
             });
         }
+
+        // Filter finals data based on search and own courses
         return FINALS_ROWS.filter((row) => {
-            return (
-                (row.course + row.section).toLowerCase().includes(normalized)
-            );
+            const rowCourseFull = row.course + row.section;
+            const rowCourseStandardized = standardizeCourseID(row.course);
+            
+            // Check if this row matches the search query
+            let matchesSearch = true;
+            if (normalized) {
+                // Use search API results to determine match
+                matchesSearch = matchingCourseIDs.has(rowCourseStandardized);
+            }
+            
+            // Check if this row matches own courses (if filtering by own)
+            let matchesOwn = true;
+            if (showOwn && ownCourses.length > 0) {
+                matchesOwn = ownCourses.includes(rowCourseFull);
+            }
+            
+            return matchesSearch && matchesOwn;
         });
-    }, [search, showOwn, ownCourses]);
+    }, [search, searchResults, showOwn, ownCourses]);
 
     function uploaded() {
         return ownCourses.length > 0;
