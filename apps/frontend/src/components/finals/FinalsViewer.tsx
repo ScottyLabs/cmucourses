@@ -94,7 +94,7 @@ const columns: ColumnDef<FinalExamRow>[] = [
             const formattedCourseCode = formatCourseCode(courseCode);
             const id = `finals-table-${courseCode}`;
 
-            return <><Link data-tooltip-id={id} href={`/course/${formattedCourseCode}`}>{formattedCourseCode}</Link><GetTooltip id={id} children={<><b>{row.original.name as string}</b> <br />{row.original.desc as string}</>} /></>;
+            return <><Link data-tooltip-id={id} href={`/course/${formattedCourseCode}`}>{formattedCourseCode}</Link><GetTooltip id={id} children={<div><b>{row.original.name as string}</b> <br />{row.original.desc as string}</div>} /></>;
         },
     },
     {
