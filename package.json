@@ -12,16 +12,16 @@
     "@nx/next": "19.6.3",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "eslint-config-prettier": "^8.10.0",
+    "eslint-config-prettier": "^8.10.2",
     "nx": "19.6.3",
-    "prettier": "^3.4.2",
-    "typescript": "^5.7.2"
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "dependencies": {
-    "react-big-calendar": "^1.18.0"
+    "react-big-calendar": "^1.19.4"
   }
 }
