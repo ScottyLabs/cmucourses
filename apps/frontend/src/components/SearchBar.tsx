@@ -195,7 +195,7 @@ const SearchBar = () => {
 
   const setShowAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showAll(e.target.checked));
-    // if (isSignedIn) dispatch(userSlice.actions.showFCEs(e.target.checked));
+    if (isSignedIn) dispatch(userSlice.actions.showFCEs(e.target.checked));
     dispatch(userSlice.actions.showCourseInfos(e.target.checked));
     dispatch(userSlice.actions.showSchedules(e.target.checked));
   };
