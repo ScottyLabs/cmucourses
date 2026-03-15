@@ -73,7 +73,7 @@ export const userSlice = createSlice({
       state.bookmarked = [];
     },
     showFCEs: (state, action: PayloadAction<boolean>) => {
-      state.showFCEs = action.payload;
+      state.showFCEs = false;
     },
     showCourseInfos: (state, action: PayloadAction<boolean>) => {
       state.showCourseInfos = action.payload;
