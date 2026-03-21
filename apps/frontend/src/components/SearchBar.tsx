@@ -13,6 +13,13 @@ import { filtersSlice } from "~/app/filters";
 import { getPillboxes } from "./filters/LevelFilter";
 import { useFetchCourseInfosByPage } from "~/app/api/course";
 import { useAuth } from "@clerk/nextjs";
+import { usePostHog } from "posthog-js/react";
+
+/** Extra idle time after Redux search updates (those already debounce 300ms) before sending PostHog. */
+const POSTHOG_COURSE_SEARCH_IDLE_MS = 750;
+
+/** If true, only send when the query contains at least one full course ID (e.g. 15-122). Keyword-only searches skipped. */
+const POSTHOG_COURSE_SEARCH_REQUIRE_FULL_COURSE_ID = false;
 
 const AppliedFiltersPill = ({
   className,
@@ -129,8 +136,9 @@ const AppliedFilters = () => {
 
 const SearchBar = () => {
   const dispatch = useAppDispatch();
-  const initialSearch = useAppSelector((state) => state.filters.search);
-  const [search, setSearch] = useState(initialSearch);
+  const filtersSearch = useAppSelector((state) => state.filters.search);
+  const [search, setSearch] = useState(filtersSearch);
+  const posthog = usePostHog();
 
   const dispatchSearch = useCallback(
     (search: string) => {
@@ -150,6 +158,22 @@ const SearchBar = () => {
   useEffect(() => {
     dispatchSearch(search);
   }, [dispatchSearch, search]);
+
+  useEffect(() => {
+    const query = filtersSearch.trim();
+    if (query.length === 0) { return; }
+    if (POSTHOG_COURSE_SEARCH_REQUIRE_FULL_COURSE_ID) {
+      const ids = getCourseIDs(filtersSearch);
+      if (ids.length === 0) { return; }
+    }
+    const t = window.setTimeout(() => {
+      posthog?.capture("coursesearch", {
+        query: filtersSearch,
+        course_ids: getCourseIDs(filtersSearch),
+      });
+    }, POSTHOG_COURSE_SEARCH_IDLE_MS);
+    return () => window.clearTimeout(t);
+  }, [filtersSearch, posthog]);
 
   const { isSignedIn } = useAuth();
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
@@ -218,7 +242,10 @@ const SearchBar = () => {
         />
         {search && (
           <button
-            onClick={() => setSearch("")}
+            onClick={() => {
+              setSearch("");
+              throttledFilter("");
+            }}
             className="absolute inset-y-0 right-0 flex items-center text-gray-500 hover:text-gray-700 "
           >
             <XMarkIcon className="h-5 w-5" />
