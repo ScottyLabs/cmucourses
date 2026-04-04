@@ -295,7 +295,7 @@ const ScheduleCalendar = ({ courseIDs }: Props) => {
     }, []);
 
   return (
-    <div className="m-6 p-4 bg-white text-gray-700 rounded-md"> 
+    <div className="m-6 p-4 bg-white text-gray-700 rounded-md">
       <Calendar
         defaultDate={defaultDate}
         defaultView="week"
@@ -307,7 +307,7 @@ const ScheduleCalendar = ({ courseIDs }: Props) => {
         formats={formats}
         eventPropGetter={eventPropGetter}
         min={new Date(0, 0, 0, 8, 0)}
-        max={new Date(0, 0, 0, 22, 0)}
+        max={new Date(0, 0, 0, 23, 59)}
       />
     </div>
   );
