@@ -17,7 +17,7 @@ dir_path = Path(__file__).parent.resolve()
 
 EXAMS_URL = "https://www.cmu.edu/hub/docs/final-exams.pdf"
 API_URL = 'https://course-tools.apis.scottylabs.org/courses/search?&page=1&schedules=true&keywords='
-USE_MANUAL_PARSE = False
+USE_MANUAL_PARSE = True
 
 
 def detect_parse_state(txt_line):
