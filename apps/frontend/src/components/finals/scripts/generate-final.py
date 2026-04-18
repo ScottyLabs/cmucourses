@@ -7,8 +7,8 @@ import pickle as pkl
 import io
 from time import strptime
 import requests
-import pypdf
 import regex
+import pymupdf
 
 from pathlib import Path
 
@@ -17,11 +17,11 @@ dir_path = Path(__file__).parent.resolve()
 
 EXAMS_URL = "https://www.cmu.edu/hub/docs/final-exams.pdf"
 API_URL = 'https://course-tools.apis.scottylabs.org/courses/search?&page=1&schedules=true&keywords='
-USE_MANUAL_PARSE = True
+USE_MANUAL_PARSE = False
 
 
 def detect_parse_state(txt_line):
-    if "Teaching Space(s)" in txt_line:
+    if "Teaching Space(s)" in txt_line or "Exam Assigned Space(s)" in txt_line:
         return "LOCATION"
     if "Delivery Mode" in txt_line:
         return "MODE"
@@ -92,65 +92,84 @@ def get_course_info(course_id):
 
 
 def main():
-    if USE_MANUAL_PARSE:
-        print("Using manual OCR text from raw_ocr.txt")
-        txt_pages = open(f"{dir_path}/raw_ocr.txt", "r").read()
-    else:
-        print("Fetching and parsing PDF...")
-        try:
-            txt_pages = pkl.load(open(f"{dir_path}/parsed_exams.pkl", 'rb'))
-        except:
-            txt_pages = None
-            if not txt_pages:
-                a = requests.get(EXAMS_URL)
-                img = pdf2image.convert_from_bytes(a.content)
-                txt_pages = ""
-                for page in img:
-                    txt_pages += "\n" + \
-                        pytesseract.image_to_string(
-                            page, lang="eng", config='--psm 6')
-                pkl.dump(txt_pages, open("parsed_exams.pkl", 'wb'))
+    print("Fetching and parsing PDF...")
+    a = requests.get(EXAMS_URL)
 
-        with open(f"{dir_path}/raw_ocr.txt", "w") as f:
-            f.write(txt_pages)
+    with open("final_exams.pdf", "wb") as f:
+        f.write(a.content)
 
-    # Regex setup
-    course_regex = r"\d{5} [A-Z0-9]{1,4}.*"
-    date_regex = r"(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), (April|May|December) \d{1,2}, 202[56]"
-    time_regex = r"\d{2}:\d{2}[ap]m - \d{2}:\d{2}[ap]m"
-    teaching_space_regex = r"(Remote|In Person|Canceled|CANCELED) (TBD -assigned after mini-[24] add deadline|To be assigned after Mini-2 add deadline|To Be Scheduled after the Mini-2 Add Deadline|CANCELED|Canceled|Remote|(PTC|AH|AN|BH|PH|BR|CIC|CUC|CFA|CYH|DH|FM|GHC|HOA|HBH|HH|HL|MM|MI|NSH|PC|POS|PCA|REH|SC|EDS|TCS|TEP|WH|WEH|WWG|WF|WQ|2SC|3SC|4SC|CC|UT|FRB|INI|PO|MC|BOS|CLY|DON|FAF|FCL|FIF|FBA|GQ1|GQ2|GQ3|GQ4|GQ5|GQ6|HAM|HEN|HIL|MMA|MCG|MOE|MOR|MUD|NVL|ROF|RES|ROS1|ROS2|ROS3|SCO|SPT|STE|WEL|WOO|SH) (Rangos Hall|[A-Z]{0,3}[0-9]{0,4}([A-Z]{0,1}( Atrium){0,1}))|HLAS|TBA)"
+    txt_pages = ""
 
-    full_line_regex = fr"({course_regex}) *({date_regex}) *({time_regex}) *({teaching_space_regex})(.*)"
+    # parses it using tag pdf
+    with pymupdf.open("final_exams.pdf") as pdf:
+        txt_pages = chr(12).join([page.get_text() for page in pdf])
 
+    with open(f"{dir_path}/raw_text.txt", "w") as f:
+        f.write(txt_pages)
+
+    # PDF text is one field per line (see raw_text.txt). Match column lines, not a single stitched line.
+    course_id_line = regex.compile(r"^\d{5}\s*$")
+    section_line = regex.compile(r"^[A-Za-z0-9]{1,4}\s*$")
+    date_line_re = regex.compile(
+        r"^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), "
+        r"(January|February|March|April|May|June|July|August|September|October|November|December) "
+        r"\d{1,2}, \d{4}\s*$"
+    )
+    time_line_re = regex.compile(
+        r"^\d{1,2}:\d{2}[ap]m - \d{1,2}:\d{2}[ap]m\s*$"
+    )
     final_exams = []
     print("Parsing schedule...")
-    for line in txt_pages.split("\n"):
-        match = regex.finditer(full_line_regex, line)
-        matches = [m for m in match]
-        if not matches:
+    lines = txt_pages.split("\n")
+    i = 0
+    while i < len(lines):
+        raw = lines[i]
+        line = raw.strip()
+        if not course_id_line.match(line):
+            i += 1
+            continue
+        if i + 1 >= len(lines):
+            break
+        section = lines[i + 1].strip()
+        if not section_line.match(section):
+            i += 1
+            continue
+        j = i + 2
+        while j < len(lines) and not date_line_re.match(lines[j].strip()):
+            j += 1
+        if j >= len(lines) or not date_line_re.match(lines[j].strip()):
+            i += 1
+            continue
+        date_str = lines[j].strip()
+        time_str = lines[j + 1].strip()
+        if not time_line_re.match(time_str):
+            i += 1
+            continue
+        if j + 3 >= len(lines):
+            i += 1
+            continue
+        mode = lines[j + 2].strip()
+        location = lines[j + 3].strip()
+        # Delivery modes in Spring 2026 PDF: In Person, Remote, Cancelled/Canceled (+ optional date line as next row)
+        if mode not in ("In Person", "Remote", "Cancelled", "Canceled", "CANCELED"):
+            i += 1
             continue
 
-        group = matches[0].groups()
-        course_str = group[0].strip()
-        date_str = group[1].strip()
-        time_str = group[4].strip()
-        location_str = group[5].strip()
+        course_id = regex.sub(r"[^A-Z0-9]", "", line + section)
 
-        # Clean course ID (e.g., "151121" from "15112 1 ...")
-        course_id = regex.sub(r'[^A-Z0-9]', '',
-                              " ".join(course_str.split(" ")[:2]))
-
-        # Calculate timestamps
         ts_pair = convert_time_to_datetime_pair(date_str + " " + time_str)
 
         final_exams.append({
             "course": course_id,
             "start_time": ts_pair[0],
             "end_time": ts_pair[1],
-            "location": location_str
+            "location": location,
         })
 
-    print(f"Parsed {len(final_exams)} exams. Enriching with course info...")
+        i = j + 4
+
+    print(
+        f"Parsed {len(final_exams)} exams. Enriching with course info...")
 
     # Enrichment with API
     course_cache = {}
