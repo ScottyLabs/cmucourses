@@ -2,7 +2,6 @@
 
 import { useEffect, useState, type ReactElement } from "react";
 import Link from "./Link";
-import { MECHANIZE_APPLY_URL } from "~/app/constants";
 
 const PROMPTS = [
   "Mechanize is hiring junior SWEs. $300K base + equity.",
@@ -10,6 +9,7 @@ const PROMPTS = [
   "We hire engineers to outsmart AI. It’s harder than you think. 300k + equity.",
   "Most engineers can’t beat Claude on our take-home. Think you can? 300k + equity for Jr SWEs at Mechanize.",
 ];
+const MECHANIZE_APPLY_URL = "";
 
 function pickPrompt(): string {
   return PROMPTS[Math.floor(Math.random() * PROMPTS.length)]!;
