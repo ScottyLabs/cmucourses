@@ -5,6 +5,7 @@ import { ArrowUpRightIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import Link from "./Link";
 
 const DISMISS_KEY = "cmucourses-mechanize-banner-dismissed";
+const PROMPT_KEY = "cmucourses-mechanize-banner-prompt";
 
 const PROMPTS = [
   "Mechanize is hiring junior SWEs. $300K base + equity.",
@@ -18,6 +19,24 @@ function pickPrompt(): string {
   return PROMPTS[Math.floor(Math.random() * PROMPTS.length)]!;
 }
 
+function getOrCreateSessionPrompt(): string {
+  try {
+    const existing = sessionStorage.getItem(PROMPT_KEY);
+    if (existing) {
+      return existing;
+    }
+  } catch {
+    /* sessionStorage unavailable */
+  }
+  const chosen = pickPrompt();
+  try {
+    sessionStorage.setItem(PROMPT_KEY, chosen);
+  } catch {
+    /* ignore */
+  }
+  return chosen;
+}
+
 export default function MechanizeBanner(): ReactElement | null {
   const [prompt, setPrompt] = useState<string | null>(null);
 
@@ -29,12 +48,13 @@ export default function MechanizeBanner(): ReactElement | null {
     } catch {
       /* sessionStorage unavailable (e.g. private mode restrictions) */
     }
-    setPrompt(pickPrompt());
+    setPrompt(getOrCreateSessionPrompt());
   }, []);
 
   const handleDismiss = () => {
     try {
       sessionStorage.setItem(DISMISS_KEY, "1");
+      sessionStorage.removeItem(PROMPT_KEY);
     } catch {
       /* ignore */
     }
