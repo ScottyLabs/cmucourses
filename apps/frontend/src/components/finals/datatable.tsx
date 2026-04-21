@@ -1,12 +1,19 @@
-import { type ColumnDef, flexRender, type Table as TableType } from "@tanstack/react-table"
+import {
+  type ColumnDef,
+  flexRender,
+  type Table as TableType,
+} from "@tanstack/react-table";
 
 interface DataTableProps<TData, TValue> {
-  table: TableType<TData>
-  columns: ColumnDef<TData, TValue>[]
+  table: TableType<TData>;
+  columns: ColumnDef<TData, TValue>[];
 }
 
-function DataTable<TData, TValue>({table, columns}: DataTableProps<TData, TValue>) {
-    return (
+function DataTable<TData, TValue>({
+  table,
+  columns,
+}: DataTableProps<TData, TValue>) {
+  return (
     <div className="w-full min-w-0 overflow-x-auto">
       <table className="w-full min-w-fit table-auto">
         <thead>
@@ -26,7 +33,11 @@ function DataTable<TData, TValue>({table, columns}: DataTableProps<TData, TValue
                   <th
                     key={header.id}
                     className={`whitespace-nowrap px-2 text-left text-sm font-semibold text-gray-700 ${canSort ? "cursor-pointer select-none" : ""}`}
-                    onClick={canSort ? header.column.getToggleSortingHandler() : undefined}
+                    onClick={
+                      canSort
+                        ? header.column.getToggleSortingHandler()
+                        : undefined
+                    }
                   >
                     {flexRender(
                       header.column.columnDef.header,
@@ -55,7 +66,10 @@ function DataTable<TData, TValue>({table, columns}: DataTableProps<TData, TValue
             ))
           ) : (
             <tr>
-              <td colSpan={columns.length} className="px-2 py-6 text-center text-sm text-gray-500">
+              <td
+                colSpan={columns.length}
+                className="px-2 py-6 text-center text-sm text-gray-500"
+              >
                 No results.
               </td>
             </tr>
@@ -63,7 +77,7 @@ function DataTable<TData, TValue>({table, columns}: DataTableProps<TData, TValue
         </tbody>
       </table>
     </div>
-    )
+  );
 }
 
-export default DataTable
+export default DataTable;

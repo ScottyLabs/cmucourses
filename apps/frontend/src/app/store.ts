@@ -87,7 +87,6 @@ const reducers = combineReducers({
     },
     finalsReducer
   ),
-
 });
 
 export const store = configureStore({

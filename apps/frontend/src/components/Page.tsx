@@ -15,7 +15,7 @@ type Props = {
   title?: string;
 };
 
-export const Page = ({ sidebar, content, activePage,title }: Props) => {
+export const Page = ({ sidebar, content, activePage, title }: Props) => {
   const { isSignedIn, userId } = useAuth();
   const posthog = usePostHog();
 
@@ -45,9 +45,7 @@ export const Page = ({ sidebar, content, activePage,title }: Props) => {
         <SideNav activePage={activePage} />
         {sidebar && <Sidebar>{sidebar}</Sidebar>}
         <div
-          className={`flex-1 overflow-y-auto md:h-full ${
-            !sidebar ? "" : ""
-          }`}
+          className={`flex-1 overflow-y-auto md:h-full ${!sidebar ? "" : ""}`}
         >
           {content}
         </div>

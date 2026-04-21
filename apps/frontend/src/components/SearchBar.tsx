@@ -161,10 +161,14 @@ const SearchBar = () => {
 
   useEffect(() => {
     const query = filtersSearch.trim();
-    if (query.length === 0) { return; }
+    if (query.length === 0) {
+      return;
+    }
     if (POSTHOG_COURSE_SEARCH_REQUIRE_FULL_COURSE_ID) {
       const ids = getCourseIDs(filtersSearch);
-      if (ids.length === 0) { return; }
+      if (ids.length === 0) {
+        return;
+      }
     }
     const t = window.setTimeout(() => {
       posthog?.capture("coursesearch", {

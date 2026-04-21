@@ -37,12 +37,10 @@ const InstructorSearch = () => {
       </div>
       <div className="flex justify-between">
         <div className="mt-3 text-sm text-gray-400">
-          {
-            !isSignedIn
-              ? "Sign in to view instructors" :
-              numResults + " results"
-          }
-          </div>
+          {!isSignedIn
+            ? "Sign in to view instructors"
+            : numResults + " results"}
+        </div>
       </div>
     </>
   );

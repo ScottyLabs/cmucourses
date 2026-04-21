@@ -19,7 +19,14 @@ export const GetTooltip = ({
       place="top"
       positionStrategy="fixed"
       clickable={true}
-    ><div style={{ maxWidth: '300px', whiteSpace: 'normal', wordWrap: 'break-word' }}>
+    >
+      <div
+        style={{
+          maxWidth: "300px",
+          whiteSpace: "normal",
+          wordWrap: "break-word",
+        }}
+      >
         {children}
       </div>
     </Tooltip>

@@ -34,10 +34,8 @@ const CourseDetailPage: NextPage = () => {
       }
     }
 
-
     fetchCourse();
   }, [courseID]);
-
 
   let content = (
     <div className="p-6">
