@@ -55,7 +55,7 @@ export default function MechanizeBanner(): ReactElement | null {
       >
         <XMarkIcon className="h-5 w-5" aria-hidden />
       </button>
-      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center lg:text-base md:text-sm text-2xs py-2">
+      <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-center lg:text-base md:text-sm text-2xs py-1">
         <span className="leading-none">{prompt}</span>
         <Link
           href={MECHANIZE_APPLY_URL}
