@@ -12,7 +12,7 @@ const PROMPTS = [
   "We hire engineers to outsmart AI. It’s harder than you think. 300k + equity.",
   "Most engineers can’t beat Claude on our take-home. Think you can? 300k + equity for Jr SWEs at Mechanize.",
 ];
-const MECHANIZE_APPLY_URL = "";
+const MECHANIZE_APPLY_URL = "https://jobs.ashbyhq.com/mechanize?utm_source=CMU";
 
 function pickPrompt(): string {
   return PROMPTS[Math.floor(Math.random() * PROMPTS.length)]!;
@@ -46,7 +46,7 @@ export default function MechanizeBanner(): ReactElement | null {
   }
 
   return (
-    <div className="nightwind-prevent-block relative lg:p-1.5 md:p-2 p-3 lg:pr-12 md:pr-11 pr-10 lg:text-lg md:text-base text-xs text-white text-center bg-[#007fff]">
+    <div className="nightwind-prevent-block relative lg:p-1.5 md:p-2 p-3 lg:pr-12 md:pr-11 pr-10 text-white text-center bg-[#007fff]">
       <button
         type="button"
         onClick={handleDismiss}
@@ -55,11 +55,11 @@ export default function MechanizeBanner(): ReactElement | null {
       >
         <XMarkIcon className="h-5 w-5" aria-hidden />
       </button>
-      <span>{prompt} </span>
+      <span className="lg:text-base md:text-sm text-2xs ">{prompt} </span>
       <Link
         href={MECHANIZE_APPLY_URL}
         openInNewTab
-        className="font-semibold text-white underline decoration-white/80 hover:no-underline"
+        className="font-semibold lg:text-lg md:text-base text-xs  text-white underline decoration-white/80 hover:no-underline"
       >
         Apply now
       </Link>
