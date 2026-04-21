@@ -55,11 +55,11 @@ export default function MechanizeBanner(): ReactElement | null {
       >
         <XMarkIcon className="h-5 w-5" aria-hidden />
       </button>
-      <span className="lg:text-base md:text-sm text-2xs ">{prompt} </span>
+      <span className="lg:text-sm md:text-xs text-3xs">{prompt} </span>
       <Link
         href={MECHANIZE_APPLY_URL}
         openInNewTab
-        className="font-semibold lg:text-lg md:text-base text-xs  text-white underline decoration-white/80 hover:no-underline"
+        className="font-semibold lg:text-base md:text-sm text-2xs text-white underline decoration-white/80 hover:no-underline"
       >
         Apply now
       </Link>
