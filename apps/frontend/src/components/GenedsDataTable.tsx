@@ -123,7 +123,7 @@ const columns: ColumnDef<Gened>[] = [
       const stopsCounting = info.getValue() as string;
       if (stopsCounting && stopsCounting !== "Fall 2099") {
         return <p>{stopsCounting}</p>;
-      } else {
+      } else{
         return <p>-</p>;
       }
     },

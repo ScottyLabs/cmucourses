@@ -18,10 +18,9 @@ const Link = ({
   const courseID = isCourseLink ? href.replace("/course/", "") : undefined;
   const tooltipId = isCourseLink && courseID ? `link-${courseID}` : undefined;
 
-  const { data: course } =
-    isCourseLink && courseID
-      ? useFetchCourseInfo(courseID)
-      : ({ data: undefined } as any);
+  const { data: course } = isCourseLink && courseID
+    ? useFetchCourseInfo(courseID)
+    : ({ data: undefined } as any);
 
   const tooltipContent = course
     ? `${course.name} - ${course.units} units`

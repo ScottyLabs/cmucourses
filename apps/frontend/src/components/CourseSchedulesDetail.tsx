@@ -49,9 +49,7 @@ const LectureViewer = ({
           {lectureInfo.name}
         </div>
         <div className="col-span-1 text-sm">
-          {isSignedIn
-            ? getInstructors(lectureInfo.instructors)
-            : "Sign in to view instructors"}
+          {isSignedIn ? getInstructors(lectureInfo.instructors) : "Sign in to view instructors"}
         </div>
         <div className="contents flex-col text-sm">
           {lectureInfo.times.map((time, i) => (
@@ -62,16 +60,16 @@ const LectureViewer = ({
               <div className="col-span-1 col-start-3">
                 {timeArrToString([time])}
               </div>
-              {isSignedIn ? (
-                <Link
-                  href={`https://maps.scottylabs.org/${time.building}-${time.room}`}
-                  openInNewTab={true}
-                >
-                  {time.building} {time.room}
-                </Link>
-              ) : (
-                "Sign in to view location"
-              )}
+              {
+                isSignedIn ? (
+                  <Link
+                    href={`https://maps.scottylabs.org/${time.building}-${time.room}`}
+                    openInNewTab={true}
+                  >
+                    {time.building} {time.room}
+                  </Link>
+                ) : "Sign in to view location"
+              }
             </div>
           ))}
         </div>
@@ -84,9 +82,7 @@ const LectureViewer = ({
         >
           <div className="text-md col-span-1 pt-1">{section.name}</div>
           <div className="col-span-1 text-sm">
-            {isSignedIn
-              ? section.instructors.join("; ")
-              : "Sign in to view instructors"}
+            {isSignedIn ? section.instructors.join("; ") : "Sign in to view instructors"}
           </div>
           <div className="contents text-sm">
             {section.times.map((time, i) => (
@@ -97,16 +93,16 @@ const LectureViewer = ({
                 <div className="col-span-1 col-start-3">
                   {timeArrToString([time])}
                 </div>
-                {isSignedIn ? (
-                  <Link
-                    href={`https://maps.scottylabs.org/${time.building}-${time.room}`}
-                    openInNewTab={true}
-                  >
-                    {time.building} {time.room}
-                  </Link>
-                ) : (
-                  "Sign in to view location"
-                )}
+                {
+                  isSignedIn ? (
+                    <Link
+                      href={`https://maps.scottylabs.org/${time.building}-${time.room}`}
+                      openInNewTab={true}
+                    >
+                      {time.building} {time.room}
+                    </Link>
+                  ) : "Sign in to view location"
+                }
               </div>
             ))}
           </div>

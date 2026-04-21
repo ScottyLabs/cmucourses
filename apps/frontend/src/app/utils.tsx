@@ -155,7 +155,7 @@ export const displayUnits = (units: string): string => {
   if (units.match(/[0-9]+\.[0-9]*/)) {
     return `${parseFloat(units).toString()}`;
   } else {
-    return units == "VAR" ? "Variable" : units;
+    return units == "VAR" ? "Variable" : units; 
   }
 };
 
