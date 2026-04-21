@@ -46,12 +46,12 @@ export default function MechanizeBanner(): ReactElement | null {
   }
 
   return (
-    <div className="nightwind-prevent-block relative lg:p-1.5 md:p-2 p-3 lg:pr-12 md:pr-11 pr-10 lg:text-lg md:text-base text-xs text-white text-center bg-[#007fff]">
+    <div className="nightwind-prevent-block relative border border-gray-200 lg:p-1.5 md:p-2 p-3 lg:pr-12 md:pr-11 pr-10 lg:text-lg md:text-base text-xs text-black text-center bg-gray-50">
       <button
         type="button"
         onClick={handleDismiss}
         aria-label="Dismiss Mechanize banner"
-        className="absolute right-1 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md text-white hover:bg-white/15 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+        className="absolute right-1 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-md text-black hover:[#007fff] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
       >
         <XMarkIcon className="h-5 w-5" aria-hidden />
       </button>
@@ -59,7 +59,7 @@ export default function MechanizeBanner(): ReactElement | null {
       <Link
         href={MECHANIZE_APPLY_URL}
         openInNewTab
-        className="font-semibold text-white underline decoration-white/80 hover:no-underline"
+        className="font-semibold text-black underline decoration-black hover:no-underline"
       >
         Apply now
       </Link>
