@@ -22,7 +22,12 @@
     "packages/*"
   ],
   "dependencies": {
-    "react-big-calendar": "^1.18.0"
+    "date-arithmetic": "^4.1.0",
+    "lodash": "^4.18.1",
+    "moment": "^2.30.1",
+    "prop-types": "^15.8.1",
+    "react-big-calendar": "^1.18.0",
+    "redux": "^5.0.1"
   },
   "engines": {
     "node": ">=24.15.0"
