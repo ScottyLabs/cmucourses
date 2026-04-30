@@ -13,7 +13,7 @@ const PROMPTS = [
   "We hire engineers to outsmart AI. It’s harder than you think. 300k + equity.",
   "Most engineers can’t beat Claude on our take-home. Think you can? 300k + equity for Jr SWEs at Mechanize.",
 ];
-const MECHANIZE_APPLY_URL = "https://jobs.ashbyhq.com/mechanize?utm_source=CMU";
+const MECHANIZE_APPLY_URL = "https://mechanize.work/apply/software-engineer/?utm_source=cmu-courses&utm_campaign=cmu-courses";
 
 function pickPrompt(): string {
   return PROMPTS[Math.floor(Math.random() * PROMPTS.length)]!;
