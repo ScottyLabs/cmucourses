@@ -2,9 +2,49 @@
 @import "tailwindcss";
 @import "@scottylabs/corgi/css";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-white: white;
+  --color-gray-50: #f0f4f8;
+  --color-gray-100: #d9e2ec;
+  --color-gray-200: #bcccdc;
+  --color-gray-300: #9fb3c8;
+  --color-gray-400: #829ab1;
+  --color-gray-500: #627d98;
+  --color-gray-600: #486581;
+  --color-gray-700: #334e68;
+  --color-gray-800: #243b53;
+  --color-gray-900: #102a43;
+}
+
+.dark {
+  --color-white: #101015;
+  --color-gray-50: #18181b;
+  --color-gray-100: #18181b;
+  --color-gray-200: #27272a;
+  --color-gray-300: #3f3f46;
+  --color-gray-400: #52525b;
+  --color-gray-500: #71717a;
+  --color-gray-600: #a1a1aa;
+  --color-gray-700: #d4d4d8;
+  --color-gray-800: #e4e4e7;
+  --color-gray-900: #f4f4f5;
+  color-scheme: dark;
+}
+
+html.nightwind *,
+html.nightwind *::before,
+html.nightwind *::after {
+  transition-duration: 300ms !important;
+  transition-property:
+    color, background-color, border-color, outline-color, text-decoration-color,
+    fill, stroke !important;
+}
 
 html,
 body {
@@ -22,7 +62,7 @@ body {
     Droid Sans,
     Helvetica Neue,
     sans-serif;
-  background-color: #f0f0f0;
+  background-color: var(--color-gray-50);
 }
 
 a {
