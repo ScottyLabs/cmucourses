@@ -72,7 +72,7 @@ const CourseCard = ({
           <div className="flex flex-row justify-between">
             <div>
               <div className="text-lg text-gray-700">
-                {displayUnits(info.units)} units
+                {displayUnits(info.units) || "Unknown"} units
               </div>
             </div>
             <div>
@@ -117,7 +117,7 @@ const CourseCard = ({
         </div>
         {showCourseInfo && (
           <div className="col-span-full row-span-1 row-start-3 text-sm leading-relaxed text-gray-600 md:col-span-6 md:row-start-2">
-            {injectLinks(info.desc)}
+            {injectLinks(info.desc || "No description available.")}
           </div>
         )}
       </div>
