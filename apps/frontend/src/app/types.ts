@@ -32,6 +32,14 @@ export interface Course {
   fces?: FCE[];
 }
 
+export interface Syllabus {
+  season: string;
+  year: number;
+  number: string;
+  section: string;
+  url: string;
+}
+
 export interface Time {
   days: number[];
   begin: string;
