@@ -6,7 +6,16 @@
     "dev": "nx run-many -c development -t dev --parallel",
     "build": "nx run-many -t build --parallel",
     "start": "nx run-many -t start --parallel",
-    "format": "prettier --write . --ignore-path .gitignore"
+    "format": "prettier --write . --ignore-path .gitignore",
+    "biome:check": "biome check .",
+    "biome:fix": "biome check --write .",
+    "biome:format": "biome format --write .",
+    "biome:fix:unsafe": "biome check --write --unsafe .",
+    "biome:staged": "git diff --name-only --cached --diff-filter=ACMRTUXB | xargs -r -d '\n' biome check --write --max-diagnostics=1000",
+    "biome:since": "biome check --since origin/main .",
+    "biome:ci": "biome check --reporter=github --max-diagnostics=1000 .",
+    "biome:check:frontend": "biome check apps/frontend",
+    "biome:check:backend": "biome check apps/backend"
   },
   "devDependencies": {
     "@nx/next": "19.6.3",
