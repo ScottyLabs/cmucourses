@@ -22,7 +22,7 @@ const LogInButton = () => {
       <span className="flex cursor-pointer flex-row items-center">
         <SignedOut>
           <ArrowRightOnRectangleIcon className="mr-1 inline h-4 w-4" />{" "}
-          <SignInButton />
+          <SignInButton>Sign in with CMU</SignInButton>
         </SignedOut>
         <SignedIn>
           <ArrowLeftOnRectangleIcon className="mr-1 inline h-4 w-4" />{" "}

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { clerkClient } from "@clerk/clerk-sdk-node";
 
 const verifyUserToken = async (token: string): Promise<JwtPayload> => {
   const pubkey = process.env.CLERK_PEM_KEY || "";
@@ -20,6 +21,15 @@ const verifyUserToken = async (token: string): Promise<JwtPayload> => {
     throw "Token is not valid yet.";
   } else if (BACKEND_ENV === "prod" && payload.azp && payload.azp !== CLERK_LOGIN_HOST) {
     throw "Token is not valid for this host.";
+  }
+
+  const requireCmuAccount =
+    process.env.REQUIRE_CMU_EMAIL === "true" || (BACKEND_ENV === "prod" && process.env.REQUIRE_CMU_EMAIL !== "false");
+  if (requireCmuAccount) {
+    if (!payload.sub) throw "Token has no subject.";
+    const user = await clerkClient.users.getUser(payload.sub);
+    const hasCmuEmail = user.emailAddresses.some(({ emailAddress }) => /@(andrew\.)?cmu\.edu$/i.test(emailAddress));
+    if (!hasCmuEmail) throw "A CMU email account is required.";
   }
 
   return payload;
