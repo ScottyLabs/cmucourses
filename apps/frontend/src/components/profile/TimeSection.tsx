@@ -4,6 +4,7 @@ import { BusyBlock, LIMITS, Profile } from "@cmucourses/profile";
 import { classNames } from "~/app/utils";
 import { INPUT_CLASS, SECONDARY_BUTTON_CLASS, Select } from "./fields";
 import {
+  DAYS,
   DAY_OPTIONS,
   minutesToTime,
   MODALITY_OPTIONS,
@@ -83,6 +84,7 @@ export const TimeSection = ({ profile }: { profile: Profile }) => {
   const { draft, setDraft, dirty } = useDraft({
     modality: profile.modality,
     busyBlocks: profile.busyBlocks,
+    schedulePreferences: profile.schedulePreferences,
   });
   const setBlocks = (busyBlocks: BusyBlock[]) =>
     setDraft({ ...draft, busyBlocks });
@@ -139,6 +141,113 @@ export const TimeSection = ({ profile }: { profile: Profile }) => {
             Add busy time
           </button>
         )}
+      </div>
+      <div className="space-y-3 border-gray-100 border-t pt-4">
+        <div>
+          <div className="text-gray-500 text-sm">Course preferences</div>
+          <div className="text-gray-400 text-xs">
+            Used to rank generated schedules; busy times remain hard conflicts.
+          </div>
+        </div>
+        <div className="flex flex-wrap items-center gap-2 text-gray-500 text-sm">
+          <span>Prefer classes between</span>
+          <input
+            type="time"
+            aria-label="Preferred earliest start"
+            className={INPUT_CLASS}
+            value={
+              draft.schedulePreferences.earliestStart === null
+                ? ""
+                : minutesToTime(draft.schedulePreferences.earliestStart)
+            }
+            onChange={(e) =>
+              setDraft({
+                ...draft,
+                schedulePreferences: {
+                  ...draft.schedulePreferences,
+                  earliestStart: e.target.value
+                    ? timeToMinutes(e.target.value)
+                    : null,
+                },
+              })
+            }
+          />
+          <span>and</span>
+          <input
+            type="time"
+            aria-label="Preferred latest end"
+            className={INPUT_CLASS}
+            value={
+              draft.schedulePreferences.latestEnd === null
+                ? ""
+                : minutesToTime(draft.schedulePreferences.latestEnd % 1440)
+            }
+            onChange={(e) =>
+              setDraft({
+                ...draft,
+                schedulePreferences: {
+                  ...draft.schedulePreferences,
+                  latestEnd: e.target.value
+                    ? timeToMinutes(e.target.value)
+                    : null,
+                },
+              })
+            }
+          />
+        </div>
+        <div className="text-gray-500 text-sm">
+          <div className="mb-1">Preferred class days</div>
+          <div className="flex flex-wrap gap-x-3 gap-y-1">
+            {DAYS.slice(1, 6).map((day, offset) => {
+              const dayNumber = offset + 1;
+              const selected =
+                draft.schedulePreferences.preferredDays.includes(dayNumber);
+              return (
+                <label key={day}>
+                  <input
+                    type="checkbox"
+                    className="mr-1"
+                    checked={selected}
+                    onChange={(e) =>
+                      setDraft({
+                        ...draft,
+                        schedulePreferences: {
+                          ...draft.schedulePreferences,
+                          preferredDays: e.target.checked
+                            ? [
+                                ...draft.schedulePreferences.preferredDays,
+                                dayNumber,
+                              ].sort()
+                            : draft.schedulePreferences.preferredDays.filter(
+                                (value) => value !== dayNumber
+                              ),
+                        },
+                      })
+                    }
+                  />
+                  {day.slice(0, 3)}
+                </label>
+              );
+            })}
+          </div>
+        </div>
+        <label className="block text-gray-500 text-sm">
+          <input
+            type="checkbox"
+            className="mr-2"
+            checked={draft.schedulePreferences.compactDays}
+            onChange={(e) =>
+              setDraft({
+                ...draft,
+                schedulePreferences: {
+                  ...draft.schedulePreferences,
+                  compactDays: e.target.checked,
+                },
+              })
+            }
+          />
+          Prefer schedules concentrated into fewer days
+        </label>
       </div>
     </ProfileSection>
   );

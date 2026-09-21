@@ -12,6 +12,7 @@ import { SkillsSection } from "~/components/profile/SkillsSection";
 import { WorkloadSection } from "~/components/profile/WorkloadSection";
 import { TimeSection } from "~/components/profile/TimeSection";
 import { CoursesSection } from "~/components/profile/CoursesSection";
+import { PlanSection } from "~/components/profile/PlanSection";
 import { PROFILE_SECTIONS } from "~/components/profile/completeness";
 import { PRIMARY_BUTTON_CLASS } from "~/components/profile/fields";
 
@@ -101,6 +102,7 @@ const ProfileContent = () => {
       <WorkloadSection profile={profile} />
       <TimeSection profile={profile} />
       <CoursesSection profile={profile} />
+      <PlanSection profile={profile} />
     </div>
   );
 };

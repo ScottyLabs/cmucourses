@@ -69,6 +69,13 @@ describe("degreeProgress", () => {
     expect(progress.coreUnitsEarned).toBe(0);
   });
 
+  test("a planned course marks its requirement PLANNED but earns no units yet", () => {
+    const progress = degreeProgress("mism", [{ courseID: "94-700", status: "PLANNED" }])!;
+    const orgDesign = progress.requirements.find((requirement) => requirement.requirement.id === "org-design")!;
+    expect(orgDesign.status).toBe("PLANNED");
+    expect(progress.coreUnitsEarned).toBe(0);
+  });
+
   test("a choice requirement is satisfied by any one of its options", () => {
     for (const option of ["95-706", "95-874", "94-866"]) {
       const progress = degreeProgress("mism", [{ courseID: option, status: "TAKEN" }])!;

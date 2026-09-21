@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import db from "@cmucourses/db";
 import {
+  DEFAULT_SCHEDULE_PREFERENCES,
   DEFAULT_VISIBILITY,
   emptyProfile,
   Profile,
@@ -44,11 +45,24 @@ const toProfile = (doc: ProfileDoc): Profile => ({
   },
   modality: doc.modality,
   busyBlocks: doc.busyBlocks.map(({ day, begin, end, label }) => ({ day, begin, end, label: label ?? null })),
+  schedulePreferences: doc.schedulePreferences
+    ? {
+        earliestStart: doc.schedulePreferences.earliestStart ?? null,
+        latestEnd: doc.schedulePreferences.latestEnd ?? null,
+        preferredDays: doc.schedulePreferences.preferredDays,
+        compactDays: doc.schedulePreferences.compactDays,
+      }
+    : { ...DEFAULT_SCHEDULE_PREFERENCES },
   courses: doc.courses.map(({ courseID, status, semester, year }) => ({
     courseID,
     status,
     semester: toSemester(semester),
     year: year ?? null,
+  })),
+  plannedCourses: (doc.plannedCourses ?? []).map(({ courseID, semester, year }) => ({
+    courseID,
+    semester: toSemester(semester) ?? "fall",
+    year,
   })),
   visibility: doc.visibility,
   onboardedAt: doc.onboardedAt?.toISOString() ?? null,

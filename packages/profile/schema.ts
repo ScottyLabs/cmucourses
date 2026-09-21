@@ -23,6 +23,7 @@ export const LIMITS = {
   busyBlocks: 50,
   busyBlockLabel: 40,
   courses: 200,
+  plannedCourses: 100,
   units: 60,
   hoursPerWeek: 100,
 } as const;
@@ -133,6 +134,33 @@ export const courseRecordSchema = z
   })
   .strict();
 
+export const schedulePreferencesSchema = z
+  .object({
+    earliestStart: nullableInt(0, 1439),
+    latestEnd: nullableInt(1, 1440),
+    preferredDays: uniqueList(z.number().int().min(0).max(6), 7, "preferred days"),
+    compactDays: z.boolean(),
+  })
+  .strict()
+  .refine(({ earliestStart, latestEnd }) => earliestStart === null || latestEnd === null || earliestStart < latestEnd, {
+    message: "Preferred start time must be before the preferred end time",
+    path: ["latestEnd"],
+  });
+
+export const plannedCourseSchema = z
+  .object({
+    courseID: z
+      .string()
+      .transform(standardizeCourseID)
+      .refine(
+        (id) => COURSE_ID_REGEX.test(id),
+        (id) => ({ message: `Invalid course ID "${id}"` })
+      ),
+    semester: z.enum(PROFILE_SEMESTERS),
+    year: z.string().regex(/^\d{4}$/, "Year must be four digits"),
+  })
+  .strict();
+
 export const visibilitySchema = z
   .object({
     academic: z.enum(VISIBILITIES),
@@ -157,11 +185,18 @@ export const profilePatchSchema = z
     workload: workloadSchema,
     modality: z.enum(MODALITIES).nullable(),
     busyBlocks: z.array(busyBlockSchema).max(LIMITS.busyBlocks, `At most ${LIMITS.busyBlocks} busy times`),
+    schedulePreferences: schedulePreferencesSchema,
     courses: z
       .array(courseRecordSchema)
       .max(LIMITS.courses, `At most ${LIMITS.courses} courses`)
       // A course appears once; the last entry for a course wins.
       .transform((records) => [...new Map(records.map((record) => [record.courseID, record])).values()]),
+    plannedCourses: z
+      .array(plannedCourseSchema)
+      .max(LIMITS.plannedCourses, `At most ${LIMITS.plannedCourses} planned courses`)
+      .transform((records) => [
+        ...new Map(records.map((record) => [`${record.year}:${record.semester}:${record.courseID}`, record])).values(),
+      ]),
     visibility: visibilitySchema,
     completeOnboarding: z.literal(true),
   })
@@ -172,6 +207,8 @@ export type Academic = z.output<typeof academicSchema>;
 export type Workload = z.output<typeof workloadSchema>;
 export type BusyBlock = z.output<typeof busyBlockSchema>;
 export type CourseRecord = z.output<typeof courseRecordSchema>;
+export type SchedulePreferences = z.output<typeof schedulePreferencesSchema>;
+export type PlannedCourse = z.output<typeof plannedCourseSchema>;
 export type ProfileVisibility = z.output<typeof visibilitySchema>;
 /** What the client sends. */
 export type ProfilePatchInput = z.input<typeof profilePatchSchema>;
@@ -189,7 +226,9 @@ export interface Profile {
   workload: Workload | null;
   modality: Modality | null;
   busyBlocks: BusyBlock[];
+  schedulePreferences: SchedulePreferences;
   courses: CourseRecord[];
+  plannedCourses: PlannedCourse[];
   visibility: ProfileVisibility;
   onboardedAt: string | null;
   updatedAt: string | null;
@@ -200,6 +239,13 @@ export const DEFAULT_VISIBILITY: ProfileVisibility = {
   careers: "PRIVATE",
   skills: "PRIVATE",
   courses: "PRIVATE",
+};
+
+export const DEFAULT_SCHEDULE_PREFERENCES: SchedulePreferences = {
+  earliestStart: null,
+  latestEnd: null,
+  preferredDays: [],
+  compactDays: false,
 };
 
 /** The profile of a signed-in user who has never saved anything. */
@@ -213,7 +259,9 @@ export const emptyProfile = (): Profile => ({
   workload: null,
   modality: null,
   busyBlocks: [],
+  schedulePreferences: { ...DEFAULT_SCHEDULE_PREFERENCES },
   courses: [],
+  plannedCourses: [],
   visibility: { ...DEFAULT_VISIBILITY },
   onboardedAt: null,
   updatedAt: null,

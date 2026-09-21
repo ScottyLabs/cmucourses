@@ -41,4 +41,9 @@ export const PROFILE_SECTIONS: {
     isComplete: (p) => p.modality !== null,
   },
   { id: "courses", title: "Courses", isComplete: (p) => p.courses.length > 0 },
+  {
+    id: "plan",
+    title: "Future course plan",
+    isComplete: (p) => p.plannedCourses.length > 0,
+  },
 ];

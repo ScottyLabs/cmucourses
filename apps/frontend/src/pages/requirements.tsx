@@ -1,8 +1,11 @@
 import type { NextPage } from "next";
 import React, { useMemo } from "react";
-import { useAuth, SignInButton } from "@clerk/nextjs";
+import { SignInButton, useAuth } from "@clerk/nextjs";
 import {
   degreeProgress,
+  labelOf,
+  MAJORS,
+  Profile,
   RequirementStatus,
   recommendCourses,
   requirementsForMajor,
@@ -20,12 +23,14 @@ import { displayUnits } from "~/app/utils";
 const STATUS_LABEL: Record<RequirementStatus["status"], string> = {
   TAKEN: "Taken",
   IN_PROGRESS: "In progress",
+  PLANNED: "Planned",
   UNMET: "Not yet",
 };
 
 const STATUS_CLASS: Record<RequirementStatus["status"], string> = {
   TAKEN: "text-green-800 bg-green-50",
   IN_PROGRESS: "text-yellow-800 bg-yellow-50",
+  PLANNED: "text-blue-800 bg-blue-50",
   UNMET: "text-gray-500 bg-gray-50",
 };
 
@@ -43,7 +48,9 @@ const RequirementCourseID = ({
     return (
       <span className={satisfied ? "font-medium" : undefined}>
         {courseID}{" "}
-        <span className="text-gray-400 text-xs">(not in the course catalog)</span>
+        <span className="text-gray-400 text-xs">
+          (not in the course catalog)
+        </span>
       </span>
     );
   }
@@ -68,7 +75,9 @@ const RequirementRow = ({ status }: { status: RequirementStatus }) => (
             />
           </React.Fragment>
         ))}
-        <span className="text-gray-400">· {status.requirement.units} units</span>
+        <span className="text-gray-400">
+          · {status.requirement.units} units
+        </span>
       </div>
     </div>
     <span
@@ -146,7 +155,9 @@ const ElectiveUnits = ({
   coreCourseIDs: ReadonlySet<string>;
   takenCourseIDs: readonly string[];
 }) => {
-  const electiveCourseIDs = takenCourseIDs.filter((id) => !coreCourseIDs.has(id));
+  const electiveCourseIDs = takenCourseIDs.filter(
+    (id) => !coreCourseIDs.has(id)
+  );
   const courses = useFetchCourseInfos(electiveCourseIDs);
   const courseByID = new Map(courses.map((c) => [c.courseID, c]));
 
@@ -188,18 +199,91 @@ const ElectiveUnits = ({
   );
 };
 
-const NoRequirementsData = () => (
-  <div className="mt-6 text-center text-gray-400">
-    <p>
-      Degree requirement data currently exists only for MISM (Master of
-      Information Systems Management).
-    </p>
-    <p className="mt-1 text-xs">
-      Set your major on <Link href="/profile">your Profile</Link> to see
-      requirement tracking once your program is added.
-    </p>
-  </div>
-);
+const GenericRequirementsPlanner = ({ profile }: { profile: Profile }) => {
+  const recordedIDs = profile.courses.map((course) => course.courseID);
+  const plannedIDs = profile.plannedCourses.map((course) => course.courseID);
+  const details = useFetchCourseInfos([
+    ...new Set([...recordedIDs, ...plannedIDs]),
+  ]);
+  const unitsByID = new Map(
+    details.map((course) => [
+      course.courseID,
+      Number.isNaN(parseFloat(course.units)) ? 0 : parseFloat(course.units),
+    ])
+  );
+  const completedUnits = profile.courses
+    .filter((course) => course.status === "TAKEN")
+    .reduce((sum, course) => sum + (unitsByID.get(course.courseID) ?? 0), 0);
+  const plannedUnits = profile.plannedCourses.reduce(
+    (sum, course) => sum + (unitsByID.get(course.courseID) ?? 0),
+    0
+  );
+  const programs = profile.academic?.majors ?? [];
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <Card.Header>Program planning overview</Card.Header>
+        <p className="mt-1 text-gray-400 text-xs">
+          {programs.length > 0
+            ? programs.map((id) => labelOf(MAJORS, id)).join(", ")
+            : "Add a program on your Profile."}
+        </p>
+        <div className="mt-3 grid grid-cols-2 gap-3 text-gray-700 text-sm">
+          <div className="rounded bg-gray-50 p-3">
+            <div className="text-gray-400 text-xs">Completed</div>
+            <div>{completedUnits} catalog units</div>
+          </div>
+          <div className="rounded bg-gray-50 p-3">
+            <div className="text-gray-400 text-xs">Future plan</div>
+            <div>{plannedUnits} catalog units</div>
+          </div>
+        </div>
+        <p className="mt-3 text-gray-400 text-xs">
+          A verified course-by-course checklist is currently available for MISM.
+          For other programs, this planner tracks your semesters and career fit
+          without claiming unofficial courses satisfy a formal requirement.
+        </p>
+      </Card>
+      <Card>
+        <Card.Header>Your future semesters</Card.Header>
+        {profile.plannedCourses.length === 0 ? (
+          <p className="mt-2 text-gray-400 text-sm">
+            Add courses in the Future course plan on your{" "}
+            <Link href="/profile#plan">Profile</Link>.
+          </p>
+        ) : (
+          <div className="mt-2 space-y-2">
+            {profile.plannedCourses.map((course) => (
+              <div
+                key={`${course.year}:${course.semester}:${course.courseID}`}
+                className="flex justify-between text-gray-700 text-sm"
+              >
+                <Link href={`/course/${course.courseID}`}>
+                  {course.courseID}
+                </Link>
+                <span className="capitalize text-gray-400">
+                  {course.semester} {course.year}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
+      <Card>
+        <Card.Header>Courses balancing your career goals</Card.Header>
+        <div className="mt-2">
+          <ElectiveGoalSuggestions
+            careers={profile.careers}
+            skillsWant={profile.skillsWant}
+            skillsHave={profile.skillsHave}
+            excludeCourseIDs={[...recordedIDs, ...plannedIDs]}
+          />
+        </div>
+      </Card>
+    </div>
+  );
+};
 
 const RequirementsContent = () => {
   const { isLoaded, isSignedIn } = useAuth();
@@ -222,19 +306,27 @@ const RequirementsContent = () => {
 
   if (!profile) return <Loading />;
 
-  const majorID = profile.academic?.majors.find((id) => requirementsForMajor(id) !== null);
+  const majorID = profile.academic?.majors.find(
+    (id) => requirementsForMajor(id) !== null
+  );
   const major = majorID ? requirementsForMajor(majorID) : null;
 
   if (!major || !majorID) {
     return (
       <div className="m-auto max-w-4xl space-y-4 p-6">
         <h1 className="text-gray-700 text-lg">Degree Requirements</h1>
-        <NoRequirementsData />
+        <GenericRequirementsPlanner profile={profile} />
       </div>
     );
   }
 
-  const takenCourses = profile.courses.map((c) => ({ courseID: c.courseID, status: c.status }));
+  const takenCourses = [
+    ...profile.courses.map((c) => ({ courseID: c.courseID, status: c.status })),
+    ...profile.plannedCourses.map((c) => ({
+      courseID: c.courseID,
+      status: "PLANNED" as const,
+    })),
+  ];
   const progress = degreeProgress(majorID, takenCourses)!;
   const coreCourseIDs = new Set(major.core.flatMap((r) => r.options));
   const takenCourseIDs = profile.courses.map((c) => c.courseID);

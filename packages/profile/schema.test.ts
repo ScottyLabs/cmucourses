@@ -44,7 +44,14 @@ describe("profilePatchSchema", () => {
       workload: { unitsMin: 36, unitsMax: 54, hoursPerWeek: 50 },
       modality: "IN_PERSON",
       busyBlocks: [{ day: 2, begin: 840, end: 960, label: "Lab" }],
+      schedulePreferences: {
+        earliestStart: 540,
+        latestEnd: 1080,
+        preferredDays: [1, 3, 5],
+        compactDays: true,
+      },
       courses: [{ courseID: "15-122", status: "TAKEN", semester: "fall", year: "2025" }],
+      plannedCourses: [{ courseID: "15-213", semester: "fall", year: "2026" }],
       visibility: { academic: "PUBLIC", careers: "PUBLIC", skills: "PRIVATE", courses: "PRIVATE" },
       completeOnboarding: true,
     });
@@ -120,6 +127,28 @@ describe("profilePatchSchema", () => {
   test("rejects units minimum above maximum", () => {
     expect(parse({ workload: { unitsMin: 60, unitsMax: 36, hoursPerWeek: null } }).success).toBe(false);
     expect(parse({ workload: { unitsMin: 36, unitsMax: null, hoursPerWeek: null } }).success).toBe(true);
+  });
+
+  test("validates schedule preferences and planned courses", () => {
+    expect(
+      parse({
+        schedulePreferences: {
+          earliestStart: 600,
+          latestEnd: 540,
+          preferredDays: [],
+          compactDays: false,
+        },
+      }).success
+    ).toBe(false);
+    const result = parse({
+      plannedCourses: [
+        { courseID: "15213", semester: "fall", year: "2026" },
+        { courseID: "15-213", semester: "fall", year: "2026" },
+      ],
+    });
+    expect(result.success && result.data.plannedCourses).toEqual([
+      { courseID: "15-213", semester: "fall", year: "2026" },
+    ]);
   });
 
   test("standardizes and dedupes course IDs", () => {
@@ -212,8 +241,8 @@ describe("ratingPatchSchema", () => {
   });
 
   test("rejects a comment over the limit", () => {
-    expect(
-      parseRating({ targetType: "COURSE", targetID: "15-122", stars: 5, comment: "x".repeat(1001) }).success
-    ).toBe(false);
+    expect(parseRating({ targetType: "COURSE", targetID: "15-122", stars: 5, comment: "x".repeat(1001) }).success).toBe(
+      false
+    );
   });
 });

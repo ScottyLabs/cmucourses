@@ -61,6 +61,14 @@ export const PAST_YEAR_OPTIONS: SelectOption<string | null>[] = [
   }),
 ];
 
+export const PLAN_YEAR_OPTIONS: SelectOption<string>[] = Array.from(
+  { length: 6 },
+  (_, i) => {
+    const year = String(thisYear + i);
+    return { value: year, label: year };
+  }
+);
+
 /** Years a student could graduate in. */
 export const GRAD_YEAR_OPTIONS: SelectOption<number | null>[] = [
   NONE_OPTION,

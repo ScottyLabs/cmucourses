@@ -19,7 +19,7 @@ export interface MajorRequirements {
   source: string;
 }
 
-export type RequirementFulfillmentStatus = "TAKEN" | "IN_PROGRESS" | "UNMET";
+export type RequirementFulfillmentStatus = "TAKEN" | "IN_PROGRESS" | "PLANNED" | "UNMET";
 
 export interface RequirementStatus {
   requirement: Requirement;
@@ -48,7 +48,7 @@ export const requirementsForMajor = (majorID: string): MajorRequirements | null 
 
 export interface TakenCourse {
   courseID: string;
-  status: "TAKEN" | "IN_PROGRESS";
+  status: "TAKEN" | "IN_PROGRESS" | "PLANNED";
 }
 
 /**
@@ -60,13 +60,14 @@ export const degreeProgress = (majorID: string, courses: readonly TakenCourse[])
   const major = requirementsForMajor(majorID);
   if (!major) return null;
 
-  const byCourseID = new Map<string, "TAKEN" | "IN_PROGRESS">();
+  const byCourseID = new Map<string, "TAKEN" | "IN_PROGRESS" | "PLANNED">();
   for (const { courseID, status } of courses) {
     const id = standardizeCourseID(courseID);
     const existing = byCourseID.get(id);
     // A course recorded twice (shouldn't happen - profile dedupes - but stay defensive):
     // TAKEN wins over IN_PROGRESS.
-    if (!existing || existing === "IN_PROGRESS") byCourseID.set(id, status);
+    if (!existing || status === "TAKEN" || (status === "IN_PROGRESS" && existing === "PLANNED"))
+      byCourseID.set(id, status);
   }
 
   const requirements: RequirementStatus[] = major.core.map((requirement) => {
@@ -79,6 +80,9 @@ export const degreeProgress = (majorID: string, courses: readonly TakenCourse[])
       }
       if (status === "IN_PROGRESS" && best.status === "UNMET") {
         best = { requirement, satisfiedBy: option, status: "IN_PROGRESS" };
+      }
+      if (status === "PLANNED" && best.status === "UNMET") {
+        best = { requirement, satisfiedBy: option, status: "PLANNED" };
       }
     }
     return best;

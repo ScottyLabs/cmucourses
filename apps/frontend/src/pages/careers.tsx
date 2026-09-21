@@ -144,6 +144,50 @@ const AllCareerPaths = () => {
   );
 };
 
+const AlternativeAcademicPaths = () => {
+  const { data: profile } = useFetchProfile();
+  if (!profile || profile.careers.length === 0) return null;
+
+  const progress = careerProgress({
+    careers: profile.careers,
+    skillsHave: profile.skillsHave,
+    takenCourseIDs: [
+      ...profile.courses.map((course) => course.courseID),
+      ...profile.plannedCourses.map((course) => course.courseID),
+    ],
+  });
+  const paths = [0, 1, 2]
+    .map((optionIndex) => [
+      ...new Set(
+        progress.flatMap((career) =>
+          career.gaps.flatMap((gap) => gap.courseIDs[optionIndex] ?? [])
+        )
+      ),
+    ])
+    .filter((path) => path.length > 0);
+
+  if (paths.length === 0) return null;
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      {paths.map((path, index) => (
+        <Card key={index}>
+          <Card.Header>Path {index + 1}</Card.Header>
+          <p className="mt-1 text-gray-400 text-xs">
+            An alternative set of courses covering current career-skill gaps.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-x-2 text-sm">
+            {path.map((courseID) => (
+              <Link key={courseID} href={`/course/${courseID}`}>
+                {courseID}
+              </Link>
+            ))}
+          </div>
+        </Card>
+      ))}
+    </div>
+  );
+};
+
 const CareersContent = () => {
   const { isLoaded } = useAuth();
   if (!isLoaded) return <Loading />;
@@ -163,6 +207,16 @@ const CareersContent = () => {
         </p>
         <div className="mt-3">
           <AllCareerPaths />
+        </div>
+      </div>
+      <div>
+        <h1 className="text-gray-700 text-lg">Alternative academic paths</h1>
+        <p className="text-gray-400 text-sm">
+          Different course combinations that can close the same career-skill
+          gaps.
+        </p>
+        <div className="mt-3">
+          <AlternativeAcademicPaths />
         </div>
       </div>
     </div>

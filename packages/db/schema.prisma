@@ -208,11 +208,24 @@ type ProfilesBusyBlocks {
   label String?
 }
 
+type ProfilesSchedulePreferences {
+  earliestStart Int?
+  latestEnd     Int?
+  preferredDays Int[]
+  compactDays   Boolean
+}
+
 type ProfilesCourses {
   courseID String
   status   CourseStatus
   semester String?
   year     String?
+}
+
+type ProfilesPlannedCourses {
+  courseID String
+  semester String
+  year     String
 }
 
 type ProfilesVisibility {
@@ -223,23 +236,25 @@ type ProfilesVisibility {
 }
 
 model profiles {
-  id          String               @id @default(auto()) @map("_id") @db.ObjectId
-  clerkUserId String               @unique
-  displayName String?
-  bio         String?
+  id                  String                       @id @default(auto()) @map("_id") @db.ObjectId
+  clerkUserId         String                       @unique
+  displayName         String?
+  bio                 String?
   /// ordered by priority
-  careers     String[]
-  skillsHave  String[]
-  skillsWant  String[]
-  academic    ProfilesAcademic?
-  workload    ProfilesWorkload?
-  modality    Modality?
-  busyBlocks  ProfilesBusyBlocks[]
-  courses     ProfilesCourses[]
-  visibility  ProfilesVisibility
-  onboardedAt DateTime?
-  createdAt   DateTime             @default(now())
-  updatedAt   DateTime             @updatedAt
+  careers             String[]
+  skillsHave          String[]
+  skillsWant          String[]
+  academic            ProfilesAcademic?
+  workload            ProfilesWorkload?
+  modality            Modality?
+  busyBlocks          ProfilesBusyBlocks[]
+  schedulePreferences ProfilesSchedulePreferences?
+  courses             ProfilesCourses[]
+  plannedCourses      ProfilesPlannedCourses[]
+  visibility          ProfilesVisibility
+  onboardedAt         DateTime?
+  createdAt           DateTime                     @default(now())
+  updatedAt           DateTime                     @updatedAt
 
   @@index([courses.courseID])
 }
