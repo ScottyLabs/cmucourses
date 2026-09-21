@@ -14,7 +14,7 @@ export const PublicInfoSection = ({ profile }: { profile: Profile }) => {
     <ProfileSection
       id="public-info"
       title="Public info"
-      description="How you'll appear once course sharing launches. Nothing here is shown to others yet."
+      description="How you appear in Scotty Circles. Individual profile sections still follow their Public/Private controls."
       profile={profile}
       dirty={dirty}
       patch={draft}

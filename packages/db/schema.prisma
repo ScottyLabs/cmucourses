@@ -258,3 +258,40 @@ model profiles {
 
   @@index([courses.courseID])
 }
+
+type SocialScheduleCourses {
+  courseID String
+  lecture  String?
+  section  String?
+}
+
+model socialSchedules {
+  id          String                  @id @default(auto()) @map("_id") @db.ObjectId
+  clerkUserId String                  @unique
+  name        String
+  semester    String
+  year        String
+  courses     SocialScheduleCourses[]
+  updatedAt   DateTime                @updatedAt
+}
+
+model follows {
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  followerUserId    String
+  followedProfileId String   @db.ObjectId
+  createdAt         DateTime @default(now())
+
+  @@unique([followerUserId, followedProfileId])
+  @@index([followedProfileId])
+}
+
+model scheduleReactions {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  reactorUserId   String
+  targetProfileId String   @db.ObjectId
+  reaction        String
+  updatedAt       DateTime @updatedAt
+
+  @@unique([reactorUserId, targetProfileId])
+  @@index([targetProfileId])
+}

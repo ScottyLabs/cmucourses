@@ -9,6 +9,7 @@ import {
   BookOpenIcon,
   CalendarDaysIcon,
   IdentificationIcon,
+  UserGroupIcon,
 } from "@heroicons/react/24/outline";
 import React from "react";
 import Link from "next/link";
@@ -33,9 +34,7 @@ const SideNavItem = ({
       <div className="flex">
         <Icon
           className={`h-7 w-7 group-hover:stroke-blue-500 lg:h-6 lg:w-6 ${
-            active
-              ? "stroke-blue-600 "
-              : "stroke-gray-500 "
+            active ? "stroke-blue-600 " : "stroke-gray-500 "
           }`}
         />
       </div>
@@ -108,6 +107,12 @@ export const SideNav = ({ activePage }: { activePage?: string }) => {
         text="Requirements"
         link="/requirements"
         active={activePage === "requirements"}
+      />
+      <SideNavItem
+        icon={UserGroupIcon}
+        text="Circles"
+        link="/circles"
+        active={activePage === "circles"}
       />
       <SideNavItem
         icon={ChatBubbleBottomCenterTextIcon}
