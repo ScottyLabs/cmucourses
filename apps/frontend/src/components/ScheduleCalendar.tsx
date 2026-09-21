@@ -17,6 +17,7 @@ import {
   selectSessionInActiveSchedule,
 } from "~/app/userSchedules";
 import { useFetchCourseInfos } from "~/app/api/course";
+import { getVisibleLectureTimes } from "~/app/events";
 
 const localizer = momentLocalizer(moment);
 
@@ -159,20 +160,6 @@ const getEvents = (
     })
     .filter((x) => x !== undefined);
 
-  events = events.concat(
-    selectedLectures
-      .flatMap((lecture) => {
-        if (lecture.times)
-          return getTimes(
-            lecture.courseID,
-            lecture.name || "Lecture",
-            lecture.times,
-            lecture.color
-          );
-      })
-      .filter((x) => x !== undefined)
-  );
-
   const selectedSections = filteredCourses
     .flatMap((course) => {
       const section = course.schedules
@@ -188,6 +175,31 @@ const getEvents = (
       };
     })
     .filter((x) => x !== undefined);
+
+  events = events.concat(
+    selectedLectures
+      .flatMap((lecture) => {
+        if (lecture.times) {
+          const linkedSection = selectedSections.find(
+            (section) =>
+              section.courseID === lecture.courseID &&
+              section.lecture === lecture.name
+          );
+          const visibleTimes = getVisibleLectureTimes(
+            lecture.times,
+            linkedSection?.times || []
+          );
+
+          return getTimes(
+            lecture.courseID,
+            lecture.name || "Lecture",
+            visibleTimes,
+            lecture.color
+          );
+        }
+      })
+      .filter((x) => x !== undefined)
+  );
 
   events = events.concat(
     selectedSections
@@ -223,15 +235,18 @@ const getEvents = (
 
     const hoverColor =
       getCalendarColorLight(`${selectedSessions[courseID]?.Color}`) || "";
-    if (hoverLecture)
+    if (hoverLecture) {
+      const linkedSectionTimes =
+        hoverSection?.lecture === hoverLecture.name ? hoverSection.times : [];
       events.push(
         ...getTimes(
           courseID,
           hoverLecture.name || "Lecture",
-          hoverLecture.times,
+          getVisibleLectureTimes(hoverLecture.times, linkedSectionTimes),
           hoverColor
         )
       );
+    }
 
     if (hoverSection)
       events.push(
@@ -304,7 +319,7 @@ const ScheduleCalendar = ({ courseIDs }: Props) => {
         defaultView="week"
         events={events}
         localizer={localizer}
-          views={views}
+        views={views}
         components={components}
         formats={formats}
         eventPropGetter={eventPropGetter}

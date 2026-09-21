@@ -8,6 +8,7 @@ import {
 import { Session } from "./types";
 import { v4 as uuidv4 } from "uuid";
 import { RootState } from "./store";
+import type { SharedScheduleData } from "./scheduleSharing";
 
 export interface CourseSessions {
   [courseID: string]: {
@@ -148,9 +149,23 @@ export const userSchedulesSlice = createSlice({
       state.saved[newId] = getNewUserSchedule([], newId);
       state.active = newId;
     },
-    createSharedSchedule: (state, action: PayloadAction<string[]>) => {
+    createSharedSchedule: (
+      state,
+      action: PayloadAction<SharedScheduleData | string[]>
+    ) => {
       const newId = uuidv4();
-      state.saved[newId] = getNewUserSchedule(action.payload, newId);
+      if (Array.isArray(action.payload)) {
+        state.saved[newId] = getNewUserSchedule(action.payload, newId);
+        state.active = newId;
+        return;
+      }
+      state.saved[newId] = {
+        ...getNewUserSchedule(action.payload.courses, newId),
+        name: action.payload.name || "Shared Schedule",
+        selected: action.payload.selected,
+        session: action.payload.session,
+        courseSessions: action.payload.courseSessions,
+      };
       state.active = newId;
     },
     deleteSchedule: (state, action: PayloadAction<string>) => {
@@ -214,6 +229,10 @@ const selectActiveSchedule = (state: RootState): UserSchedule | undefined => {
   if (state.schedules.active === null) return undefined;
   return state.schedules.saved[state.schedules.active];
 };
+
+export const selectActiveUserSchedule = (
+  state: RootState
+): UserSchedule | undefined => selectActiveSchedule(state);
 
 export const selectCoursesInActiveSchedule = (state: RootState): string[] => {
   return selectActiveSchedule(state)?.courses ?? [];

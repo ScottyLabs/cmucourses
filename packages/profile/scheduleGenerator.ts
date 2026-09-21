@@ -1,5 +1,5 @@
 import { availabilityFit, parseCatalogTime, type MeetingTime } from "./availability";
-import type { BusyBlock, Workload } from "./schema";
+import type { BusyBlock, Modality, SchedulePreferences, Workload } from "./schema";
 import { CAREER_SKILLS } from "./mapping/careerSkills";
 import { courseSkillsIndex, isCareerID } from "./mapping/internal";
 import { SkillID } from "./taxonomy/skills";
@@ -36,6 +36,8 @@ export interface GeneratorInput {
   careers: readonly string[];
   skillsWant: readonly string[];
   skillsHave: readonly string[];
+  preferences: SchedulePreferences;
+  preferredModality: Modality | null;
   maxCandidates?: number;
 }
 
@@ -54,6 +56,7 @@ export interface ScheduleCandidate {
   availability: { status: "FITS" | "CONFLICTS" | "UNKNOWN"; conflicts: string[] };
   workloadFit: WorkloadFit;
   careerScore: number;
+  preferenceScore: number;
   totalScore: number;
   reasons: string[];
 }
@@ -62,9 +65,10 @@ const DEFAULT_MAX_CANDIDATES = 3;
 const BEAM_WIDTH = 200;
 const DIVERSITY_THRESHOLD = 0.7;
 
-const AVAILABILITY_WEIGHT = 0.4;
-const WORKLOAD_WEIGHT = 0.3;
-const CAREER_WEIGHT = 0.3;
+const AVAILABILITY_WEIGHT = 0.35;
+const WORKLOAD_WEIGHT = 0.25;
+const CAREER_WEIGHT = 0.2;
+const PREFERENCE_WEIGHT = 0.2;
 
 const FIT_SCORE: Record<"FITS" | "CONFLICTS" | "UNKNOWN", number> = { FITS: 100, UNKNOWN: 50, CONFLICTS: 0 };
 
@@ -158,22 +162,15 @@ const buildPartials = (courses: CandidateCourse[]): PartialSchedule[] => {
       }
     }
 
-    if (next.length === 0) {
-      // Every option conflicts with something already picked: keep the schedule going by taking
-      // the first option anyway, so the candidate still covers every requested course.
-      const first = options[0]!;
-      next = partials.map((partial) => ({
-        picks: [
-          ...partial.picks,
-          { courseID: course.courseID, lecture: first.lecture, section: first.section, times: first.times },
-        ],
-        usedTimes: [...partial.usedTimes, ...first.times],
-        unscheduled: partial.unscheduled,
-      }));
-    }
+    // No complete conflict-free combination exists for the requested courses. Do not silently
+    // recommend a schedule with overlapping classes; the UI will ask the student to change the
+    // course set instead.
+    if (next.length === 0) return [];
 
     partials =
-      next.length > BEAM_WIDTH ? [...next].sort((a, b) => partialScore(b) - partialScore(a)).slice(0, BEAM_WIDTH) : next;
+      next.length > BEAM_WIDTH
+        ? [...next].sort((a, b) => partialScore(b) - partialScore(a)).slice(0, BEAM_WIDTH)
+        : next;
   }
 
   return partials;
@@ -234,6 +231,77 @@ const careerScoreFor = (
   return { raw, reasons: [...reasonSkills] };
 };
 
+const inferredModality = (times: MeetingTime[]): Modality | null => {
+  const known = times
+    .map((time) => `${time.location ?? ""} ${time.building ?? ""} ${time.room ?? ""}`.trim())
+    .filter(Boolean);
+  if (known.length === 0) return null;
+  const remoteCount = known.filter((value) => /remote|online|zoom/i.test(value)).length;
+  if (remoteCount === known.length) return "REMOTE";
+  if (remoteCount > 0) return "HYBRID";
+  return "IN_PERSON";
+};
+
+const preferenceScoreFor = (
+  picks: SectionPick[],
+  preferences: SchedulePreferences,
+  preferredModality: Modality | null
+): { score: number; reasons: string[] } => {
+  const times = picks.flatMap((pick) => pick.times);
+  const hasPreferences =
+    preferences.earliestStart !== null ||
+    preferences.latestEnd !== null ||
+    preferences.preferredDays.length > 0 ||
+    preferences.compactDays ||
+    preferredModality !== null;
+  if (!hasPreferences) return { score: 100, reasons: [] };
+
+  let checks = 0;
+  let matches = 0;
+  const reasons: string[] = [];
+  const meetingDays = new Set<number>();
+
+  for (const time of times) {
+    const begin = parseCatalogTime(time.begin);
+    const end = parseCatalogTime(time.end);
+    for (const day of time.days) meetingDays.add(day);
+    if (begin === null || end === null) continue;
+
+    if (preferences.earliestStart !== null) {
+      checks += 1;
+      if (begin >= preferences.earliestStart) matches += 1;
+    }
+    if (preferences.latestEnd !== null) {
+      checks += 1;
+      if (end <= preferences.latestEnd) matches += 1;
+    }
+    if (preferences.preferredDays.length > 0) {
+      checks += time.days.length;
+      matches += time.days.filter((day) => preferences.preferredDays.includes(day)).length;
+    }
+  }
+
+  if (preferences.compactDays && meetingDays.size > 0) {
+    checks += 1;
+    matches += Math.max(0, 1 - Math.max(0, meetingDays.size - 3) * 0.2);
+  }
+
+  if (preferredModality !== null) {
+    const modalities = picks
+      .map((pick) => inferredModality(pick.times))
+      .filter((value): value is Modality => value !== null);
+    if (modalities.length > 0) {
+      checks += modalities.length;
+      matches += modalities.filter((modality) => modality === preferredModality).length;
+    }
+  }
+
+  const score = checks === 0 ? 100 : (matches / checks) * 100;
+  if (score >= 99) reasons.push("Matches your saved time and format preferences");
+  else if (score < 60) reasons.push("Some meetings fall outside your saved preferences");
+  return { score, reasons };
+};
+
 const pickKey = (p: SectionPick): string => `${p.courseID}:${p.lecture}:${p.section ?? ""}`;
 
 const pickSignature = (picks: SectionPick[]): string =>
@@ -251,7 +319,7 @@ const similarity = (a: SectionPick[], b: SectionPick[]): number => {
 
 const buildCandidate = (
   partial: PartialSchedule,
-  { busyBlocks, workload, careers, skillsWant, skillsHave }: GeneratorInput,
+  { busyBlocks, workload, careers, skillsWant, skillsHave, preferences, preferredModality }: GeneratorInput,
   unitsByCourse: ReadonlyMap<string, number>
 ): ScheduleCandidate => {
   const conflicts: string[] = [];
@@ -281,13 +349,23 @@ const buildCandidate = (
   const availabilityScore = availabilitySum / count;
   const { fit: workloadFit, score: workloadScore } = workloadFitFor(totalUnits, workload);
   const careerScore = Math.min(100, careerRaw * CAREER_SCALE);
+  const { score: preferenceScore, reasons: preferenceReasons } = preferenceScoreFor(
+    partial.picks,
+    preferences,
+    preferredModality
+  );
+  reasons.push(...preferenceReasons);
 
   if (conflicts.length > 0) reasons.unshift(`Time conflict: ${conflicts.join(", ")}`);
   if (workloadFit === "OVER") reasons.push(`${totalUnits} units — above your target`);
   else if (workloadFit === "UNDER") reasons.push(`${totalUnits} units — below your target`);
   else if (workloadFit === "IN_RANGE") reasons.push(`${totalUnits} units — within your target range`);
 
-  const totalScore = AVAILABILITY_WEIGHT * availabilityScore + WORKLOAD_WEIGHT * workloadScore + CAREER_WEIGHT * careerScore;
+  const totalScore =
+    AVAILABILITY_WEIGHT * availabilityScore +
+    WORKLOAD_WEIGHT * workloadScore +
+    CAREER_WEIGHT * careerScore +
+    PREFERENCE_WEIGHT * preferenceScore;
 
   return {
     picks: partial.picks,
@@ -298,6 +376,7 @@ const buildCandidate = (
     },
     workloadFit,
     careerScore,
+    preferenceScore,
     totalScore,
     reasons,
   };
@@ -318,7 +397,9 @@ export const generateSchedules = (input: GeneratorInput): ScheduleCandidate[] =>
     candidates.push(buildCandidate(partial, input, unitsByCourse));
   }
 
-  candidates.sort((a, b) => b.totalScore - a.totalScore || pickSignature(a.picks).localeCompare(pickSignature(b.picks)));
+  candidates.sort(
+    (a, b) => b.totalScore - a.totalScore || pickSignature(a.picks).localeCompare(pickSignature(b.picks))
+  );
 
   const maxCandidates = input.maxCandidates ?? DEFAULT_MAX_CANDIDATES;
   const diverse: ScheduleCandidate[] = [];

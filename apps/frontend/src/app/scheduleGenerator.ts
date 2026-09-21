@@ -15,10 +15,19 @@ const toGenLectures = (schedule: Schedule | undefined): GenLecture[] => {
   if (!schedule) return [];
   return schedule.lectures.map((lecture) => ({
     name: lecture.name,
-    times: lecture.times,
+    times: lecture.times.map((time) => ({
+      ...time,
+      location: lecture.location,
+    })),
     sections: schedule.sections
       .filter((section) => section.lecture === lecture.name)
-      .map((section) => ({ name: section.name, times: section.times })),
+      .map((section) => ({
+        name: section.name,
+        times: section.times.map((time) => ({
+          ...time,
+          location: section.location,
+        })),
+      })),
   }));
 };
 
@@ -31,8 +40,13 @@ export const buildGeneratorInput = (
 ): GeneratorInput => {
   const courses: CandidateCourse[] = courseIDs.map((courseID) => {
     const course = courseDetails.find((c) => c.courseID === courseID);
-    const schedule = course?.schedules?.find((s) => sessionToString(s) === selectedSession);
-    const units = course?.units && isValidUnits(course.units) ? parseUnits(course.units) : 0;
+    const schedule = course?.schedules?.find(
+      (s) => sessionToString(s) === selectedSession
+    );
+    const units =
+      course?.units && isValidUnits(course.units)
+        ? parseUnits(course.units)
+        : 0;
     return { courseID, units, lectures: toGenLectures(schedule) };
   });
 
@@ -43,7 +57,11 @@ export const buildGeneratorInput = (
     careers: profile.careers,
     skillsWant: profile.skillsWant,
     skillsHave: profile.skillsHave,
+    preferences: profile.schedulePreferences,
+    preferredModality: profile.modality,
   };
 };
 
-export const generateCandidates = (input: GeneratorInput): ScheduleCandidate[] => generateSchedules(input);
+export const generateCandidates = (
+  input: GeneratorInput
+): ScheduleCandidate[] => generateSchedules(input);

@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import { generateSchedules, type CandidateCourse, type GeneratorInput } from "./scheduleGenerator";
-import type { BusyBlock } from "./schema";
+import { DEFAULT_SCHEDULE_PREFERENCES, type BusyBlock } from "./schema";
 
 const block = (day: number, begin: number, end: number): BusyBlock => ({ day, begin, end, label: null });
 
@@ -18,6 +18,8 @@ const baseInput: GeneratorInput = {
   careers: [],
   skillsWant: [],
   skillsHave: [],
+  preferences: DEFAULT_SCHEDULE_PREFERENCES,
+  preferredModality: null,
 };
 
 describe("generateSchedules", () => {
@@ -54,12 +56,36 @@ describe("generateSchedules", () => {
     expect(result[0]!.availability.conflicts).toEqual(["15-213"]);
   });
 
-  test("two courses whose only sections always overlap each other still both get picked", () => {
+  test("returns no candidate when every combination has a cross-course conflict", () => {
     const a = simpleCourse("15-213", 12, "10:00AM", "10:50AM");
     const b = simpleCourse("15-122", 10, "10:00AM", "10:50AM"); // identical slot, same days
     const result = generateSchedules({ ...baseInput, courses: [a, b] });
-    expect(result).toHaveLength(1); // only one possible combination
-    expect(result[0]!.picks).toHaveLength(2);
+    expect(result).toEqual([]);
+  });
+
+  test("chooses a non-conflicting option instead of an overlapping one", () => {
+    const fixed = simpleCourse("15-213", 12, "10:00AM", "10:50AM");
+    const flexible: CandidateCourse = {
+      courseID: "15-122",
+      units: 10,
+      lectures: [
+        {
+          name: "Conflicting",
+          times: [{ days: [1, 3], begin: "10:00AM", end: "10:50AM" }],
+          sections: [],
+        },
+        {
+          name: "Valid",
+          times: [{ days: [1, 3], begin: "11:00AM", end: "11:50AM" }],
+          sections: [],
+        },
+      ],
+    };
+
+    const result = generateSchedules({ ...baseInput, courses: [fixed, flexible] });
+
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0]!.picks.find((pick) => pick.courseID === "15-122")?.lecture).toBe("Valid");
   });
 
   test("workload UNKNOWN when profile.workload is null", () => {
@@ -157,6 +183,35 @@ describe("generateSchedules", () => {
     }
   });
 
+  test("saved time preferences rank matching sections first", () => {
+    const multi: CandidateCourse = {
+      courseID: "15-213",
+      units: 12,
+      lectures: [
+        {
+          name: "Early",
+          times: [{ days: [1], begin: "08:00AM", end: "08:50AM" }],
+          sections: [],
+        },
+        {
+          name: "Preferred",
+          times: [{ days: [2], begin: "11:00AM", end: "11:50AM" }],
+          sections: [],
+        },
+      ],
+    };
+    const result = generateSchedules({
+      ...baseInput,
+      courses: [multi],
+      preferences: {
+        ...DEFAULT_SCHEDULE_PREFERENCES,
+        earliestStart: 10 * 60,
+        preferredDays: [2],
+      },
+    });
+    expect(result[0]!.picks[0]!.lecture).toBe("Preferred");
+  });
+
   test("respects sections nested under a lecture", () => {
     const withSections: CandidateCourse = {
       courseID: "15-213",
@@ -179,23 +234,32 @@ describe("generateSchedules", () => {
   });
 
   test("large combinatorics stay fast (regression guard against full cartesian product)", () => {
-    const manyOptions = (courseID: string): CandidateCourse => ({
-      courseID,
-      units: 9,
-      lectures: Array.from({ length: 5 }, (_, i) => ({
-        name: `Lec ${i}`,
-        // Spread across different hours/days so most combinations don't conflict.
-        times: [
-          {
-            days: [(i % 5) + 1],
-            begin: `${(8 + i).toString().padStart(2, "0")}:00AM`,
-            end: `${(8 + i).toString().padStart(2, "0")}:50AM`,
-          },
-        ],
-        sections: [],
-      })),
-    });
-    const courses = Array.from({ length: 8 }, (_, i) => manyOptions(`10-${100 + i}`));
+    const manyOptions = (courseID: string, courseIndex: number): CandidateCourse => {
+      const hour = 8 + courseIndex;
+      const displayHour = hour > 12 ? hour - 12 : hour;
+      const period = hour >= 12 ? "PM" : "AM";
+      const begin = `${displayHour.toString().padStart(2, "0")}:00${period}`;
+      const end = `${displayHour.toString().padStart(2, "0")}:50${period}`;
+
+      return {
+        courseID,
+        units: 9,
+        lectures: Array.from({ length: 5 }, (_, i) => ({
+          name: `Lec ${i}`,
+          // Every course has a distinct hour and five day choices. This retains the 5^8 search
+          // space while guaranteeing that conflict-free complete schedules exist.
+          times: [
+            {
+              days: [(i % 5) + 1],
+              begin,
+              end,
+            },
+          ],
+          sections: [],
+        })),
+      };
+    };
+    const courses = Array.from({ length: 8 }, (_, i) => manyOptions(`10-${100 + i}`, i));
     const start = performance.now();
     const result = generateSchedules({ ...baseInput, courses });
     const elapsed = performance.now() - start;

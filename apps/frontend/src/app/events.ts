@@ -38,6 +38,62 @@ const getTimes = (
   return times;
 };
 
+const parseTimeInMinutes = (time: string) => {
+  const match = /^(\d{1,2}):(\d{2})(AM|PM)$/i.exec(time);
+  if (!match) return undefined;
+
+  const hourText = match[1];
+  const minuteText = match[2];
+  const period = match[3];
+  if (!hourText || !minuteText || !period) return undefined;
+
+  const hour = Number(hourText);
+  const minute = Number(minuteText);
+  if (hour < 1 || hour > 12 || minute < 0 || minute > 59) return undefined;
+
+  return (
+    (hour % 12) * 60 + minute + (period.toUpperCase() === "PM" ? 12 * 60 : 0)
+  );
+};
+
+/**
+ * A few studio courses model their section as the full meeting block and their
+ * linked lecture as a shorter block inside it. Keep lecture meetings that are
+ * genuinely separate, but do not draw the contained time twice.
+ */
+export const getVisibleLectureTimes = (
+  lectureTimes: Time[],
+  linkedSectionTimes: Time[]
+): Time[] =>
+  lectureTimes.flatMap((lectureTime) => {
+    const lectureStart = parseTimeInMinutes(lectureTime.begin);
+    const lectureEnd = parseTimeInMinutes(lectureTime.end);
+
+    if (lectureStart === undefined || lectureEnd === undefined) {
+      return [lectureTime];
+    }
+
+    const visibleDays = lectureTime.days.filter(
+      (day) =>
+        !linkedSectionTimes.some((sectionTime) => {
+          if (!sectionTime.days.includes(day)) return false;
+
+          const sectionStart = parseTimeInMinutes(sectionTime.begin);
+          const sectionEnd = parseTimeInMinutes(sectionTime.end);
+          return (
+            sectionStart !== undefined &&
+            sectionEnd !== undefined &&
+            sectionStart <= lectureStart &&
+            sectionEnd >= lectureEnd
+          );
+        })
+    );
+
+    return visibleDays.length > 0
+      ? [{ ...lectureTime, days: visibleDays }]
+      : [];
+  });
+
 interface Event {
   title: string;
   start: Date;
@@ -78,20 +134,6 @@ export const getEvents = (
     })
     .filter((x) => x !== undefined);
 
-  events = events.concat(
-    selectedLectures
-      .flatMap((lecture) => {
-        if (lecture.times)
-          return getTimes(
-            lecture.courseID,
-            lecture.name || "Lecture",
-            lecture.times,
-            lecture.color
-          );
-      })
-      .filter((x) => x !== undefined)
-  );
-
   const selectedSections = filteredCourses
     .flatMap((course) => {
       const section = course.schedules
@@ -107,6 +149,31 @@ export const getEvents = (
       };
     })
     .filter((x) => x !== undefined);
+
+  events = events.concat(
+    selectedLectures
+      .flatMap((lecture) => {
+        if (lecture.times) {
+          const linkedSection = selectedSections.find(
+            (section) =>
+              section.courseID === lecture.courseID &&
+              section.lecture === lecture.name
+          );
+          const visibleTimes = getVisibleLectureTimes(
+            lecture.times,
+            linkedSection?.times || []
+          );
+
+          return getTimes(
+            lecture.courseID,
+            lecture.name || "Lecture",
+            visibleTimes,
+            lecture.color
+          );
+        }
+      })
+      .filter((x) => x !== undefined)
+  );
 
   events = events.concat(
     selectedSections
@@ -138,15 +205,18 @@ export const getEvents = (
 
     const hoverColor =
       getCalendarColorLight(`${selectedSessions[courseID]?.Color}`) || "";
-    if (hoverLecture)
+    if (hoverLecture) {
+      const linkedSectionTimes =
+        hoverSection?.lecture === hoverLecture.name ? hoverSection.times : [];
       events.push(
         ...getTimes(
           courseID,
           hoverLecture.name || "Lecture",
-          hoverLecture.times,
+          getVisibleLectureTimes(hoverLecture.times, linkedSectionTimes),
           hoverColor
         )
       );
+    }
 
     if (hoverSection)
       events.push(

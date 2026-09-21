@@ -11,6 +11,9 @@ export interface MeetingTime {
   days: number[]; // 0 = Sunday, matching BusyBlock.day
   begin: string;
   end: string;
+  building?: string | null;
+  room?: string | null;
+  location?: string | null;
 }
 
 export type FitStatus = "FITS" | "CONFLICTS" | "UNKNOWN";

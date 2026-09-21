@@ -8,7 +8,11 @@ import {
   selectSessionInActiveSchedule,
   userSchedulesSlice,
 } from "~/app/userSchedules";
-import { buildGeneratorInput, generateCandidates, ScheduleCandidate } from "~/app/scheduleGenerator";
+import {
+  buildGeneratorInput,
+  generateCandidates,
+  ScheduleCandidate,
+} from "~/app/scheduleGenerator";
 import { PRIMARY_BUTTON_CLASS } from "~/components/profile/fields";
 import CandidateCard from "./CandidateCard";
 
@@ -23,10 +27,17 @@ const GeneratePanel = () => {
   const selectedSession = useAppSelector(selectSessionInActiveSchedule);
   const courseDetails = useFetchCourseInfos(scheduled);
   const { data: profile } = useFetchProfile();
-  const [candidates, setCandidates] = useState<ScheduleCandidate[] | null>(null);
+  const [candidates, setCandidates] = useState<ScheduleCandidate[] | null>(
+    null
+  );
 
   const generate = () => {
-    const input = buildGeneratorInput(scheduled, courseDetails, selectedSession, profile ?? emptyProfile());
+    const input = buildGeneratorInput(
+      scheduled,
+      courseDetails,
+      selectedSession,
+      profile ?? emptyProfile()
+    );
     setCandidates(generateCandidates(input));
   };
 
@@ -63,18 +74,29 @@ const GeneratePanel = () => {
     <div className="mt-4">
       <div className="mb-2 text-lg">Generate</div>
       {scheduled.length === 0 ? (
-        <div className="text-gray-400 text-sm">Add courses above to generate schedules.</div>
+        <div className="text-gray-400 text-sm">
+          Add courses above to generate schedules.
+        </div>
       ) : selectedSession === "" ? (
-        <div className="text-gray-400 text-sm">Pick a semester below first.</div>
+        <div className="text-gray-400 text-sm">
+          Pick a semester below first.
+        </div>
       ) : (
-        <button type="button" className={`${PRIMARY_BUTTON_CLASS} w-full`} onClick={generate}>
+        <button
+          type="button"
+          className={`${PRIMARY_BUTTON_CLASS} w-full`}
+          onClick={generate}
+        >
           Generate Schedules
         </button>
       )}
       {candidates && (
         <div className="mt-4 space-y-4">
           {candidates.length === 0 ? (
-            <div className="text-gray-400 text-sm">Couldn&apos;t build a schedule from these courses.</div>
+            <div className="text-gray-400 text-sm">
+              No conflict-free schedule exists for these courses. Try changing
+              the course list or semester.
+            </div>
           ) : (
             candidates.map((candidate, index) => (
               <CandidateCard

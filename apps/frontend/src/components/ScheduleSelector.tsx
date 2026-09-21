@@ -1,27 +1,35 @@
-import React from "react";
-import { ClipboardIcon, ShareIcon } from "@heroicons/react/24/solid";
+import React, { useEffect, useState } from "react";
+import {
+  ArrowDownTrayIcon,
+  ClipboardIcon,
+  ShareIcon,
+} from "@heroicons/react/24/solid";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { FlushedButton } from "./Buttons";
 import { XMarkIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import { userSchedulesSlice } from "~/app/userSchedules";
+import { UserSchedule, userSchedulesSlice } from "~/app/userSchedules";
 import { showToast } from "./Toast";
+import { useFetchCourseInfos } from "~/app/api/course";
+import {
+  downloadScheduleICS,
+  encodeSharedSchedule,
+} from "~/app/scheduleSharing";
 
 type ScheduleSelectionProps = {
-  name: string;
-  id: string;
-  courses: string[];
+  schedule: UserSchedule;
   active: boolean;
 };
 
-const ScheduleSelection = ({
-  name,
-  id,
-  courses,
-  active,
-}: ScheduleSelectionProps) => {
+const ScheduleSelection = ({ schedule, active }: ScheduleSelectionProps) => {
   const dispatch = useAppDispatch();
-  const shareableLink =
-    window.location.host + "/schedules/shared?courses=" + courses.join(",");
+  const courseDetails = useFetchCourseInfos(schedule.courses);
+  const { name, id } = schedule;
+  const [shareableLink, setShareableLink] = useState("");
+  useEffect(() => {
+    setShareableLink(
+      `${window.location.origin}/schedules/shared?data=${encodeURIComponent(encodeSharedSchedule(schedule))}`
+    );
+  }, [schedule]);
 
   if (active)
     return (
@@ -60,8 +68,28 @@ const ScheduleSelection = ({
             </button>
           </div>
           <p className="mt-1 text-xs text-gray-400">
-            Use this to share this schedule with others.
+            This link includes the semester and selected lecture/section times.
           </p>
+          <button
+            type="button"
+            className="mt-2 inline-flex items-center rounded border border-gray-200 px-2 py-1 text-xs text-gray-600 hover:bg-gray-50"
+            onClick={() => {
+              if (downloadScheduleICS(schedule, courseDetails)) {
+                showToast({
+                  message: "Exported calendar.",
+                  icon: ArrowDownTrayIcon,
+                });
+              } else {
+                showToast({
+                  message: "Choose a semester before exporting.",
+                  icon: ArrowDownTrayIcon,
+                });
+              }
+            }}
+          >
+            <ArrowDownTrayIcon className="mr-1 h-4 w-4" />
+            Export .ics
+          </button>
         </div>
       </div>
     );
@@ -106,9 +134,7 @@ const ScheduleSelector = () => {
         {Object.keys(savedSchedules).length > 0 ? (
           Object.entries(savedSchedules).map(([id, schedule]) => (
             <ScheduleSelection
-              name={schedule.name}
-              courses={schedule.courses}
-              id={id}
+              schedule={schedule}
               active={id === active}
               key={id}
             />
