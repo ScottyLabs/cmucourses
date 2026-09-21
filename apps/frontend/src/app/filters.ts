@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Session } from "./types";
+import type { Modality } from "@cmucourses/profile";
 import { standardizeIdsInString } from "./utils";
 
 /**
@@ -35,6 +36,20 @@ export interface FiltersState {
     active: boolean;
     selected: ClassTime[];
   };
+  meetingDays: {
+    active: boolean;
+    selected: number[];
+  };
+  timeRange: {
+    active: boolean;
+    begin: number;
+    end: number;
+  };
+  modalities: {
+    active: boolean;
+    selected: Modality[];
+  };
+  fitAvailability: boolean;
   page: number;
   exactResultsCourses: string[];
 }
@@ -74,6 +89,10 @@ const initialState: FiltersState = {
     active: false,
     selected: [],
   },
+  meetingDays: { active: false, selected: [] },
+  timeRange: { active: false, begin: 8 * 60, end: 18 * 60 },
+  modalities: { active: false, selected: [] },
+  fitAvailability: false,
   page: 1,
   exactResultsCourses: [],
 };
@@ -143,12 +162,41 @@ export const filtersSlice = createSlice({
         (classTime) => classTime !== action.payload
       );
     },
+    updateMeetingDays: (state, action: PayloadAction<number[]>) => {
+      state.meetingDays = { active: true, selected: action.payload };
+    },
+    updateMeetingDaysActive: (state, action: PayloadAction<boolean>) => {
+      state.meetingDays.active = action.payload;
+    },
+    updateTimeRange: (state, action: PayloadAction<[number, number]>) => {
+      state.timeRange = {
+        active: true,
+        begin: action.payload[0],
+        end: action.payload[1],
+      };
+    },
+    updateTimeRangeActive: (state, action: PayloadAction<boolean>) => {
+      state.timeRange.active = action.payload;
+    },
+    updateModalities: (state, action: PayloadAction<Modality[]>) => {
+      state.modalities = { active: true, selected: action.payload };
+    },
+    updateModalitiesActive: (state, action: PayloadAction<boolean>) => {
+      state.modalities.active = action.payload;
+    },
+    updateFitAvailability: (state, action: PayloadAction<boolean>) => {
+      state.fitAvailability = action.payload;
+    },
     resetFilters: (state) => {
       state.departments = initialState.departments;
       state.levels = initialState.levels;
       state.units = initialState.units;
       state.semesters = initialState.semesters;
       state.classTimes = initialState.classTimes;
+      state.meetingDays = initialState.meetingDays;
+      state.timeRange = initialState.timeRange;
+      state.modalities = initialState.modalities;
+      state.fitAvailability = initialState.fitAvailability;
     },
     setPage: (state, action: PayloadAction<number>) => {
       state.page = action.payload;

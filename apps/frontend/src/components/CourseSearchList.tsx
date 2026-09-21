@@ -9,8 +9,57 @@ import {
 import { Pagination } from "./Pagination";
 import { filtersSlice } from "~/app/filters";
 import { useMatchGoalsCourseIDs } from "~/app/matchGoals";
+import { useFetchProfile } from "~/app/api/profile";
+import {
+  ClientCourseFilters,
+  courseMatchesClientFilters,
+} from "~/app/courseFilterPredicates";
+import type { Course } from "~/app/types";
 
 const PAGE_SIZE = 10;
+
+const useClientFilteredCourses = (courses: Course[]) => {
+  const meetingDays = useAppSelector((state) => state.filters.meetingDays);
+  const timeRange = useAppSelector((state) => state.filters.timeRange);
+  const modalities = useAppSelector((state) => state.filters.modalities);
+  const fitAvailability = useAppSelector(
+    (state) => state.filters.fitAvailability
+  );
+  const { data: profile } = useFetchProfile();
+
+  return useMemo(() => {
+    const filters: ClientCourseFilters = {
+      meetingDays:
+        meetingDays?.active && meetingDays.selected.length > 0
+          ? meetingDays.selected
+          : undefined,
+      timeRange: timeRange?.active
+        ? { begin: timeRange.begin, end: timeRange.end }
+        : undefined,
+      modalities:
+        modalities?.active && modalities.selected.length > 0
+          ? modalities.selected
+          : undefined,
+      fitAvailability: fitAvailability ?? false,
+    };
+    const enabled =
+      filters.meetingDays !== undefined ||
+      filters.timeRange !== undefined ||
+      filters.modalities !== undefined ||
+      filters.fitAvailability;
+    if (!enabled) return courses;
+    return courses.filter((course) =>
+      courseMatchesClientFilters(course, filters, profile?.busyBlocks ?? [])
+    );
+  }, [
+    courses,
+    meetingDays,
+    timeRange,
+    modalities,
+    fitAvailability,
+    profile?.busyBlocks,
+  ]);
+};
 
 const CoursePage = ({ courseIDs }: { courseIDs: string[] }) => {
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
@@ -18,8 +67,16 @@ const CoursePage = ({ courseIDs }: { courseIDs: string[] }) => {
   const showSchedules = useAppSelector((state) => state.user.showSchedules);
 
   const results = useFetchCourseInfos(courseIDs);
+  const filteredResults = useClientFilteredCourses(results);
+  const filteredIDs = new Set(filteredResults.map((course) => course.courseID));
+  const visibleCourseIDs = courseIDs.filter((courseID) =>
+    filteredIDs.has(courseID)
+  );
 
-  if (courseIDs.length === 0) {
+  if (
+    courseIDs.length === 0 ||
+    (results.length > 0 && visibleCourseIDs.length === 0)
+  ) {
     return (
       <div className="mt-6 text-center text-gray-400">
         No courses match your goals.
@@ -30,7 +87,7 @@ const CoursePage = ({ courseIDs }: { courseIDs: string[] }) => {
   return (
     <div className="space-y-4">
       {results &&
-        courseIDs.map((courseID) => (
+        visibleCourseIDs.map((courseID) => (
           <CourseCard
             courseID={courseID}
             key={courseID}
@@ -76,11 +133,21 @@ const SearchCoursePage = () => {
   }, [exactResultsCourses, docs, page]);
 
   const results = useFetchCourseInfos(coursesToShow);
+  const filteredResults = useClientFilteredCourses(results);
+  const filteredIDs = new Set(filteredResults.map((course) => course.courseID));
+  const visibleCourses = coursesToShow.filter((courseID) =>
+    filteredIDs.has(courseID)
+  );
 
   return (
     <div className="space-y-4">
+      {results && visibleCourses.length === 0 && coursesToShow.length > 0 && (
+        <div className="mt-6 text-center text-gray-400">
+          No courses on this page match the schedule filters.
+        </div>
+      )}
       {results &&
-        coursesToShow.map((courseID) => (
+        visibleCourses.map((courseID) => (
           <CourseCard
             courseID={courseID}
             key={courseID}
@@ -95,8 +162,11 @@ const SearchCoursePage = () => {
 
 const CourseSearchList = () => {
   const curPage = useAppSelector((state) => state.filters.page);
-  const { active: goalsActive, ready: goalsReady, courseIDs: goalIDs } =
-    useMatchGoalsCourseIDs();
+  const {
+    active: goalsActive,
+    ready: goalsReady,
+    courseIDs: goalIDs,
+  } = useMatchGoalsCourseIDs();
   const { isPending, data: { totalPages: searchTotalPages } = {} } =
     useFetchCourseInfosByPage({ enabled: !goalsActive });
 

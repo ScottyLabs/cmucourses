@@ -5,6 +5,7 @@ import SemestersOfferedFilter from "./filters/SemestersOfferedFilter";
 import LevelFilter from "./filters/LevelFilter";
 import GoalsFilter from "./filters/GoalsFilter";
 import ClassTimesFilter from "./filters/ClassTimesFilter";
+import AdvancedScheduleFilter from "./filters/AdvancedScheduleFilter";
 
 const Filter = () => {
   return (
@@ -16,6 +17,7 @@ const Filter = () => {
         <UnitsFilter />
         <SemestersOfferedFilter />
         <ClassTimesFilter />
+        <AdvancedScheduleFilter />
         <LevelFilter />
       </div>
     </div>
