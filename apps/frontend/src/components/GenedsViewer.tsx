@@ -8,7 +8,6 @@ import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Gened } from "~/app/types";
 import { classNames } from "~/app/utils";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { SignInButton, useAuth } from "@clerk/nextjs";
 import { userSlice } from "~/app/user";
 import { GENED_SCHOOLS, GENED_SOURCES } from "~/app/constants";
 import Link from "~/components/Link";
@@ -20,12 +19,11 @@ const GenedsViewer = () => {
   const aggregationOptions = useAppSelector(
     (state) => state.user.fceAggregation
   );
-  const { isSignedIn, getToken } = useAuth();
   const {
     isPending,
     error,
     data: geneds,
-  } = useFetchGenedsBySchool(selectedSchool, isSignedIn, getToken);
+  } = useFetchGenedsBySchool(selectedSchool);
 
   const [tagQuery, setTagQuery] = useState("");
   const [tags, setTags] = useState<string[]>([]);
@@ -41,10 +39,6 @@ const GenedsViewer = () => {
   };
 
   const getGenedTable = () => {
-    if (!isSignedIn) {
-      return <></>;
-    }
-
     if (isPending) {
       return <div className="py-4 text-center text-gray-500 ">Loading...</div>;
     }
@@ -289,13 +283,6 @@ const GenedsViewer = () => {
           do fill in the feedback form in the sidebar!
         </span>
       </div>
-      {!isSignedIn && (
-        <div className="flex justify-center">
-          <div className="px-4 py-2 my-4 text-sm font-medium text-white bg-gray-500 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-            <SignInButton>Sign in to see FCE data</SignInButton>
-          </div>
-        </div>
-      )}
       {getGenedTable()}
     </div>
   );

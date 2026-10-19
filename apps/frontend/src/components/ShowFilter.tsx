@@ -1,13 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "~/app/hooks";
 import { userSlice } from "~/app/user";
-import { useAuth } from "@clerk/nextjs";
 
 const ShowFilter = () => {
   const dispatch = useAppDispatch();
-
-  const { isSignedIn } = useAuth();
-
   const showFCEs = useAppSelector((state) => state.user.savedShowFCEs);
   const showCourseInfos = useAppSelector(
     (state) => state.user.savedShowCourseInfos
@@ -21,25 +17,15 @@ const ShowFilter = () => {
   const showAllRef = useRef<any>(null);
   useEffect(() => {
     if (showAllRef.current) {
-      if (isSignedIn) {
-        if (showFCEs && showCourseInfos && showSchedules) {
-          showAllRef.current.indeterminate = false;
-          showAllRef.current.checked = true;
-        } else if (!(showFCEs || showCourseInfos || showSchedules)) {
-          showAllRef.current.indeterminate = false;
-          showAllRef.current.checked = false;
-        } else showAllRef.current.indeterminate = true;
-      } else {
-        if (showCourseInfos && showSchedules) {
-          showAllRef.current.indeterminate = false;
-          showAllRef.current.checked = true;
-        } else if (!(showCourseInfos || showSchedules)) {
-          showAllRef.current.indeterminate = false;
-          showAllRef.current.checked = false;
-        } else showAllRef.current.indeterminate = true;
-      }
+      if (showFCEs && showCourseInfos && showSchedules) {
+        showAllRef.current.indeterminate = false;
+        showAllRef.current.checked = true;
+      } else if (!(showFCEs || showCourseInfos || showSchedules)) {
+        showAllRef.current.indeterminate = false;
+        showAllRef.current.checked = false;
+      } else showAllRef.current.indeterminate = true;
     }
-  }, [showAllRef, isSignedIn, showFCEs, showCourseInfos, showSchedules]);
+  }, [showAllRef, showFCEs, showCourseInfos, showSchedules]);
 
   const setShowFCEs = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.savedShowFCEs(e.target.checked));
@@ -55,7 +41,7 @@ const ShowFilter = () => {
 
   const setShowAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.savedShowAll(e.target.checked));
-    if (isSignedIn) dispatch(userSlice.actions.savedShowFCEs(e.target.checked));
+    dispatch(userSlice.actions.savedShowFCEs(e.target.checked));
     dispatch(userSlice.actions.savedShowCourseInfos(e.target.checked));
     dispatch(userSlice.actions.savedShowSchedules(e.target.checked));
   };
@@ -80,7 +66,6 @@ const ShowFilter = () => {
             <input
               type="checkbox"
               className="mr-2"
-              disabled={!isSignedIn}
               onChange={setShowFCEs}
               checked={showFCEs}
             />

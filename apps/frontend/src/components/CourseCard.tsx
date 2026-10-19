@@ -15,7 +15,6 @@ import { Card } from "./Card";
 import { CourseSchedulesDetail } from "./CourseSchedulesDetail";
 import { useFetchCourseInfo } from "~/app/api/course";
 import { useFetchFCEInfoByCourse } from "~/app/api/fce";
-import { useAuth } from "@clerk/nextjs";
 
 interface Props {
   courseID: string;
@@ -30,7 +29,6 @@ const CourseCard = ({
   showCourseInfo,
   showSchedules,
 }: Props) => {
-  const { isSignedIn } = useAuth();
   const { isPending: isCourseInfoPending, data: info } =
     useFetchCourseInfo(courseID);
   const { isPending: isFCEInfoPending, data: { fces } = {} } =
@@ -79,7 +77,7 @@ const CourseCard = ({
               <BookmarkButton courseID={info.courseID} />
             </div>
           </div>
-          {isSignedIn && !!hours && (
+          {!!hours && (
             <div className="text-md text-gray-500">{hours} hrs/week</div>
           )}
         </div>

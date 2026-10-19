@@ -6,7 +6,6 @@ import { InstructorFCEDetail } from "./InstructorFCEDetail";
 import { filterSessions, sessionToString, toNameCase } from "~/app/utils";
 import { Card } from "./Card";
 import Link from "next/link";
-import { useAuth } from "@clerk/nextjs";
 import { useFetchSchedulesByInstructor } from "~/app/api/schedules";
 import { InstructorSchedulesDetail } from "~/components/InstructorSchedulesDetail";
 
@@ -21,12 +20,8 @@ const InstructorDetail = ({ name, showLoading, extraFilters }: Props) => {
     (state) => state.user.fceAggregation
   );
 
-  const { isSignedIn, getToken } = useAuth();
-  const { isPending: isFCEsPending, data: fces } = useFetchFCEInfosByInstructor(
-    name,
-    isSignedIn,
-    getToken
-  );
+  const { isPending: isFCEsPending, data: fces } =
+    useFetchFCEInfosByInstructor(name);
   const { isPending: isSchedulesPending, data: schedules } =
     useFetchSchedulesByInstructor(name);
 
