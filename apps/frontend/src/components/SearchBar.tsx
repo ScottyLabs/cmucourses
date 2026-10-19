@@ -12,7 +12,6 @@ import {
 import { filtersSlice } from "~/app/filters";
 import { getPillboxes } from "./filters/LevelFilter";
 import { useFetchCourseInfosByPage } from "~/app/api/course";
-import { useAuth } from "@clerk/nextjs";
 import { usePostHog } from "posthog-js/react";
 
 /** Extra idle time after Redux search updates (those already debounce 300ms) before sending PostHog. */
@@ -175,7 +174,6 @@ const SearchBar = () => {
     return () => window.clearTimeout(t);
   }, [filtersSearch, posthog]);
 
-  const { isSignedIn } = useAuth();
   const showFCEs = useAppSelector((state) => state.user.showFCEs);
   const showCourseInfos = useAppSelector((state) => state.user.showCourseInfos);
   const showSchedules = useAppSelector((state) => state.user.showSchedules);
@@ -185,25 +183,15 @@ const SearchBar = () => {
   const showAllRef = useRef<any>(null);
   useEffect(() => {
     if (showAllRef.current) {
-      if (isSignedIn) {
-        if (showFCEs && showCourseInfos && showSchedules) {
-          showAllRef.current.indeterminate = false;
-          showAllRef.current.checked = true;
-        } else if (!(showFCEs || showCourseInfos || showSchedules)) {
-          showAllRef.current.indeterminate = false;
-          showAllRef.current.checked = false;
-        } else showAllRef.current.indeterminate = true;
-      } else {
-        if (showCourseInfos && showSchedules) {
-          showAllRef.current.indeterminate = false;
-          showAllRef.current.checked = true;
-        } else if (!(showCourseInfos || showSchedules)) {
-          showAllRef.current.indeterminate = false;
-          showAllRef.current.checked = false;
-        } else showAllRef.current.indeterminate = true;
-      }
+      if (showFCEs && showCourseInfos && showSchedules) {
+        showAllRef.current.indeterminate = false;
+        showAllRef.current.checked = true;
+      } else if (!(showFCEs || showCourseInfos || showSchedules)) {
+        showAllRef.current.indeterminate = false;
+        showAllRef.current.checked = false;
+      } else showAllRef.current.indeterminate = true;
     }
-  }, [showAllRef, isSignedIn, showFCEs, showCourseInfos, showSchedules]);
+  }, [showAllRef, showFCEs, showCourseInfos, showSchedules]);
 
   const setShowFCEs = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showFCEs(e.target.checked));
@@ -219,7 +207,7 @@ const SearchBar = () => {
 
   const setShowAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(userSlice.actions.showAll(e.target.checked));
-    if (isSignedIn) dispatch(userSlice.actions.showFCEs(e.target.checked));
+    dispatch(userSlice.actions.showFCEs(e.target.checked));
     dispatch(userSlice.actions.showCourseInfos(e.target.checked));
     dispatch(userSlice.actions.showSchedules(e.target.checked));
   };
@@ -272,7 +260,6 @@ const SearchBar = () => {
             <input
               type="checkbox"
               className="mr-2"
-              disabled={!isSignedIn}
               onChange={setShowFCEs}
               checked={showFCEs}
             />

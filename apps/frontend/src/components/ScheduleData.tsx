@@ -11,7 +11,6 @@ import { uiSlice } from "~/app/ui";
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import { useFetchCourseInfos } from "~/app/api/course";
 import { useFetchFCEInfosByCourse } from "~/app/api/fce";
-import { useAuth } from "@clerk/nextjs";
 import { useQueryClient } from "@tanstack/react-query";
 import { Course } from "~/app/types";
 
@@ -27,23 +26,10 @@ const ScheduleData = ({ scheduled }: ScheduleDataProps) => {
   const selected = useAppSelector(selectSelectedCoursesInActiveSchedule);
   const options = useAppSelector((state) => state.user.fceAggregation);
 
-  const { isSignedIn, getToken } = useAuth();
   const scheduledResults = useFetchCourseInfos(scheduled);
-  const scheduledFCEs = useFetchFCEInfosByCourse(
-    scheduled,
-    isSignedIn,
-    getToken
-  );
+  const scheduledFCEs = useFetchFCEInfosByCourse(scheduled);
 
   const open = useAppSelector((state) => state.ui.schedulesTopbarOpen);
-
-  if (!isSignedIn) {
-    return (
-      <div className="text-sm text-gray-400">
-        <p>Sign in to view FCE results.</p>
-      </div>
-    );
-  }
 
   if (!active) {
     return <></>;

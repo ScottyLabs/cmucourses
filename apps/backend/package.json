@@ -8,13 +8,10 @@
     "lint": "eslint ./src/**"
   },
   "dependencies": {
-    "@clerk/clerk-sdk-node": "^5.1.6",
     "@cmucourses/db": "workspace:*",
-    "@types/jsonwebtoken": "^9.0.8",
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "node": "^22.13.1",
     "node-cron": "^3.0.3"

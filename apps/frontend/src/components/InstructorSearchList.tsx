@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import InstructorDetail from "./InstructorDetail";
 import { useFetchAllInstructors } from "~/app/api/instructors";
 import { instructorsSlice } from "~/app/instructors";
-import { useAuth } from "@clerk/nextjs";
 
 const RESULTS_PER_PAGE = 10;
 
@@ -39,12 +38,9 @@ const InstructorSearchList = () => {
   const handlePageClick = (page: number) => {
     dispatch(instructorsSlice.actions.setInstructorPage(page + 1));
   };
-
-  const { isSignedIn } = useAuth();
-
   return (
     <div className="p-6">
-      {loading || isPending || !isSignedIn ? (
+      {loading || isPending ? (
         <Loading />
       ) : (
         <>

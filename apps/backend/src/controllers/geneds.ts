@@ -22,9 +22,7 @@ type GenedsInfo = {
 export interface GetGeneds {
   params: unknown;
   resBody: GenedsInfo;
-  reqBody: {
-    token: string;
-  };
+  reqBody: unknown;
   query: {
     school: string;
   };
@@ -70,21 +68,18 @@ export const getGeneds: RequestHandler<
 
       const processedCourses = Object.fromEntries(courses.map((course) => [course.courseID, course]));
 
-      let fces;
-      if (req.body.token) {
-        fces = await db.fces.findMany({
-          where: {
-            courseID: {
-              in: courseIDs,
-            },
+      const fces = await db.fces.findMany({
+        where: {
+          courseID: {
+            in: courseIDs,
           },
-        });
-      }
+        },
+      });
 
       const results = [];
       for (const courseID of courseIDs) {
         const course = processedCourses[courseID];
-        const fce = fces ? fces.filter((fce) => fce.courseID === courseID) : [];
+        const fce = fces.filter((fce) => fce.courseID === courseID);
         const tags = proccesedGeneds[courseID]?.tags;
         const startsCounting = proccesedGeneds[courseID]?.startsCounting;
         const stopsCounting = proccesedGeneds[courseID]?.stopsCounting;

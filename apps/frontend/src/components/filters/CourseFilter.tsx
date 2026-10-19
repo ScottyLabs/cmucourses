@@ -6,7 +6,6 @@ import { Combobox } from "@headlessui/react";
 import { classNames, getUnique } from "~/app/utils";
 import { userSlice } from "~/app/user";
 import { useFetchFCEInfosByInstructor } from "~/app/api/fce";
-import { useAuth } from "@clerk/nextjs";
 
 type Props = {
   name: string;
@@ -21,12 +20,7 @@ const CourseFilter = ({ name }: Props) => {
     (state) => state.user.fceAggregation.filters.courses
   );
 
-  const { isSignedIn, getToken } = useAuth();
-  const { data: fces } = useFetchFCEInfosByInstructor(
-    name,
-    isSignedIn,
-    getToken
-  );
+  const { data: fces } = useFetchFCEInfosByInstructor(name);
   const courses = getUnique(
     fces?.fces?.map((fce) => fce.courseID).sort() || []
   );
