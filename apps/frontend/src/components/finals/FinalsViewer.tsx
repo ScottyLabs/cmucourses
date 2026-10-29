@@ -8,6 +8,7 @@ import Link from "~/components/Link";
 import {
     ArrowUpTrayIcon,
     DocumentArrowDownIcon,
+    ExclamationTriangleIcon,
 } from "@heroicons/react/24/outline";
 import finalsData from "./finals.json";
 import {
@@ -21,6 +22,7 @@ import DataTable from "./datatable";
 import { classNames } from "~/app/utils";
 import ICAL from "ical.js";
 import { GetTooltip } from "~/components/GetTooltip";
+import { showToast } from "~/components/Toast";
 
 type RawFinal = {
     course: string;
@@ -94,7 +96,7 @@ const columns: ColumnDef<FinalExamRow>[] = [
             const formattedCourseCode = formatCourseCode(courseCode);
             const id = `finals-table-${courseCode}`;
 
-            return <><Link data-tooltip-id={id} href={`/course/${formattedCourseCode}`}>{formattedCourseCode}</Link><GetTooltip id={id} children={<div><b>{row.original.name as string}</b> <br />{row.original.desc as string}</div>} /></>;
+            return <><Link data-tooltip-id={id} href={`/course/${formattedCourseCode}`}>{formattedCourseCode}</Link><GetTooltip id={id} children={<div><b>{row.original.name}</b> <br />{row.original.desc}</div>} /></>;
         },
     },
     {
@@ -119,7 +121,7 @@ const columns: ColumnDef<FinalExamRow>[] = [
     },
 ];
 
-const SIO_CAL_EXPORT_URL = "https://s3.andrew.cmu.edu/sio/mpa/secure/export/schedule/F25_schedule.ics";
+const SIO_CAL_EXPORT_URL = "https://s3.andrew.cmu.edu/sio/mpa/secure/export/schedule/F26_schedule.ics";
 
 export default function FinalsViewer() {
     const dispatch = useAppDispatch();
@@ -204,6 +206,11 @@ export default function FinalsViewer() {
                 newScheduleData.push({ code: String(code), section: String(section) });
             }
             dispatch(finalsSlice.actions.setOwnCourses(newScheduleData.map(c => (c.code + c.section))));
+        }).catch(() => {
+            showToast({
+                message: "Couldn't read that file. Upload the .ics export from SIO.",
+                icon: ExclamationTriangleIcon,
+            });
         });
     };
 

@@ -16,7 +16,7 @@ from pathlib import Path
 dir_path = Path(__file__).parent.resolve()
 
 EXAMS_URL = "https://www.cmu.edu/hub/docs/final-exams.pdf"
-API_URL = 'https://course-tools.apis.scottylabs.org/courses/search?&page=1&schedules=true&keywords='
+API_URL = 'https://course.apis.scottylabs.org/courses/search?&page=1&schedules=true&keywords='
 USE_MANUAL_PARSE = False
 
 
@@ -36,38 +36,26 @@ def detect_parse_state(txt_line):
     return None
 
 
-def convert_time_to_datetime_pair(time_str):
-    """Monday, May 5, 2026 01:00pm - 04:00pm -> (timestamp, timestamp)"""
-    try:
-        time_split = [x for x in time_str.split(" ") if x != ""]
-        # Expecting: [DayOfWeek, Month, Day, Year, StartTime, -, EndTime]
-        # Example: ['Monday,', 'May', '5,', '2026', '01:00pm', '-', '04:00pm']
+DATE_TIME_RE = regex.compile(
+    r"^\w+, (\w+) (\d{1,2}) "
+    r"(\d{1,2}):(\d{2}) ([ap])\.m\. - (\d{1,2}):(\d{2}) ([ap])\.m\.$"
+)
 
-        month_str = time_split[1]
-        day_str = time_split[2].replace(",", "")
-        year_str = time_split[3]
 
-        month = strptime(month_str, '%B').tm_mon
-        day = int(day_str)
-        year = int(year_str)
+def to_24h(hour, meridiem):
+    return hour % 12 + (12 if meridiem == "p" else 0)
 
-        date_obj = datetime.datetime(year, month, day)
 
-        start_time_str = time_split[4]
-        end_time_str = time_split[6]
-
-        start_time = strptime(start_time_str, "%I:%M%p")
-        end_time = strptime(end_time_str, "%I:%M%p")
-
-        start_datetime = datetime.datetime(
-            date_obj.year, date_obj.month, date_obj.day, start_time.tm_hour, start_time.tm_min)
-        end_datetime = datetime.datetime(
-            date_obj.year, date_obj.month, date_obj.day, end_time.tm_hour, end_time.tm_min)
-
-        return [start_datetime.timestamp(), end_datetime.timestamp()]
-    except Exception as e:
-        print(f"Error converting time '{time_str}': {e}")
-        return [0, 0]
+def convert_time_to_datetime_pair(time_str, year):
+    """Thursday, December 10 05:30 p.m. - 08:30 p.m. -> (timestamp, timestamp)"""
+    m = DATE_TIME_RE.match(time_str)
+    if not m:
+        raise ValueError(f"Unparseable exam time '{time_str}'")
+    month_str, day, sh, sm, sp, eh, em, ep = m.groups()
+    month = strptime(month_str, '%B').tm_mon
+    start = datetime.datetime(year, month, int(day), to_24h(int(sh), sp), int(sm))
+    end = datetime.datetime(year, month, int(day), to_24h(int(eh), ep), int(em))
+    return [start.timestamp(), end.timestamp()]
 
 
 def get_course_info(course_id):
@@ -82,9 +70,8 @@ def get_course_info(course_id):
         response = requests.get(API_URL + formatted_id)
         data = response.json()
         docs = data.get('docs', [])
-        if docs and len(docs) > 0:
-            match = next((c for c in docs if c.get(
-                'courseID') == formatted_id), docs[0])
+        match = next((c for c in docs if c.get('courseID') == formatted_id), None)
+        if match:
             return match.get('name'), match.get('desc')
     except Exception as e:
         print(f"Error fetching info for {formatted_id}: {e}")
@@ -110,14 +97,15 @@ def main():
     # PDF text is one field per line (see raw_text.txt). Match column lines, not a single stitched line.
     course_id_line = regex.compile(r"^\d{5}\s*$")
     section_line = regex.compile(r"^[A-Za-z0-9]{1,4}\s*$")
-    date_line_re = regex.compile(
-        r"^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), "
-        r"(January|February|March|April|May|June|July|August|September|October|November|December) "
-        r"\d{1,2}, \d{4}\s*$"
+    date_re = regex.compile(
+        r"(?:^|\s)((?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), "
+        r"(?:January|February|March|April|May|June|July|August|September|October|November|December) "
+        r"\d{1,2})\s*$"
     )
     time_line_re = regex.compile(
-        r"^\d{1,2}:\d{2}[ap]m - \d{1,2}:\d{2}[ap]m\s*$"
+        r"^\d{1,2}:\d{2} [ap]\.m\. - \d{1,2}:\d{2} [ap]\.m\.\s*$"
     )
+    year = int(regex.search(r"(?:Fall|Spring|Summer) (\d{4})", txt_pages).group(1))
     final_exams = []
     print("Parsing schedule...")
     lines = txt_pages.split("\n")
@@ -128,36 +116,26 @@ def main():
         if not course_id_line.match(line):
             i += 1
             continue
-        if i + 1 >= len(lines):
-            break
+        record = lines[i:i + 9]
         section = lines[i + 1].strip()
         if not section_line.match(section):
-            i += 1
-            continue
-        j = i + 2
-        while j < len(lines) and not date_line_re.match(lines[j].strip()):
-            j += 1
-        if j >= len(lines) or not date_line_re.match(lines[j].strip()):
-            i += 1
-            continue
-        date_str = lines[j].strip()
+            raise ValueError(f"Bad section after course {line}: {record}")
+        j = next((k for k in (i + 2, i + 3) if date_re.search(lines[k].strip())), None)
+        if j is None:
+            raise ValueError(f"No date for course {line}{section}: {record}")
+        date_str = date_re.search(lines[j].strip()).group(1)
         time_str = lines[j + 1].strip()
         if not time_line_re.match(time_str):
-            i += 1
-            continue
-        if j + 3 >= len(lines):
-            i += 1
-            continue
+            raise ValueError(f"Bad time for course {line}{section}: {record}")
         mode = lines[j + 2].strip()
         location = lines[j + 3].strip()
         # Delivery modes in Spring 2026 PDF: In Person, Remote, Cancelled/Canceled (+ optional date line as next row)
         if mode not in ("In Person", "Remote", "Cancelled", "Canceled", "CANCELED"):
-            i += 1
-            continue
+            raise ValueError(f"Bad delivery mode for course {line}{section}: {record}")
 
         course_id = regex.sub(r"[^A-Z0-9]", "", line + section)
 
-        ts_pair = convert_time_to_datetime_pair(date_str + " " + time_str)
+        ts_pair = convert_time_to_datetime_pair(date_str + " " + time_str, year)
 
         final_exams.append({
             "course": course_id,
@@ -167,6 +145,9 @@ def main():
         })
 
         i = j + 4
+
+    unique_exams = {(e["course"], e["start_time"], e["end_time"], e["location"]): e for e in final_exams}
+    final_exams = list(unique_exams.values())
 
     print(
         f"Parsed {len(final_exams)} exams. Enriching with course info...")
