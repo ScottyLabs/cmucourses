@@ -1,28 +1,26 @@
-import { useAppSelector } from "~/app/hooks";
 import React from "react";
 import { styled } from '@mui/material/styles';
 import { Rating } from '@mui/material';
-import tailwindConfig from "../../tailwind.config.ts";
 
-const StyledRating = styled(Rating)(({ darkMode }: { darkMode: boolean }) => ({
+const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
-    color: darkMode ? tailwindConfig.theme.colors.gray[50] : tailwindConfig.theme.colors.gray[400],
+    color: "var(--halloween-pumpkin)",
   },
   '& .MuiRating-iconHover': {
-    color: darkMode ? tailwindConfig.theme.colors.gray[100] : tailwindConfig.theme.colors.gray[50],
+    color: "var(--color-blue-800)",
   },
-}));
+  '& .MuiRating-iconEmpty': {
+    color: "var(--color-gray-300)",
+  },
+});
 
 export const StarRating = ({ rating }: { rating: number }) => {
-  const darkMode = useAppSelector((state) => state.ui.darkMode);
-
   return (
     <>
       <StyledRating
         value={rating}
         readOnly
         precision={0.1}
-        darkMode={darkMode}
       />
     </>
   );

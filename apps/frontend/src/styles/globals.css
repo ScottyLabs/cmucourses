@@ -1,10 +1,116 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@300;400;600;700&display=swap");
 @import "tailwindcss";
 @import "@scottylabs/corgi/css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@theme {
+  --font-spooky: "Creepster", cursive;
+}
+
+:root {
+  --color-white: #181124;
+
+  --color-gray-50: #110c1b;
+  --color-gray-100: #1b1428;
+  --color-gray-200: #2a2040;
+  --color-gray-300: #3c3157;
+  --color-gray-400: #6d5f8c;
+  --color-gray-500: #9b8fb6;
+  --color-gray-600: #b8aecd;
+  --color-gray-700: #d5cde3;
+  --color-gray-800: #e8e2f0;
+  --color-gray-900: #f5f0e6;
+
+  --color-blue-50: #2b1607;
+  --color-blue-100: #3d1f08;
+  --color-blue-200: #7a3a0c;
+  --color-blue-300: #b8560f;
+  --color-blue-400: #e86a10;
+  --color-blue-500: #ff7b1a;
+  --color-blue-600: #ff8c2e;
+  --color-blue-700: #ffa04d;
+  --color-blue-800: #ffb36b;
+  --color-blue-900: #ffcb94;
+
+  --color-indigo-500: #6d28d9;
+  --color-indigo-600: #5b21b6;
+  --color-indigo-700: #4c1d95;
+
+  --color-red-50: #2a0b10;
+  --color-red-500: #e5383b;
+  --color-red-800: #ff8a8f;
+
+  --color-yellow-50: #2a2209;
+  --color-yellow-500: #fbbf24;
+  --color-yellow-800: #fde68a;
+
+  --color-green-50: #0c2410;
+  --color-green-200: #1f5a28;
+  --color-green-500: #7cf05a;
+  --color-green-700: #a6f58a;
+
+  --color-teal-50: #0a2422;
+  --color-teal-700: #6ee7d8;
+
+  --halloween-night: #0c0814;
+  --halloween-pumpkin: #ff7b1a;
+  --halloween-cobweb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='black' stroke-width='0.8'%3E%3Cpath d='M0 0L100 0M0 0L95.6 29.2M0 0L81.9 57.4M0 0L57.4 81.9M0 0L29.2 95.6M0 0L0 100M16 0Q12.8 1.9 15.3 4.7Q11.6 5.7 13.1 9.2Q9.1 9.1 9.2 13.1Q5.7 11.6 4.7 15.3Q1.9 12.8 0 16M32 0Q25.7 3.8 30.6 9.4Q23.3 11.4 26.2 18.4Q18.3 18.3 18.4 26.2Q11.4 23.3 9.4 30.6Q3.8 25.7 0 32M50 0Q40.1 6 47.8 14.6Q36.4 17.8 41 28.7Q28.6 28.6 28.7 41Q17.8 36.4 14.6 47.8Q6 40.1 0 50M70 0Q56.1 8.4 66.9 20.5Q51 24.9 57.3 40.2Q40 40 40.2 57.3Q24.9 51 20.5 66.9Q8.4 56.1 0 70M92 0Q73.8 11 88 26.9Q67 32.7 75.4 52.8Q52.5 52.5 52.8 75.4Q32.7 67 26.9 88Q11 73.8 0 92'/%3E%3C/svg%3E");
+  --halloween-hat: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48'%3E%3Cpath d='M14 38C22 30 26 18 30 4c3-2 6 0 7 4 1 6 5 16 13 30z' fill='%231b1030' stroke='%236d5f8c' stroke-width='1.5'/%3E%3Cpath d='M18 32q14 4 28 0l2 5q-16 4-32 0z' fill='%23ff7b1a'/%3E%3Cellipse cx='32' cy='40' rx='30' ry='6' fill='%231b1030' stroke='%236d5f8c' stroke-width='1.5'/%3E%3C/svg%3E");
+  color-scheme: dark;
+  scrollbar-color: var(--color-gray-300) var(--halloween-night);
+}
+
+.nightwind-prevent-block {
+  --color-white: #fff;
+
+  --color-gray-50: oklch(98.5% 0.002 247.839);
+  --color-gray-100: oklch(96.7% 0.003 264.542);
+  --color-gray-200: oklch(92.8% 0.006 264.531);
+  --color-gray-300: oklch(87.2% 0.01 258.338);
+  --color-gray-400: oklch(70.7% 0.022 261.325);
+  --color-gray-500: oklch(55.1% 0.027 264.364);
+  --color-gray-600: oklch(44.6% 0.03 256.802);
+  --color-gray-700: oklch(37.3% 0.034 259.733);
+  --color-gray-800: oklch(27.8% 0.033 256.848);
+  --color-gray-900: oklch(21% 0.034 264.665);
+
+  --color-blue-50: oklch(97% 0.014 254.604);
+  --color-blue-100: oklch(93.2% 0.032 255.585);
+  --color-blue-200: oklch(88.2% 0.059 254.128);
+  --color-blue-300: oklch(80.9% 0.105 251.813);
+  --color-blue-400: oklch(70.7% 0.165 254.624);
+  --color-blue-500: oklch(62.3% 0.214 259.815);
+  --color-blue-600: oklch(54.6% 0.245 262.881);
+  --color-blue-700: oklch(48.8% 0.243 264.376);
+  --color-blue-800: oklch(42.4% 0.199 265.638);
+  --color-blue-900: oklch(37.9% 0.146 265.522);
+
+  --color-indigo-500: oklch(58.5% 0.233 277.117);
+  --color-indigo-600: oklch(51.1% 0.262 276.966);
+  --color-indigo-700: oklch(45.7% 0.24 277.023);
+
+  --color-red-50: oklch(97.1% 0.013 17.38);
+  --color-red-500: oklch(63.7% 0.237 25.331);
+  --color-red-800: oklch(44.4% 0.177 26.899);
+
+  --color-yellow-50: oklch(98.7% 0.026 102.212);
+  --color-yellow-500: oklch(79.5% 0.184 86.047);
+  --color-yellow-800: oklch(47.6% 0.114 61.907);
+
+  --color-green-50: oklch(98.2% 0.018 155.826);
+  --color-green-200: oklch(92.5% 0.084 155.995);
+  --color-green-500: oklch(72.3% 0.219 149.579);
+  --color-green-700: oklch(52.7% 0.154 150.069);
+
+  --color-teal-50: oklch(98.4% 0.014 180.72);
+  --color-teal-700: oklch(51.1% 0.096 186.391);
+
+  color-scheme: light;
+  scrollbar-color: auto;
+}
 
 html,
 body {
@@ -22,7 +128,7 @@ body {
     Droid Sans,
     Helvetica Neue,
     sans-serif;
-  background-color: #f0f0f0;
+  background-color: var(--halloween-night);
 }
 
 a {
@@ -32,4 +138,216 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+::selection {
+  background-color: var(--halloween-pumpkin);
+  color: var(--halloween-night);
+}
+
+.halloween-wordmark {
+  color: var(--halloween-pumpkin);
+  text-shadow: 0 0 12px rgb(255 123 26 / 0.45);
+}
+
+.halloween-hat {
+  position: relative;
+  display: inline-flex;
+}
+
+.halloween-hat::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: -17px;
+  width: 30px;
+  height: 23px;
+  background: var(--halloween-hat) center / contain no-repeat;
+  rotate: -20deg;
+  z-index: 1;
+}
+
+.halloween-bats {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.halloween-bat {
+  position: absolute;
+  left: 0;
+  top: var(--bat-top);
+  width: var(--bat-size);
+  aspect-ratio: 2;
+  color: var(--color-gray-500);
+  fill: currentColor;
+  translate: -60px 0;
+  animation: halloween-bat-fly var(--bat-duration) linear var(--bat-delay)
+    infinite;
+}
+
+.halloween-bat-wing {
+  transform-origin: 47px 22px;
+  animation: halloween-bat-wing-left var(--bat-flap) ease-in-out infinite
+    alternate;
+}
+
+.halloween-bat-wing-right {
+  transform-origin: 53px 22px;
+  animation-name: halloween-bat-wing-right;
+}
+
+.halloween-bat:nth-child(1) {
+  --bat-top: 6px;
+  --bat-size: 36px;
+  --bat-duration: 17s;
+  --bat-delay: -3s;
+  --bat-flap: 0.3s;
+  --bat-rest: 38vw;
+}
+
+.halloween-bat:nth-child(2) {
+  --bat-top: 30px;
+  --bat-size: 26px;
+  --bat-duration: 23s;
+  --bat-delay: -14s;
+  --bat-flap: 0.24s;
+  --bat-rest: 55vw;
+}
+
+.halloween-bat:nth-child(3) {
+  --bat-top: 14px;
+  --bat-size: 20px;
+  --bat-duration: 29s;
+  --bat-delay: -9s;
+  --bat-flap: 0.2s;
+  --bat-rest: 68vw;
+}
+
+@keyframes halloween-bat-fly {
+  0% {
+    translate: -60px 0;
+  }
+  25% {
+    translate: 25vw -6px;
+  }
+  50% {
+    translate: 50vw 8px;
+  }
+  75% {
+    translate: 75vw -4px;
+  }
+  100% {
+    translate: calc(100vw + 60px) 0;
+  }
+}
+
+@keyframes halloween-bat-wing-left {
+  from {
+    transform: rotate(24deg);
+  }
+  to {
+    transform: rotate(-30deg);
+  }
+}
+
+@keyframes halloween-bat-wing-right {
+  from {
+    transform: rotate(-24deg);
+  }
+  to {
+    transform: rotate(30deg);
+  }
+}
+
+.halloween-cobweb {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 150px;
+  height: 150px;
+  pointer-events: none;
+  background-color: var(--color-gray-300);
+  mask: var(--halloween-cobweb) center / contain no-repeat;
+  scale: 1 -1;
+}
+
+.halloween-spider {
+  position: absolute;
+  top: 0;
+  right: 16px;
+  width: 1px;
+  height: 72px;
+  pointer-events: none;
+  background-color: var(--color-gray-400);
+  transform-origin: top;
+  animation: halloween-spider-bob 4s ease-in-out infinite alternate;
+  z-index: 1;
+}
+
+.halloween-spider::after {
+  content: "🕷️";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  translate: -50% -4px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+@keyframes halloween-spider-bob {
+  to {
+    scale: 1 1.4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halloween-bat,
+  .halloween-bat-wing {
+    animation: none;
+  }
+
+  .halloween-bat {
+    translate: var(--bat-rest) 0;
+  }
+
+  .halloween-spider {
+    animation: none;
+  }
+}
+
+.rbc-calendar:not(#halloween) {
+  color: var(--color-gray-700);
+}
+
+.rbc-calendar:not(#halloween),
+.rbc-calendar:not(#halloween) * {
+  border-color: var(--color-gray-200);
+}
+
+.rbc-calendar:not(#halloween) .rbc-today {
+  background-color: var(--color-blue-50);
+}
+
+.rbc-calendar:not(#halloween) .rbc-off-range-bg {
+  background-color: var(--color-gray-100);
+}
+
+.rbc-calendar:not(#halloween) .rbc-current-time-indicator {
+  background-color: var(--halloween-pumpkin);
+}
+
+.rbc-calendar:not(#halloween) .rbc-toolbar button {
+  color: var(--color-gray-700);
+  border-color: var(--color-gray-300);
+}
+
+.rbc-calendar:not(#halloween) .rbc-toolbar button:hover,
+.rbc-calendar:not(#halloween) .rbc-toolbar button:focus,
+.rbc-calendar:not(#halloween) .rbc-toolbar button:active,
+.rbc-calendar:not(#halloween) .rbc-toolbar button.rbc-active {
+  color: var(--color-gray-900);
+  background-color: var(--color-gray-200);
+  border-color: var(--color-gray-400);
 }
