@@ -1,5 +1,4 @@
 import {
-  ChatBubbleBottomCenterTextIcon,
   ClockIcon,
   MagnifyingGlassIcon,
   StarIcon,
@@ -14,13 +13,11 @@ const SideNavItem = ({
   icon,
   text,
   link,
-  newTab = false,
   active = false,
 }: {
   icon: React.ComponentType<{ className: string }>;
   text: string;
   link: string;
-  newTab?: boolean;
   active?: boolean;
 }) => {
   const Icon = icon;
@@ -46,13 +43,7 @@ const SideNavItem = ({
     </div>
   );
 
-  if (link && !newTab) return <Link href={link}>{contents}</Link>;
-  else
-    return (
-      <a href={link} target="_blank" rel="noreferrer">
-        {contents}
-      </a>
-    );
+  return <Link href={link}>{contents}</Link>;
 };
 
 export const SideNav = ({ activePage }) => {
@@ -93,13 +84,6 @@ export const SideNav = ({ activePage }) => {
         text="Finals"
         link="/finals"
         active={activePage === "finals"}
-      />
-      <SideNavItem
-        icon={ChatBubbleBottomCenterTextIcon}
-        text="Feedback"
-        link="https://forms.gle/6vPTN6Eyqd1w7pqJA"
-        newTab
-        active={false}
       />
     </div>
   );

@@ -35,7 +35,7 @@ const CourseDetailPage: NextPage = () => {
     }
 
 
-    fetchCourse();
+    void fetchCourse();
   }, [courseID]);
 
 

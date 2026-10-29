@@ -45,14 +45,6 @@ export const Page = ({ sidebar, content, activePage,title }: Props) => {
             Designed, developed and maintained with 🎃 by{" "}
             <Link href="https://scottylabs.org">ScottyLabs</Link>.
           </p>
-          <p>
-            Want to help us make CMU Courses better? Join us at ScottyLabs or
-            make a pull request on our{" "}
-            <Link href="https://github.com/ScottyLabs/course-tool">
-              GitHub repository
-            </Link>
-            .
-          </p>
         </div>
       </footer>
     </div>

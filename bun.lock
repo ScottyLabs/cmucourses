@@ -101,7 +101,6 @@
         "@netlify/plugin-nextjs": "^5.12.1",
         "@tailwindcss/line-clamp": "^0.4.4",
         "@tanstack/eslint-plugin-query": "^5.83.1",
-        "@types/eslint__eslintrc": "^3.3.0",
         "@types/jest": "^30.0.0",
         "@types/nightwind": "^1.0.0",
         "@types/node": "^24.3.0",
@@ -1020,8 +1019,6 @@
     "@types/eslint": ["@types/eslint@9.6.1", "", { "dependencies": { "@types/estree": "*", "@types/json-schema": "*" } }, "sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag=="],
 
     "@types/eslint-scope": ["@types/eslint-scope@3.7.7", "", { "dependencies": { "@types/eslint": "*", "@types/estree": "*" } }, "sha512-MzMFlSLBqNF2gcHWO0G1vP/YQyfvrxZ0bF+u7mzUdZ1/xK4A4sru+nraZz5i3iEIk1l1uyicaDVTB4QbbEkAYg=="],
-
-    "@types/eslint__eslintrc": ["@types/eslint__eslintrc@3.3.0", "", { "dependencies": { "@eslint/eslintrc": "*" } }, "sha512-u9C5PHo8zhLBTEpWAV1YsP3ijj3GjM+4r2aGLbkT+vqtBubwgSI8KiRHXtC2QcxDGR0qM3Qapg7OtTB58JmoYQ=="],
 
     "@types/estree": ["@types/estree@1.0.8", "", {}, "sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w=="],
 

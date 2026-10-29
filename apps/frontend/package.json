@@ -59,7 +59,6 @@
     "@netlify/plugin-nextjs": "^5.12.1",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tanstack/eslint-plugin-query": "^5.83.1",
-    "@types/eslint__eslintrc": "^3.3.0",
     "@types/jest": "^30.0.0",
     "@types/nightwind": "^1.0.0",
     "@types/node": "^24.3.0",

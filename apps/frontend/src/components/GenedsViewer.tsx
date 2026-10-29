@@ -56,8 +56,7 @@ const GenedsViewer = () => {
     if (!geneds || geneds.length === 0) {
       return (
         <div className="py-4 text-center text-gray-500 ">
-          No geneds found for {selectedSchool}. If you would like to map geneds
-          for your school, please fill in the feedback form in the sidebar!
+          No geneds found for {selectedSchool}.
         </div>
       );
     }
@@ -278,9 +277,7 @@ const GenedsViewer = () => {
             here
           </Link>
           . Always check with your academic advisor if the course you intend to
-          take still fulfills the requirements you intend it to. If there is
-          anything missing, or if you would like a similar list for your school,
-          do fill in the feedback form in the sidebar!
+          take still fulfills the requirements you intend it to.
         </span>
       </div>
       {getGenedTable()}

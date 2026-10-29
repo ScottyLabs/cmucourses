@@ -2,7 +2,6 @@ import React, { ReactElement, useEffect } from "react";
 import { useAppSelector } from "~/app/hooks";
 import Link from "./Link";
 import Image from "next/image";
-import DarkModeButton from "./DarkModeButton";
 import MechanizeBanner from "./MechanizeBanner";
 import nightwind from "nightwind/helper";
 
@@ -60,10 +59,6 @@ export default function Header(): ReactElement {
               </span>
             </div>
           </Link>
-        </div>
-
-        <div className="flex flex-row items-center justify-between gap-x-2 text-gray-600">
-          <DarkModeButton />
         </div>
       </div>
     </div>
