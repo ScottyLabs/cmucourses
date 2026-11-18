@@ -40,10 +40,9 @@ const fetchCourseInfosByPage = async (
     params.append("unitsMin", filters.units.min.toString());
     params.append("unitsMax", filters.units.max.toString());
   }
-
   if (filters.semesters.active) {
     filters.semesters.sessions.forEach((s: Session) =>
-      params.append("session", JSON.stringify(s))
+        params.append("session", JSON.stringify(s))
     );
   }
 
