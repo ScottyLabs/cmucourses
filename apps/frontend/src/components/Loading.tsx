@@ -5,7 +5,7 @@ const Loading = () => {
   return (
     <div className="text-center">
       <PulseLoader
-        color="var(--halloween-pumpkin)"
+        color="var(--christmas-red)"
         loading={true}
         size={10}
         margin={5}

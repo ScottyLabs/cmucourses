@@ -26,9 +26,8 @@ export const Page = ({ sidebar, content, activePage,title }: Props) => {
       <header className="sticky top-0 border-b drop-shadow bg-gray-50 border-gray-200 zinc-800 z-10">
         <Header />
       </header>
-      <main className="relative flex flex-1 flex-col md:flex-row md:justify-around md:overflow-hidden">
-        <div className="halloween-cobweb" aria-hidden />
-        <div className="halloween-spider" aria-hidden />
+      <main className="relative isolate flex flex-1 flex-col md:flex-row md:justify-around md:overflow-hidden">
+        <div className="christmas-lights" aria-hidden />
         <SideNav activePage={activePage} />
         {sidebar && <Sidebar>{sidebar}</Sidebar>}
         <div
@@ -42,7 +41,7 @@ export const Page = ({ sidebar, content, activePage,title }: Props) => {
       <footer className="border-t lg:px-8 md:py-4 md:px-4 p-4 pb-8 text-sm text-gray-500 bg-gray-50 border-gray-100">
         <div className="max-w-4xl">
           <p>
-            Designed, developed and maintained with 🎃 by{" "}
+            Designed, developed and maintained with 🎄 by{" "}
             <Link href="https://scottylabs.org">ScottyLabs</Link>.
           </p>
         </div>

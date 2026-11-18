@@ -4,7 +4,7 @@ import { Rating } from '@mui/material';
 
 const StyledRating = styled(Rating)({
   '& .MuiRating-iconFilled': {
-    color: "var(--halloween-pumpkin)",
+    color: "var(--christmas-gold)",
   },
   '& .MuiRating-iconHover': {
     color: "var(--color-blue-800)",

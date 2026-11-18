@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Creepster&family=Inter:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Inter:wght@300;400;600;700&display=swap");
 @import "tailwindcss";
 @import "@scottylabs/corgi/css";
 
@@ -7,37 +7,37 @@
 @tailwind utilities;
 
 @theme {
-  --font-spooky: "Creepster", cursive;
+  --font-festive: "Mountains of Christmas", cursive;
 }
 
 :root {
-  --color-white: #181124;
+  --color-white: #142038;
 
-  --color-gray-50: #110c1b;
-  --color-gray-100: #1b1428;
-  --color-gray-200: #2a2040;
-  --color-gray-300: #3c3157;
-  --color-gray-400: #6d5f8c;
-  --color-gray-500: #9b8fb6;
-  --color-gray-600: #b8aecd;
-  --color-gray-700: #d5cde3;
-  --color-gray-800: #e8e2f0;
-  --color-gray-900: #f5f0e6;
+  --color-gray-50: #0c1424;
+  --color-gray-100: #131d31;
+  --color-gray-200: #1d2a42;
+  --color-gray-300: #2b3a57;
+  --color-gray-400: #4f6080;
+  --color-gray-500: #8593ad;
+  --color-gray-600: #aeb9cc;
+  --color-gray-700: #d1d8e4;
+  --color-gray-800: #e8ecf2;
+  --color-gray-900: #f6f8fb;
 
-  --color-blue-50: #2b1607;
-  --color-blue-100: #3d1f08;
-  --color-blue-200: #7a3a0c;
-  --color-blue-300: #b8560f;
-  --color-blue-400: #e86a10;
-  --color-blue-500: #ff7b1a;
-  --color-blue-600: #ff8c2e;
-  --color-blue-700: #ffa04d;
-  --color-blue-800: #ffb36b;
-  --color-blue-900: #ffcb94;
+  --color-blue-50: #2a0a0f;
+  --color-blue-100: #3d0f17;
+  --color-blue-200: #6e1624;
+  --color-blue-300: #a51d31;
+  --color-blue-400: #d62839;
+  --color-blue-500: #e8384a;
+  --color-blue-600: #ef5262;
+  --color-blue-700: #f46e7c;
+  --color-blue-800: #f78c97;
+  --color-blue-900: #fab0b8;
 
-  --color-indigo-500: #6d28d9;
-  --color-indigo-600: #5b21b6;
-  --color-indigo-700: #4c1d95;
+  --color-indigo-500: #3d63a8;
+  --color-indigo-600: #2f4d86;
+  --color-indigo-700: #243c6b;
 
   --color-red-50: #2a0b10;
   --color-red-500: #e5383b;
@@ -47,20 +47,23 @@
   --color-yellow-500: #fbbf24;
   --color-yellow-800: #fde68a;
 
-  --color-green-50: #0c2410;
-  --color-green-200: #1f5a28;
-  --color-green-500: #7cf05a;
-  --color-green-700: #a6f58a;
+  --color-green-50: #0b2416;
+  --color-green-200: #1d5a34;
+  --color-green-500: #4ade80;
+  --color-green-700: #86efac;
 
   --color-teal-50: #0a2422;
   --color-teal-700: #6ee7d8;
 
-  --halloween-night: #0c0814;
-  --halloween-pumpkin: #ff7b1a;
-  --halloween-cobweb: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='black' stroke-width='0.8'%3E%3Cpath d='M0 0L100 0M0 0L95.6 29.2M0 0L81.9 57.4M0 0L57.4 81.9M0 0L29.2 95.6M0 0L0 100M16 0Q12.8 1.9 15.3 4.7Q11.6 5.7 13.1 9.2Q9.1 9.1 9.2 13.1Q5.7 11.6 4.7 15.3Q1.9 12.8 0 16M32 0Q25.7 3.8 30.6 9.4Q23.3 11.4 26.2 18.4Q18.3 18.3 18.4 26.2Q11.4 23.3 9.4 30.6Q3.8 25.7 0 32M50 0Q40.1 6 47.8 14.6Q36.4 17.8 41 28.7Q28.6 28.6 28.7 41Q17.8 36.4 14.6 47.8Q6 40.1 0 50M70 0Q56.1 8.4 66.9 20.5Q51 24.9 57.3 40.2Q40 40 40.2 57.3Q24.9 51 20.5 66.9Q8.4 56.1 0 70M92 0Q73.8 11 88 26.9Q67 32.7 75.4 52.8Q52.5 52.5 52.8 75.4Q32.7 67 26.9 88Q11 73.8 0 92'/%3E%3C/svg%3E");
-  --halloween-hat: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48'%3E%3Cpath d='M14 38C22 30 26 18 30 4c3-2 6 0 7 4 1 6 5 16 13 30z' fill='%231b1030' stroke='%236d5f8c' stroke-width='1.5'/%3E%3Cpath d='M18 32q14 4 28 0l2 5q-16 4-32 0z' fill='%23ff7b1a'/%3E%3Cellipse cx='32' cy='40' rx='30' ry='6' fill='%231b1030' stroke='%236d5f8c' stroke-width='1.5'/%3E%3C/svg%3E");
+  --christmas-night: #070d1a;
+  --christmas-red: #e8384a;
+  --christmas-gold: #ffd23f;
+  --christmas-hat: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48'%3E%3Cpath d='M10 34C12 18 24 6 40 6c8 0 14 6 14 12-6-4-12-2-14 4-2 5-2 9-2 12z' fill='%23d62839'/%3E%3Crect x='6' y='31' width='36' height='10' rx='5' fill='%23f6f8f4'/%3E%3Ccircle cx='54' cy='20' r='6' fill='%23f6f8f4'/%3E%3C/svg%3E");
+  --christmas-wire: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 24'%3E%3Cpath d='M0 3Q15 11 30 3Q45 11 60 3Q75 11 90 3Q105 11 120 3' fill='none' stroke='%233a4560' stroke-width='1.5'/%3E%3Cg fill='%234f5b78'%3E%3Crect x='13.5' y='7' width='3' height='3'/%3E%3Crect x='43.5' y='7' width='3' height='3'/%3E%3Crect x='73.5' y='7' width='3' height='3'/%3E%3Crect x='103.5' y='7' width='3' height='3'/%3E%3C/g%3E%3C/svg%3E");
+  --christmas-bulbs-a: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 24'%3E%3Ccircle cx='15' cy='14' r='7' fill='%23ff3b4e' opacity='.25'/%3E%3Cellipse cx='15' cy='14' rx='3' ry='4.5' fill='%23ff3b4e'/%3E%3Ccircle cx='75' cy='14' r='7' fill='%23ffd23f' opacity='.25'/%3E%3Cellipse cx='75' cy='14' rx='3' ry='4.5' fill='%23ffd23f'/%3E%3C/svg%3E");
+  --christmas-bulbs-b: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 24'%3E%3Ccircle cx='45' cy='14' r='7' fill='%2346e07a' opacity='.25'/%3E%3Cellipse cx='45' cy='14' rx='3' ry='4.5' fill='%2346e07a'/%3E%3Ccircle cx='105' cy='14' r='7' fill='%234fc3ff' opacity='.25'/%3E%3Cellipse cx='105' cy='14' rx='3' ry='4.5' fill='%234fc3ff'/%3E%3C/svg%3E");
   color-scheme: dark;
-  scrollbar-color: var(--color-gray-300) var(--halloween-night);
+  scrollbar-color: var(--color-gray-300) var(--christmas-night);
 }
 
 .nightwind-prevent-block {
@@ -128,7 +131,7 @@ body {
     Droid Sans,
     Helvetica Neue,
     sans-serif;
-  background-color: var(--halloween-night);
+  background-color: var(--christmas-night);
 }
 
 a {
@@ -141,212 +144,149 @@ a {
 }
 
 ::selection {
-  background-color: var(--halloween-pumpkin);
-  color: var(--halloween-night);
+  background-color: var(--christmas-red);
+  color: var(--color-gray-900);
 }
 
-.halloween-wordmark {
-  color: var(--halloween-pumpkin);
-  text-shadow: 0 0 12px rgb(255 123 26 / 0.45);
+.christmas-wordmark {
+  color: var(--christmas-red);
+  text-shadow: 0 0 12px rgb(232 56 74 / 0.45);
 }
 
-.halloween-hat {
+.christmas-hat {
   position: relative;
   display: inline-flex;
 }
 
-.halloween-hat::before {
+.christmas-hat::before {
   content: "";
   position: absolute;
   left: -8px;
   top: -17px;
   width: 30px;
   height: 23px;
-  background: var(--halloween-hat) center / contain no-repeat;
+  background: var(--christmas-hat) center / contain no-repeat;
   rotate: -20deg;
   z-index: 1;
 }
 
-.halloween-bats {
+.christmas-snow {
   position: absolute;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
 }
 
-.halloween-bat {
+.christmas-snowflake {
   position: absolute;
-  left: 0;
-  top: var(--bat-top);
-  width: var(--bat-size);
-  aspect-ratio: 2;
-  color: var(--color-gray-500);
-  fill: currentColor;
-  translate: -60px 0;
-  animation: halloween-bat-fly var(--bat-duration) linear var(--bat-delay)
+  top: 0;
+  left: var(--flake-x);
+  width: var(--flake-size);
+  aspect-ratio: 1;
+  color: var(--color-gray-700);
+  opacity: 0.75;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  translate: 0 -20px;
+  animation: christmas-snowfall var(--flake-duration) linear var(--flake-delay)
     infinite;
 }
 
-.halloween-bat-wing {
-  transform-origin: 47px 22px;
-  animation: halloween-bat-wing-left var(--bat-flap) ease-in-out infinite
-    alternate;
-}
-
-.halloween-bat-wing-right {
-  transform-origin: 53px 22px;
-  animation-name: halloween-bat-wing-right;
-}
-
-.halloween-bat:nth-child(1) {
-  --bat-top: 6px;
-  --bat-size: 36px;
-  --bat-duration: 17s;
-  --bat-delay: -3s;
-  --bat-flap: 0.3s;
-  --bat-rest: 38vw;
-}
-
-.halloween-bat:nth-child(2) {
-  --bat-top: 30px;
-  --bat-size: 26px;
-  --bat-duration: 23s;
-  --bat-delay: -14s;
-  --bat-flap: 0.24s;
-  --bat-rest: 55vw;
-}
-
-.halloween-bat:nth-child(3) {
-  --bat-top: 14px;
-  --bat-size: 20px;
-  --bat-duration: 29s;
-  --bat-delay: -9s;
-  --bat-flap: 0.2s;
-  --bat-rest: 68vw;
-}
-
-@keyframes halloween-bat-fly {
+@keyframes christmas-snowfall {
   0% {
-    translate: -60px 0;
-  }
-  25% {
-    translate: 25vw -6px;
+    translate: 0 -20px;
+    rotate: 0deg;
   }
   50% {
-    translate: 50vw 8px;
-  }
-  75% {
-    translate: 75vw -4px;
+    translate: var(--flake-drift) 22px;
   }
   100% {
-    translate: calc(100vw + 60px) 0;
+    translate: 0 68px;
+    rotate: 180deg;
   }
 }
 
-@keyframes halloween-bat-wing-left {
-  from {
-    transform: rotate(24deg);
-  }
-  to {
-    transform: rotate(-30deg);
-  }
-}
-
-@keyframes halloween-bat-wing-right {
-  from {
-    transform: rotate(-24deg);
-  }
-  to {
-    transform: rotate(30deg);
-  }
-}
-
-.halloween-cobweb {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 150px;
-  height: 150px;
-  pointer-events: none;
-  background-color: var(--color-gray-300);
-  mask: var(--halloween-cobweb) center / contain no-repeat;
-  scale: 1 -1;
-}
-
-.halloween-spider {
+.christmas-lights {
   position: absolute;
   top: 0;
-  right: 16px;
-  width: 1px;
-  height: 72px;
+  left: 0;
+  right: 0;
+  height: 24px;
   pointer-events: none;
-  background-color: var(--color-gray-400);
-  transform-origin: top;
-  animation: halloween-spider-bob 4s ease-in-out infinite alternate;
-  z-index: 1;
+  background: var(--christmas-wire) 0 0 / 120px 24px repeat-x;
+  z-index: 20;
 }
 
-.halloween-spider::after {
-  content: "🕷️";
+.christmas-lights::before,
+.christmas-lights::after {
+  content: "";
   position: absolute;
-  top: 100%;
-  left: 50%;
-  translate: -50% -4px;
-  font-size: 18px;
-  line-height: 1;
+  inset: 0;
+  animation: christmas-twinkle 1.4s ease-in-out infinite alternate;
 }
 
-@keyframes halloween-spider-bob {
+.christmas-lights::before {
+  background: var(--christmas-bulbs-a) 0 0 / 120px 24px repeat-x;
+}
+
+.christmas-lights::after {
+  background: var(--christmas-bulbs-b) 0 0 / 120px 24px repeat-x;
+  animation-delay: -1.4s;
+}
+
+@keyframes christmas-twinkle {
+  from {
+    opacity: 1;
+  }
   to {
-    scale: 1 1.4;
+    opacity: 0.3;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .halloween-bat,
-  .halloween-bat-wing {
+  .christmas-snowflake {
     animation: none;
+    translate: 0 var(--flake-rest);
   }
 
-  .halloween-bat {
-    translate: var(--bat-rest) 0;
-  }
-
-  .halloween-spider {
+  .christmas-lights::before,
+  .christmas-lights::after {
     animation: none;
   }
 }
 
-.rbc-calendar:not(#halloween) {
+.rbc-calendar:not(#christmas) {
   color: var(--color-gray-700);
 }
 
-.rbc-calendar:not(#halloween),
-.rbc-calendar:not(#halloween) * {
+.rbc-calendar:not(#christmas),
+.rbc-calendar:not(#christmas) * {
   border-color: var(--color-gray-200);
 }
 
-.rbc-calendar:not(#halloween) .rbc-today {
+.rbc-calendar:not(#christmas) .rbc-today {
   background-color: var(--color-blue-50);
 }
 
-.rbc-calendar:not(#halloween) .rbc-off-range-bg {
+.rbc-calendar:not(#christmas) .rbc-off-range-bg {
   background-color: var(--color-gray-100);
 }
 
-.rbc-calendar:not(#halloween) .rbc-current-time-indicator {
-  background-color: var(--halloween-pumpkin);
+.rbc-calendar:not(#christmas) .rbc-current-time-indicator {
+  background-color: var(--christmas-red);
 }
 
-.rbc-calendar:not(#halloween) .rbc-toolbar button {
+.rbc-calendar:not(#christmas) .rbc-toolbar button {
   color: var(--color-gray-700);
   border-color: var(--color-gray-300);
 }
 
-.rbc-calendar:not(#halloween) .rbc-toolbar button:hover,
-.rbc-calendar:not(#halloween) .rbc-toolbar button:focus,
-.rbc-calendar:not(#halloween) .rbc-toolbar button:active,
-.rbc-calendar:not(#halloween) .rbc-toolbar button.rbc-active {
+.rbc-calendar:not(#christmas) .rbc-toolbar button:hover,
+.rbc-calendar:not(#christmas) .rbc-toolbar button:focus,
+.rbc-calendar:not(#christmas) .rbc-toolbar button:active,
+.rbc-calendar:not(#christmas) .rbc-toolbar button.rbc-active {
   color: var(--color-gray-900);
   background-color: var(--color-gray-200);
   border-color: var(--color-gray-400);
